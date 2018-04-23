@@ -232,7 +232,7 @@ final class DocumentOpenAction: Action {
 
 Now when run, any document that is opened will automatically be registered for search indexing. Go to the home screen, pull down for search and type “Flint Demo” and you will find the document. Tap it and the app will open at that document. This is a slightly odd arrangement — you’d normally submit these items for indexing separately when loading your data store, and reference that from the `NSUserActivity` — but it demonstrates the possibilities.
 
-This is all just scratching the surface of what is possible. For more details see the documentation for [Features and Actions](guides/features_and_actions.md), [Timeline](guides/timeline.md), [Focus](guides/focus.md), [Activities](guides/activites.md), [Routes](guides/routes.md) and [Action Stacks](guides/actions_stacks.md).
+This is all just scratching the surface of what is possible. For more details see the documentation for [Features and Actions](guides/features_and_actions.md), [Timeline](guides/timeline.md), [Focus](guides/focus.md), [Activities](guides/activites.md), [Routes](guides/routes.md) and [Action Stacks](guides/action_stacks.md).
 
 For a more detailed working example you can check out and build the [FlintDemo-iOS](https://github.com/MontanaFlossCo/FlintDemo-iOS) project which demonstrates many of the capabilities of Flint.
 
