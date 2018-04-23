@@ -1,0 +1,14 @@
+module: FlintCore
+sdk: iphonesimulator
+author: Montana Floss Co.
+theme: fullwidth
+author_url: https://montanafloss.co
+github_url: https://github.com/marcpalmer/Features
+github_file_prefix: https://github.com/marcpalmer/Features/tree/master
+module_version: 1.0
+framework_root: .
+xcodebuild_arguments:
+  - "-scheme"
+  - "FlintCore-iOS"
+  - "-project"
+  - "FlintCore.xcodeproj"
