@@ -47,7 +47,7 @@ import UIKit
 import FlintCore
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Initialise Flint, telling it about our features
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
 ### Defining your Features
 
-Then you need to define some features, where the above `MyAppFeatures.self` is a reference to a type you provide yourself that includes a list of sub-features that represent your app’s functionality, something like this:
+Next you need to define some features, where the above `MyAppFeatures.self` is a reference to a type you provide yourself that includes a list of sub-features that represent your app’s functionality, something like this:
 
 ```swift
 import FlintCore
@@ -158,13 +158,15 @@ if let request = DeepLinkingFeature.performIncomingURL.request() {
 }
 ```
 
-This type safety makes it painful to ignore the situations where a feature may not be available, and prevents confusing an always-available feature with one that isn’t.
+This type safety deliberately makes it painful to ignore the situations where a feature may not be available, and prevents confusing an always-available feature with one that isn’t. Your code that performs actions of conditional features always needs to be prepared to do something reasonable in case the feature is not available.
+
+The previous code samples only declare the actions and allow you to perform them. Even at this level of simplicity, if an `ActionDispatchObserver` is registered, it will be able to do something whenever these actions are performed – such as emitting an analytics tracking event for each action. Flint provides such an observer called `AnalyticsReporting` which you can use to route analytics to whatever backend you use.
 
 ### Adding URL Routes
 
-The previous code samples only declare the actions and allow you to perform them. If an `ActionDispatchObserver` is registered, it will be able to do things when these actions are performed – such as tracking an analytics event for each action. Flint provides such an observer called `AnalyticsReporting` which you can use to route analytics to whatever backend you use.
+Using Flint’s [Routes](guides/routes.md) feature we can add URL routes for any actions. This gives us custom app URL scheme and universal link support with minimal effort. 
 
-Using Flint’s Routes feature We can also add URL routes for any actions we like, and gain custom app URL scheme and universal link support with minimal effort. Editing the feature declaration, we just make these changes to the existing code:
+URL mappings are declared on the Feature, so that actions can be reused across features without fixing the mappings in the action. Editing the previous feature declaration, we can just add conformance to `URLMapped` and add an implementation of the `urlMappings` function to the existing code:
 
 ```swift
 /// Add the `URLMapped` conformance to get support for Routes
@@ -174,13 +176,73 @@ class DocumentManagementFeature: Feature, URLMapped {
     static func urlMappings(routes: URLMappingsBuilder) {
         // Note that there is full support for mapping to specific app URL schemes and specific universal link
         // domains. By default it maps to the primary app scheme and primary associated domain.
+        // Primary means first in the list — See `FlintAppInfo`
         routes.send("create", to: createNew)
         routes.send("open", to: openDocument)
     }
 }
 ```
 
-Now the app will respond to and be able to generate URLs referring to those actions, including arguments. So for example the [Flint Demo]() app has this code and could respond to `flint-demo://open?name=hello.md` as well as `https://demo-app.flint.tools/open?name=hello.md`. Pretty neat, isn’t it? *(caveat: there is another small moving part you need to implement to route the UI. See the docs for [Routes](guides/routes.md))*
+That's all you need to do to define some URLs that will invoke actions.
+
+To actually make this work, there are a few more one-off things to do:
+1. If you haven't done so already you have to declare your App's custom URL schemes in your `Info.plist`
+2. For universal link / associated domains you need to set up the entitlements and a file on your server. See the Apple docs for this.
+3. You need your application delegate to handle requests to open URLs and pass them to Flint.
+4. Implement an object to get your UI ready and return a presenter. See the docs for [Routes](guides/routes.md))*
+
+This application delegate part is very simple – add this to your `UIApplicationDelegate`, for example:
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+     let result: URLRoutingResult = Flint.open(url: url, with: presentationRouter)
+     return result == .success
+}
+```
+
+The presentation router part needs to look at your current UI's state and do any work required to shuffle around view controllers to achieve the behaviour you want when your app receives a request for an action when it is already in a different UI state. This can be tricky, but it's the nature of the beast. It can often be quite simple – the key is to make clear decisions about how you want the app to behave for each kind of action that it can receive from an external stimulus like this. 
+
+Here's the example from the [FlintDemo-iOS]() sample project:
+
+```swift
+/// A presentation router for setting up the UI and returning the appropriate presenter instance for
+/// an action request that has come from outside the app, e.g. an `openURL` request.
+class SimplePresentationRouter: PresentationRouter {
+    let mainNavigationController: UINavigationController
+    
+    /// We instantiate this in our `AppDelegate` and pass it our primary navigation controller
+    init(navigationController: UINavigationController) {
+        mainNavigationController = navigationController
+    }
+    
+    /// Set up the UI for unconditional feature actions
+    func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>, with state: ActionType.InputType) -> PresentationResult<A.PresenterType> {
+        // Switch (not literally, we can't do that sadly), on the expected presenter type
+        // and return `.appReady` with the main navigation controller as presenter if
+        // it is one of the supported types, but only if the user is currently on the master view
+        // This will silently ignore requests for actions that come in if the user is on the detail view controller
+        if ActionType.PresenterType.self == DocumentCreatePresenter.self ||
+                A.PresenterType.self == DocumentPresenter.self {
+            if let masterVC = mainNavigationController.topViewController as? MasterViewController {
+                return .appReady(presenter: masterVC as! ActionType.PresenterType)
+            } else {
+                return .appCancelled
+            }
+        } else {
+            // The presentation router doesn't know how to set up the UI for this action.
+            // This is probably a programmer error.
+            return .unsupported
+        }
+    }
+ 
+    /// Set up the UI for conditional feature actions. We don't support any of these in the demo app.
+    func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, with state: A.InputType) -> PresentationResult<A.PresenterType> {
+        return .unsupported
+    }
+}
+```
+
+Now the app will respond to and be able to generate URLs referring to those actions, including arguments. So for example the [Flint Demo]() app has this code and could respond to `flint-demo://open?name=hello.md` as well as `https://demo-app.flint.tools/open?name=hello.md`. Pretty neat, isn’t it?
 
 ### Adding Activities (Handoff, Siri Suggestions, Search)
 
@@ -236,18 +298,27 @@ This is all just scratching the surface of what is possible. For more details se
 
 For a more detailed working example you can check out and build the [FlintDemo-iOS](https://github.com/MontanaFlossCo/FlintDemo-iOS) project which demonstrates many of the capabilities of Flint.
 
-## Unit Testing
-
-TBD
-
-1. Set up Flint without persistence
-2. Unit testing Action(s)
-
 ## Debug tools provided with FlintUI
 
 On iOS Flint provides the FlintUI framework you can import to add powerful debug UIs to your app. Usually this will only be in internal development or QA builds.
 
-Once again FlintUI uses Flint itself to expose its features. 
+Once again FlintUI uses Flint itself to expose its features. Dogfooding through and through.
+
+### The Feature Browser
+
+This feature allows you to drill down into the hierarchy of all Feature(s) declared in your app and into their Action declarations. This is useful for debugging and verifying your code has set everything up correctly. You can also see which features are currently enabled in a given build and user profile.
+
+<img src="images/features_screenshot.png" alt="Timeline Browser screenshot" width=375/>
+<img src="images/features_screenshot_2.png" alt="Timeline Browser screenshot showing action details" width=375 style/>
+
+To use the feature browser, just perform the show action from a `UIViewController`:
+
+```swift
+import UIKit
+import FlintUI
+...
+FeatureBrowserFeature.show.perform(using: self, with: .none)
+```
 
 ### The Timeline Browser
 
@@ -297,18 +368,15 @@ To use it, just perform the show action from a `UIViewController`:
 ActionStacksBrowserFeature.show.perform(using: self, with: .none)
 ```
 
-### The Feature Browser
+## Unit Testing
 
-This feature will allow you to drill down into the hierarchy of all Feature(s) declared in your app and into their Action declarations. This can be useful for debugging and verifying your configuration, but also see which features are currently enabled in a given build, or for QA purposes.
+Yes, we will have lots of unit tests on Flint. Not just yet though as we don't want to waste time when the API may still fluctuate significantly. Once there has been time for people to try out and comment on the APIs, things will settle down and the tests will be put together over the coming weeks.
 
-<img src="images/features_screenshot.png" alt="Timeline Browser screenshot" width=375 style="display: inline"/>
-<img src="images/features_screenshot_2.png" alt="Timeline Browser screenshot" width=375 style="display: inline"/>
+Testing of your Flint-based code should be simple enough - but we likely have to build a few mock classes for you. Work will be ongoing here. 
 
-To use it, just perform the show action from a `UIViewController`:
+Actions should be simple enough to unit test. You create an `[ActionContext](blob/master/FlintCore/Actions/ActionContext.swift)` and pass it to the action's `perform` function, along with your test input and presenter.
 
-```swift
-FeatureBrowserFeature.show.perform(using: self, with: .none)
-```
+Examples will follow soon.
 
 ## The roadmap to 1.0 final release
 
@@ -341,4 +409,6 @@ We have a community Slack you can join to get help and discuss ideas. Join at [f
 
 We would love your contributions. Please raise Issues here in Github and discuss your problems and suggestions. We look forward to your ideas and pull requests.
 
-Flint is copyright Montana Floss Co. with an MIT open source licence.
+Flint is copyright Montana Floss Co. with an [MIT open source licence](LICENSE).
+
+[FlintDemo]: https://github.com/MontanaFlossCo/FlintDemo-iOS
