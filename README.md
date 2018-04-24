@@ -27,9 +27,25 @@ Flint is in an “early access” phase at the moment to shake down the public A
 
 **Note that Flint is deliberately Swift-only**, using capabilities of the language to provide a type-safe implementation of FDD. It will not work with Objective-C apps unless you create stub functions that call the Swift code to perform each action. It is probably not worth your time. Of course your Swift Flint `Action` code can call into Objective-C as normal.
 
+## Documentation and sample code
+
+If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS]() project here on Github. You can browse that to get an
+idea of how a real app might use Flint.
+
+We're currently writing guides to the various aspects of Flint:
+
+* [Features and Actions] (guides/features_and_actions.md)
+* [Activities] (guides/activities.md)
+* [Routes] (guides/routes.md)
+* [Analytics] (guides/analytics.md)
+* [FlintUI] (guides/flint_ui.md)
+* [Focus] (guides/focus.md)
+* [Timeline] (guides/timeline.md)
+* [Action Stacks] (guides/action_stacks.md)
+
 ## Getting started
 
-Use [Carthage](https://github.com/Carthage/Carthage) and add the dependency to your `Cartfile`:
+To use Flint in your own project, use [Carthage](https://github.com/Carthage/Carthage) to add the dependency to your `Cartfile`:
 
 ```
 github "MontanaFlossCo/Flint"
@@ -415,4 +431,4 @@ We would love your contributions. Please raise Issues here in Github and discuss
 
 Flint is copyright Montana Floss Co. with an [MIT open source licence](LICENSE).
 
-[FlintDemo]: https://github.com/MontanaFlossCo/FlintDemo-iOS
+[FlintDemo-iOS]: https://github.com/MontanaFlossCo/FlintDemo-iOS
