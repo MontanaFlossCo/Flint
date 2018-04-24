@@ -34,14 +34,14 @@ idea of how a real app might use Flint.
 
 We're currently writing guides to the various aspects of Flint:
 
-* [Features and Actions] (guides/features_and_actions.md)
-* [Activities] (guides/activities.md)
-* [Routes] (guides/routes.md)
-* [Analytics] (guides/analytics.md)
-* [FlintUI] (guides/flint_ui.md)
-* [Focus] (guides/focus.md)
-* [Timeline] (guides/timeline.md)
-* [Action Stacks] (guides/action_stacks.md)
+* [Features and Actions](guides/features_and_actions.md)
+* [Activities](guides/activities.md)
+* [Routes](guides/routes.md)
+* [Analytics](guides/analytics.md)
+* [FlintUI](guides/flint_ui.md)
+* [Focus](guides/focus.md)
+* [Timeline](guides/timeline.md)
+* [Action Stacks](guides/action_stacks.md)
 
 ## Getting started
 
