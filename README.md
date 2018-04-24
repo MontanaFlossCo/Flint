@@ -1,6 +1,8 @@
 # Flint 💥
 
-Flint is a pure Swift framework for building iOS, tvOS, watchOS or macOS apps that implement [Feature Driven Development](https://www.montanafloss.co/blog/feature-driven-development) and uses the power of Features, Actions and conventions to make app development and debugging more productive. 
+Flint is a pure Swift framework for building iOS, tvOS, watchOS or macOS apps that utilise
+[Feature Driven Development](https://www.montanafloss.co/blog/feature-driven-development), using the power of Features,
+Actions and conventions to make app development and debugging more productive. 
 
 If you don't know what Feature Driven Development can give you, please [read this linked blog post](https://www.montanafloss.co/blog/feature-driven-development) for a detailed explanation. The TL;DR description of FDD is:
 
