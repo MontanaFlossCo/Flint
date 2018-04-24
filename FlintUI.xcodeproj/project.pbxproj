@@ -12,14 +12,15 @@
 		490495922060304B00A57991 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 490495902060304B00A57991 /* Main.storyboard */; };
 		490495942060304B00A57991 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 490495932060304B00A57991 /* Assets.xcassets */; };
 		490495972060304B00A57991 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 490495952060304B00A57991 /* LaunchScreen.storyboard */; };
-		49089556208F44BE0022E0A7 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089555208F44BE0022E0A7 /* FlintCore.framework */; };
-		49089557208F44BE0022E0A7 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
-		49089559208F45970022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089558208F45970022E0A7 /* ZIPFoundation.framework */; };
-		4908955C208F45D80022E0A7 /* FlintCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4908955A208F45D80022E0A7 /* FlintCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4908955E208F45D80022E0A7 /* FlintUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		49089562208F45D80022E0A7 /* ZIPFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089558208F45970022E0A7 /* ZIPFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
+		49089568208F471C0022E0A7 /* FlintUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		49089573208F47C10022E0A7 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089572208F47C10022E0A7 /* FlintCore.framework */; };
+		49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089574208F48060022E0A7 /* ZIPFoundation.framework */; };
+		49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; };
+		49089578208F48B20022E0A7 /* ZIPFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; };
+		4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4947302620435D6A00E483D1 /* ActionStackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947302520435D6A00E483D1 /* ActionStackListViewController.swift */; };
-		496F8EFA203ED479003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8EFB203ED479003AB29B /* FlintCore.framework */; };
 		496F8EFF203EE85A003AB29B /* FeatureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */; };
 		498CB414203ECDCB0072E544 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
 		498CB419203ECDCB0072E544 /* FlintUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498CB418203ECDCB0072E544 /* FlintUITests.swift */; };
@@ -42,7 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4908955F208F45D80022E0A7 /* PBXContainerItemProxy */ = {
+		49089569208F471C0022E0A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 498CB401203ECDCB0072E544 /* Project object */;
 			proxyType = 1;
@@ -59,15 +60,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		49089563208F45D80022E0A7 /* Embed Frameworks */ = {
+		4908956B208F471D0022E0A7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4908955E208F45D80022E0A7 /* FlintUI.framework in Embed Frameworks */,
-				4908955C208F45D80022E0A7 /* FlintCore.framework in Embed Frameworks */,
-				49089562208F45D80022E0A7 /* ZIPFoundation.framework in Embed Frameworks */,
+				4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */,
+				49089568208F471C0022E0A7 /* FlintUI.framework in Embed Frameworks */,
+				49089578208F48B20022E0A7 /* ZIPFoundation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,11 +83,12 @@
 		490495932060304B00A57991 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		490495962060304B00A57991 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		490495982060304B00A57991 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		49089555208F44BE0022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		49089558208F45970022E0A7 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
-		4908955A208F45D80022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49089570208F47980022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FlintCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Flint-goznesjrjouzdbciznbnzhkrantf/Build/Products/Debug-iphoneos/FlintCore.framework"; sourceTree = "<group>"; };
+		49089572208F47C10022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49089574208F48060022E0A7 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
+		49089576208F48B10022E0A7 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
+		49089579208F48CA0022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4947302520435D6A00E483D1 /* ActionStackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackListViewController.swift; sourceTree = "<group>"; };
-		496F8EFB203ED479003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDetailViewController.swift; sourceTree = "<group>"; };
 		498CB40A203ECDCB0072E544 /* FlintUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40D203ECDCB0072E544 /* FlintUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintUI.h; sourceTree = "<group>"; };
@@ -116,9 +118,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49089559208F45970022E0A7 /* ZIPFoundation.framework in Frameworks */,
-				49089557208F44BE0022E0A7 /* FlintUI.framework in Frameworks */,
-				49089556208F44BE0022E0A7 /* FlintCore.framework in Frameworks */,
+				4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */,
+				49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */,
+				49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				496F8EFA203ED479003AB29B /* FlintCore.framework in Frameworks */,
+				49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */,
+				49089573208F47C10022E0A7 /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +147,7 @@
 		4904958B2060304B00A57991 /* FlintUISandbox */ = {
 			isa = PBXGroup;
 			children = (
+				4908956F208F47910022E0A7 /* Frameworks */,
 				4904958C2060304B00A57991 /* AppDelegate.swift */,
 				4904958E2060304B00A57991 /* ViewController.swift */,
 				490495902060304B00A57991 /* Main.storyboard */,
@@ -152,6 +156,14 @@
 				490495982060304B00A57991 /* Info.plist */,
 			);
 			path = FlintUISandbox;
+			sourceTree = "<group>";
+		};
+		4908956F208F47910022E0A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49089570208F47980022E0A7 /* FlintCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		4914EFC32067BFEB00FE0F41 /* View Controllers */ = {
@@ -173,9 +185,8 @@
 		496F8EF9203ED479003AB29B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				49089558208F45970022E0A7 /* ZIPFoundation.framework */,
-				49089555208F44BE0022E0A7 /* FlintCore.framework */,
-				496F8EFB203ED479003AB29B /* FlintCore.framework */,
+				49089574208F48060022E0A7 /* ZIPFoundation.framework */,
+				49089572208F47C10022E0A7 /* FlintCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -183,7 +194,8 @@
 		498CB400203ECDCB0072E544 = {
 			isa = PBXGroup;
 			children = (
-				4908955A208F45D80022E0A7 /* FlintCore.framework */,
+				49089579208F48CA0022E0A7 /* FlintCore.framework */,
+				49089576208F48B10022E0A7 /* ZIPFoundation.framework */,
 				498CB40C203ECDCB0072E544 /* FlintUI */,
 				498CB417203ECDCB0072E544 /* FlintUITests */,
 				4904958B2060304B00A57991 /* FlintUISandbox */,
@@ -266,12 +278,12 @@
 				490495862060304B00A57991 /* Sources */,
 				490495872060304B00A57991 /* Frameworks */,
 				490495882060304B00A57991 /* Resources */,
-				49089563208F45D80022E0A7 /* Embed Frameworks */,
+				4908956B208F471D0022E0A7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				49089560208F45D80022E0A7 /* PBXTargetDependency */,
+				4908956A208F471C0022E0A7 /* PBXTargetDependency */,
 			);
 			name = FlintUISandbox;
 			productName = FlintUISandbox;
@@ -431,10 +443,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		49089560208F45D80022E0A7 /* PBXTargetDependency */ = {
+		4908956A208F471C0022E0A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 498CB409203ECDCB0072E544 /* FlintUI-iOS */;
-			targetProxy = 4908955F208F45D80022E0A7 /* PBXContainerItemProxy */;
+			targetProxy = 49089569208F471C0022E0A7 /* PBXContainerItemProxy */;
 		};
 		498CB416203ECDCB0072E544 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -635,6 +647,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = FlintUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -659,6 +675,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = FlintUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
