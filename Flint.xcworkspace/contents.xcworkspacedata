@@ -2,12 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../FlintDemo/FlintDemo.xcodeproj">
+      location = "container:FlintCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:/Users/marc/Projects/checkout/Features/FlintCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "absolute:/Users/marc/Projects/checkout/Features/FlintUI.xcodeproj">
+      location = "container:FlintUI.xcodeproj">
    </FileRef>
 </Workspace>

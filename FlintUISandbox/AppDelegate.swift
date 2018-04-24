@@ -59,22 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .info, initialProductionLogLevel: .info)
         Flint.register(FlintUIFeatures.self)
         
-//        Logging.development?.setLevel(for: Flint.coreLoggingTopic, to: .info)
-//        Logging.development?.setLevel(for: TopicPath(FlintFeatures.identifier), to: .info)
-        if let request = FocusFeature.request(FocusFeature.focus) {
-            let focus = FocusArea(feature: FlintUIFeatures.self)
-            request.perform(using: nil, with: focus)
-//            let focus2 = FocusArea(feature: FlintFeatures.self)
-//            FocusFeature.perform(request, using: nil, with: focus2)
-//            let focus3 = FocusArea(feature: FakeFeatures.self)
-//            FocusFeature.perform(request, using: nil, with: focus3)
-        }
-
         // Spit out a fake action every few seconds
         
         let logger = Logging.development?.contextualLogger(with: "Testing", topicPath: TopicPath(feature: FakeFeatures.self))
 
-//        testTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global(qos: .background))
         testTimer = DispatchSource.makeTimerSource(flags: [], queue: .main)
         testTimer?.schedule(deadline: DispatchTime.now(), repeating: 10.0)
         testTimer?.setEventHandler(handler: {

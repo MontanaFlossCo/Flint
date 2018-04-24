@@ -35,7 +35,11 @@ Use [Carthage](https://github.com/Carthage/Carthage) and add the dependency to y
 github "MontanaFlossCo/Flint"
 ```
 
-Then run `carthage bootstrap`.
+Then run `carthage bootstrap`. For faster builds you can limit to one platform and use caching, e.g.:
+
+```
+carthage bootstrap --platform iOS --cache-builds
+```
 
 ### Bootstrapping Flint
 
