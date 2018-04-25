@@ -55,6 +55,20 @@ Once you have this in place you can define an action and hook it up to the Featu
 
 Note that it seems to work out nicely if you have an Xcode project Group for each Feature, with the Feature's `.swift` file in there, along side other types needed for the feature, such as the `Action`(s) and `Presenter`(s).
 
+Now we have to go back and edit the feature group to include this subfeature:
+
+```swift
+final class AppFeatures: FeatureGroup {
+    static var description = "My main app features"
+    
+    static var subfeatures: [FeatureDefinition.Type] = [
+    	DocumentManagementFeature.self
+    ]
+}
+```
+
+That's it for the feature part.
+
 ## Defining your first Action
 
 We've now got a feature so let's add an `Action`. An `Action` in Flint is a small piece of logic that represents something the application can do – usually in response to some user-driven event or external stimulus (such as a push notification or location change). Sometimes you will need actions that are not directly invoked by the user, but are required because you need to track when something happens in the app, or you need to respond to a URL.
