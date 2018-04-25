@@ -143,8 +143,8 @@ As mentioned, the above invocation will use the main `ActionSession`. If we have
 
 ```swift
 // Do this at startup or "session setup" time, stash it globally somewhere
-let bgProcessingSession = ActionSession(name: "bg")
-                                      userInitiatedActions: true,
+let bgProcessingSession = ActionSession(name: "bg",
+                                      userInitiatedActions: false,
                                       dispatcher: Flint.dispatcher,
                                       actionStackTracker: ActionStackTracker.instance,
                                       callerQueue: myBackgroundQueue)
