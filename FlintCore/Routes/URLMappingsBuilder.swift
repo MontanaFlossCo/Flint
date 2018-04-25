@@ -18,12 +18,12 @@ public class URLMappingsBuilder {
     var mappings = URLMappings()
 
     /// Create the mapping and register with the global mappings table
-    private func add<F, A>(mapping: URLMapping, to actionBinding: StaticActionBinding<F, A>)
-            where A.InputType: QueryParametersDecodable {
+    private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: StaticActionBinding<FeatureType, ActionType>)
+            where ActionType.InputType: QueryParametersDecodable {
 
         let executor: ActionURLMappings.URLExecutor = { (queryParams: QueryParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
-            if let state = A.InputType.init(from: queryParams) {
+            if let state = ActionType.InputType.init(from: queryParams) {
                 let presentationRouterResult = presentationRouter.presentation(for: actionBinding, with: state)
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with state \(state)")
                 switch presentationRouterResult {
@@ -35,7 +35,7 @@ public class URLMappingsBuilder {
                     break
                 }
             } else {
-                preconditionFailure("Unable to create action state \(String(describing: A.InputType.self)) from query parameters")
+                preconditionFailure("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
             }
         }
         
@@ -52,12 +52,12 @@ public class URLMappingsBuilder {
     
     /// Create the mapping and register with the global mappings table. Similar but not idential to above, because
     /// the type of the binding is incompatible
-    private func add<F, A>(mapping: URLMapping, to actionBinding: ConditionalActionBinding<F, A>)
-            where A.InputType: QueryParametersDecodable {
+    private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: ConditionalActionBinding<FeatureType, ActionType>)
+            where ActionType.InputType: QueryParametersDecodable {
 
         let executor: ActionURLMappings.URLExecutor = { (queryParams: QueryParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
-            if let state = A.InputType.init(from: queryParams) {
+            if let state = ActionType.InputType.init(from: queryParams) {
                 let result = presentationRouter.presentation(for: actionBinding, with: state)
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(result) received for \(actionBinding) with state \(state)")
                 switch result {
@@ -71,7 +71,7 @@ public class URLMappingsBuilder {
                     break
                 }
             } else {
-                preconditionFailure("Unable to create action state \(String(describing: A.InputType.self)) from query parameters")
+                preconditionFailure("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
             }
         }
 
@@ -86,8 +86,8 @@ public class URLMappingsBuilder {
         ActionURLMappings.instance.add(mapping: mapping, for: actionBinding.feature, actionName: actionBinding.action.name, executor: executor)
     }
 
-    public func send<F, A>(_ path: String, to actionBinding: StaticActionBinding<F, A>, in scopes: Set<RouteScope> = [.appAny, .universalAny])
-            where A.InputType: QueryParametersDecodable {
+    public func send<FeatureType, ActionType>(_ path: String, to actionBinding: StaticActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny])
+            where ActionType.InputType: QueryParametersDecodable {
         FlintInternal.urlMappingLogger?.debug("Routing '/\(path)' in scopes \(scopes) ➡️ \(actionBinding)")
         for scope in scopes {
             let mapping = URLMapping(scope: scope, path: path)
@@ -95,8 +95,8 @@ public class URLMappingsBuilder {
         }
     }
 
-    public func send<F, A>(_ path: String, to conditionalActionBinding: ConditionalActionBinding<F, A>, in scopes: Set<RouteScope> = [.appAny, .universalAny])
-            where A.InputType: QueryParametersDecodable {
+    public func send<FeatureType, ActionType>(_ path: String, to conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny])
+            where ActionType.InputType: QueryParametersDecodable {
         FlintInternal.urlMappingLogger?.debug("Routing '/\(path)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
         for scope in scopes {
             let mapping = URLMapping(scope: scope, path: path)

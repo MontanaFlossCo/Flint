@@ -11,11 +11,13 @@ import FlintCore
 import FlintUI
 
 class FakePresentationRouter: PresentationRouter {
-    func presentation<F, A>(for actionBinding: StaticActionBinding<F, A>, with state: A.InputType) -> PresentationResult<A.PresenterType> {
+    func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
     
-    func presentation<F, A>(for conditionalActionBinding: ConditionalActionBinding<F, A>, with state: A.InputType) -> PresentationResult<A.PresenterType> {
+    func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>,
+                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
 } 

@@ -36,7 +36,7 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
     
     // MARK: Observing the action dispatcher
     
-    public func actionWillBegin<F, A>(_ request: ActionRequest<F, A>) {
+    public func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) {
         guard !request.actionBinding.action.hideFromTimeline else {
             return
         }
@@ -55,7 +55,7 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
         entries.append(entry)
     }
     
-    public func actionDidComplete<F, A>(_ request: ActionRequest<F, A>, outcome: ActionPerformOutcome) {
+    public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
         guard !request.actionBinding.action.hideFromTimeline else {
             return
         }

@@ -21,11 +21,11 @@ public class ActionLoggingDispatchObserver: ActionDispatchObserver {
     private init() {
     }
     
-    public func actionWillBegin<F, A>(_ request: ActionRequest<F, A>) {
+    public func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) {
         request.context.logs.development?.debug("Starting")
     }
     
-    public func actionDidComplete<F, A>(_ request: ActionRequest<F, A>, outcome: ActionPerformOutcome) {
+    public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
         request.context.logs.development?.debug("Completed (\(outcome))")
     }
 

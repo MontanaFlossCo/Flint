@@ -77,7 +77,7 @@ public class ActionStackTracker: DebugReportable {
     }
 
     /// Terminates an action sequence, removing it from the list of active stacks
-    func terminate<F, A>(_ stack: ActionStack, actionRequest: ActionRequest<F, A>) {
+    func terminate<FeatureType, ActionType>(_ stack: ActionStack, actionRequest: ActionRequest<FeatureType, ActionType>) {
         propertyAccessQueue.sync {
             if let index = actionStacks.index(where: { $0 === stack }) {
                 actionStacks.remove(at: index)
