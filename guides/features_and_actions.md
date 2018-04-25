@@ -15,7 +15,8 @@ final class AppFeatures: FeatureGroup {
     static var description = "My main app features"
     
     static var subfeatures: [FeatureDefinition.Type] = []
-}```
+}
+```
 
 You use this when calling `setup` or `quickSetup` at startup:
 
