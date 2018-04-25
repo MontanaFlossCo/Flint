@@ -22,5 +22,7 @@ You need to update Info.plist `NSUserActivityTypes`. Flint generates automatic a
 
 ## Troubleshooting and testing
 
+TBD
+
 * Activities that also register the item for Spotlight search *must* have a title. Flint will alert you to this if you forget.
 * If Handoff or other activity

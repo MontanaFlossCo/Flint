@@ -18,6 +18,8 @@ TBD
 
 ## Generating a debug report containing the stacks
 
+TBD
+
 * Generate the full Flint report
 * Generate just the Stacks report
 * Generate the report with human readable or JSON formats
