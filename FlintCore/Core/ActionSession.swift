@@ -37,9 +37,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// session. In the example of a multi-window or multi-tabbed application, you would create a new explicit
     /// action session per window or tab, and perform actions in those sessions to correctly track the active `Feature`(s).
     public static let main: ActionSession = ActionSession(named: "main",
-                                                          userInitiatedActions: true,
-                                                          dispatcher: Flint.dispatcher,
-                                                          actionStackTracker: ActionStackTracker.instance)
+                                                          userInitiatedActions: true)
 
     /// The name of the session, for debug, analytics and logging purposes
     public let name: String
@@ -70,10 +68,11 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param name: The name of the session, e.g. "main" or "bgtasks" or "document-3"
     /// - param userInitiatedActions: Set to `true` if by default the actions for this session are always initiated by the user.
     /// This avoids you having to specify this when calling `perform`
-    /// - param dispatch: The dispatcher to use
-    /// - param actionStackTracker: The action stack tracker that will be used
+    /// - param dispatch: The dispatcher to use, defaults to the global Flint dispatcher
+    /// - param actionStackTracker: The action stack tracker that will be used, defaults to the shared tracker instance
     /// - param callerQueue: The queue that all future calls to `perform` are expected to be on.
-    public init(named name: String, userInitiatedActions: Bool, dispatcher: ActionDispatcher, actionStackTracker: ActionStackTracker, callerQueue: DispatchQueue = .main) {
+    public init(named name: String, userInitiatedActions: Bool, dispatcher: ActionDispatcher = Flint.dispatcher,
+                actionStackTracker: ActionStackTracker = .instance, callerQueue: DispatchQueue = .main) {
         self.userInitiatedActions = userInitiatedActions
         self.dispatcher = dispatcher
         self.actionStackTracker = actionStackTracker
