@@ -37,11 +37,7 @@ final public class PerformIncomingURLAction: Action {
     /// The completion outcome will fail with error `noURLMappingFound` if the URL does not map to anything
     /// that Flint knows about.
     public static func perform(with context: ActionContext<URL>, using presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
-        guard let url = context.input else {
-            context.logs.development?.error("No URL supplied")
-            return completion(.failure(error: nil, closeActionStack: false))
-        }
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        guard let urlComponents = URLComponents(url: context.input, resolvingAgainstBaseURL: false) else {
             context.logs.development?.error("Invalid URL supplied")
             return completion(.failure(error: nil, closeActionStack: false))
         }
@@ -76,7 +72,7 @@ final public class PerformIncomingURLAction: Action {
         }
 
         guard let foundScope = scope, let foundPath = path else {
-            context.logs.development?.error("Couldn't map URL: \(url)")
+            context.logs.development?.error("Couldn't map URL: \(context.input)")
             return completion(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
         }
 
@@ -94,7 +90,7 @@ final public class PerformIncomingURLAction: Action {
                 return completion(outcome)
             }
         } else {
-            context.logs.development?.error("Couldn't get executor for URL: \(url) for scope \(foundScope) and path \(foundPath)")
+            context.logs.development?.error("Couldn't get executor for URL: \(context.input) for scope \(foundScope) and path \(foundPath)")
             return completion(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
         }
         

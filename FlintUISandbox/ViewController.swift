@@ -17,7 +17,7 @@ class ViewController: UITableViewController {
 
         // Trigger some fake data
 
-        FakeFeature.action1.perform(using: nil, with: .none, completion: { (outcome: ActionOutcome) in
+        FakeFeature.action1.perform(with: .none, completion: { (outcome: ActionOutcome) in
             switch outcome {
                 case .success:
                    assert(true)
@@ -25,7 +25,7 @@ class ViewController: UITableViewController {
                    assert(false)
             }
         })
-        FakeFeature.action1.perform(using: nil, with: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
+        FakeFeature.action1.perform(with: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
             switch outcome {
                 case .success:
                    assert(true)
@@ -50,13 +50,13 @@ class ViewController: UITableViewController {
                 guard let request = TimelineBrowserFeature.request(TimelineBrowserFeature.show) else {
                     preconditionFailure("Timeline is not enabled")
                 }
-                request.perform(using: navigationController, with: .none)
+                request.perform(using: navigationController)
             case 2: ActionStackBrowserFeature.show.perform(using: navigationController, with: .none)
             case 3:
                 guard let request = LogBrowserFeature.request(LogBrowserFeature.show) else {
                     preconditionFailure("Timeline is not enabled")
                 }
-                request.perform(using: navigationController, with: .none)
+                request.perform(using: navigationController)
             default: preconditionFailure()
         }
         

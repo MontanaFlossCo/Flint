@@ -37,13 +37,11 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
 
         public static var hideFromTimeline: Bool = true
 
-        public static let defaultInitialItemCount = 5
-        
         public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             let timeline = Timeline.instance
             let timelineController = TimeOrderedResultsController(dataSource: timeline.entries, delegate: presenter, delegateQueue: .main)
             presenter.timelineController = timelineController
-            timelineController.loadMore(count: context.input ?? defaultInitialItemCount)
+            timelineController.loadMore(count: context.input)
             completion(.success(closeActionStack: false))
         }
     }
@@ -62,7 +60,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
             guard let timelineController = presenter.timelineController else {
                 preconditionFailure("Initial results have not been loaded")
             }
-            timelineController.loadMore(count: context.input ?? defaultExtraPageCount)
+            timelineController.loadMore(count: context.input)
             completion(.success(closeActionStack: false))
         }
     }

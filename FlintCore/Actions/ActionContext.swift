@@ -21,7 +21,7 @@ public class ActionContext<InputType> where InputType: CustomStringConvertible {
     }
     
     /// The input to the action
-    public let input: InputType?
+    public let input: InputType
 
     /// The contextual logs for the action
     public let logs: Logs = .init()
@@ -31,7 +31,7 @@ public class ActionContext<InputType> where InputType: CustomStringConvertible {
     
     private let session: ActionSession
     
-    init(input: InputType?, session: ActionSession, source: ActionSource) {
+    init(input: InputType, session: ActionSession, source: ActionSource) {
         self.input = input
         self.session = session
         self.source = source
@@ -58,14 +58,10 @@ public class ActionContext<InputType> where InputType: CustomStringConvertible {
     }
 
     public var debugDescriptionOfInput: String? {
-        if let input = input {
-            if input is NoInput {
-                return nil
-            } else {
-                return String(reflecting: input)
-            }
-        } else {
+        if input is NoInput {
             return nil
+        } else {
+            return String(reflecting: input)
         }
     }
 }

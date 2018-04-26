@@ -10,4 +10,4 @@ import Foundation
 
 /// Convenience type for use when no presenter type is requred.
 /// - see: `Action`
-public typealias NoPresenter = Void? 
+public typealias NoPresenter = Void

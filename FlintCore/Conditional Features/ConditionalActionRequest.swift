@@ -36,5 +36,44 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
                        completion: ((ActionOutcome) -> ())? = nil) {
         ActionSession.main.perform(self, using: presenter, with: input, userInitiated: userInitiated, source: source, completion: completion)
     }
+}
 
+extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter {
+    public func perform(with input: ActionType.InputType,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: NoPresenter(), with: input, completion: completion)
+    }
+
+    public func perform(with input: ActionType.InputType,
+                        userInitiated: Bool,
+                        source: ActionSource,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: NoPresenter(), with: input, userInitiated: userInitiated, source: source, completion: completion)
+    }
+}
+
+extension ConditionalActionRequest where ActionType.InputType == NoInput {
+    public func perform(using presenter: ActionType.PresenterType,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: presenter, with: NoInput.none, completion: completion)
+    }
+
+    public func perform(using presenter: ActionType.PresenterType,
+                        userInitiated: Bool,
+                        source: ActionSource,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: presenter, with: NoInput.none, userInitiated: userInitiated, source: source, completion: completion)
+    }
+}
+
+extension ConditionalActionRequest where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
+    public func perform(completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: NoPresenter(), with: NoInput.none, completion: completion)
+    }
+
+    public func perform(userInitiated: Bool,
+                        source: ActionSource,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, using: NoPresenter(), with: NoInput.none, userInitiated: userInitiated, source: source, completion: completion)
+    }
 }

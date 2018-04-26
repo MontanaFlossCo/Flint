@@ -26,18 +26,14 @@ final class PublishCurrentActionActivityAction: Action {
     static let bundleID = Bundle.main.bundleIdentifier!
 
     static func perform(with context: ActionContext<InputType>, using presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
-        guard let input = context.input else {
-            preconditionFailure("Expected a state of type \(InputType.self)")
-        }
-
-        let activityTypes = input.activityTypes
+        let activityTypes = context.input.activityTypes
         guard activityTypes.count > 0 else {
             return completion(.success(closeActionStack: true))
         }
         
         // These are the basic activity requirements
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = "\(bundleID).\(input.actionName.lowerCasedID())"
+        let activityID = "\(bundleID).\(context.input.actionName.lowerCasedID())"
         precondition(FlintAppInfo.activityTypes.contains(activityID),
                      "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
                      "The ID `\(activityID)` is not there.")
@@ -50,7 +46,7 @@ final class PublishCurrentActionActivityAction: Action {
 
         // If the action provides some extra data, use this. Note that the prepareFunction has already been
         // essentially "curried" to capture the original `input` of the action being published.
-        guard let preparedActivity = input.prepareFunction(activity) else {
+        guard let preparedActivity = context.input.prepareFunction(activity) else {
             return completion(.success(closeActionStack: true))
         }
         
@@ -60,7 +56,7 @@ final class PublishCurrentActionActivityAction: Action {
             }
         }
         
-        if let url = input.appLink {
+        if let url = context.input.appLink {
             activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
         }
         

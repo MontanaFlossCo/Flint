@@ -69,14 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         testTimer?.schedule(deadline: DispatchTime.now(), repeating: 10.0)
         testTimer?.setEventHandler(handler: {
             print("Performing a fake feature, this will show even if not in Focus")
-            FakeFeature.action1.perform(using: nil, with: .none)
+            FakeFeature.action1.perform(with: .none)
             logger?.debug("Test output from logger")
         })
         testTimer?.resume()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
             if let request = FocusFeature.request(FocusFeature.resetFocus) {
-                request.perform(using: nil, with: .none)
+                request.perform(with: .none)
             }
         }
         return true
