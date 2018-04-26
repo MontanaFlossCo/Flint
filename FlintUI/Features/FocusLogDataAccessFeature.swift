@@ -36,8 +36,6 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
         public static var description: String = "Loads the initial results from the Focus Log"
 
         public static var hideFromTimeline: Bool = true
-
-        public static let defaultInitialItemCount = 5
         
         public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             guard let logs = FocusFeature.dependencies.developmentFocusLogging else {
@@ -47,7 +45,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
             let focusLogController = TimeOrderedResultsController(dataSource: logs.history, delegate: presenter, delegateQueue: .main)
             presenter.focusLogController = focusLogController
-            focusLogController.loadMore(count: context.input ?? defaultInitialItemCount)
+            focusLogController.loadMore(count: context.input)
 
             completion(.success(closeActionStack: false))
         }
@@ -67,7 +65,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
             guard let focusLogController = presenter.focusLogController else {
                 preconditionFailure("Initial results have not been loaded")
             }
-            focusLogController.loadMore(count: context.input ?? defaultExtraPageCount)
+            focusLogController.loadMore(count: context.input)
             completion(.success(closeActionStack: false))
         }
     }

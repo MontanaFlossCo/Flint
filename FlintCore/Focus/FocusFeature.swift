@@ -83,11 +83,7 @@ final public class FocusAction: Action {
     public typealias PresenterType = NoPresenter
 
     public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
-        guard let input = context.input else {
-            preconditionFailure("Input is required")
-        }
-
-        FocusFeature.dependencies.focusSelection?.focus(input.topicPath)
+        FocusFeature.dependencies.focusSelection?.focus(context.input.topicPath)
         
         completion(.success(closeActionStack: true))
     }
@@ -98,11 +94,7 @@ final public class DefocusAction: Action {
     public typealias PresenterType = NoPresenter
 
     public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
-        guard let input = context.input else {
-            preconditionFailure("Input is required")
-        }
-
-        FocusFeature.dependencies.focusSelection?.defocus(input.topicPath)
+        FocusFeature.dependencies.focusSelection?.defocus(context.input.topicPath)
 
         completion(.success(closeActionStack: true))
     }

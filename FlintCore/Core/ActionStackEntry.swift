@@ -44,7 +44,7 @@ public struct ActionStackEntry: CustomDebugStringConvertible {
         feature = request.actionBinding.feature
         details = .action(name: request.actionBinding.action.name,
                           source: request.source,
-                          input: request.context.input == nil ? nil : String(reflecting: request.context.input))
+                          input: String(reflecting: request.context.input))
         self.sessionName = sessionName
         // Do this so that we don't retain the request.
         debugDescription = request.debugDescription

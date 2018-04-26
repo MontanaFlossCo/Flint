@@ -27,7 +27,7 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
     /// The initialiser is internal access only to prevent creation of requests outside of this framework, which could short
     /// circuit some of the safety checks around availabilty of features
     init(uniqueID: UInt, userInitiated: Bool, source: ActionSource, session: ActionSession, actionBinding: StaticActionBinding<FeatureType, ActionType>,
-         input: ActionType.InputType?, presenter: ActionType.PresenterType,
+         input: ActionType.InputType, presenter: ActionType.PresenterType,
          logContextCreator: @escaping ((_ sessionID: String, _ activitySequenceID: String) -> LogEventContext)) {
         date = Date()
         self.uniqueID = uniqueID

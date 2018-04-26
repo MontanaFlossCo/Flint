@@ -91,15 +91,15 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// This is how you execute actions that are not always available.
     ///
-    /// The completion handler is called on main queue because the action is performed in the main `ActionSession`
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
-                           using presenter: ActionType.PresenterType,
-                           with input: ActionType.InputType,
-                           completion: ((ActionOutcome) -> ())? = nil) {
+                                                 using presenter: ActionType.PresenterType,
+                                                 with input: ActionType.InputType,
+                                                 completion: ((ActionOutcome) -> ())? = nil) {
         perform(conditionalRequest, using: presenter, with: input, userInitiated: userInitiatedActions, source: .application, completion: completion)
     }
     
@@ -107,7 +107,54 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// This is how you execute actions that are not always available.
     ///
-    /// The completion handler is called on main queue because the action is performed in the main `ActionSession`
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+                                                 with input: ActionType.InputType,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.PresenterType == NoPresenter {
+        perform(conditionalRequest, using: NoPresenter(), with: input, userInitiated: userInitiatedActions, source: .application, completion: completion)
+    }
+
+    /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
+    ///
+    /// This is how you execute actions that are not always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+                                                 using presenter: ActionType.PresenterType,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.InputType == NoInput {
+        perform(conditionalRequest, using: presenter, with: .none, userInitiated: userInitiatedActions, source: .application, completion: completion)
+    }
+
+    /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
+    ///
+    /// This is how you execute actions that are not always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
+        perform(conditionalRequest, using: NoPresenter(), with: .none, userInitiated: userInitiatedActions, source: .application, completion: completion)
+    }
+
+    /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
+    ///
+    /// This is how you execute actions that are not always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
@@ -128,14 +175,14 @@ public class ActionSession: CustomDebugStringConvertible {
                                    arguments: input.description,
                                    presenter: String(describing: presenter))
         }
-        let actionRequest: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),
-                                                            userInitiated: userInitiated,
-                                                            source: source,
-                                                            session: self,
-                                                            actionBinding: staticBinding,
-                                                            input: input,
-                                                            presenter: presenter,
-                                                            logContextCreator: logContextCreator)
+        let actionRequest = ActionRequest(uniqueID: nextRequestID(),
+                                          userInitiated: userInitiated,
+                                          source: source,
+                                          session: self,
+                                          actionBinding: staticBinding,
+                                          input: input,
+                                          presenter: presenter,
+                                          logContextCreator: logContextCreator)
         perform(actionRequest, completion: completion)
     }
     
@@ -144,23 +191,72 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// This is how you execute actions that are always available.
     ///
-    /// The completion handler is called on main queue because the action is performed in the main `ActionSession`
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                           using presenter: ActionType.PresenterType,
-                           with input: ActionType.InputType,
-                           completion: ((ActionOutcome) -> ())? = nil) {
-        perform(actionBinding, using: presenter, with: input, userInitiated: userInitiatedActions, source: .application, completion: completion)
+                                                 using presenter: ActionType.PresenterType,
+                                                 with input: ActionType.InputType,
+                                                 completion: ((ActionOutcome) -> ())? = nil) {
+        perform(actionBinding, using: presenter, with: input, userInitiated: userInitiatedActions,
+                source: .application, completion: completion)
     }
     
     /// Perform an action associated with an unconditional `Feature`.
     ///
+    /// This is how you execute actions that are always available, when they have no presenter (`NoPresenter`) requirement.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                 with input: ActionType.InputType,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.PresenterType == NoPresenter {
+        perform(actionBinding, using: NoPresenter(), with: input, userInitiated: userInitiatedActions,
+                source: .application, completion: completion)
+    }
+
+    /// Perform an action associated with an unconditional `Feature`.
+    ///
+    /// This is how you execute actions that are always available, when they have no input (`NoInput`) requirement.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                 using presenter: ActionType.PresenterType,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.InputType == NoInput {
+        perform(actionBinding, using: presenter, with: .none, userInitiated: userInitiatedActions,
+                source: .application, completion: completion)
+    }
+
+    /// Perform an action associated with an unconditional `Feature`.
+    ///
+    /// This is how you execute actions that are always available, when they have no input (`NoInput`) requirement and
+    /// no presenter (`NoPresenter`) requirement.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param input: The value to pass as the input of the action
+    /// - param completion: The completion handler to call.
+    public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
+        perform(actionBinding, using: NoPresenter(), with: .none, userInitiated: userInitiatedActions,
+                source: .application, completion: completion)
+    }
+
+    /// Perform an action associated with an unconditional `Feature`.
+    ///
     /// This is how you execute actions that are always available.
     ///
-    /// The completion handler is called on main queue because the action is performed in the main `ActionSession`
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
@@ -251,5 +347,4 @@ public class ActionSession: CustomDebugStringConvertible {
             }
         })
     }
-    
 }

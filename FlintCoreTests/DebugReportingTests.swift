@@ -27,7 +27,7 @@ class DebugReportingTests: XCTestCase {
 
     func testGatheringZipReport() {
         Flint.quickSetup(DummyFeatures.self)
-        DummyStaticFeature.action1.perform(using: nil, with: .none)
+        DummyStaticFeature.action1.perform()
         let zipUrl = DebugReporting.gatherReportZip()
         XCTAssert(FileManager.default.fileExists(atPath: zipUrl.path))
     }
