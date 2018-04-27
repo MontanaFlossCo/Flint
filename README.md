@@ -4,7 +4,7 @@ Building great apps for Apple platforms involves a lot of work; custom URL schem
 
 Flint uses an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) to help you deal with all this easily, leaving you and your team to focus on what makes your product amazing. You write a little code to define the features and actions that make up your app, and everything else becomes easy.
 
-Because you split your code into actions, the interactions with your UI are easy test. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉
+Because you split your code into actions, the interactions with your UI are easy to test. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉
 
 We made Flint because we want people to build apps for Apple platforms that make the most of native platform features. We want to make it really easy.
 
