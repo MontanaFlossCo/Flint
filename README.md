@@ -6,9 +6,9 @@ Flint uses an approach called [feature driven development](https://www.montanafl
 
 Because you split your code into actions, the interactions with your UI are easy test. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉
 
-We made Flint because we want people to build apps for Apple platforms that make the most of native platform features. We want this to be really easy to do.
+We made Flint because we want people to build apps for Apple platforms that make the most of native platform features. We want to make it really easy.
 
-Here are some usage examples.
+Here are some quick  usage examples.
 
 ## Handling URLs
 
@@ -139,7 +139,7 @@ Of course you can customise the dictionary of data passed to the Analytics provi
 
 ## Find out more
 
-All this is just the tip of the iceberg. Flint has so much more to offer and through the use of protocols almost everywhere, many extension and customisation points so that you aren't locked in to anything like a specific analytics provider.
+All this is just the tip of the iceberg. Flint has so much more to offer and through the use of protocols almost everywhere, has many extension and customisation points so that you aren't locked in to anything like a specific analytics provider.
 
 If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an idea of how a real app might use Flint.
 
