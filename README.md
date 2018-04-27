@@ -33,7 +33,7 @@ class UserAccountManagementFeature: Feature, URLMapped {
 }
 ```
 
-Once you add the custom URL scheme to your `Info.plist` or  and/or an associated domain to your entitlements, your app would then invoke the "confirm account" action when it is asked to open URLs like:
+Once you add the custom URL scheme to your `Info.plist` and/or an associated domain to your entitlements, your app would then invoke the "confirm account" action when it is asked to open URLs like:
 
 * `your-app://account/confirm`
 * `https://yourappdomain.com/account/confirm`
