@@ -73,7 +73,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param actionStackTracker: The action stack tracker that will be used, defaults to the shared tracker instance
     public init(named name: String,
                 userInitiatedActions: Bool,
-                callerQueue: DispatchQueue = .main
+                callerQueue: DispatchQueue = .main,
                 dispatcher: ActionDispatcher = Flint.dispatcher,
                 actionStackTracker: ActionStackTracker = .instance) {
         self.userInitiatedActions = userInitiatedActions
