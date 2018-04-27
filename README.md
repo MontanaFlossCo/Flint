@@ -1,37 +1,153 @@
-# Flint 💥
+# 💥 Flint framework
 
-Flint is a pure Swift framework for building iOS, tvOS, watchOS or macOS apps that utilise
-[Feature Driven Development](https://www.montanafloss.co/blog/feature-driven-development), using the power of Features,
-Actions and conventions to make app development and debugging more productive. 
+Building great apps for Apple platforms involves a lot of work; custom URL schemes, in-app purchases, universal links, Handoff and Siri suggestions support, tracking analytics events, feature flagging and more. These things can be fiddly and time consuming.
 
-If you don't know what Feature Driven Development can give you, please [read this linked blog post](https://www.montanafloss.co/blog/feature-driven-development) for a detailed explanation. The TL;DR description of FDD is:
+Flint uses an approach called [feature driven development]() to help you deal with all this easily, leaving you and your team to focus on what makes your product amazing. You write a little code to define the features and actions that make up your app, and everything else becomes easy.
 
-> Expressing information about the Features and Actions of your application in the code itself, and using this information to make your apps better   
+Because you split your code into actions, the interactions with your UI are easy test. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉
 
-By defining the Features and Actions of your app using Flint, you get a bunch of functionality for free on Apple platforms. 
+Here are some usage examples.
 
-* **Routes** — App URL schemes and Universal links that invoke those actions for deep linking and link generation
-* **Activities** — Automatic registration of NSUserActivity for actions performed, for Handoff, Siri suggestions, Spotlight search
-* **Timeline** — an automatic history of the actions your users have performed  
-* **Focus** — Runtime control of what is logged in your app based on your app Features. Find problems quickly without the noise of all your subsystems' logging
-* **Analytics** — Automatic recording of app analytics when actions are performed, using any Analytics service you use
-* **Action Stacks** — Know what your users were doing in your app for debugging and crash reporting
-* **Feature Toggling** — manual feature toggling, A/B testing, IAP or subscription based toggling of features is made easy and typesafe
-* Debug UIs — Flint also provides a `FlintUI` framework (iOS-only right now) with several useful debug UIs for browsing the Features and Actions declared in your application, viewing the user Timeline,  viewing Focus logs in realtime and browsing the current Action Stack.  
+## Handling URLs
 
-Much of this functionality is implemented within Flint as Flint’s own Features and Actions — it’s features all the way down.
+To handle incoming URLs all you need to do is define an action – a type that conforms to the `Action` protocol, and add it to a `Feature` that has one or more URL routes for the action.
 
-## Documentation and sample code
+Consider the common case of handling a user sign-up confirmation link sent by e-mail. The URL will contain a token and the app should open when it is tapped, verify the token and then show the "You signed in!" screen.
 
-If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an
-idea of how a real app might use Flint.
+```swift
+class UserAccountManagementFeature: Feature, URLMapped {
+    static var description = "User sign-up, sign in and sign out"
 
-[View the documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/index.md)
+    static let confirmAccount = action(ConfirmAccountAction.self)
+ 
+    static func prepare(actions: FeatureActionsBuilder) {
+        actions.declare(confirmAccount)
+       }
+       
+    // 💥 Use `routes` to define the URLs and actions
+    static func urlMappings(routes: URLMappingsBuilder) {
+        routes.send("account/confirm", to: confirmAccount)
+    }
+}
+```
 
+Once you add the custom URL scheme to your `Info.plist` or  and/or an associated domain to your entitlements, your app would then invoke the "confirm account" action when it is asked to open URLs like:
+
+* `your-app://account/confirm`
+* `https://yourappdomain.com/account/confirm`
+
+There's support for multiple mappings per action, multiple URL schemes and multiple associated domains, so legacy URLs are no problem. There's a little [glue code to add](/MontanaFlossCo/Flint-Documentation/1.0/guides/routes.md) to your app delegate and to set up your UI when the action comes in.
+
+The action type `ConfirmAccountAction` is not shown here, for brevity. See the [Features and Actions](/MontanaFlossCo/Flint-Documentation/1.0/guides/features_and_actions.md) guide for full details.
+
+Of course you can easily perform this same action from code in your app if required:
+
+```swift
+UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: confirmationToken)
+```
+
+If you need to, you can easily create URLs that link to these mapped actions using[`Flint.linkCreator`](FlintCore/Core/Flint.swift). 
+
+## Supporting features that require purchases or other toggling
+
+Because Flint uses feature driven development, we can easily mark large parts of our apps as being conditionally available, at the place that makes sense — where the feature is defined in the app.
+
+All you do is make your `Feature` conform to `ConditionalFeature` and set the `availability` property to indicate whether it just needs to be checked at runtime, requires in-app purchases, or manual user toggling.
+
+```swift
+final class DocumentSharingFeature: ConditionalFeature {
+    static var description: String = "Sharing of documents"
+    
+    static var availability: FeatureAvailability = .runtimeEvaluated
+    
+    // 💥 Return whether or not this feature is enabled
+    static var isAvailable: Bool? = true
+    
+    static let share = action(DocumentShareAction.self)
+    
+    static func prepare(actions: FeatureActionsBuilder) {
+        actions.declare(share)
+    }
+}
+```
+
+In the above feature, you can return `false`  from `isAvailable` to disable all actions related to sharing. If the `availability` was `.userToggled` or `.purchaseRequired`, Flint passes these through to default services that handle that. You can easily provide your own implementations of these.
+
+When you need to perform an action from a conditional feature, you are forced to first check if the feature is available and handle the case where it is not:
+
+```swift
+if let request = DocumentSharingFeature.share.request() {
+    request.perform(using: presenter, with: document)
+} else {
+    showPremiumUpgradeScreen()
+}
+```
+
+This makes your code cleaner and safer. Everybody on the team can see which code is internally feature-flagged or requires a purchase.
+
+## Automatic Handoff and Siri Suggestions support
+
+Apple's `NSUserActivity` is used extensively for telling the system what the user is currently doing, to integrate Handoff between devices, Siri app suggestions, some Spotlight Search integration as well as deep linking. All too often people don't implement this, because of the challenges of executing arbitrary actions in your app when the user chooses an activity.
+
+Flint can do this automatically for you, with zero effort if your Action also supports URL routes.
+
+```swift
+final class DocumentOpenAction: Action {
+    typealias InputType = DocumentRef
+    typealias PresenterType = DocumentPresenter
+
+    static var description = "Open a document"
+    
+    // 💥 Just tell Flint what activity types to use
+    static var activityTypes: Set<ActivityEligibility> = [.perform, .handoff]
+    
+    static func perform(with context: ActionContext<DocumentRef>, using presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
+        // … do the work
+    }
+}
+```
+
+This is all you have to do, aside from add `NSUserActivityTypes` to your `Info.plist` and list the activity IDs automatically generated by Flint. 
+
+You can of course customise the attributes of the `NSUserActivity` if you want to, by defining a `prepare(activity:for:)` function. See the [Activities guide](/MontanaFlossCo/Flint-Documentation/1.0/guides/activities.md).
+
+## Track analytics events when users do things
+
+Most apps end up having to do some kind of analytics reporting to get an idea of what your users are actually doing. An analytics event is typically an event ID and a dictionary of keys and values. Flint makes emitting these easy and consistent, using any analytics service you want. Even your own home-spun backend. 
+
+So when your marketing people say they want their analytics reporting system to show them when people open documents, you simply set the `analyticsID` property on the action, and Flint's `AnalyticsReporting` component will automatically pick it up whenever that action is performed, passing it to your analytics provider.
+
+```swift
+final class DocumentOpenAction: Action {
+    typealias InputType = DocumentRef
+    typealias PresenterType = DocumentPresenter
+
+    static var description = "Open a document"
+    
+    // 💥 Enable analytics with just one property.
+    static var analyticsID = "user-open-document"
+    
+    static func perform(with context: ActionContext<DocumentRef>, using presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
+        // … do the work
+    }
+}
+```
+
+Of course you can customise the dictionary of data passed to the Analytics provider by defining an `analyticsAttributes()` function.
+
+## Find out more
+
+All this is just the tip of the iceberg. Flint has so much more to offer and through the use of protocols almost everywhere, many extension and customisation points so that you aren't locked in to anything like a specific analytics provider.
+
+If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an idea of how a real app might use Flint.
+
+[View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/index.md)
+
+A Flint blog is coming soon.
 
 ## Getting started
 
-To use Flint in your own project, use [Carthage](https://github.com/Carthage/Carthage) to add the dependency to your `Cartfile`:
+To add Flint to your own project, use [Carthage](https://github.com/Carthage/Carthage) to add the dependency to your `Cartfile`:
 
 ```
 github "MontanaFlossCo/Flint"
