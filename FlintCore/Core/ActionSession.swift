@@ -67,12 +67,15 @@ public class ActionSession: CustomDebugStringConvertible {
     /// Initialise a session
     /// - param name: The name of the session, e.g. "main" or "bgtasks" or "document-3"
     /// - param userInitiatedActions: Set to `true` if by default the actions for this session are always initiated by the user.
+    /// - param callerQueue: The queue that all future calls to `perform` are expected to be on.
     /// This avoids you having to specify this when calling `perform`
     /// - param dispatch: The dispatcher to use, defaults to the global Flint dispatcher
     /// - param actionStackTracker: The action stack tracker that will be used, defaults to the shared tracker instance
-    /// - param callerQueue: The queue that all future calls to `perform` are expected to be on.
-    public init(named name: String, userInitiatedActions: Bool, dispatcher: ActionDispatcher = Flint.dispatcher,
-                actionStackTracker: ActionStackTracker = .instance, callerQueue: DispatchQueue = .main) {
+    public init(named name: String,
+                userInitiatedActions: Bool,
+                callerQueue: DispatchQueue = .main
+                dispatcher: ActionDispatcher = Flint.dispatcher,
+                actionStackTracker: ActionStackTracker = .instance) {
         self.userInitiatedActions = userInitiatedActions
         self.dispatcher = dispatcher
         self.actionStackTracker = actionStackTracker
