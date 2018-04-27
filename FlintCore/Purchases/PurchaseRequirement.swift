@@ -55,41 +55,45 @@ public class PurchaseRequirement {
         self.dependencies = dependencies
     }
     
+    public convenience init(_ product: Product) {
+        self.init(products: [product], matchingCriteria: .all)
+    }
+    
     /// Call to see if this requirement and all dependent requirements are fulfilled
     /// - param validator: The validator to use to see if each product in a requirement has been purchased
-    public func isFulfilled(validator: PurchaseValidator) -> Bool {
-        let matched: Bool
+    public func isFulfilled(validator: PurchaseValidator) -> Bool? {
+        let matched: Bool?
         switch matchingCriteria {
             case .any:
-                var result = false
+                var result: Bool?
                 for product in products {
-                    result = validator.isPurchased(product.productID) ?? false
-                    if result {
+                    result = validator.isPurchased(product.productID)
+                    if result == true {
                         break
                     }
                 }
                 matched = result
             case .all:
-                var result = false
+                var result: Bool?
                 for product in products {
-                    result = validator.isPurchased(product.productID) ?? false
-                    if !result {
+                    result = validator.isPurchased(product.productID)
+                    if !(result == true) {
                         break
                     }
                 }
                 matched = result
         }
         
-        if matched {
+        if matched == true {
             guard let dependencies = dependencies else {
                 return matched
             }
             let firstFailing = dependencies.first(where: { requirement -> Bool in
-                return !requirement.isFulfilled(validator: validator)
+                return !(requirement.isFulfilled(validator: validator) == true)
             })
             return firstFailing == nil
         } else {
-            return false
+            return matched
         }
     }
 }

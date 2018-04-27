@@ -29,7 +29,8 @@ public protocol ConditionalFeatureDefinition: FeatureDefinition {
 public extension ConditionalFeatureDefinition {
     /// Override this in your own features (with a more specific extension and YourFeature base class?)
     /// to use a custom checker instance that does not use the default validators
-    /// - note: Accesses to any properties that may change at runtime, e.g. `isAvailable` must only occur on the main thread.
+    /// - note: It is safe to invoke this from any thread or queue
+    /// - see: `AvailabilityChecker`
     static var isAvailable: Bool? {
         return Flint.availabilityChecker?.isAvailable(self)
     }

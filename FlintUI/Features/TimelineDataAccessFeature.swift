@@ -11,7 +11,7 @@ import FlintCore
 
 /// A feature that provides access to the Timeline for presenting in a UI
 final public class TimelineDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     
     public static var description: String = "Provides access to the timeline of actions for debugging and reporting"
 

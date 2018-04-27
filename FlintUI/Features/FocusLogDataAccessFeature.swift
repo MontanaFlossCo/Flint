@@ -11,7 +11,7 @@ import FlintCore
 
 /// Provides the data for a UI that shows Focus Logs
 final public class FocusLogDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     
     public static var description: String = "Provides access to the Focus logs for presenting in a UI"
 
