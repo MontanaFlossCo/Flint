@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public protocol TimeOrderedResultsControllerDataSourceObserver: AnyObject {
+@objc public protocol TimeOrderedResultsControllerDataSourceObserver {
     /// Results are provided sorted in the natural time order of the data source
     func dataSourceNewResultsInserted(items: [Any])
     func dataSourceOldResultsLoaded(items: [Any])

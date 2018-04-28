@@ -12,7 +12,7 @@ import Foundation
 /// dispatch the appropriate App action using a Presenter provided by a `PresentationRouter`
 /// which determines how your app will present the UI required for the action.
 final public class RoutesFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     
     public static var description: String = "URL routes that support deep linking and custom URL schemes"
 

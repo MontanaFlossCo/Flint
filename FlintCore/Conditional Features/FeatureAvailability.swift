@@ -23,7 +23,7 @@ public enum FeatureAvailability {
     /// - see: `DefaultAvailabilityChecker`
     case userToggled
 
-    /// The deature uses some runtime feature toggling (A/B testing at the level of entire features), runtime
+    /// The feature uses some runtime feature toggling (A/B testing at the level of entire features), runtime
     /// tweaking of availability e.g. setting isAvailable at startup based on data, or remote feature control
-    case runtimeEvaluated
+    case custom
 }

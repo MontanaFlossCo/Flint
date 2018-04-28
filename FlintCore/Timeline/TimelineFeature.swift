@@ -16,7 +16,7 @@ import Foundation
 ///
 /// - see: `Timeline.snapshot()` for access to the data gathers.
 final public class TimelineFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     
     public static var description: String = "Maintains an in-memory timeline of actions for debugging and reporting"
 

@@ -11,7 +11,7 @@ import Foundation
 /// A set of observers that can be called on specific queues.
 class ObserverSet<T: AnyObject> {
     private struct ObserverQueuePair {
-        let observer: T
+        weak var observer: T?
         let queue: SmartDispatchQueue
     }
 
@@ -32,8 +32,10 @@ class ObserverSet<T: AnyObject> {
     /// Notify all the observers on their respective queues, asynchronously
     func notifyAsync(handler: @escaping (T) -> Void) {
         observers.forEach { pair in
-            pair.queue.syncOrAsyncIfDifferentQueue {
-                handler(pair.observer)
+            if let observer = pair.observer {
+                pair.queue.syncOrAsyncIfDifferentQueue {
+                    handler(observer)
+                }
             }
         }
     }
@@ -41,8 +43,10 @@ class ObserverSet<T: AnyObject> {
     /// Notify all the observers on their respective queues, synchronously
     func notifySync(handler: @escaping (T) -> Void) {
         observers.forEach { pair in
-            pair.queue.sync {
-                handler(pair.observer)
+            if let observer = pair.observer {
+                pair.queue.sync {
+                    handler(observer)
+                }
             }
         }
     }

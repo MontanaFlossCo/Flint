@@ -13,7 +13,7 @@ import Foundation
 /// This provides actions used internally to publish and handle `NSUserActivity` for actions that opt-in to this by
 /// setting their `activityEligibility` property.
 public final class ActivitiesFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     
     public static var description: String = "Automatic NSUserActivity publishing and handling for Handoff, Siri suggestions and Spotlight"
 

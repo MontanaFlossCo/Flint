@@ -1,5 +1,5 @@
 //
-//  StoreKitPurchaseValidator.swift
+//  StoreKitPurchaseTracker.swift
 //  FlintCore-iOS
 //
 //  Created by Marc Palmer on 16/02/2018.
@@ -14,7 +14,18 @@ import StoreKit
 /// Note that this code could be easily hacked on jailbroken devices. You may need to add your
 /// own app-specific logic to verify this so there isn't a single point of verification,
 /// and to check receipts.
-public class StoreKitPurchaseValidator: PurchaseValidator {
+public class StoreKitPurchaseTracker: PurchaseTracker {
+
+    private var observers = ObserverSet<PurchaseTrackerObserver>()
+
+    public func addObserver(_ observer: PurchaseTrackerObserver) {
+        let queue = SmartDispatchQueue(queue: .main, owner: self)
+        observers.add(observer, using: queue)
+    }
+    
+    public func removeObserver(_ observer: PurchaseTrackerObserver) {
+        observers.remove(observer)
+    }
 
     /// Called to see if a specific product has been purchased
     public func isPurchased(_ productID: String) -> Bool? {

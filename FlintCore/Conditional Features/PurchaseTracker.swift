@@ -14,7 +14,13 @@ import Foundation
 ///
 /// Flint will call this multiple times for each productID that is required in a `PurchaseRequirement`,
 /// so implementations only need to respond to single product requests.
-public protocol PurchaseValidator {
+public protocol PurchaseTracker {
+
+    /// Call to add an observer for changes to purchases
+    func addObserver(_ observer: PurchaseTrackerObserver)
+
+    /// Call to remove an observer for changes to purchases
+    func removeObserver(_ observer: PurchaseTrackerObserver)
 
     /// Return whether or not the specified product ID has been paid for (or should be enabled) by the user.
     /// If the status is not yet known, the implementation can return `nil` to indicate this indeterminate status.

@@ -14,7 +14,7 @@ import FlintCore
 final public class LogBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Focus logs"
     
-    public static var availability: FeatureAvailability = .runtimeEvaluated
+    public static var availability: FeatureAvailability = .custom
     public static var isAvailable: Bool? { return FocusFeature.isAvailable }
 
     public static let show = action(ShowLogBrowserAction.self)
