@@ -7,23 +7,52 @@
 //
 
 import Foundation
-import FlintCore
+@testable import FlintCore
 
-class MockPurchaseValidator: PurchaseValidator {
+/// A mock purchase validator that can simulate purchases or verification that items are not purchased.
+class MockPurchaseValidator: PurchaseTracker {
+    
+    var observers = ObserverSet<PurchaseTrackerObserver>()
     var fakePurchases: [String:Bool] = [:]
     
-    func confirmNotPurchased(_ product: Product) {
-        fakePurchases[product.productID] = false
+    func addObserver(_ observer: PurchaseTrackerObserver) {
+        observers.add(observer, using: SmartDispatchQueue(queue: .main, owner: self))
     }
     
-    func makeFakePurchase(_ product: Product) {
-        fakePurchases[product.productID] = true
+    func removeObserver(_ observer: PurchaseTrackerObserver) {
+        observers.remove(observer)
     }
     
-    func reset() {
+    /// Call this to fake confirmation that a purchase has not been made on this product.
+    /// Until the purchase subsystem has checked receipts, the status of such features is unknown.
+    public func confirmNotPurchased(_ product: Product) {
+        setPurchased(product, purchased: false)
+    }
+    
+    /// Call this to fake a purchase
+    public func makeFakePurchase(_ product: Product) {
+        setPurchased(product, purchased: true)
+    }
+    
+    public func reset() {
+        let copyOfPurchases = fakePurchases
         fakePurchases.removeAll()
+        
+        for (productID, purchased) in copyOfPurchases {
+            observers.notifySync { observer in
+                observer.purchaseStatusDidChange(productID: productID, isPurchased: purchased)
+            }
+        }
     }
     
+    private func setPurchased(_ product: Product, purchased: Bool) {
+        fakePurchases[product.productID] = purchased
+
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: product.productID, isPurchased: purchased)
+        }
+    }
+
     func isPurchased(_ productID: String) -> Bool? {
         return fakePurchases[productID]
     }

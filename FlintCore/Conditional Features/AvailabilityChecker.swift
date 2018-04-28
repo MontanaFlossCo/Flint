@@ -15,6 +15,9 @@ import Foundation
 /// testing `isAvailable` on a feature do not need to be concerned about this even if running
 /// on a background queue or an ActionSession that is not on the main queue.
 ///
+/// Implementations must also take care to examine the ancestors of features to ensure
+/// the correct result is returned from isAvailable.
+///
 /// - see: `DefaultAvailabilityChecker`
 public protocol AvailabilityChecker {
 

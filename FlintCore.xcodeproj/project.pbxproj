@@ -84,7 +84,7 @@
 		495FD9FC20026A520007A427 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FB20026A520007A427 /* ObserverSet.swift */; };
 		495FD9FE200363290007A427 /* FeaturePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FD200363290007A427 /* FeaturePath.swift */; };
 		496267B41F8BC14D002C83F2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 496267B31F8BC14D002C83F2 /* README.md */; };
-		49647D372037434B005F9825 /* StoreKitPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */; };
+		49647D372037434B005F9825 /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		49647D3920374DE1005F9825 /* ActionStackEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3820374DE1005F9825 /* ActionStackEntry.swift */; };
 		49647D3B20384077005F9825 /* ActivitiesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3A20384077005F9825 /* ActivitiesFeature.swift */; };
 		49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3C203873C7005F9825 /* FlintFeatures.swift */; };
@@ -160,25 +160,25 @@
 		496F8F82203EEBBA003AB29B /* ConditionalActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */; };
 		496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */; };
 		496F8F84203EEBBA003AB29B /* UserFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */; };
-		496F8F85203EEBBA003AB29B /* PurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseValidator.swift */; };
+		496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseTracker.swift */; };
 		496F8F86203EEBBA003AB29B /* UserDefaultsFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */; };
 		496F8F87203EEBBA003AB29B /* DefaultAvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */; };
-		496F8F88203EEBBA003AB29B /* StoreKitPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */; };
+		496F8F88203EEBBA003AB29B /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		496F8F89203EEBBB003AB29B /* ConditionalFeatureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */; };
 		496F8F8A203EEBBB003AB29B /* ConditionalFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */; };
 		496F8F8B203EEBBB003AB29B /* ConditionalActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */; };
 		496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */; };
 		496F8F8D203EEBBB003AB29B /* UserFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */; };
-		496F8F8E203EEBBB003AB29B /* PurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseValidator.swift */; };
+		496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseTracker.swift */; };
 		496F8F8F203EEBBB003AB29B /* UserDefaultsFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */; };
 		496F8F90203EEBBB003AB29B /* DefaultAvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */; };
-		496F8F91203EEBBB003AB29B /* StoreKitPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */; };
+		496F8F91203EEBBB003AB29B /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		496F8F92203EEBBC003AB29B /* ConditionalFeatureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */; };
 		496F8F93203EEBBC003AB29B /* ConditionalFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */; };
 		496F8F94203EEBBC003AB29B /* ConditionalActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */; };
 		496F8F95203EEBBC003AB29B /* AvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */; };
 		496F8F96203EEBBC003AB29B /* UserFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */; };
-		496F8F97203EEBBC003AB29B /* PurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseValidator.swift */; };
+		496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseTracker.swift */; };
 		496F8F98203EEBBC003AB29B /* UserDefaultsFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */; };
 		496F8F99203EEBBC003AB29B /* DefaultAvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */; };
 		496F8F9B203EEBC4003AB29B /* RoutesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498AF6E42028972A00AFE666 /* RoutesFeature.swift */; };
@@ -295,6 +295,9 @@
 		49839CED2046D1D500C0AED3 /* DebugReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CEC2046D1D500C0AED3 /* DebugReporting.swift */; };
 		49839CEE2046D1D500C0AED3 /* DebugReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CEC2046D1D500C0AED3 /* DebugReporting.swift */; };
 		49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CEC2046D1D500C0AED3 /* DebugReporting.swift */; };
+		49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
+		49891EB32094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
+		49891EB42094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
 		498A894C2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
 		498A894D2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
 		498A894E2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
@@ -338,7 +341,7 @@
 		49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */; };
 		49966D8F200A63D1004C4AA0 /* AvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */; };
 		49966D91200A63EB004C4AA0 /* UserFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */; };
-		49966D93200A644A004C4AA0 /* PurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseValidator.swift */; };
+		49966D93200A644A004C4AA0 /* PurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D92200A644A004C4AA0 /* PurchaseTracker.swift */; };
 		49966D95200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */; };
 		49966D97200A648A004C4AA0 /* DefaultAvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */; };
 		499F94EF1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */; };
@@ -376,7 +379,7 @@
 		49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
-		49DB923C2073AF9C00F758DC /* StoreKitPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */; };
+		49DB923C2073AF9C00F758DC /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		49DB923E2073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
 		49DB923F2073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
 		49DB92402073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
@@ -457,7 +460,7 @@
 		495FD9FB20026A520007A427 /* ObserverSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		495FD9FD200363290007A427 /* FeaturePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePath.swift; sourceTree = "<group>"; };
 		496267B31F8BC14D002C83F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseValidator.swift; sourceTree = "<group>"; };
+		49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseTracker.swift; sourceTree = "<group>"; };
 		49647D3820374DE1005F9825 /* ActionStackEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackEntry.swift; sourceTree = "<group>"; };
 		49647D3A20384077005F9825 /* ActivitiesFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesFeature.swift; sourceTree = "<group>"; };
 		49647D3C203873C7005F9825 /* FlintFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintFeatures.swift; sourceTree = "<group>"; };
@@ -496,6 +499,7 @@
 		49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalFeatureDefinition.swift; sourceTree = "<group>"; };
 		49839CE82046D1CA00C0AED3 /* DebugReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReportable.swift; sourceTree = "<group>"; };
 		49839CEC2046D1D500C0AED3 /* DebugReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReporting.swift; sourceTree = "<group>"; };
+		49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseTrackerObserver.swift; sourceTree = "<group>"; };
 		498A894B2068FF5200457D66 /* TimelineFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineFeature.swift; sourceTree = "<group>"; };
 		498A89572069695100457D66 /* FocusFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFeature.swift; sourceTree = "<group>"; };
 		498AF6E0202729AE00AFE666 /* URLMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMapping.swift; sourceTree = "<group>"; };
@@ -512,7 +516,7 @@
 		49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOrderedResultsController.swift; sourceTree = "<group>"; };
 		49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityChecker.swift; sourceTree = "<group>"; };
 		49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeatureToggles.swift; sourceTree = "<group>"; };
-		49966D92200A644A004C4AA0 /* PurchaseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseValidator.swift; sourceTree = "<group>"; };
+		49966D92200A644A004C4AA0 /* PurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseTracker.swift; sourceTree = "<group>"; };
 		49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsFeatureToggles.swift; sourceTree = "<group>"; };
 		49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAvailabilityChecker.swift; sourceTree = "<group>"; };
 		499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionLoggingDispatchObserver.swift; sourceTree = "<group>"; };
@@ -716,10 +720,11 @@
 				49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */,
 				49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */,
 				49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */,
-				49966D92200A644A004C4AA0 /* PurchaseValidator.swift */,
+				49966D92200A644A004C4AA0 /* PurchaseTracker.swift */,
 				49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */,
 				49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */,
 				49935BCB206B901800CB2B5D /* ConditionalActionRequest.swift */,
+				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
 			);
 			path = "Conditional Features";
 			sourceTree = "<group>";
@@ -930,7 +935,7 @@
 		49DB92362073AF3100F758DC /* Purchases */ = {
 			isa = PBXGroup;
 			children = (
-				49647D362037434B005F9825 /* StoreKitPurchaseValidator.swift */,
+				49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */,
 				49DB92422073C67900F758DC /* PurchaseRequirement.swift */,
 				49DB923D2073B4F500F758DC /* Product.swift */,
 			);
@@ -1244,7 +1249,7 @@
 				498A894D2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FC5203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
-				496F8F85203EEBBA003AB29B /* PurchaseValidator.swift in Sources */,
+				496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FCD203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				496F8FA3203EEBCD003AB29B /* ActivityActionDispatchObserver.swift in Sources */,
 				496F8FD3203EEBDA003AB29B /* Feature.swift in Sources */,
@@ -1283,9 +1288,10 @@
 				496F8F53203EEBB1003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
 				496F8F4C203EEBA5003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
 				49935BF0206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
-				496F8F88203EEBBA003AB29B /* StoreKitPurchaseValidator.swift in Sources */,
+				496F8F88203EEBBA003AB29B /* StoreKitPurchaseTracker.swift in Sources */,
 				496F8F87203EEBBA003AB29B /* DefaultAvailabilityChecker.swift in Sources */,
 				496F8FB0203EEBD3003AB29B /* URLMappingsBuilder.swift in Sources */,
+				49891EB32094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				496F8F5D203EEBB1003AB29B /* LoggerOutput.swift in Sources */,
 				49EA0BCF208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				4927FEF3208A3B8800163576 /* ActionSource.swift in Sources */,
@@ -1354,7 +1360,7 @@
 				498A894E2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
-				496F8F8E203EEBBB003AB29B /* PurchaseValidator.swift in Sources */,
+				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FE2203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				496F8FA6203EEBCE003AB29B /* ActivityActionDispatchObserver.swift in Sources */,
 				496F8FE8203EEBDA003AB29B /* Feature.swift in Sources */,
@@ -1393,9 +1399,10 @@
 				496F8F62203EEBB2003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
 				496F8F4F203EEBA6003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
 				49935BF1206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
-				496F8F91203EEBBB003AB29B /* StoreKitPurchaseValidator.swift in Sources */,
+				496F8F91203EEBBB003AB29B /* StoreKitPurchaseTracker.swift in Sources */,
 				496F8F90203EEBBB003AB29B /* DefaultAvailabilityChecker.swift in Sources */,
 				496F8FB8203EEBD4003AB29B /* URLMappingsBuilder.swift in Sources */,
+				49891EB42094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				496F8F6C203EEBB2003AB29B /* LoggerOutput.swift in Sources */,
 				49EA0BD0208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				4927FEF2208A3B8800163576 /* ActionSource.swift in Sources */,
@@ -1454,7 +1461,7 @@
 				49DB92462073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				49935BED206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FF6203EEBDB003AB29B /* FeatureGroup.swift in Sources */,
-				49DB923C2073AF9C00F758DC /* StoreKitPurchaseValidator.swift in Sources */,
+				49DB923C2073AF9C00F758DC /* StoreKitPurchaseTracker.swift in Sources */,
 				496F8FEC203EEBDB003AB29B /* ActionDispatcher.swift in Sources */,
 				4946FAC3208D16750097E10E /* ActionsBuilder.swift in Sources */,
 				496F8F7F203EEBB3003AB29B /* TopicPath.swift in Sources */,
@@ -1464,7 +1471,7 @@
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				498A894F2068FF5200457D66 /* TimelineFeature.swift in Sources */,
-				496F8F97203EEBBC003AB29B /* PurchaseValidator.swift in Sources */,
+				496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FF7203EEBDB003AB29B /* FeaturePath.swift in Sources */,
 				498F97762077846000209633 /* FocusArea.swift in Sources */,
 				496F8FA9203EEBCF003AB29B /* ActivityActionDispatchObserver.swift in Sources */,
@@ -1538,7 +1545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4948DBE6204D77A90030ED79 /* ActionContext.swift in Sources */,
-				49966D93200A644A004C4AA0 /* PurchaseValidator.swift in Sources */,
+				49966D93200A644A004C4AA0 /* PurchaseTracker.swift in Sources */,
 				4978E07420408C3B001D125D /* ActionStackTracker.swift in Sources */,
 				49647D3F203B117D005F9825 /* URLMapped.swift in Sources */,
 				495FD9FC20026A520007A427 /* ObserverSet.swift in Sources */,
@@ -1594,6 +1601,7 @@
 				498AF6E1202729AE00AFE666 /* URLMapping.swift in Sources */,
 				49819EBC1FC9C3660013AF55 /* ActionRequest.swift in Sources */,
 				49839CE92046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
+				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */,
 				493572D41FC9D284003AD465 /* FeatureGroup.swift in Sources */,
 				49C9C37A1FFD317800E4D500 /* TopicPath+Extensions.swift in Sources */,
@@ -1603,7 +1611,7 @@
 				49A999FA1FF7FA6700A64E8C /* AnalyticsReporting.swift in Sources */,
 				4976923B201F3CBE00F97BD5 /* URLMappingsBuilder.swift in Sources */,
 				495FD9FE200363290007A427 /* FeaturePath.swift in Sources */,
-				49647D372037434B005F9825 /* StoreKitPurchaseValidator.swift in Sources */,
+				49647D372037434B005F9825 /* StoreKitPurchaseTracker.swift in Sources */,
 				49BC1C5720867C2400A7FC77 /* ActionStack.swift in Sources */,
 				49935BEF206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				49966D8F200A63D1004C4AA0 /* AvailabilityChecker.swift in Sources */,

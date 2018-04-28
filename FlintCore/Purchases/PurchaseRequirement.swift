@@ -61,7 +61,7 @@ public class PurchaseRequirement {
     
     /// Call to see if this requirement and all dependent requirements are fulfilled
     /// - param validator: The validator to use to see if each product in a requirement has been purchased
-    public func isFulfilled(validator: PurchaseValidator) -> Bool? {
+    public func isFulfilled(validator: PurchaseTracker) -> Bool? {
         let matched: Bool?
         switch matchingCriteria {
             case .any:

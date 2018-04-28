@@ -9,7 +9,8 @@
 import Foundation
 
 /// The standard feature availability checker that supports the user toggling features (in User Defaults) that permit
-/// this, as well as purchase-based toggling.
+/// this, as well as purchase-based toggling. It caches the results in order to avoid walking the feature graph
+/// every time there is a check.
 ///
 /// To customise behaviour of user toggling, implement `UserFeatureToggles` and pass it in to an instance of this class.
 ///
@@ -18,13 +19,13 @@ import Foundation
 /// This class implements the `PurchaseRequirement` logic to test if they are all met for features that require purchases.
 public class DefaultAvailabilityChecker: AvailabilityChecker {
     public let userFeatureToggles: UserFeatureToggles?
-    public let purchaseValidator: PurchaseValidator?
+    public let purchaseValidator: PurchaseTracker?
     
     /// Default shared instance using the default validators
 #if !os(watchOS)
     public static let instance = DefaultAvailabilityChecker(
         userFeatureToggles: UserDefaultsFeatureToggles(),
-        purchaseValidator: StoreKitPurchaseValidator())
+        purchaseValidator: StoreKitPurchaseTracker())
 #else
     public static let instance = DefaultAvailabilityChecker(
         userFeatureToggles: UserDefaultsFeatureToggles(),
@@ -33,12 +34,16 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
 
     /// We store the last result of availability checks here
     private var availabilityCache: [FeaturePath:Bool] = [:]
+    
     private let cacheAccessQueue = DispatchQueue(label: "tools.flint.availability-checker")
-
+    
     /// Initialise the availability checker with the supplied feature toggle and purchase validator implementations.
-    public init(userFeatureToggles: UserFeatureToggles?, purchaseValidator: PurchaseValidator?) {
+    public init(userFeatureToggles: UserFeatureToggles?, purchaseValidator: PurchaseTracker?) {
         self.userFeatureToggles = userFeatureToggles
         self.purchaseValidator = purchaseValidator
+        
+        // Observe
+        purchaseValidator?.addObserver(self)
     }
     
     /// Return whether or not the feature is enabled, accordig to its `availability` type.
@@ -48,6 +53,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         }
     }
     
+    func invalidate() {
+        return cacheAccessQueue.sync {
+            return availabilityCache.removeAll()
+        }
+    }
+    
+    /// - note: Must only be called on the cacheAccessQueue
     private func _isAvailable(_ feature: ConditionalFeatureDefinition.Type) -> Bool? {
         let featureIdentifier = feature.identifier
         
@@ -76,7 +88,7 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         }
         
         if let conditionalParent = feature.parent as? ConditionalFeatureDefinition.Type {
-            if let parentAvailable = isAvailable(conditionalParent) {
+            if let parentAvailable = _isAvailable(conditionalParent) {
                 seemsAvailable = seemsAvailable && parentAvailable
             } else {
                 return nil
@@ -89,10 +101,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
             }
         }
         
+        // Store it in the cache, if we had any kind of concrete result.
+        // Invalidation must occur if we want to re-check in future
         availabilityCache[featureIdentifier] = seemsAvailable
         return seemsAvailable
     }
 
+    /// - note: Must only be called on the cacheAccessQueue
     private func _isAvailable(_ feature: FeatureDefinition.Type) -> Bool? {
         if let conditionalParent = feature.parent as? ConditionalFeatureDefinition.Type {
             if let parentAvailable = _isAvailable(conditionalParent) {
@@ -105,5 +120,11 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         } else {
             return true // non-conditional features with no parent are always availabler
         }
+    }
+}
+
+extension DefaultAvailabilityChecker: PurchaseTrackerObserver {
+    public func purchaseStatusDidChange(productID: String, isPurchased: Bool) {
+        invalidate()
     }
 }
