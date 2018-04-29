@@ -82,7 +82,16 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         // The child should now be available
         XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) == true)
     }
+    
+    func testPermissions() {
+        Flint.setup(ParentFeatureA.self)
+        
+        // At first we don't know if the parent is purchased
+        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPermissionRequirements.self) == false)
+
+    }
 }
+
 
 fileprivate let productA = Product(name: "Product A", description: "This is product A", productID: "PROD-A")
 fileprivate let productB = Product(name: "Product B", description: "This is product B", productID: "PROD-B")
@@ -115,7 +124,8 @@ final private class ParentFeatureA: FeatureGroup {
     static var description: String = ""
 
     static var subfeatures: [FeatureDefinition.Type] = [
-        ConditionalFeatureB.self
+        ConditionalFeatureB.self,
+        ConditionalFeatureWithPermissionRequirements.self
     ]
     
     static func prepare(actions: FeatureActionsBuilder) {
@@ -136,6 +146,20 @@ final private class ConditionalFeatureC: ConditionalFeature {
 final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature {
     static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productC))
     
+    static var description: String = ""
+    
+    static var subfeatures: [FeatureDefinition.Type] = [
+        ConditionalFeatureC.self
+    ]
+    
+    static func prepare(actions: FeatureActionsBuilder) {
+    }
+}
+
+final private class ConditionalFeatureWithPermissionRequirements: ConditionalFeature, PermissionsRequired {
+    static var availability: FeatureAvailability = .custom(isAvailable: { true })
+    static var requiredPermissions: Set<Permission> = [.camera]
+
     static var description: String = ""
     
     static var subfeatures: [FeatureDefinition.Type] = [

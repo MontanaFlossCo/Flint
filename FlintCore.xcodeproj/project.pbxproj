@@ -298,6 +298,10 @@
 		49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
 		49891EB32094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
 		49891EB42094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */; };
+		49891EB62094CAA300B9BCBF /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB52094CAA300B9BCBF /* Permissions.swift */; };
+		49891EB72094CAA300B9BCBF /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB52094CAA300B9BCBF /* Permissions.swift */; };
+		49891EB82094CAA300B9BCBF /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB52094CAA300B9BCBF /* Permissions.swift */; };
+		49891EB92094CAA300B9BCBF /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49891EB52094CAA300B9BCBF /* Permissions.swift */; };
 		498A894C2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
 		498A894D2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
 		498A894E2068FF5200457D66 /* TimelineFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A894B2068FF5200457D66 /* TimelineFeature.swift */; };
@@ -500,6 +504,7 @@
 		49839CE82046D1CA00C0AED3 /* DebugReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReportable.swift; sourceTree = "<group>"; };
 		49839CEC2046D1D500C0AED3 /* DebugReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReporting.swift; sourceTree = "<group>"; };
 		49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseTrackerObserver.swift; sourceTree = "<group>"; };
+		49891EB52094CAA300B9BCBF /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
 		498A894B2068FF5200457D66 /* TimelineFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineFeature.swift; sourceTree = "<group>"; };
 		498A89572069695100457D66 /* FocusFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFeature.swift; sourceTree = "<group>"; };
 		498AF6E0202729AE00AFE666 /* URLMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMapping.swift; sourceTree = "<group>"; };
@@ -725,6 +730,7 @@
 				49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */,
 				49935BCB206B901800CB2B5D /* ConditionalActionRequest.swift */,
 				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
+				49891EB52094CAA300B9BCBF /* Permissions.swift */,
 			);
 			path = "Conditional Features";
 			sourceTree = "<group>";
@@ -1240,6 +1246,7 @@
 				496F8FCC203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
+				49891EB72094CAA300B9BCBF /* Permissions.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				496F8F61203EEBB1003AB29B /* TopicPath.swift in Sources */,
 				496F8F84203EEBBA003AB29B /* UserFeatureToggles.swift in Sources */,
@@ -1351,6 +1358,7 @@
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				496F8FD7203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
+				49891EB82094CAA300B9BCBF /* Permissions.swift in Sources */,
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				496F8F70203EEBB2003AB29B /* TopicPath.swift in Sources */,
 				496F8F8D203EEBBB003AB29B /* UserFeatureToggles.swift in Sources */,
@@ -1514,6 +1522,7 @@
 				496F8F71203EEBB2003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
 				49DB926320757D9500F758DC /* AnalyticsProvider.swift in Sources */,
 				496F8F52203EEBA8003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
+				49891EB92094CAA300B9BCBF /* Permissions.swift in Sources */,
 				49BC1C4D20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				496F8F99203EEBBC003AB29B /* DefaultAvailabilityChecker.swift in Sources */,
 				496F8FC0203EEBD4003AB29B /* URLMappingsBuilder.swift in Sources */,
@@ -1572,6 +1581,7 @@
 				495B6C70202BC9280024CDFB /* Flint.swift in Sources */,
 				49DB926020757D9500F758DC /* AnalyticsProvider.swift in Sources */,
 				49CCF0CD1F8BB24000F7020E /* ActionSession.swift in Sources */,
+				49891EB62094CAA300B9BCBF /* Permissions.swift in Sources */,
 				49935BCC206B901800CB2B5D /* ConditionalActionRequest.swift in Sources */,
 				49A999FC1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift in Sources */,
 				49298241205FCC6000267A49 /* ActionOutcome.swift in Sources */,

@@ -65,9 +65,8 @@ final public class Flint {
     /// The availability checker for conditional features
     public static var availabilityChecker: AvailabilityChecker? = DefaultAvailabilityChecker.instance
     
-    /// The loggig topic for internal Flint Core logging that is not associated with Features
-    public static let coreLoggingTopic = TopicPath(["Flint", "Core"])
-
+    public static var permissionChecker: PermissionChecker? = DefaultPermissionChecker()
+    
     /// Track all the implied parents of subfeatures
     fileprivate static var featureParents: [ObjectIdentifier:FeatureGroup.Type] = [:]
 

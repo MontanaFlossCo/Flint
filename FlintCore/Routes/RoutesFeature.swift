@@ -12,12 +12,10 @@ import Foundation
 /// dispatch the appropriate App action using a Presenter provided by a `PresentationRouter`
 /// which determines how your app will present the UI required for the action.
 final public class RoutesFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .custom
+    /// Turned on by default, this can be turned off at runtime by setting it to `false`
+    public static var availability: FeatureAvailability = .custom(isAvailable: { return true })
     
     public static var description: String = "URL routes that support deep linking and custom URL schemes"
-
-    /// Turned on by default, this can be turned off at runtime by setting it to `false`
-    public static var isAvailable: Bool? = true
 
     /// The action to use to perform the URL
     public static let performIncomingURL = action(PerformIncomingURLAction.self)

@@ -70,9 +70,8 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         
         var available: Bool?
         switch feature.availability {
-            case .custom:
-                preconditionFailure("Feature \(feature) is specified with availability \".custom\" but has not overridden " +
-                                    "the \"isAvailable\" property to return whether or not it is available")
+            case .custom(let handler):
+                available = handler()
             case .userToggled:
                 available = userFeatureToggles?.isEnabled(feature)
             case .purchaseRequired(let requirement):
@@ -81,6 +80,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
                 } else {
                     return nil
                 }
+        }
+        
+        // Check the case where permissions are required
+        if available == true {
+            if let featureWithPermissions = feature as? PermissionsRequired.Type {
+                available = featureWithPermissions.permissionsFulfilled()
+            }
         }
         
         guard var seemsAvailable = available else {

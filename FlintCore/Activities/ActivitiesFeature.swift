@@ -13,13 +13,11 @@ import Foundation
 /// This provides actions used internally to publish and handle `NSUserActivity` for actions that opt-in to this by
 /// setting their `activityEligibility` property.
 public final class ActivitiesFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .custom
+    /// Set this to `false` to disable automatic user activity publishing
+    public static var availability: FeatureAvailability = .custom(isAvailable: { true })
     
     public static var description: String = "Automatic NSUserActivity publishing and handling for Handoff, Siri suggestions and Spotlight"
 
-    /// Set this to `false` to disable automatic user activity publishing
-    public static var isAvailable: Bool? = true
-    
     static var publishCurrentActionActivity = action(PublishCurrentActionActivityAction.self)
     static var handleActivity = action(HandleActivityAction.self)
     
