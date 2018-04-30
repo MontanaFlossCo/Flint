@@ -64,14 +64,20 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         let featureIdentifier = feature.identifier
         
         // Fast path
-        if let cachedAvailable = availabilityCache[featureIdentifier] {
-            return cachedAvailable
+        switch feature.availability {
+            case .runtimeEnabled:
+                // Don't use the cache for runtimeEnabled
+                break
+            default:
+                if let cachedAvailable = availabilityCache[featureIdentifier] {
+                    return cachedAvailable
+                }
         }
         
         var available: Bool?
         switch feature.availability {
-            case .custom(let handler):
-                available = handler()
+            case .runtimeEnabled:
+                available = feature.enabled
             case .userToggled:
                 available = userFeatureToggles?.isEnabled(feature)
             case .purchaseRequired(let requirement):

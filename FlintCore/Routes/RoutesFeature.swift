@@ -12,8 +12,10 @@ import Foundation
 /// dispatch the appropriate App action using a Presenter provided by a `PresentationRouter`
 /// which determines how your app will present the UI required for the action.
 final public class RoutesFeature: ConditionalFeature {
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    
     /// Turned on by default, this can be turned off at runtime by setting it to `false`
-    public static var availability: FeatureAvailability = .custom(isAvailable: { return true })
+    public static var enabled = true
     
     public static var description: String = "URL routes that support deep linking and custom URL schemes"
 

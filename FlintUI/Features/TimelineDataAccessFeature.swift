@@ -11,17 +11,17 @@ import FlintCore
 
 /// A feature that provides access to the Timeline for presenting in a UI
 final public class TimelineDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .custom
+    public static var availability: FeatureAvailability = .runtimeEnabled
     
     public static var description: String = "Provides access to the timeline of actions for debugging and reporting"
 
-    public static var isAvailable: Bool? = nil
+    public static var enabled: Bool?
     
     public static let loadInitialResults = action(LoadInitialResultsAction.self)
     public static let loadMoreResults = action(LoadMoreResultsAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        isAvailable = TimelineFeature.isAvailable
+        enabled = TimelineFeature.isAvailable
         
         actions.declare(loadInitialResults)
         actions.declare(loadMoreResults)

@@ -18,10 +18,14 @@ import Foundation
 public protocol ConditionalFeatureDefinition: FeatureDefinition {
     /// Indicates how availability of this feature is determined.
     static var availability: FeatureAvailability { get }
-    
 }
 
 public extension ConditionalFeatureDefinition {
+    /// By default features are enabled
+    static var enabled: Bool? {
+        return true
+    }
+    
     /// Check if a feature is available.
     /// - note: It is safe to invoke this from any thread or queue
     /// - see: `AvailabilityChecker`

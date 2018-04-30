@@ -14,13 +14,14 @@ import FlintCore
 final public class LogBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Focus logs"
     
-    public static var availability: FeatureAvailability = .custom
-    public static var isAvailable: Bool? { return FocusFeature.isAvailable }
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    public static var enabled: Bool?
 
     public static let show = action(ShowLogBrowserAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(show)
+         enabled = FocusFeature.isAvailable
+         actions.declare(show)
     }
 }
 

@@ -8,6 +8,9 @@
 
 import XCTest
 import FlintCore
+//#if canImport(AVFoundation)
+import AVFoundation
+//#endif
 
 class DefaultAvailabilityCheckerTests: XCTestCase {
  
@@ -83,12 +86,22 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) == true)
     }
     
+    /// Test the some of the permissions adapters
     func testPermissions() {
         Flint.setup(ParentFeatureA.self)
-        
-        // At first we don't know if the parent is purchased
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPermissionRequirements.self) == false)
 
+        print(String(reflecting: Flint.permissionChecker!))
+
+        // Check camera permissions
+#if targetEnvironment(simulator)
+        // On simulator we DO have camera permission initially
+        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
+        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
+#else
+        // On device we should NOT have camera permission initially
+        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
+        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
+#endif
     }
 }
 
@@ -125,7 +138,8 @@ final private class ParentFeatureA: FeatureGroup {
 
     static var subfeatures: [FeatureDefinition.Type] = [
         ConditionalFeatureB.self,
-        ConditionalFeatureWithPermissionRequirements.self
+        ConditionalFeatureWithCameraPermissionRequirements.self,
+        ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self
     ]
     
     static func prepare(actions: FeatureActionsBuilder) {
@@ -156,15 +170,27 @@ final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature 
     }
 }
 
-final private class ConditionalFeatureWithPermissionRequirements: ConditionalFeature, PermissionsRequired {
-    static var availability: FeatureAvailability = .custom(isAvailable: { true })
+final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature, PermissionsRequired {
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    
+    public static var enabled = true
+
     static var requiredPermissions: Set<Permission> = [.camera]
 
     static var description: String = ""
     
-    static var subfeatures: [FeatureDefinition.Type] = [
-        ConditionalFeatureC.self
-    ]
+    static func prepare(actions: FeatureActionsBuilder) {
+    }
+}
+
+final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature, PermissionsRequired {
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    
+    public static var enabled = true
+
+    static var requiredPermissions: Set<Permission> = [.photos, .location(usage: .whenInUse)]
+
+    static var description: String = ""
     
     static func prepare(actions: FeatureActionsBuilder) {
     }

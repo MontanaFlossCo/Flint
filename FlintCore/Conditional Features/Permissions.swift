@@ -21,10 +21,10 @@ public enum Permission: Hashable, Equatable {
     case calendars
     case reminders
     case homeKit
-    case health(/* ? */)
+    case health
     case motionAndFitness
     case speechRecognition
-    case location(/* always/wheninuse */)
+    case location(usage: LocationUsage)
     case bluetoothSharing
     case mediaLibrary
 }
@@ -55,9 +55,12 @@ public protocol PermissionChecker {
     func isAuthorised(for permissions: Set<Permission>) -> Bool
 
     func status(of permission: Permission) -> PermissionStatus
+
+    func requestAuthorization(for permission: Permission)
 }
 
 protocol PermissionAdapter {
+    var permission: Permission { get }
     var status: PermissionStatus { get }
     var usageDescriptionKey: String { get }
 
@@ -65,6 +68,9 @@ protocol PermissionAdapter {
 }
 
 class CameraPermissionAdapter: PermissionAdapter {
+    let permission: Permission = .camera
+    let usageDescriptionKey: String = "NSCameraUsageDescription"
+
     var status: PermissionStatus {
 #if canImport(AVFoundation)
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -77,8 +83,6 @@ class CameraPermissionAdapter: PermissionAdapter {
         return .unsupported
 #endif
     }
-
-    var usageDescriptionKey: String { return "NSCameraUsageDescription" }
 
     func requestAuthorisation() {
 #if canImport(AVFoundation)
@@ -102,10 +106,11 @@ protocol PermissionAdapterDelegate: AnyObject {
 }
 
 class PhotosPermissionAdapter: PermissionAdapter {
+    let permission: Permission = .photos
+    let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
+
     weak var delegate: PermissionAdapterDelegate?
     
-    var usageDescriptionKey: String { return "NSPhotoLibraryUsageDescription" }
-
     var status: PermissionStatus {
 #if canImport(Photos)
         switch PHPhotoLibrary.authorizationStatus() {
@@ -134,18 +139,94 @@ class PhotosPermissionAdapter: PermissionAdapter {
     }
 }
 
+public enum LocationUsage {
+    case always
+    case whenInUse
+}
+
+@objc class LocationPermissionAdapter: NSObject, PermissionAdapter, CLLocationManagerDelegate {
+    let locationManager = CLLocationManager()
+    
+    let permission: Permission
+    let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
+
+    weak var delegate: PermissionAdapterDelegate?
+    
+    var status: PermissionStatus {
+        switch CLLocationManager.authorizationStatus() {
+            case .denied: return .denied
+            case .notDetermined: return .unknown
+            case .restricted: return .restricted
+            case .authorizedAlways:
+                if case let .location(usage) = permission {
+                    return usage == .always ? .authorized : .denied
+                } else {
+                    fatalError("Location adapter has wrong type of permission")
+                }
+            case .authorizedWhenInUse:
+                if case let .location(usage) = permission {
+                    return usage == .whenInUse ? .authorized : .denied
+                } else {
+                    fatalError("Location adapter has wrong type of permission")
+                }
+        }
+    }
+    
+    public init(usage: LocationUsage) {
+        switch usage {
+            case .always: permission = .location(usage: .always)
+            case .whenInUse: permission = .location(usage: .whenInUse)
+        }
+        super.init()
+        locationManager.delegate = self
+    }
+    
+    func requestAuthorisation() {
+        guard status == .unknown else {
+            return
+        }
+        
+        guard case let .location(usage) = permission else {
+            return
+        }
+        
+        switch usage {
+            case .always:
+                locationManager.requestAlwaysAuthorization()
+            case .whenInUse:
+                locationManager.requestWhenInUseAuthorization()
+        }
+    }
+
+    // MARK: Location Manager delegate
+
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status != .notDetermined {
+            self.delegate?.permissionStatusDidChange(sender: self)
+        }
+    }
+}
+
 /// !!! TODO: Add sanity check for missing Info.plist usage descriptions?
-public class DefaultPermissionChecker: PermissionChecker {
+public class DefaultPermissionChecker: PermissionChecker, CustomDebugStringConvertible {
     private let permissionAdapters: [Permission:PermissionAdapter]
     
     public init() {
         var permissionAdapters: [Permission:PermissionAdapter] = [:]
 
+        func _add(_ adapter: PermissionAdapter) {
+            permissionAdapters[adapter.permission] = adapter
+        }
+        
 #if canImport(AVFoundation)
-        permissionAdapters[.camera] = CameraPermissionAdapter()
+        _add(CameraPermissionAdapter())
 #endif
 #if canImport(Photos)
-        permissionAdapters[.photos] = PhotosPermissionAdapter()
+        _add(PhotosPermissionAdapter())
+#endif
+#if canImport(CoreLocation)
+        _add(LocationPermissionAdapter(usage: .whenInUse))
+        _add(LocationPermissionAdapter(usage: .always))
 #endif
 
         self.permissionAdapters = permissionAdapters
@@ -169,5 +250,19 @@ public class DefaultPermissionChecker: PermissionChecker {
             fatalError("No permission adapter for \(permission)")
         }
         return adapter.status
+    }
+    
+    public func requestAuthorization(for permission: Permission) {
+        guard let adapter = permissionAdapters[permission] else {
+            fatalError("No permission adapter for \(permission)")
+        }
+        adapter.requestAuthorisation()
+    }
+
+    public var debugDescription: String {
+        let results = permissionAdapters.values.map { adapter in
+            return "\(adapter.permission): \(adapter.status)"
+        }
+        return "Current permission statuses:\n\(results.joined(separator: "\n"))"
     }
 }
