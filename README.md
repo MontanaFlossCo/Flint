@@ -4,7 +4,7 @@
 
 Building great apps for Apple platforms involves a lot of work; custom URL schemes, in-app purchases, universal links, Handoff and Siri suggestions support, tracking analytics events, feature flagging and more. These things can be fiddly and time consuming.
 
-Flint is framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
+Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
 
 We made Flint because we want people to build apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that.
 
