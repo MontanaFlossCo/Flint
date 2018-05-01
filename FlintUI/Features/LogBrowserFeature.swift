@@ -15,6 +15,7 @@ final public class LogBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Focus logs"
 
     public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.platform(id: .iOS, version: .any))
         requirements.precondition(.runtimeEnabled)
     }
 
