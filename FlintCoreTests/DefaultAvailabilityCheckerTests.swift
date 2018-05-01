@@ -12,6 +12,10 @@ import XCTest
 import AVFoundation
 //#endif
 
+/// These tests attempt to unit test the DefaultAvailabilityChecker.
+///
+/// To do this we don't want to bootstrap Flint itself, so we have to manually set up the environment
+/// and evaluate the constraints on our test features.
 class DefaultAvailabilityCheckerTests: XCTestCase {
  
     var checker: AvailabilityChecker!
