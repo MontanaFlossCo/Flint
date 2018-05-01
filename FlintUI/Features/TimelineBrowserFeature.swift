@@ -14,13 +14,14 @@ import FlintCore
 final public class TimelineBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Timeline"
     
-    public static var availability: FeatureAvailability = .custom
-    public static var isAvailable: Bool? { return TimelineFeature.isAvailable }
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    public static var enabled: Bool?
 
     public static let show = action(ShowTimelineBrowserAction.self)
     public static let hide = action(HideTimelineBrowserAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
+        enabled = TimelineFeature.isAvailable
         actions.declare(show)
         actions.declare(hide)
     }

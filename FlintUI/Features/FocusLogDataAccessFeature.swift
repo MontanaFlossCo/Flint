@@ -11,17 +11,17 @@ import FlintCore
 
 /// Provides the data for a UI that shows Focus Logs
 final public class FocusLogDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .custom
+    public static var availability: FeatureAvailability = .runtimeEnabled
     
     public static var description: String = "Provides access to the Focus logs for presenting in a UI"
 
-    public static var isAvailable: Bool? = nil
+    public static var enabled: Bool?
     
     public static let loadInitialResults = action(LoadInitialResultsAction.self)
     public static let loadMoreResults = action(LoadMoreResultsAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        isAvailable = FocusFeature.isAvailable
+        enabled = FocusFeature.isAvailable
         
         actions.declare(loadInitialResults)
         actions.declare(loadMoreResults)

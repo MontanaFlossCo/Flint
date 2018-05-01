@@ -16,13 +16,13 @@ import Foundation
 ///
 /// - see: `Timeline.snapshot()` for access to the data gathers.
 final public class TimelineFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .custom
+    public static var availability: FeatureAvailability = .runtimeEnabled
+    
+    /// Set this to `false` at runtime to disable Timeline
+    public static var enabled = true
     
     public static var description: String = "Maintains an in-memory timeline of actions for debugging and reporting"
 
-    /// Set this to `false` at runtime to disable Timeline
-    public static var isAvailable: Bool? = true
-    
     public static func prepare(actions: FeatureActionsBuilder) {
         if isAvailable == true {
             // Tracks the user's history of actions performed

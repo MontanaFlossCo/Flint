@@ -64,15 +64,20 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         let featureIdentifier = feature.identifier
         
         // Fast path
-        if let cachedAvailable = availabilityCache[featureIdentifier] {
-            return cachedAvailable
+        switch feature.availability {
+            case .runtimeEnabled:
+                // Don't use the cache for runtimeEnabled
+                break
+            default:
+                if let cachedAvailable = availabilityCache[featureIdentifier] {
+                    return cachedAvailable
+                }
         }
         
         var available: Bool?
         switch feature.availability {
-            case .custom:
-                preconditionFailure("Feature \(feature) is specified with availability \".custom\" but has not overridden " +
-                                    "the \"isAvailable\" property to return whether or not it is available")
+            case .runtimeEnabled:
+                available = feature.enabled
             case .userToggled:
                 available = userFeatureToggles?.isEnabled(feature)
             case .purchaseRequired(let requirement):
@@ -81,6 +86,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
                 } else {
                     return nil
                 }
+        }
+        
+        // Check the case where permissions are required
+        if available == true {
+            if let featureWithPermissions = feature as? PermissionsRequired.Type {
+                available = featureWithPermissions.permissionsFulfilled()
+            }
         }
         
         guard var seemsAvailable = available else {

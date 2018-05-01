@@ -18,21 +18,18 @@ import Foundation
 public protocol ConditionalFeatureDefinition: FeatureDefinition {
     /// Indicates how availability of this feature is determined.
     static var availability: FeatureAvailability { get }
-    
-    /// This property determines whether or not this feature is currently available.
-    /// A nil value indicates that availability is not yet known, and actions of this feature cannot yet be used.
-    /// During startup this may be the case for A/B tested or IAP dependent features where the networking or receipt
-    /// validation has not yet completed.
-    static var isAvailable: Bool? { get }
 }
 
 public extension ConditionalFeatureDefinition {
-    /// Override this in your own features (with a more specific extension and YourFeature base class?)
-    /// to use a custom checker instance that does not use the default validators
+    /// By default features are enabled
+    static var enabled: Bool? {
+        return true
+    }
+    
+    /// Check if a feature is available.
     /// - note: It is safe to invoke this from any thread or queue
     /// - see: `AvailabilityChecker`
     static var isAvailable: Bool? {
         return Flint.availabilityChecker?.isAvailable(self)
     }
 }
-
