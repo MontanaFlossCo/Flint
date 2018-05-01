@@ -26,10 +26,10 @@ import Foundation
 /// ...and so on. This allows you to map Feature availability to a range of different product pricing strategies and relationships,
 /// such as "Basic" level of subscription plus a "Founder" IAP that maybe offered to unlock all features in future for a one-off purchase,
 /// provided they still have a basic subscription.
-public class PurchaseRequirement {
+public class PurchaseRequirement: Hashable, Equatable {
     
     /// An enum type that determines how a products are matched.
-    public enum Criteria {
+    public enum Criteria: Hashable, Equatable {
         /// The requirement rule will be met if any of the products have been purchased
         case any
 
@@ -95,5 +95,17 @@ public class PurchaseRequirement {
         } else {
             return matched
         }
+    }
+    
+    // MARK: Hashable & Equatable Conformances
+    
+    public var hashValue: Int {
+        return products.hashValue ^ matchingCriteria.hashValue
+    }
+    
+    public static func ==(lhs: PurchaseRequirement, rhs: PurchaseRequirement) -> Bool {
+        return lhs.products == rhs.products &&
+            lhs.matchingCriteria == rhs.matchingCriteria &&
+            lhs.dependencies == rhs.dependencies
     }
 }

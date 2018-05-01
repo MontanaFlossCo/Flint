@@ -18,7 +18,7 @@ import Foundation
 ///
 /// - note: We use class semantics here so that the app can subclass it to include additional properties as required
 /// for the purchasing mechanism they use.
-public class Product: Hashable {
+public class Product: Hashable, Equatable {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription"
     public let name: String
