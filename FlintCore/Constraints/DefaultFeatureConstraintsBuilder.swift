@@ -10,7 +10,7 @@ import Foundation
 
 public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
     private var preconditions: Set<FeaturePrecondition> = []
-    private var permissions: Set<Permission> = []
+    private var permissions: Set<SystemPermission> = []
 
     public func build(_ block: (FeatureConstraintsBuilder) -> ()) -> FeatureConstraints {
         block(self)
@@ -21,8 +21,7 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
         preconditions.insert(requirement)
     }
 
-    public func permission(_ permission: Permission) {
+    public func permission(_ permission: SystemPermission) {
         permissions.insert(permission)
     }
 }
-

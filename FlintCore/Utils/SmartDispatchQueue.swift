@@ -40,6 +40,7 @@ public class SmartDispatchQueue {
     }
     
     /// Perform a block synchronously, without crashing if called on the same queue as this smart queue
+    @discardableResult
     public func sync<T>(execute block: () -> T) -> T {
         if isCurrentQueue {
             return block()

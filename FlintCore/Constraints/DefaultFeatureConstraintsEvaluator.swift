@@ -56,11 +56,11 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
 
     public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> (satisfied: FeatureConstraints, unsatisfied: FeatureConstraints, unknown: FeatureConstraints) {
         var satisfiedPreconditions: Set<FeaturePrecondition> = []
-        var satisfiedPermissions: Set<Permission> = []
+        var satisfiedPermissions: Set<SystemPermission> = []
         var unsatisfiedPreconditions: Set<FeaturePrecondition> = []
-        var unsatisfiedPermissions: Set<Permission> = []
+        var unsatisfiedPermissions: Set<SystemPermission> = []
         var unknownPreconditions: Set<FeaturePrecondition> = []
-        var unknownPermissions: Set<Permission> = []
+        var unknownPermissions: Set<SystemPermission> = []
 
         let featureIdentifier = feature.identifier
 

@@ -11,5 +11,5 @@ import Foundation
 public protocol FeatureConstraintsBuilder {
     func precondition(_ requirement: FeaturePrecondition)
 
-    func permission(_ permission: Permission)
+    func permission(_ permission: SystemPermission)
 }

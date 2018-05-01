@@ -10,10 +10,10 @@ import Foundation
 
 public struct FeatureConstraints  {
     let preconditions: Set<FeaturePrecondition>
-    let permissions: Set<Permission>
+    let permissions: Set<SystemPermission>
     let isEmpty: Bool
     
-    public init(preconditions: Set<FeaturePrecondition>, permissions: Set<Permission>) {
+    public init(preconditions: Set<FeaturePrecondition>, permissions: Set<SystemPermission>) {
         self.preconditions = preconditions
         self.permissions = permissions
         isEmpty = preconditions.isEmpty && permissions.isEmpty
