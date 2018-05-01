@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import FlintCore
+@testable import FlintCore
 //#if canImport(AVFoundation)
 import AVFoundation
 //#endif
@@ -18,91 +18,115 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     var fakeToggles: MockUserToggles!
     var fakePurchases: MockPurchaseValidator!
     var evaluator: DefaultFeatureConstraintsEvaluator!
+    var permissionChecker: PermissionChecker!
     
     override func setUp() {
         super.setUp()
-        
+
+        // We should never actually be hitting Flint...
         Flint.resetForTesting()
+
+        DefaultLoggerFactory.setup(initialDebugLogLevel: .debug, initialProductionLogLevel: .debug, briefLogging: true)
+        Logging.development?.level = .debug
 
         fakeToggles = MockUserToggles()
         fakePurchases = MockPurchaseValidator()
-        evaluator = DefaultFeatureConstraintsEvaluator(purchaseTracker: fakePurchases, userToggles: fakeToggles)
+        permissionChecker = DefaultPermissionChecker() // Change this to a mock
+        evaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: permissionChecker, purchaseTracker: fakePurchases, userToggles: fakeToggles)
         checker = DefaultAvailabilityChecker(constraintsEvaluator: evaluator)
+
+        evaluateConventions(of: ConditionalFeatureA.self)
+        evaluateConventions(of: ConditionalParentFeatureA.self)
+        evaluateConventions(of: ConditionalFeatureB.self)
+        evaluateConventions(of: ConditionalFeatureC.self)
+        evaluateConventions(of: ConditionalFeatureWithCameraPermissionRequirements.self)
+        evaluateConventions(of: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self)
     }
     
     override func tearDown() {
         super.tearDown()
     }
     
+    /// Do the work that Flint would do to set up the constraints etc. for our custom checker here,
+    /// as we are not testing the full Flint stack, just the availability checker parts.
+    func evaluateConventions(of feature: FeatureDefinition.Type) {
+        if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
+            let builder = DefaultFeatureConstraintsBuilder()
+            let constraints = builder.build(conditionalFeature.constraints)
+            evaluator.set(constraints: constraints, for: conditionalFeature)
+        }
+    }
+    
     func testAvailabilityOfRootFeatureThatIsUnavailableAndThenPurchased() {
         // At first we don't know
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
         fakePurchases.confirmNotPurchased(productA)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == false)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), false)
 
         // Then we purchase
         fakePurchases.makeFakePurchase(productA)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == true)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), true)
     }
 
     func testAvailabilityOfChildFeatureThatIsUnavailableAndThenPurchased() {
-        Flint.setup(ParentFeatureA.self)
-        
         // At first we don't know
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), nil)
 
         // Then we know we don't have it (data loaded)
         fakePurchases.confirmNotPurchased(productB)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == false)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), false)
 
         // Then we purchase
         fakePurchases.makeFakePurchase(productB)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == true)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), true)
     }
 
     /// Verify that all the conditional features in the ancestry need to be purchased for
     /// the child to be available.
     func testAvailabilityOfChildFeatureWithParentThatIsUnavailableAndThenPurchased() {
-        Flint.setup(ConditionalParentFeatureA.self)
-        
         // At first we don't know if the parent is purchased
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
         fakePurchases.confirmNotPurchased(productC)
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == false)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), false)
 
         // Then we purchase the parent
         fakePurchases.makeFakePurchase(productC)
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == true)
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), true)
 
         // The child should still not be available, as the child itself has not been purchased
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) != true)
+        XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), true)
 
         // Purchase the child
         fakePurchases.makeFakePurchase(productD)
+        checker.invalidate()
 
         // The child should now be available
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) == true)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), true)
     }
     
     /// Test the some of the permissions adapters
     func testPermissions() {
-        Flint.setup(ParentFeatureA.self)
-
-        print(String(reflecting: Flint.permissionChecker!))
+        print(String(reflecting: permissionChecker!))
 
         // Check camera permissions
 #if targetEnvironment(simulator)
         // On simulator we DO have camera permission initially
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), nil)
 #else
         // On device we should NOT have camera permission initially
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
 #endif
     }
 }
@@ -178,7 +202,7 @@ final private class ConditionalFeatureWithCameraPermissionRequirements: Conditio
     static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.precondition(.runtimeEnabled)
         
-//        requirements.permission(.camera)
+        requirements.permission(.camera)
     }
     
     public static var enabled = true
@@ -193,9 +217,86 @@ final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirement
     static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.precondition(.runtimeEnabled)
         
-//        requirements.permission(.photos)
-//        requirements.permission(.location(usage: .whenInUse))
+        requirements.permission(.camera)
+        requirements.permission(.location(usage: .whenInUse))
     }
+
+/*
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        // ---- Baseline 1 ----
+        requirements.precondition(.platform(id: .iOS, version: .atLeast(version: 9)))
+        requirements.precondition(.runtimeEnabled)
+        requirements.precondition(.userToggled(defultValue: true))
+        requirements.precondition(.purchase(requirement: [productA]))
+
+        requirements.permission(.photos)
+        requirements.permission(.location(usage: .whenInUse))
+
+        requirements.customPermission(MyPermissions.githubOAuthWriteAccess)
+
+        requirements.appState(.background)
+        requirements.appState(.foreground)
+        
+        requirements.capability(.locationHeadingAvailable)
+
+        requirements.withPlatform(.iOS, version: .atLeast(version: 10)) {
+            requirements.capability(.locationSignificantChangeMonitoring)
+        }
+        
+        requirements.withPlatform(.macOS, version: .atLeast(version: "10.12")) {
+            requirements.permission(.location(usage: .whenInUse))
+        }
+        
+        // ---- Refinement 1 ----
+        requirements.preconditions = [
+            .platform(id: .iOS, version: .atLeast(version: 9)),
+            .runtimeEnabled,
+            .userToggled,
+            .purchase(requirement: [productA])
+        ]
+        
+        requirements.permissions = [.photos, .location(usage: .whenInUse)]
+
+        requirements.customPermissioms = [MyPermissions.githubOAuthWriteAccess]
+
+        requirements.appStates = [.background, .foreground]
+
+        requirements.capabilities = [.locationHeadingAvailable]
+
+        requirements.iOS(.atLeast(version: 10)) {
+            requirements.capabilities = [.locationSignificantChangeMonitoring]
+        }
+        
+        requirements.macOS(.atLeast(version: "10.12")) {
+            requirements.permissions = [.location(usage: .whenInUse)]
+        }
+        
+        // ---- Refinement 2 ----
+        requirements.runtimeEnabled()
+        requirements.userToggled(defaultValue: true)
+        requirements.platform(.iOS, .atLeast(version: 9))
+        requirements.purchase(productA)
+        
+        requirements.photos()
+        requirements.location(usage: .whenInUse)
+
+        requirements.customPermissions(MyPermissions.githubOAuthWriteAccess, ...)
+
+        requirements.background()
+        requirements.foreground()
+
+        requirements.locationHeadingAvailable()
+
+        requirements.iOS.atLeast(10) {
+            requirements.locationSignificantChangeMonitoring()
+        }
+        
+        requirements.macOS.atLeast("10.12") {
+            requirements.location(usage: .whenInUse)
+        }
+    }
+ */
+
     public static var enabled = true
 
     static var description: String = ""

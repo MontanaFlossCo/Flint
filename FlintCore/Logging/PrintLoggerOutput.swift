@@ -32,7 +32,10 @@ public class PrintLoggerImplementation: LoggerOutput {
         let date = dateFormatter.string(from: event.date)
         
         let level = event.level.description
-        let text = "\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text) | State: \(event.context.arguments ?? "nil")"
+        var text = "\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)"
+        if let arguments = event.context.arguments {
+            text.append(" | State: \(arguments)")
+        }
         
         // Ensure we don't corrupt stdout
         DispatchQueue.main.async {

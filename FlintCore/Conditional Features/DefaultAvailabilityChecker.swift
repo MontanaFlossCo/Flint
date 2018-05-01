@@ -50,12 +50,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         // Fast path
         if constraintsEvaluator.canCacheResult(for: feature),
                 let cachedAvailable = availabilityCache[featureIdentifier] {
+            FlintInternal.logger?.debug("Availability check on \(featureIdentifier) returning cached value of isAvailable: \(cachedAvailable)")
             return cachedAvailable
         }
         
         var available: Bool?
         let (satisfied, unsatisfied, unknown) = constraintsEvaluator.evaluate(for: feature)
-        
+
         switch (satisfied.isEmpty, unsatisfied.isEmpty, unknown.isEmpty) {
             case (_, true, true): available = true
             case (_, false, true): available = false
@@ -86,6 +87,8 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         // Store it in the cache, if we had any kind of concrete result.
         // Invalidation must occur if we want to re-check in future
         availabilityCache[featureIdentifier] = seemsAvailable
+        
+        FlintInternal.logger?.debug("Availability check on \(featureIdentifier) resulted in isAvailable: \(seemsAvailable)")
         return seemsAvailable
     }
 
