@@ -59,7 +59,7 @@ public class FeatureDetailViewController: UITableViewController {
         let type: FeatureDefinition.Type
         let isConditional: Bool
         let isAvailable: Bool?
-        let availability: FeatureAvailability?
+        let constraints: String?
         let hasSubfeatures: Bool
         let hasActions: Bool
     }
@@ -129,7 +129,7 @@ public class FeatureDetailViewController: UITableViewController {
                                 case .some(let value): availableNow = value ? "Yes" : "No"
                                 case .none: availableNow = "<unknown>"
                             }
-                            cell.detailTextLabel?.text = "\(availableNow) (\(conditionalFeature.availability))"
+                            cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
                         } else {
                             cell.detailTextLabel?.text = "Always (not conditional)"
                         }
@@ -277,11 +277,11 @@ public class FeatureDetailViewController: UITableViewController {
         }
         let isConditional = featureType is ConditionalFeatureDefinition.Type
         let isAvailable = (featureType as? ConditionalFeatureDefinition.Type)?.isAvailable
-        let availability = (featureType as? ConditionalFeatureDefinition.Type)?.availability
+        let constraints = isConditional ? Flint.constraintsEvaluator.description(for: featureType as! ConditionalFeatureDefinition.Type) : nil
         return SubfeatureInfo(type: featureType,
                               isConditional: isConditional,
                               isAvailable: isAvailable,
-                              availability: availability,
+                              constraints: constraints,
                               hasSubfeatures: hasSubfeatures,
                               hasActions: hasActions)
     }

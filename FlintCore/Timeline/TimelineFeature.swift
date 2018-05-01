@@ -16,8 +16,10 @@ import Foundation
 ///
 /// - see: `Timeline.snapshot()` for access to the data gathers.
 final public class TimelineFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+    }
+
     /// Set this to `false` at runtime to disable Timeline
     public static var enabled = true
     

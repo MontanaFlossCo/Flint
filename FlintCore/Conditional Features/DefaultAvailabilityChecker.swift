@@ -18,32 +18,16 @@ import Foundation
 ///
 /// This class implements the `PurchaseRequirement` logic to test if they are all met for features that require purchases.
 public class DefaultAvailabilityChecker: AvailabilityChecker {
-    public let userFeatureToggles: UserFeatureToggles?
-    public let purchaseValidator: PurchaseTracker?
+    public let constraintsEvaluator: ConstraintsEvaluator
     
-    /// Default shared instance using the default validators
-#if !os(watchOS)
-    public static let instance = DefaultAvailabilityChecker(
-        userFeatureToggles: UserDefaultsFeatureToggles(),
-        purchaseValidator: StoreKitPurchaseTracker())
-#else
-    public static let instance = DefaultAvailabilityChecker(
-        userFeatureToggles: UserDefaultsFeatureToggles(),
-        purchaseValidator: nil)
-#endif
-
     /// We store the last result of availability checks here
     private var availabilityCache: [FeaturePath:Bool] = [:]
     
     private let cacheAccessQueue = DispatchQueue(label: "tools.flint.availability-checker")
     
     /// Initialise the availability checker with the supplied feature toggle and purchase validator implementations.
-    public init(userFeatureToggles: UserFeatureToggles?, purchaseValidator: PurchaseTracker?) {
-        self.userFeatureToggles = userFeatureToggles
-        self.purchaseValidator = purchaseValidator
-        
-        // Observe
-        purchaseValidator?.addObserver(self)
+    public init(constraintsEvaluator: ConstraintsEvaluator) {
+        self.constraintsEvaluator = constraintsEvaluator
     }
     
     /// Return whether or not the feature is enabled, accordig to its `availability` type.
@@ -53,7 +37,7 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         }
     }
     
-    func invalidate() {
+    public func invalidate() {
         return cacheAccessQueue.sync {
             return availabilityCache.removeAll()
         }
@@ -64,28 +48,18 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         let featureIdentifier = feature.identifier
         
         // Fast path
-        switch feature.availability {
-            case .runtimeEnabled:
-                // Don't use the cache for runtimeEnabled
-                break
-            default:
-                if let cachedAvailable = availabilityCache[featureIdentifier] {
-                    return cachedAvailable
-                }
+        if constraintsEvaluator.canCacheResult(for: feature),
+                let cachedAvailable = availabilityCache[featureIdentifier] {
+            return cachedAvailable
         }
         
         var available: Bool?
-        switch feature.availability {
-            case .runtimeEnabled:
-                available = feature.enabled
-            case .userToggled:
-                available = userFeatureToggles?.isEnabled(feature)
-            case .purchaseRequired(let requirement):
-                if let validator = purchaseValidator {
-                    available = requirement.isFulfilled(validator: validator)
-                } else {
-                    return nil
-                }
+        let (satisfied, unsatisfied, unknown) = constraintsEvaluator.evaluate(for: feature)
+        
+        switch (satisfied.isEmpty, unsatisfied.isEmpty, unknown.isEmpty) {
+            case (_, true, true): available = true
+            case (_, false, true): available = false
+            case (_, _, false): available = nil
         }
         
         // Check the case where permissions are required

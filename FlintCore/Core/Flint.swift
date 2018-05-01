@@ -31,18 +31,11 @@ final public class Flint {
     /// The metadata for only the conditional features
     /// - see: `FlintUI.FeatureBrowserFeature`
     public static var conditionalFeatures: Set<FeatureMetadata> {
-        // Detect DEBUG builds and set this so that developers can toggle *all* conditional
-        // features, even IAPs or A/B tested variants
-        let developerMode = false
         return allFeatures.filter { (anyFeature) -> Bool in
-            guard let ConditionalFeatureDefinition = anyFeature.feature as? ConditionalFeatureDefinition.Type else {
+            guard let _ = anyFeature.feature as? ConditionalFeatureDefinition.Type else {
                 return false
             }
-            let availability =  ConditionalFeatureDefinition.availability
-            switch availability {
-                case .userToggled: return true
-                default: return developerMode
-            }
+            return true
         }
     }
     
@@ -57,15 +50,17 @@ final public class Flint {
     /// let appUrl = Flint.linkCreator.appLink(to: MyFeature.someAction, with: someInput)
     /// let webUrl = Flint.linkCreator.universalLink(to: MyFeature.someAction, with: someInput)
     /// ```
-    public static var linkCreator: LinkCreator?
+    public static var linkCreator: LinkCreator!
     
     /// The dispatcher for all actions
     public static var dispatcher: ActionDispatcher = DefaultActionDispatcher()
     
     /// The availability checker for conditional features
-    public static var availabilityChecker: AvailabilityChecker? = DefaultAvailabilityChecker.instance
+    public static var availabilityChecker: AvailabilityChecker!
     
-    public static var permissionChecker: PermissionChecker? = DefaultPermissionChecker()
+    public static var permissionChecker: PermissionChecker! = DefaultPermissionChecker()
+
+    public static var constraintsEvaluator: ConstraintsEvaluator!
     
     /// Track all the implied parents of subfeatures
     fileprivate static var featureParents: [ObjectIdentifier:FeatureGroup.Type] = [:]
@@ -119,6 +114,11 @@ final public class Flint {
         createMetadata(for: feature)
         let builder = ActionsBuilder(feature: feature)
         feature.prepare(actions: builder)
+        if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
+            let builder = DefaultConstraintsBuilder()
+            let constraints = builder.build(conditionalFeature.constraints)
+            constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+        }
         _registerUrlMappings(feature: feature)
     }
 
@@ -288,12 +288,34 @@ final public class Flint {
 /// Internal helper functions
 extension Flint {
     static var isSetup = false
+    static var preconditionChangeObserver: PreconditionChangeObserver!
+    static var userFeatureToggles: UserFeatureToggles!
+    static var purchaseTracker: PurchaseTracker?
     
     /// This must always be called at startup, via one of the public setup functions,
     /// after all other features have been prepared
     static func commonSetup() {
+#if !os(watchOS)
+        let userFeatureToggles = UserDefaultsFeatureToggles()
+        let purchaseTracker: PurchaseTracker? = StoreKitPurchaseTracker()
+#else
+        let userFeatureToggles = UserDefaultsFeatureToggles()
+        let purchaseTracker: PurchaseTracker? = nil
+#endif
+        
+        constraintsEvaluator = DefaultConstraintsEvaluator(purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
+        
+        if availabilityChecker == nil {
+            availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
+        }
+
+        preconditionChangeObserver = PreconditionChangeObserver(availabilityChecker: availabilityChecker)
+        purchaseTracker?.addObserver(preconditionChangeObserver!)
+        userFeatureToggles.addObserver(preconditionChangeObserver!)
+        
         register(FlintFeatures.self)
         isSetup = true
+        
         preflightCheck()
     }
 
@@ -348,5 +370,21 @@ public extension Flint {
         allFeatures = []
         featureParents = [:]
         isSetup = false
+    }
+}
+
+class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObserver {
+    let availabilityChecker: AvailabilityChecker
+    
+    init(availabilityChecker: AvailabilityChecker) {
+        self.availabilityChecker = availabilityChecker
+    }
+    
+    func purchaseStatusDidChange(productID: String, isPurchased: Bool) {
+        availabilityChecker.invalidate()
+    }
+    
+    func userFeatureTogglesDidChange() {
+        availabilityChecker.invalidate()
     }
 }

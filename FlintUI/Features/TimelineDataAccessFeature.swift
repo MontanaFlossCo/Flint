@@ -11,9 +11,11 @@ import FlintCore
 
 /// A feature that provides access to the Timeline for presenting in a UI
 final public class TimelineDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
     public static var description: String = "Provides access to the timeline of actions for debugging and reporting"
+
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+    }
 
     public static var enabled: Bool?
     

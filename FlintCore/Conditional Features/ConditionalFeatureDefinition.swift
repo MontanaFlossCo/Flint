@@ -16,12 +16,14 @@ import Foundation
 ///
 /// - note: Accesses to any properties that may change at runtime, e.g. `isAvailable` must only occur on the main thread.
 public protocol ConditionalFeatureDefinition: FeatureDefinition {
-    /// Indicates how availability of this feature is determined.
-    static var availability: FeatureAvailability { get }
+    /// Called to define the requirements of this feature
+    /// - see: `FeatureConstraintsBuilder` for the functions you can call to define constraints
+    static func constraints(requirements: FeatureConstraintsBuilder)
 }
 
 public extension ConditionalFeatureDefinition {
-    /// By default features are enabled
+    /// By default features with a runtime precondition are enabled.
+    /// Override this in your own types to set it to something else at runtime.
     static var enabled: Bool? {
         return true
     }

@@ -27,5 +27,10 @@ public protocol AvailabilityChecker {
     /// - return: `nil` if the state of this feature or its ancestors is not yet known, or
     /// a boolean value indicating whether or not this feature and all its ancestors are available.
     func isAvailable(_ feature: ConditionalFeatureDefinition.Type) -> Bool?
+    
+    /// Force the availability checker to throw away any cached results.
+    /// This must be called if anything that affects feature availability changes, e.g. a product is purchased,
+    /// a receipt expires, a user turns off a feature, or grants a system permission like Location tracking
+    func invalidate()
 }
 

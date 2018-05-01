@@ -17,8 +17,16 @@ import Foundation
 /// If you want to store your feature toggles differently, implement this protocol and assign your own
 /// instance of `DefaultAvailabilityChecker` to `Flint.availabilityChecker` at startup.
 public protocol UserFeatureToggles {
-    /// Must return whether or not the feature should currently be enabled for the user.
-    func isEnabled(_ feature: ConditionalFeatureDefinition.Type) -> Bool
+    /// Call to add an observer for changes to user toggles
+    func addObserver(_ observer: UserFeatureTogglesObserver)
+
+    /// Call to remove an observer for changes to user toggles
+    func removeObserver(_ observer: UserFeatureTogglesObserver)
+
+    /// Checke if a feature is enabled.
+    /// - return: Whether or not the feature should currently be enabled for the user.
+    /// If the user has not set a preference, return nil
+    func isEnabled(_ feature: ConditionalFeatureDefinition.Type) -> Bool?
     
     /// Must set the enabled status of the feature for the current user, and persist this.
     func setEnabled(_ feature: ConditionalFeatureDefinition.Type, enabled: Bool)
