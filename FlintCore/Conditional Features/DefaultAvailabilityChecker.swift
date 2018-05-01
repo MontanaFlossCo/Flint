@@ -62,17 +62,13 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
             case (_, _, false): available = nil
         }
         
-        // Check the case where permissions are required
-        if available == true {
-            if let featureWithPermissions = feature as? PermissionsRequired.Type {
-                available = featureWithPermissions.permissionsFulfilled()
-            }
-        }
-        
+        // If it is nil we need to get out here, we don't want to waste any more time checking ancestors
+        // and we do't want to cache the results
         guard var seemsAvailable = available else {
             return nil
         }
         
+        // Check ancestors, if necessary
         if let conditionalParent = feature.parent as? ConditionalFeatureDefinition.Type {
             if let parentAvailable = _isAvailable(conditionalParent) {
                 seemsAvailable = seemsAvailable && parentAvailable

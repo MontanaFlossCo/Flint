@@ -29,20 +29,6 @@ public enum Permission: Hashable, Equatable {
     case mediaLibrary
 }
 
-public protocol PermissionsRequired {
-    static var requiredPermissions: Set<Permission> { get }
-}
-
-public extension PermissionsRequired {
-    public static func permissionsFulfilled() -> Bool {
-        return Flint.permissionChecker?.isAuthorised(for: requiredPermissions) ?? false
-    }
-    
-    public static func permissionsUnfulfilled() -> Set<Permission> {
-        return []
-    }
-}
-
 public enum PermissionStatus {
     case unknown
     case authorized

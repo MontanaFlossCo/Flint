@@ -17,7 +17,8 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     var checker: AvailabilityChecker!
     var fakeToggles: MockUserToggles!
     var fakePurchases: MockPurchaseValidator!
-
+    var evaluator: DefaultFeatureConstraintsEvaluator!
+    
     override func setUp() {
         super.setUp()
         
@@ -25,7 +26,8 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
 
         fakeToggles = MockUserToggles()
         fakePurchases = MockPurchaseValidator()
-        checker = DefaultAvailabilityChecker(userFeatureToggles: fakeToggles, purchaseValidator: fakePurchases)
+        evaluator = DefaultFeatureConstraintsEvaluator(purchaseTracker: fakePurchases, userToggles: fakeToggles)
+        checker = DefaultAvailabilityChecker(constraintsEvaluator: evaluator)
     }
     
     override func tearDown() {
@@ -113,10 +115,10 @@ fileprivate let productD = Product(name: "Product D", description: "This is prod
 
 final private class ConditionalFeatureA: ConditionalFeature {
     static var description: String = ""
-    
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productA))
-    
-    static var isAvailable: Bool? = false
+
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productA)))
+    }
 
     static func prepare(actions: FeatureActionsBuilder) {
     }    
@@ -125,9 +127,9 @@ final private class ConditionalFeatureA: ConditionalFeature {
 final private class ConditionalFeatureB: ConditionalFeature {
     static var description: String = ""
     
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productB))
-    
-    static var isAvailable: Bool? = false
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productB)))
+    }
 
     static func prepare(actions: FeatureActionsBuilder) {
     }
@@ -149,16 +151,18 @@ final private class ParentFeatureA: FeatureGroup {
 final private class ConditionalFeatureC: ConditionalFeature {
     static var description: String = ""
     
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productD))
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productD)))
+    }
     
-    static var isAvailable: Bool? = false
-
     static func prepare(actions: FeatureActionsBuilder) {
     }
 }
 
 final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature {
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productC))
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productC)))
+    }
     
     static var description: String = ""
     
@@ -170,12 +174,14 @@ final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature 
     }
 }
 
-final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature, PermissionsRequired {
-    public static var availability: FeatureAvailability = .runtimeEnabled
+final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature {
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+        
+//        requirements.permission(.camera)
+    }
     
     public static var enabled = true
-
-    static var requiredPermissions: Set<Permission> = [.camera]
 
     static var description: String = ""
     
@@ -183,12 +189,14 @@ final private class ConditionalFeatureWithCameraPermissionRequirements: Conditio
     }
 }
 
-final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature, PermissionsRequired {
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
+final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature {
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+        
+//        requirements.permission(.photos)
+//        requirements.permission(.location(usage: .whenInUse))
+    }
     public static var enabled = true
-
-    static var requiredPermissions: Set<Permission> = [.photos, .location(usage: .whenInUse)]
 
     static var description: String = ""
     

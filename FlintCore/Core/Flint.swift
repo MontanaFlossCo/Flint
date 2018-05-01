@@ -115,7 +115,7 @@ final public class Flint {
         let builder = ActionsBuilder(feature: feature)
         feature.prepare(actions: builder)
         if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
-            let builder = DefaultConstraintsBuilder()
+            let builder = DefaultFeatureConstraintsBuilder()
             let constraints = builder.build(conditionalFeature.constraints)
             constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
         }
@@ -303,7 +303,7 @@ extension Flint {
         let purchaseTracker: PurchaseTracker? = nil
 #endif
         
-        constraintsEvaluator = DefaultConstraintsEvaluator(purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
+        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
         
         if availabilityChecker == nil {
             availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
