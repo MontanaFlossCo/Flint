@@ -54,7 +54,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         }
     }
 
-    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> (satisfied: FeatureConstraints, unsatisfied: FeatureConstraints, unknown: FeatureConstraints) {
+    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureEvaluationResult {
         var satisfiedPreconditions: Set<FeaturePrecondition> = []
         var satisfiedPermissions: Set<SystemPermission> = []
         var unsatisfiedPreconditions: Set<FeaturePrecondition> = []
@@ -121,8 +121,9 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             }
         }
         
-        return (satisfied: FeatureConstraints(preconditions: satisfiedPreconditions, permissions: satisfiedPermissions),
-                unsatisfied: FeatureConstraints(preconditions: unsatisfiedPreconditions, permissions: unsatisfiedPermissions),
-                unknown: FeatureConstraints(preconditions: unknownPreconditions, permissions: unknownPermissions))
+        return FeatureEvaluationResult(
+            satisfied: FeatureConstraints(preconditions: satisfiedPreconditions, permissions: satisfiedPermissions),
+            unsatisfied: FeatureConstraints(preconditions: unsatisfiedPreconditions, permissions: unsatisfiedPermissions),
+            unknown: FeatureConstraints(preconditions: unknownPreconditions, permissions: unknownPermissions))
     }
 }

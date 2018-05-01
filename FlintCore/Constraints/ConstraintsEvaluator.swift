@@ -8,6 +8,12 @@
 
 import Foundation
 
+public struct FeatureEvaluationResult {
+    let satisfied: FeatureConstraints
+    let unsatisfied: FeatureConstraints
+    let unknown: FeatureConstraints
+}
+
 public protocol ConstraintsEvaluator {
     func description(for feature: ConditionalFeatureDefinition.Type) -> String
     
@@ -15,6 +21,6 @@ public protocol ConstraintsEvaluator {
 
     func canCacheResult(for feature: ConditionalFeatureDefinition.Type) -> Bool
     
-    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> (satisfied: FeatureConstraints, unsatisfied: FeatureConstraints, unknown: FeatureConstraints)
+    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureEvaluationResult
 }
 

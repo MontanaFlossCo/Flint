@@ -19,9 +19,7 @@ import AVFoundation
 class DefaultAvailabilityCheckerTests: XCTestCase {
  
     var checker: AvailabilityChecker!
-    var fakeToggles: MockUserToggles!
-    var fakePurchases: MockPurchaseValidator!
-    var evaluator: DefaultFeatureConstraintsEvaluator!
+    var evaluator: MockFeatureConstraintsEvaluator!
     var permissionChecker: PermissionChecker!
     
     override func setUp() {
@@ -33,10 +31,7 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         DefaultLoggerFactory.setup(initialDebugLogLevel: .debug, initialProductionLogLevel: .debug, briefLogging: true)
         Logging.development?.level = .debug
 
-        fakeToggles = MockUserToggles()
-        fakePurchases = MockPurchaseValidator()
-        permissionChecker = DefaultPermissionChecker() // Change this to a mock
-        evaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: permissionChecker, purchaseTracker: fakePurchases, userToggles: fakeToggles)
+        evaluator = MockFeatureConstraintsEvaluator()
         checker = DefaultAvailabilityChecker(constraintsEvaluator: evaluator)
 
         evaluateConventions(of: ConditionalFeatureA.self)
@@ -66,12 +61,12 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productA)
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), false)
 
         // Then we purchase
-        fakePurchases.makeFakePurchase(productA)
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), true)
     }
@@ -81,12 +76,12 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productB)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), false)
 
         // Then we purchase
-        fakePurchases.makeFakePurchase(productB)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), true)
     }
@@ -98,12 +93,12 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productC)
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), false)
 
         // Then we purchase the parent
-        fakePurchases.makeFakePurchase(productC)
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), true)
 
@@ -111,7 +106,7 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), true)
 
         // Purchase the child
-        fakePurchases.makeFakePurchase(productD)
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
         checker.invalidate()
 
         // The child should now be available
@@ -123,15 +118,20 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         print(String(reflecting: permissionChecker!))
 
         // Check camera permissions
-#if targetEnvironment(simulator)
-        // On simulator we DO have camera permission initially
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unknown: [.camera]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unknown: [.photos, .location(usage: .whenInUse)]))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), nil)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), nil)
-#else
-        // On device we should NOT have camera permission initially
+        
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: [.camera]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: [.photos, .location(usage: .whenInUse)]))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
-#endif
+
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: [.camera]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: [.photos, .location(usage: .whenInUse)]))
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
     }
 }
 

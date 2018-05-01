@@ -184,6 +184,9 @@
 		496136DF2099028F00291885 /* LocationUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136DD2099028F00291885 /* LocationUsage.swift */; };
 		496136E02099028F00291885 /* LocationUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136DD2099028F00291885 /* LocationUsage.swift */; };
 		496136E12099028F00291885 /* LocationUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136DD2099028F00291885 /* LocationUsage.swift */; };
+		496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */; };
+		496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */; };
+		496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */; };
 		496267B41F8BC14D002C83F2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 496267B31F8BC14D002C83F2 /* README.md */; };
 		49647D372037434B005F9825 /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		49647D3920374DE1005F9825 /* ActionStackEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3820374DE1005F9825 /* ActionStackEntry.swift */; };
@@ -628,6 +631,7 @@
 		496136D32099015900291885 /* LocationPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionAdapter.swift; sourceTree = "<group>"; };
 		496136D82099017400291885 /* DefaultPermissionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPermissionChecker.swift; sourceTree = "<group>"; };
 		496136DD2099028F00291885 /* LocationUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUsage.swift; sourceTree = "<group>"; };
+		496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeatureConstraintsEvaluator.swift; sourceTree = "<group>"; };
 		496267B31F8BC14D002C83F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPurchaseTracker.swift; sourceTree = "<group>"; };
 		49647D3820374DE1005F9825 /* ActionStackEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackEntry.swift; sourceTree = "<group>"; };
@@ -809,6 +813,7 @@
 			children = (
 				4915336A2093B7A800B1E4D2 /* MockUserToggles.swift */,
 				4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */,
+				496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */,
 			);
 			path = "Mocks and Helpers";
 			sourceTree = "<group>";
@@ -1641,6 +1646,7 @@
 				4915336C2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				4929822A205D67A100267A49 /* DummyFeature.swift in Sources */,
 				491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1778,6 +1784,7 @@
 				4915336D2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				4929822B205D67A100267A49 /* DummyFeature.swift in Sources */,
 				491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2051,6 +2058,7 @@
 				4915336B2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				49298229205D67A100267A49 /* DummyFeature.swift in Sources */,
 				4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
