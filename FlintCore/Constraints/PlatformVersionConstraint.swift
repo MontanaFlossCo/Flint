@@ -39,5 +39,14 @@ public enum PlatformVersionConstraint: Hashable, Equatable, ExpressibleByInteger
         }
         self = .atLeast(version: OperatingSystemVersion(majorVersion: major, minorVersion: minor, patchVersion: patch))
     }
+
+    public var isCurrentCompatible: Bool {
+        switch self {
+            case .any:
+                return true
+            case .atLeast(let version):
+                return ProcessInfo.processInfo.isOperatingSystemAtLeast(version)
+        }
+    }
 }
 

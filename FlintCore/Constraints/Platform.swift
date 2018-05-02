@@ -13,4 +13,33 @@ public enum Platform: Hashable, Equatable {
     case watchOS
     case tvOS
     case macOS
+    
+    public var isCurrentPlatform: Bool {
+        switch self {
+            case .iOS:
+#if os(iOS)
+                return true
+#else
+                return false
+#endif
+            case .watchOS:
+#if os(watchOS)
+                return true
+#else
+                return false
+#endif
+            case .tvOS:
+#if os(tvOS)
+                return true
+#else
+                return false
+#endif
+            case .macOS:
+#if os(macOS)
+                return true
+#else
+                return false
+#endif
+        }
+    }
 }
