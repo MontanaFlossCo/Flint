@@ -20,7 +20,6 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
  
     var checker: AvailabilityChecker!
     var evaluator: MockFeatureConstraintsEvaluator!
-    var permissionChecker: PermissionChecker!
     
     override func setUp() {
         super.setUp()
@@ -57,31 +56,43 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     }
     
     func testAvailabilityOfRootFeatureThatIsUnavailableAndThenPurchased() {
+        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productA))])
+        
         // At first we don't know
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
+                                      result: FeatureEvaluationResult(unknown: precondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
+                                      result: FeatureEvaluationResult(unsatisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), false)
 
         // Then we purchase
-        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(satisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), true)
     }
 
     func testAvailabilityOfChildFeatureThatIsUnavailableAndThenPurchased() {
+        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productB))])
+        
+        // Then we know we don't have it (data loaded)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(unknown: precondition))
         // At first we don't know
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), nil)
 
         // Then we know we don't have it (data loaded)
-        evaluator.setEvaluationResult(for: ConditionalFeatureB.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(unsatisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), false)
 
         // Then we purchase
-        evaluator.setEvaluationResult(for: ConditionalFeatureB.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(satisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), true)
     }
@@ -89,47 +100,69 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     /// Verify that all the conditional features in the ancestry need to be purchased for
     /// the child to be available.
     func testAvailabilityOfChildFeatureWithParentThatIsUnavailableAndThenPurchased() {
+        let productCPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC))])
+        let productDPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productD))])
+        let productCandDPrecondition = FeatureConstraints([
+            FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC)),
+            .purchase(requirement: PurchaseRequirement(productD))
+        ])
+
         // At first we don't know if the parent is purchased
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(unknown: productCPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self, result: FeatureEvaluationResult(unsatisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(unsatisfied: productCPrecondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), false)
 
         // Then we purchase the parent
-        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(satisfied: productCPrecondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), true)
 
+        // Mark all the requirements as unsatisfied
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCPrecondition))
+        checker.invalidate()
         // The child should still not be available, as the child itself has not been purchased
-        XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), true)
+        XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), false)
 
-        // Purchase the child
-        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: [.purchase]))
+        // Purchase the child but not the parent
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productDPrecondition, unsatisfied: productCPrecondition, unknown: .empty))
         checker.invalidate()
 
-        // The child should now be available
+        // The child should NOT be available as the parent is still not available
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), false)
+
+        // Purchase the child AND the parent
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCandDPrecondition))
+        checker.invalidate()
+
+        // The child should NOT be available as the parent is still not available
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), true)
+
     }
     
     /// Test the some of the permissions adapters
     func testPermissions() {
-        print(String(reflecting: permissionChecker!))
-
         // Check camera permissions
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unknown: [.camera]))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unknown: [.photos, .location(usage: .whenInUse)]))
+        let cameraPrecondition = FeatureConstraints([SystemPermission.camera])
+        let photosLocationPrecondition = FeatureConstraints([SystemPermission.photos, .location(usage: .whenInUse)])
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unknown: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unknown: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), nil)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), nil)
         
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: [.camera]))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: [.photos, .location(usage: .whenInUse)]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
 
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: [.camera]))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: [.photos, .location(usage: .whenInUse)]))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
     }
@@ -224,82 +257,6 @@ final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirement
         requirements.permission(.camera)
         requirements.permission(.location(usage: .whenInUse))
     }
-
-/*
-    static func constraints(requirements: FeatureConstraintsBuilder) {
-        // ---- Baseline 1 ----
-        requirements.precondition(.platform(id: .iOS, version: .atLeast(version: 9)))
-        requirements.precondition(.runtimeEnabled)
-        requirements.precondition(.userToggled(defultValue: true))
-        requirements.precondition(.purchase(requirement: [productA]))
-
-        requirements.permission(.photos)
-        requirements.permission(.location(usage: .whenInUse))
-
-        requirements.customPermission(MyPermissions.githubOAuthWriteAccess)
-
-        requirements.appState(.background)
-        requirements.appState(.foreground)
-        
-        requirements.capability(.locationHeadingAvailable)
-
-        requirements.withPlatform(.iOS, version: .atLeast(version: 10)) {
-            requirements.capability(.locationSignificantChangeMonitoring)
-        }
-        
-        requirements.withPlatform(.macOS, version: .atLeast(version: "10.12")) {
-            requirements.permission(.location(usage: .whenInUse))
-        }
-        
-        // ---- Refinement 1 ----
-        requirements.preconditions = [
-            .platform(id: .iOS, version: .atLeast(version: 9)),
-            .runtimeEnabled,
-            .userToggled,
-            .purchase(requirement: [productA])
-        ]
-        
-        requirements.permissions = [.photos, .location(usage: .whenInUse)]
-
-        requirements.customPermissioms = [MyPermissions.githubOAuthWriteAccess]
-
-        requirements.appStates = [.background, .foreground]
-
-        requirements.capabilities = [.locationHeadingAvailable]
-
-        requirements.iOS(.atLeast(version: 10)) {
-            requirements.capabilities = [.locationSignificantChangeMonitoring]
-        }
-        
-        requirements.macOS(.atLeast(version: "10.12")) {
-            requirements.permissions = [.location(usage: .whenInUse)]
-        }
-        
-        // ---- Refinement 2 ----
-        requirements.runtimeEnabled()
-        requirements.userToggled(defaultValue: true)
-        requirements.platform(.iOS, .atLeast(version: 9))
-        requirements.purchase(productA)
-        
-        requirements.photos()
-        requirements.location(usage: .whenInUse)
-
-        requirements.customPermissions(MyPermissions.githubOAuthWriteAccess, ...)
-
-        requirements.background()
-        requirements.foreground()
-
-        requirements.locationHeadingAvailable()
-
-        requirements.iOS.atLeast(10) {
-            requirements.locationSignificantChangeMonitoring()
-        }
-        
-        requirements.macOS.atLeast("10.12") {
-            requirements.location(usage: .whenInUse)
-        }
-    }
- */
 
     public static var enabled = true
 
