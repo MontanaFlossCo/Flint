@@ -15,7 +15,7 @@ final public class ActionStackBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the active Action Stacks"
     
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.iOS(.any))
+        requirements.iOS = .any
     }
 
     public static let show = action(ShowActionStackBrowserAction.self)

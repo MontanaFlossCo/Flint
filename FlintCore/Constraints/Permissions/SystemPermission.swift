@@ -11,6 +11,10 @@ import Foundation
 public enum SystemPermission: Permission {
     case camera
     case photos
+    case location(usage: LocationUsage)
+
+// The rest of these are "coming soon"
+/*
     case contacts
     case calendars
     case reminders
@@ -18,8 +22,9 @@ public enum SystemPermission: Permission {
     case health
     case motionAndFitness
     case speechRecognition
-    case location(usage: LocationUsage)
     case bluetoothSharing
     case mediaLibrary
+*/
+
 }
 
