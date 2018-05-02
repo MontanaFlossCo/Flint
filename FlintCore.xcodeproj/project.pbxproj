@@ -519,6 +519,9 @@
 		49F2CF221FF7B56B004F16EF /* NoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF211FF7B56B004F16EF /* NoPresenter.swift */; };
 		49F2CF241FF7EB2C004F16EF /* ConditionalActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */; };
 		49F2CF261FF7EB78004F16EF /* NoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF251FF7EB78004F16EF /* NoInput.swift */; };
+		49F37A37209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */; };
+		49F37A38209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */; };
+		49F37A39209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -738,6 +741,7 @@
 		49F2CF211FF7B56B004F16EF /* NoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPresenter.swift; sourceTree = "<group>"; };
 		49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalActionBinding.swift; sourceTree = "<group>"; };
 		49F2CF251FF7EB78004F16EF /* NoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInput.swift; sourceTree = "<group>"; };
+		49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintsBuilderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1137,6 +1141,7 @@
 				49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */,
 				49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */,
 				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
+				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -1645,6 +1650,7 @@
 				496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */,
 				4915336C2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				4929822A205D67A100267A49 /* DummyFeature.swift in Sources */,
+				49F37A38209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
@@ -1783,6 +1789,7 @@
 				496F8F31203EEA06003AB29B /* FlintCore_macOSTests.swift in Sources */,
 				4915336D2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				4929822B205D67A100267A49 /* DummyFeature.swift in Sources */,
+				49F37A39209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
@@ -2057,6 +2064,7 @@
 				49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */,
 				4915336B2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				49298229205D67A100267A49 /* DummyFeature.swift in Sources */,
+				49F37A37209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);

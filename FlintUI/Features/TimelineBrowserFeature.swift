@@ -15,7 +15,7 @@ final public class TimelineBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Timeline"
     
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.platform(id: .iOS, version: .any))
+        requirements.precondition(.iOS(.any))
         requirements.precondition(.runtimeEnabled)
     }
 

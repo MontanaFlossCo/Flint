@@ -14,6 +14,11 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
 
     public func build(_ block: (FeatureConstraintsBuilder) -> ()) -> FeatureConstraints {
         block(self)
+        
+        // !!! TODO: Sanity checks
+        // 1. Veryify there aren't conflicting platform requirements for the same platform ID i.e. iOS 9 and iOS .any
+        
+        
         return FeatureConstraints(preconditions: preconditions, permissions: permissions)
     }
     
@@ -24,4 +29,5 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
     public func permission(_ permission: SystemPermission) {
         permissions.insert(permission)
     }
+
 }

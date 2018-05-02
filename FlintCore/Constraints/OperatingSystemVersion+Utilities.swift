@@ -20,7 +20,7 @@ extension OperatingSystemVersion: Hashable, Equatable {
     public static func ==(lhs: OperatingSystemVersion, rhs: OperatingSystemVersion) -> Bool {
         return lhs.majorVersion == rhs.majorVersion &&
             lhs.minorVersion == rhs.minorVersion &&
-            lhs.patchVersion == rhs.minorVersion
+            lhs.patchVersion == rhs.patchVersion
     }
     
     public var hashValue: Int {

@@ -15,7 +15,7 @@ final public class FeatureBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Features and Actions of the app"
     
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.platform(id: .iOS, version: .any))
+        requirements.precondition = [.iOS(10), .macOS("10.12"), .tvOS]
     }
 
     public static let show = action(ShowFeatureBrowserAction.self)

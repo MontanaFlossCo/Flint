@@ -75,8 +75,14 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                 let evaluator: FeaturePreconditionEvaluator
                 
                 switch precondition {
-                    case .platform(_, _):
-                        evaluator = platformEvaluator
+                    case .platform(id, _):
+                        if id.isCurrentPlatform {
+                            evaluator = platformEvaluator
+                        } else {
+                            // Skip this requirement, it isn't our current platform!
+                            continue
+                        }
+                    }
                     case .purchase(_):
                         guard let purchaseEvaluator = purchaseEvaluator else {
                             fatalError("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
