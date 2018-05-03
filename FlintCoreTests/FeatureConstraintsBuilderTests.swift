@@ -34,14 +34,15 @@ class FeatureConstraintsBuilderTests: XCTestCase {
     func testPlatformVersionsAdditive() {
     
         let constraints = evaluate { builder in
-            builder.preconditions(.iOS)
-            builder.precondition(.macOS("10.13"))
-            builder.precondition(.tvOS(11))
-            builder.precondition(.watchOS(.any))
+            builder.platform(.init(platform: .iOS, version: .any))
+            builder.platform(.init(platform: .macOS, version: "10.13"))
+            builder.platform(.init(platform: .tvOS, version: 11))
+            builder.platform(.init(platform: .watchOS, version: .any))
         }
      
         func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.preconditions.contains(.platform(id: id, version: version)), "Expected to find \(id) with \(version) but didn't")
+            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                          "Expected to find \(id) with \(version) but didn't")
         }
 
         _assertContains(.iOS, .any)
@@ -60,7 +61,8 @@ class FeatureConstraintsBuilderTests: XCTestCase {
         }
      
         func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.preconditions.contains(.platform(id: id, version: version)), "Expected to find \(id) with \(version) but didn't")
+            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                          "Expected to find \(id) with \(version) but didn't")
         }
 
         _assertContains(.iOS, .atLeast(version: 11))
@@ -69,14 +71,15 @@ class FeatureConstraintsBuilderTests: XCTestCase {
         _assertContains(.watchOS, .any)
     }
 
-    func testAnyPlatformVersions() {
+    func testAnyPlatformVersionsAreDefault() {
     
         let constraints = evaluate { builder in
-            builder.preconditions(.iOS, .macOS, .tvOS, .watchOS)
+            // Nothing, default is specified as .any
         }
      
         func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.preconditions.contains(.platform(id: id, version: version)))
+            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                          "Expected to find \(id) with \(version) but didn't")
         }
 
         _assertContains(.iOS, .any)
@@ -85,19 +88,43 @@ class FeatureConstraintsBuilderTests: XCTestCase {
         _assertContains(.watchOS, .any)
     }
 
-    func testAtLeastIntPlatformVersions() {
+    func testAtLeastIntPlatformVersionsProperties() {
     
         let constraints = evaluate { builder in
-            builder.preconditions(.iOS(10), .macOS(13), .tvOS(11), .watchOS(9))
+            builder.iOS = 10
+            builder.macOS = 10
+            builder.tvOS = 11
+            builder.watchOS = 4
         }
      
         func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.preconditions.contains(.platform(id: id, version: version)))
+            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                          "Expected to find \(id) with \(version) but didn't")
         }
 
         _assertContains(.iOS, .atLeast(version: 10))
-        _assertContains(.macOS, .atLeast(version: 13))
+        _assertContains(.macOS, .atLeast(version: 10))
         _assertContains(.tvOS, .atLeast(version: 11))
-        _assertContains(.watchOS, .atLeast(version: 9))
+        _assertContains(.watchOS, .atLeast(version: 4))
+    }
+
+    func testAtLeastStringPlatformVersionsProperties() {
+    
+        let constraints = evaluate { builder in
+            builder.iOS = "10.1"
+            builder.macOS = "10.13"
+            builder.tvOS = "11.2"
+            builder.watchOS = "4.1"
+        }
+     
+        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
+            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                          "Expected to find \(id) with \(version) but didn't")
+        }
+
+        _assertContains(.iOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 1, patchVersion: 0)))
+        _assertContains(.macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
+        _assertContains(.tvOS, .atLeast(version: OperatingSystemVersion(majorVersion: 11, minorVersion: 2, patchVersion: 0)))
+        _assertContains(.watchOS, .atLeast(version: OperatingSystemVersion(majorVersion: 4, minorVersion: 1, patchVersion: 0)))
     }
 }

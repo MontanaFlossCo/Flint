@@ -9,19 +9,26 @@
 import Foundation
 
 public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
+    private var platformCompatibility: [Platform:PlatformConstraint] = [:]
     private var preconditions: Set<FeaturePrecondition> = []
     private var permissions: Set<SystemPermission> = []
 
     public func build(_ block: (FeatureConstraintsBuilder) -> ()) -> FeatureConstraints {
+        for platform in Platform.all {
+            self.platform(PlatformConstraint(platform: platform, version: .any))
+        }
+
         block(self)
         
-        // !!! TODO: Sanity checks
-        // 1. Veryify there aren't conflicting platform requirements for the same platform ID i.e. iOS 9 and iOS .any
-        
-        
-        return FeatureConstraints(preconditions: preconditions, permissions: permissions)
+        return FeatureConstraints(allDeclaredPlatforms: platformCompatibility,
+                                  preconditions: preconditions,
+                                  permissions: permissions)
     }
     
+    public func platform(_ requirement: PlatformConstraint) {
+        platformCompatibility[requirement.platform] = requirement
+    }
+
     public func precondition(_ requirement: FeaturePrecondition) {
         preconditions.insert(requirement)
     }

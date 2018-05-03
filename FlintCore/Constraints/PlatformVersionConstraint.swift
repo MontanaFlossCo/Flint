@@ -8,10 +8,11 @@
 
 import Foundation
 
-public enum PlatformVersionConstraint: Hashable, Equatable, ExpressibleByIntegerLiteral, ExpressibleByStringLiteral {
+public enum PlatformVersionConstraint: Hashable, Equatable, CustomStringConvertible, ExpressibleByIntegerLiteral, ExpressibleByStringLiteral {
     case any
     case atLeast(version: OperatingSystemVersion)
-    
+    case unsupported
+
     public typealias IntegerLiteralType = UInt
     public typealias StringLiteralType = String
     
@@ -46,6 +47,16 @@ public enum PlatformVersionConstraint: Hashable, Equatable, ExpressibleByInteger
                 return true
             case .atLeast(let version):
                 return ProcessInfo.processInfo.isOperatingSystemAtLeast(version)
+            case .unsupported:
+                return false
+        }
+    }
+    
+    public var description: String {
+        switch self {
+            case .any: return "*"
+            case .atLeast(let version): return ">= \(version)"
+            case .unsupported: return "unsupported"
         }
     }
 }

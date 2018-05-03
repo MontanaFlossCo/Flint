@@ -10,7 +10,6 @@ import Foundation
 
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     var constraintsByFeature: [FeaturePath:FeatureConstraints] = [:]
-    var platformEvaluator: FeaturePreconditionEvaluator = PlatformPreconditionEvaluator()
     var purchaseEvaluator: FeaturePreconditionEvaluator?
     var runtimeEvaluator: FeaturePreconditionEvaluator = RuntimePreconditionEvaluator()
     var userToggleEvaluator: FeaturePreconditionEvaluator?
@@ -31,7 +30,10 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     
     public func description(for feature: ConditionalFeatureDefinition.Type) -> String {
         if let constraints = accessQueue.sync(execute: { constraintsByFeature[feature.identifier] }) {
-            return String(describing: constraints)
+            let platforms = constraints.allDeclaredPlatforms.map { $0.value.description }
+            let preconditions = constraints.preconditions.map { $0.description }
+            let permissions = constraints.permissions.map { $0.description }
+            return "Platforms: \(platforms.joined(separator: ", "))\nPreconditions: \(preconditions.joined(separator: ", "))\nPermissions: \(permissions.joined(separator: ", "))"
         } else {
             return "<none>"
         }
@@ -70,18 +72,23 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             constraintsByFeature[featureIdentifier]
         }
         
+        var satisfiedPlatforms: [Platform:PlatformConstraint] = [:]
+        var unsatisfiedPlatforms: [Platform:PlatformConstraint] = [:]
+        
         if let constraints = knownConstraints {
+            for platformConstraint in constraints.currentPlatforms.values {
+                // Only add evaluator for our current platform
+                if platformConstraint.platform.isCurrentPlatform && platformConstraint.version.isCurrentCompatible {
+                    satisfiedPlatforms[platformConstraint.platform] = platformConstraint
+                } else {
+                    unsatisfiedPlatforms[platformConstraint.platform] = platformConstraint
+                }
+            }
+        
             for precondition in constraints.preconditions {
                 let evaluator: FeaturePreconditionEvaluator
                 
                 switch precondition {
-                    case .platform(let id, _):
-                        if id.isCurrentPlatform {
-                            evaluator = platformEvaluator
-                        } else {
-                            // Skip this requirement, it isn't our current platform!
-                            continue
-                        }
                     case .purchase(_):
                         guard let purchaseEvaluator = purchaseEvaluator else {
                             fatalError("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
@@ -126,9 +133,18 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             }
         }
         
-        return FeatureEvaluationResult(
-            satisfied: FeatureConstraints(preconditions: satisfiedPreconditions, permissions: satisfiedPermissions),
-            unsatisfied: FeatureConstraints(preconditions: unsatisfiedPreconditions, permissions: unsatisfiedPermissions),
-            unknown: FeatureConstraints(preconditions: unknownPreconditions, permissions: unknownPermissions))
+        let satisfied = FeatureConstraints(allDeclaredPlatforms: satisfiedPlatforms,
+                                           preconditions: satisfiedPreconditions,
+                                           permissions: satisfiedPermissions)
+        let unsatisfied = FeatureConstraints(allDeclaredPlatforms: unsatisfiedPlatforms,
+                                            preconditions: unsatisfiedPreconditions,
+                                            permissions: unsatisfiedPermissions)
+        let unknown = FeatureConstraints(allDeclaredPlatforms: [:],
+                                        preconditions: unknownPreconditions,
+                                        permissions: unknownPermissions)
+        
+        return FeatureEvaluationResult(satisfied: satisfied,
+                                       unsatisfied: unsatisfied,
+                                       unknown: unknown)
     }
 }

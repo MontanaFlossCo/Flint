@@ -14,6 +14,20 @@ public enum Platform: Hashable, Equatable {
     case tvOS
     case macOS
     
+    public static let all: [Platform] = [iOS, watchOS, tvOS, macOS]
+    
+    public static var current: Platform {
+#if os(iOS)
+        return .iOS
+#elseif os(watchOS)
+        return .watchOS
+#elseif os(tvOS)
+        return .tvOS
+#elseif os(macOS)
+        return .macOS
+#endif
+    }
+    
     public var isCurrentPlatform: Bool {
         switch self {
             case .iOS:

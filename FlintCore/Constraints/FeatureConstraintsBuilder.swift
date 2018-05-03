@@ -9,11 +9,14 @@
 import Foundation
 
 public protocol FeatureConstraintsBuilder: AnyObject {
+    func platform(_ requirement: PlatformConstraint)
+
     func precondition(_ requirement: FeaturePrecondition)
 
     func permission(_ permission: SystemPermission)
 }
 
+/// Syntactic sugar
 public extension FeatureConstraintsBuilder {
     public func preconditions(_ requirements: FeaturePrecondition...) {
         for requirement in requirements {
@@ -32,7 +35,7 @@ public extension FeatureConstraintsBuilder {
             fatalError("Not supported, you can only assign in this DSL")
         }
         set {
-            self.precondition(.platform(id: .iOS, version: newValue))
+            self.platform(.init(platform: .iOS, version: newValue))
         }
     }
 
@@ -41,7 +44,7 @@ public extension FeatureConstraintsBuilder {
             fatalError("Not supported, you can only assign in this DSL")
         }
         set {
-            self.precondition(.platform(id: .watchOS, version: newValue))
+            self.platform(.init(platform: .watchOS, version: newValue))
         }
     }
 
@@ -50,7 +53,7 @@ public extension FeatureConstraintsBuilder {
             fatalError("Not supported, you can only assign in this DSL")
         }
         set {
-            self.precondition(.platform(id: .tvOS, version: newValue))
+            self.platform(.init(platform: .tvOS, version: newValue))
         }
     }
 
@@ -59,7 +62,7 @@ public extension FeatureConstraintsBuilder {
             fatalError("Not supported, you can only assign in this DSL")
         }
         set {
-            self.precondition(.platform(id: .macOS, version: newValue))
+            self.platform(.init(platform: .macOS, version: newValue))
         }
     }
 }

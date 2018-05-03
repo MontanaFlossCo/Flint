@@ -26,7 +26,7 @@ import Foundation
 /// ...and so on. This allows you to map Feature availability to a range of different product pricing strategies and relationships,
 /// such as "Basic" level of subscription plus a "Founder" IAP that maybe offered to unlock all features in future for a one-off purchase,
 /// provided they still have a basic subscription.
-public class PurchaseRequirement: Hashable, Equatable {
+public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     
     /// An enum type that determines how a products are matched.
     public enum Criteria: Hashable, Equatable {
@@ -94,6 +94,17 @@ public class PurchaseRequirement: Hashable, Equatable {
             return firstFailing == nil
         } else {
             return matched
+        }
+    }
+ 
+    public var description: String {
+        let productDescriptions = products.map { $0.description }
+        let text = "Products \(productDescriptions.joined(separator: ", ")) matching \(matchingCriteria)"
+        if let dependencies = dependencies, dependencies.count > 0 {
+            let dependencyDescriptions = dependencies.map { $0.description }
+            return text + " dependencies: \(dependencyDescriptions.joined(separator: ", "))"
+        } else {
+            return text
         }
     }
     

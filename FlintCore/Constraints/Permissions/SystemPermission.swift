@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum SystemPermission: Permission {
+public enum SystemPermission: Permission, CustomStringConvertible {
     case camera
     case photos
     case location(usage: LocationUsage)
@@ -26,5 +26,16 @@ public enum SystemPermission: Permission {
     case mediaLibrary
 */
 
+    public var description: String {
+        switch self {
+            case .camera: return "Camera"
+            case .photos: return "Photos"
+            case .location(let usage):
+                switch usage {
+                    case .whenInUse: return "Location when in use"
+                    case .always: return "Location always"
+                }
+        }
+    }
 }
 

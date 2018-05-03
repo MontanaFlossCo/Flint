@@ -114,6 +114,8 @@ public class FeatureDetailViewController: UITableViewController {
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
+        
+        // This is a bit ugly, yes it should be split out.
         switch Section(rawValue: indexPath.section)! {
             case .properties:
                 cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
@@ -122,7 +124,7 @@ public class FeatureDetailViewController: UITableViewController {
                         cell.textLabel?.text = "ID"
                         cell.detailTextLabel?.text = featureToDisplay.identifier.description
                     case .availability:
-                        cell.textLabel?.text = "Availability"
+                        cell.textLabel?.text = "Constraints"
                         if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
                             let availableNow: String
                             switch conditionalFeature.isAvailable {
@@ -131,7 +133,7 @@ public class FeatureDetailViewController: UITableViewController {
                             }
                             cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
                         } else {
-                            cell.detailTextLabel?.text = "Always (not conditional)"
+                            cell.detailTextLabel?.text = "Always (no constraints)"
                         }
                     case .visibility:
                         cell.textLabel?.text = "Visible"
@@ -187,7 +189,13 @@ public class FeatureDetailViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let section = Section(rawValue: indexPath.section)!
         switch section {
-            case .properties: return nil
+            case .properties:
+                switch Property(rawValue: indexPath.row)! {
+                    case .availability:
+                        return indexPath // Yes we can select this
+                    default:
+                        return nil
+                }
             case .features: return featureItems.count > 0 ? indexPath : nil
             case .actions:
                 selectedAction = actionItems[indexPath.item]
@@ -199,15 +207,41 @@ public class FeatureDetailViewController: UITableViewController {
         // Note that segue handling on any prototype cells will preven this being called.
         // We handle only the self-referential case where we need another Feature browser VC
         let section = Section(rawValue: indexPath.section)!
-        if section == .features {
-            let selectedFeature = featureItems[indexPath.item]
-            let nextViewController = FeatureDetailViewController.instantiate()
-            nextViewController.featureToDisplay = selectedFeature.type
-            navigationController?.pushViewController(nextViewController, animated: true)
-            selectedAction = nil
+        switch section {
+            case .features:
+                let selectedFeature = featureItems[indexPath.item]
+                let nextViewController = FeatureDetailViewController.instantiate()
+                nextViewController.featureToDisplay = selectedFeature.type
+                navigationController?.pushViewController(nextViewController, animated: true)
+                selectedAction = nil
+            case .properties:
+                if let _ = featureToDisplay! as? ConditionalFeatureDefinition.Type {
+                    showPropertyDetail(Property(rawValue: indexPath.row)!)
+                }
+            default:
+                return
         }
     }
 
+    func showPropertyDetail(_ property: Property) {
+        let text: String
+        let message: String
+        switch property {
+            case .availability:
+                text = "Constraints"
+                if let conditionalFeature = featureToDisplay! as? ConditionalFeatureDefinition.Type {
+                    message = Flint.constraintsEvaluator.description(for: conditionalFeature)
+                } else {
+                    message = "There are no constraints"
+                }
+            default:
+                fatalError("Not supported")
+        }
+        let alert = UIAlertController(title: text, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: Segues
     
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
