@@ -124,7 +124,7 @@ public class FeatureDetailViewController: UITableViewController {
                         cell.textLabel?.text = "ID"
                         cell.detailTextLabel?.text = featureToDisplay.identifier.description
                     case .availability:
-                        cell.textLabel?.text = "Constraints"
+                        cell.textLabel?.text = "Available"
                         if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
                             let availableNow: String
                             switch conditionalFeature.isAvailable {

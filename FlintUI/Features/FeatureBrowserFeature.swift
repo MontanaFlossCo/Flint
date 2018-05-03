@@ -15,9 +15,7 @@ final public class FeatureBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Features and Actions of the app"
     
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.tvOS = .unsupported
-        requirements.watchOS = .unsupported
-        requirements.macOS = .unsupported
+        requirements.iOSOnly = .any
     }
 
     public static let show = action(ShowFeatureBrowserAction.self)

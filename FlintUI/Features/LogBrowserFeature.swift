@@ -15,9 +15,7 @@ final public class LogBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Focus logs"
 
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.tvOS = .unsupported
-        requirements.watchOS = .unsupported
-        requirements.macOS = .unsupported
+        requirements.iOSOnly = .any
 
         requirements.precondition(.runtimeEnabled)
     }

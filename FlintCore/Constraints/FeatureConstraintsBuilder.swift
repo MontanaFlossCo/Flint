@@ -39,12 +39,36 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    public var iOSOnly: PlatformVersionConstraint {
+        get {
+            fatalError("Not supported, you can only assign in this DSL")
+        }
+        set {
+            self.platform(.init(platform: .macOS, version: .unsupported))
+            self.platform(.init(platform: .tvOS, version: .unsupported))
+            self.platform(.init(platform: .watchOS, version: .unsupported))
+            self.platform(.init(platform: .iOS, version: newValue))
+        }
+    }
+
     public var watchOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .watchOS, version: newValue))
+        }
+    }
+
+    public var watchOSOnly: PlatformVersionConstraint {
+        get {
+            fatalError("Not supported, you can only assign in this DSL")
+        }
+        set {
+            self.platform(.init(platform: .macOS, version: .unsupported))
+            self.platform(.init(platform: .tvOS, version: .unsupported))
+            self.platform(.init(platform: .watchOS, version: newValue))
+            self.platform(.init(platform: .iOS, version: .unsupported))
         }
     }
 
@@ -57,6 +81,18 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    public var tvOSOnly: PlatformVersionConstraint {
+        get {
+            fatalError("Not supported, you can only assign in this DSL")
+        }
+        set {
+            self.platform(.init(platform: .macOS, version: .unsupported))
+            self.platform(.init(platform: .tvOS, version: newValue))
+            self.platform(.init(platform: .watchOS, version: .unsupported))
+            self.platform(.init(platform: .iOS, version: .unsupported))
+        }
+    }
+
     public var macOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -65,4 +101,17 @@ public extension FeatureConstraintsBuilder {
             self.platform(.init(platform: .macOS, version: newValue))
         }
     }
+
+    public var macOSOnly: PlatformVersionConstraint {
+        get {
+            fatalError("Not supported, you can only assign in this DSL")
+        }
+        set {
+            self.platform(.init(platform: .macOS, version: newValue))
+            self.platform(.init(platform: .tvOS, version: .unsupported))
+            self.platform(.init(platform: .watchOS, version: .unsupported))
+            self.platform(.init(platform: .iOS, version: .unsupported))
+        }
+    }
+
 }
