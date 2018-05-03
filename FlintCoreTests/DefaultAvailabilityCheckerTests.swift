@@ -7,101 +7,164 @@
 //
 
 import XCTest
-import FlintCore
+@testable import FlintCore
 //#if canImport(AVFoundation)
 import AVFoundation
 //#endif
 
+/// These tests attempt to unit test the DefaultAvailabilityChecker.
+///
+/// To do this we don't want to bootstrap Flint itself, so we have to manually set up the environment
+/// and evaluate the constraints on our test features.
 class DefaultAvailabilityCheckerTests: XCTestCase {
  
     var checker: AvailabilityChecker!
-    var fakeToggles: MockUserToggles!
-    var fakePurchases: MockPurchaseValidator!
-
+    var evaluator: MockFeatureConstraintsEvaluator!
+    
     override func setUp() {
         super.setUp()
-        
+
+        // We should never actually be hitting Flint...
         Flint.resetForTesting()
 
-        fakeToggles = MockUserToggles()
-        fakePurchases = MockPurchaseValidator()
-        checker = DefaultAvailabilityChecker(userFeatureToggles: fakeToggles, purchaseValidator: fakePurchases)
+        DefaultLoggerFactory.setup(initialDebugLogLevel: .debug, initialProductionLogLevel: .debug, briefLogging: true)
+        Logging.development?.level = .debug
+
+        evaluator = MockFeatureConstraintsEvaluator()
+        checker = DefaultAvailabilityChecker(constraintsEvaluator: evaluator)
+
+        evaluateConventions(of: ConditionalFeatureA.self)
+        evaluateConventions(of: ConditionalParentFeatureA.self)
+        evaluateConventions(of: ConditionalFeatureB.self)
+        evaluateConventions(of: ConditionalFeatureC.self)
+        evaluateConventions(of: ConditionalFeatureWithCameraPermissionRequirements.self)
+        evaluateConventions(of: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self)
     }
     
     override func tearDown() {
         super.tearDown()
     }
     
+    /// Do the work that Flint would do to set up the constraints etc. for our custom checker here,
+    /// as we are not testing the full Flint stack, just the availability checker parts.
+    func evaluateConventions(of feature: FeatureDefinition.Type) {
+        if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
+            let builder = DefaultFeatureConstraintsBuilder()
+            let constraints = builder.build(conditionalFeature.constraints)
+            evaluator.set(constraints: constraints, for: conditionalFeature)
+        }
+    }
+    
     func testAvailabilityOfRootFeatureThatIsUnavailableAndThenPurchased() {
+        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productA))])
+        
         // At first we don't know
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == nil)
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
+                                      result: FeatureEvaluationResult(unknown: precondition))
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productA)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == false)
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
+                                      result: FeatureEvaluationResult(unsatisfied: precondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), false)
 
         // Then we purchase
-        fakePurchases.makeFakePurchase(productA)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureA.self) == true)
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(satisfied: precondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), true)
     }
 
     func testAvailabilityOfChildFeatureThatIsUnavailableAndThenPurchased() {
-        Flint.setup(ParentFeatureA.self)
+        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productB))])
         
+        // Then we know we don't have it (data loaded)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(unknown: precondition))
         // At first we don't know
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productB)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == false)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(unsatisfied: precondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), false)
 
         // Then we purchase
-        fakePurchases.makeFakePurchase(productB)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureB.self) == true)
+        evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
+                                      result: FeatureEvaluationResult(satisfied: precondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), true)
     }
 
     /// Verify that all the conditional features in the ancestry need to be purchased for
     /// the child to be available.
     func testAvailabilityOfChildFeatureWithParentThatIsUnavailableAndThenPurchased() {
-        Flint.setup(ConditionalParentFeatureA.self)
-        
+        let productCPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC))])
+        let productDPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productD))])
+        let productCandDPrecondition = FeatureConstraints([
+            FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC)),
+            .purchase(requirement: PurchaseRequirement(productD))
+        ])
+
         // At first we don't know if the parent is purchased
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == nil)
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(unknown: productCPrecondition))
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
-        fakePurchases.confirmNotPurchased(productC)
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == false)
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(unsatisfied: productCPrecondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), false)
 
         // Then we purchase the parent
-        fakePurchases.makeFakePurchase(productC)
-        XCTAssertTrue(checker.isAvailable(ConditionalParentFeatureA.self) == true)
+        evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
+                                      result: FeatureEvaluationResult(satisfied: productCPrecondition))
+        checker.invalidate()
+        XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), true)
 
+        // Mark all the requirements as unsatisfied
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCPrecondition))
+        checker.invalidate()
         // The child should still not be available, as the child itself has not been purchased
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) != true)
+        XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), false)
 
-        // Purchase the child
-        fakePurchases.makeFakePurchase(productD)
+        // Purchase the child but not the parent
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productDPrecondition, unsatisfied: productCPrecondition, unknown: .empty))
+        checker.invalidate()
 
-        // The child should now be available
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureC.self) == true)
+        // The child should NOT be available as the parent is still not available
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), false)
+
+        // Purchase the child AND the parent
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCandDPrecondition))
+        checker.invalidate()
+
+        // The child should NOT be available as the parent is still not available
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), true)
+
     }
     
     /// Test the some of the permissions adapters
     func testPermissions() {
-        Flint.setup(ParentFeatureA.self)
-
-        print(String(reflecting: Flint.permissionChecker!))
-
         // Check camera permissions
-#if targetEnvironment(simulator)
-        // On simulator we DO have camera permission initially
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
-#else
-        // On device we should NOT have camera permission initially
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self) == false)
-        XCTAssertTrue(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self) == false)
-#endif
+        let cameraPrecondition = FeatureConstraints([SystemPermission.camera])
+        let photosLocationPrecondition = FeatureConstraints([SystemPermission.photos, .location(usage: .whenInUse)])
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unknown: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unknown: photosLocationPrecondition))
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), nil)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), nil)
+        
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: photosLocationPrecondition))
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
+
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: photosLocationPrecondition))
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
+        XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
     }
 }
 
@@ -113,10 +176,10 @@ fileprivate let productD = Product(name: "Product D", description: "This is prod
 
 final private class ConditionalFeatureA: ConditionalFeature {
     static var description: String = ""
-    
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productA))
-    
-    static var isAvailable: Bool? = false
+
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productA)))
+    }
 
     static func prepare(actions: FeatureActionsBuilder) {
     }    
@@ -125,9 +188,9 @@ final private class ConditionalFeatureA: ConditionalFeature {
 final private class ConditionalFeatureB: ConditionalFeature {
     static var description: String = ""
     
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productB))
-    
-    static var isAvailable: Bool? = false
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productB)))
+    }
 
     static func prepare(actions: FeatureActionsBuilder) {
     }
@@ -149,16 +212,18 @@ final private class ParentFeatureA: FeatureGroup {
 final private class ConditionalFeatureC: ConditionalFeature {
     static var description: String = ""
     
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productD))
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productD)))
+    }
     
-    static var isAvailable: Bool? = false
-
     static func prepare(actions: FeatureActionsBuilder) {
     }
 }
 
 final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature {
-    static var availability: FeatureAvailability = .purchaseRequired(requirement: PurchaseRequirement(productC))
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.purchase(requirement: PurchaseRequirement(productC)))
+    }
     
     static var description: String = ""
     
@@ -170,12 +235,14 @@ final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature 
     }
 }
 
-final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature, PermissionsRequired {
-    public static var availability: FeatureAvailability = .runtimeEnabled
+final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature {
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+        
+        requirements.permission(.camera)
+    }
     
     public static var enabled = true
-
-    static var requiredPermissions: Set<Permission> = [.camera]
 
     static var description: String = ""
     
@@ -183,12 +250,15 @@ final private class ConditionalFeatureWithCameraPermissionRequirements: Conditio
     }
 }
 
-final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature, PermissionsRequired {
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
-    public static var enabled = true
+final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature {
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+        
+        requirements.permission(.camera)
+        requirements.permission(.location(usage: .whenInUse))
+    }
 
-    static var requiredPermissions: Set<Permission> = [.photos, .location(usage: .whenInUse)]
+    public static var enabled = true
 
     static var description: String = ""
     

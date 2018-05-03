@@ -45,16 +45,24 @@ class ViewController: UITableViewController {
         }
         
         switch indexPath.row {
-            case 0: FeatureBrowserFeature.show.perform(using: navigationController, with: .none)
+            case 0:
+                guard let request = FeatureBrowserFeature.request(FeatureBrowserFeature.show) else {
+                    preconditionFailure("Feature browser is not enabled")
+                }
+                request.perform(using: navigationController)
             case 1:
                 guard let request = TimelineBrowserFeature.request(TimelineBrowserFeature.show) else {
                     preconditionFailure("Timeline is not enabled")
                 }
                 request.perform(using: navigationController)
-            case 2: ActionStackBrowserFeature.show.perform(using: navigationController, with: .none)
+            case 2:
+                guard let request = ActionStackBrowserFeature.request(ActionStackBrowserFeature.show) else {
+                    preconditionFailure("Action Stack is not enabled")
+                }
+                request.perform(using: navigationController)
             case 3:
                 guard let request = LogBrowserFeature.request(LogBrowserFeature.show) else {
-                    preconditionFailure("Timeline is not enabled")
+                    preconditionFailure("Log Browser is not enabled")
                 }
                 request.perform(using: navigationController)
             default: preconditionFailure()

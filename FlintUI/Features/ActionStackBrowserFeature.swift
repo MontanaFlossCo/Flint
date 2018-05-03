@@ -11,9 +11,13 @@ import UIKit
 import FlintCore
 
 /// Display of the current Action Stacks
-public class ActionStackBrowserFeature: Feature {
+final public class ActionStackBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the active Action Stacks"
     
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.iOSOnly = .any
+    }
+
     public static let show = action(ShowActionStackBrowserAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {

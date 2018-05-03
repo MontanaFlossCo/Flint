@@ -14,8 +14,10 @@ import Foundation
 final public class FocusFeature: ConditionalFeature {
     public static var description: String = "Focus allows the filtering of logs and timelines by Feature and Actions"
     
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+    }
+
     /// Set this to `false` at runtime to disable the Focus feature completely
     public static var enabled = true
 

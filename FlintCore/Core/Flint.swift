@@ -31,20 +31,21 @@ final public class Flint {
     /// The metadata for only the conditional features
     /// - see: `FlintUI.FeatureBrowserFeature`
     public static var conditionalFeatures: Set<FeatureMetadata> {
-        // Detect DEBUG builds and set this so that developers can toggle *all* conditional
-        // features, even IAPs or A/B tested variants
-        let developerMode = false
         return allFeatures.filter { (anyFeature) -> Bool in
-            guard let ConditionalFeatureDefinition = anyFeature.feature as? ConditionalFeatureDefinition.Type else {
+            guard let _ = anyFeature.feature as? ConditionalFeatureDefinition.Type else {
                 return false
             }
-            let availability =  ConditionalFeatureDefinition.availability
-            switch availability {
-                case .userToggled: return true
-                default: return developerMode
-            }
+            return true
         }
     }
+    
+    /// Track all the implied parents of subfeatures
+    fileprivate static var featureParents: [ObjectIdentifier:FeatureGroup.Type] = [:]
+
+    private static var metadataAccessQueue: SmartDispatchQueue = {
+        return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.Flint.metadata"), owner: Flint.self)
+    }()
+
     
     // MARK: Dependencies
     
@@ -57,22 +58,23 @@ final public class Flint {
     /// let appUrl = Flint.linkCreator.appLink(to: MyFeature.someAction, with: someInput)
     /// let webUrl = Flint.linkCreator.universalLink(to: MyFeature.someAction, with: someInput)
     /// ```
-    public static var linkCreator: LinkCreator?
+    public static var linkCreator: LinkCreator!
     
     /// The dispatcher for all actions
     public static var dispatcher: ActionDispatcher = DefaultActionDispatcher()
     
     /// The availability checker for conditional features
-    public static var availabilityChecker: AvailabilityChecker? = DefaultAvailabilityChecker.instance
+    public static var availabilityChecker: AvailabilityChecker!
     
-    public static var permissionChecker: PermissionChecker? = DefaultPermissionChecker()
-    
-    /// Track all the implied parents of subfeatures
-    fileprivate static var featureParents: [ObjectIdentifier:FeatureGroup.Type] = [:]
+    public static var permissionChecker: SystemPermissionChecker!
 
+    public static var constraintsEvaluator: ConstraintsEvaluator!
+    
     /// Get the metadata for the specified feature
     public static func metadata(for feature: FeatureDefinition.Type) -> FeatureMetadata? {
-        return allFeatures.first { $0.feature == feature }
+        return metadataAccessQueue.sync {
+            return allFeatures.first { $0.feature == feature }
+        }
     }
     
     // MARK: Setup and convenience functions
@@ -99,7 +101,8 @@ final public class Flint {
         
         ActionSession.quickSetupMainSession()
 
-        setup(group)
+        commonSetup()
+        register(group)
     }
     
     /// Call to set up your application features and Flint's internal features.
@@ -107,8 +110,8 @@ final public class Flint {
     /// Use this only if you have manually configured your logging and action sessions.
     public static func setup(_ group: FeatureGroup.Type) {
         precondition(!isSetup, "Setup has already been called")
-        register(group)
         commonSetup()
+        register(group)
     }
     
     /// Register the feature with Flint. Call this to register specific features if they are not already
@@ -117,8 +120,17 @@ final public class Flint {
     public static func register(_ feature: FeatureDefinition.Type) {
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
         createMetadata(for: feature)
+        
+        // Evaluate the constraints before calling `prepare` - that may check its own `isAvailable` value.
+        if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
+            let builder = DefaultFeatureConstraintsBuilder()
+            let constraints = builder.build(conditionalFeature.constraints)
+            constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+        }
+
         let builder = ActionsBuilder(feature: feature)
         feature.prepare(actions: builder)
+
         _registerUrlMappings(feature: feature)
     }
 
@@ -136,7 +148,9 @@ final public class Flint {
             }
             
             // Store the parent automatically
-            featureParents[ObjectIdentifier(subfeature)] = group
+            metadataAccessQueue.sync {
+                featureParents[ObjectIdentifier(subfeature)] = group
+            }
             
             // Recurse if any of the subfeatures are groups
             if let groupType = subfeature as? FeatureGroup.Type {
@@ -276,11 +290,13 @@ final public class Flint {
             urlMappedSelf.urlMappings(routes: builder)
 
             let mappings = builder.mappings
-            guard let featureMetadata = metadata(for: feature) else {
-                preconditionFailure("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+            metadataAccessQueue.sync {
+                guard let featureMetadata = metadata(for: feature) else {
+                    preconditionFailure("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                }
+                
+                featureMetadata.setActionURLMappings(mappings)
             }
-            
-            featureMetadata.setActionURLMappings(mappings)
         }
     }
 }
@@ -288,15 +304,49 @@ final public class Flint {
 /// Internal helper functions
 extension Flint {
     static var isSetup = false
+    static var preconditionChangeObserver: PreconditionChangeObserver!
+    static var userFeatureToggles: UserFeatureToggles!
+    static var purchaseTracker: PurchaseTracker?
     
     /// This must always be called at startup, via one of the public setup functions,
     /// after all other features have been prepared
     static func commonSetup() {
+#if !os(watchOS)
+        let userFeatureToggles = UserDefaultsFeatureToggles()
+        let purchaseTracker: PurchaseTracker? = StoreKitPurchaseTracker()
+#else
+        let userFeatureToggles = UserDefaultsFeatureToggles()
+        let purchaseTracker: PurchaseTracker? = nil
+#endif
+        
+        if permissionChecker == nil {
+            permissionChecker = DefaultPermissionChecker()
+        }
+        
+        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: permissionChecker, purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
+        
+        if availabilityChecker == nil {
+            availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
+        }
+
+        preconditionChangeObserver = PreconditionChangeObserver(availabilityChecker: availabilityChecker)
+        purchaseTracker?.addObserver(preconditionChangeObserver!)
+        userFeatureToggles.addObserver(preconditionChangeObserver!)
+        
         register(FlintFeatures.self)
         isSetup = true
+        
         preflightCheck()
+        
+        outputEnvironment()
     }
 
+    static func outputEnvironment() {
+        let devLevel = Logging.development?.level ?? .none
+        let prodLevel = Logging.production?.level ?? .none
+        print("💥 Flint is setup. Logging: development=\(devLevel), production=\(prodLevel)")
+    }
+    
     /// Here we will sanity-check the setup of the Features and Actions
     static func preflightCheck() {
     }
@@ -306,47 +356,78 @@ extension Flint {
     }
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
-        guard let _ = metadata(for: feature) else {
-            preconditionFailure("prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
+        metadataAccessQueue.sync {
+            guard let _ = metadata(for: feature) else {
+                preconditionFailure("prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
+            }
         }
     }
     
     static func createMetadata(for feature: FeatureDefinition.Type) {
         let featureMetadata = FeatureMetadata(feature: feature)
-        allFeatures.insert(featureMetadata)
+        metadataAccessQueue.sync {
+            allFeatures.insert(featureMetadata)
+        }
     }
     
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
         FlintInternal.logger?.debug("Binding action \(action) to feature: \(self)")
 
         // Get the existing FeatureMetadata for the feature, create if not found
-        guard let featureMetadata = metadata(for: feature) else {
-            preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+        metadataAccessQueue.sync {
+            guard let featureMetadata = metadata(for: feature) else {
+                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.bind(action)
         }
-        
-        featureMetadata.bind(action)
     }
 
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
         FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(self)")
 
-        // Get the existing FeatureMetadata for the feature, create if not found
-        guard let featureMetadata = metadata(for: feature) else {
-            preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+        metadataAccessQueue.sync {
+            // Get the existing FeatureMetadata for the feature, create if not found
+            guard let featureMetadata = metadata(for: feature) else {
+                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.publish(action)
         }
-        
-        featureMetadata.publish(action)
     }
     
     static func parent(of feature: FeatureDefinition.Type) -> FeatureGroup.Type? {
-        return featureParents[ObjectIdentifier(feature)]
+        return metadataAccessQueue.sync {
+            return featureParents[ObjectIdentifier(feature)]
+        }
     }
 }
 
 public extension Flint {
     public static func resetForTesting() {
-        allFeatures = []
-        featureParents = [:]
+        metadataAccessQueue.sync {
+            allFeatures = []
+            featureParents = [:]
+        }
+        availabilityChecker = nil
+        permissionChecker = nil
+        constraintsEvaluator = nil
         isSetup = false
+    }
+}
+
+class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObserver {
+    let availabilityChecker: AvailabilityChecker
+    
+    init(availabilityChecker: AvailabilityChecker) {
+        self.availabilityChecker = availabilityChecker
+    }
+    
+    func purchaseStatusDidChange(productID: String, isPurchased: Bool) {
+        availabilityChecker.invalidate()
+    }
+    
+    func userFeatureTogglesDidChange() {
+        availabilityChecker.invalidate()
     }
 }

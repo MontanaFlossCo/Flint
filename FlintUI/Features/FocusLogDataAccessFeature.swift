@@ -11,9 +11,11 @@ import FlintCore
 
 /// Provides the data for a UI that shows Focus Logs
 final public class FocusLogDataAccessFeature: ConditionalFeature {
-    public static var availability: FeatureAvailability = .runtimeEnabled
-    
     public static var description: String = "Provides access to the Focus logs for presenting in a UI"
+
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.precondition(.runtimeEnabled)
+    }
 
     public static var enabled: Bool?
     

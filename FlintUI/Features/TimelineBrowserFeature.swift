@@ -14,7 +14,12 @@ import FlintCore
 final public class TimelineBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Timeline"
     
-    public static var availability: FeatureAvailability = .runtimeEnabled
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.iOSOnly = .any
+
+        requirements.precondition(.runtimeEnabled)
+    }
+
     public static var enabled: Bool?
 
     public static let show = action(ShowTimelineBrowserAction.self)

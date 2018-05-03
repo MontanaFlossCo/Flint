@@ -11,9 +11,13 @@ import UIKit
 import FlintCore
 
 /// Provides a UI for browsing the features and actions registered in the application
-public class FeatureBrowserFeature: Feature {
+final public class FeatureBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Features and Actions of the app"
     
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.iOSOnly = .any
+    }
+
     public static let show = action(ShowFeatureBrowserAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {

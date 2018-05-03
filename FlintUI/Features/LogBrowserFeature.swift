@@ -13,8 +13,13 @@ import FlintCore
 /// Probides a UI for browsing the Focus logs
 final public class LogBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Focus logs"
-    
-    public static var availability: FeatureAvailability = .runtimeEnabled
+
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.iOSOnly = .any
+
+        requirements.precondition(.runtimeEnabled)
+    }
+
     public static var enabled: Bool?
 
     public static let show = action(ShowLogBrowserAction.self)

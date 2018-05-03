@@ -18,32 +18,16 @@ import Foundation
 ///
 /// This class implements the `PurchaseRequirement` logic to test if they are all met for features that require purchases.
 public class DefaultAvailabilityChecker: AvailabilityChecker {
-    public let userFeatureToggles: UserFeatureToggles?
-    public let purchaseValidator: PurchaseTracker?
+    public let constraintsEvaluator: ConstraintsEvaluator
     
-    /// Default shared instance using the default validators
-#if !os(watchOS)
-    public static let instance = DefaultAvailabilityChecker(
-        userFeatureToggles: UserDefaultsFeatureToggles(),
-        purchaseValidator: StoreKitPurchaseTracker())
-#else
-    public static let instance = DefaultAvailabilityChecker(
-        userFeatureToggles: UserDefaultsFeatureToggles(),
-        purchaseValidator: nil)
-#endif
-
     /// We store the last result of availability checks here
     private var availabilityCache: [FeaturePath:Bool] = [:]
     
     private let cacheAccessQueue = DispatchQueue(label: "tools.flint.availability-checker")
     
     /// Initialise the availability checker with the supplied feature toggle and purchase validator implementations.
-    public init(userFeatureToggles: UserFeatureToggles?, purchaseValidator: PurchaseTracker?) {
-        self.userFeatureToggles = userFeatureToggles
-        self.purchaseValidator = purchaseValidator
-        
-        // Observe
-        purchaseValidator?.addObserver(self)
+    public init(constraintsEvaluator: ConstraintsEvaluator) {
+        self.constraintsEvaluator = constraintsEvaluator
     }
     
     /// Return whether or not the feature is enabled, accordig to its `availability` type.
@@ -53,7 +37,7 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         }
     }
     
-    func invalidate() {
+    public func invalidate() {
         return cacheAccessQueue.sync {
             return availabilityCache.removeAll()
         }
@@ -64,41 +48,28 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         let featureIdentifier = feature.identifier
         
         // Fast path
-        switch feature.availability {
-            case .runtimeEnabled:
-                // Don't use the cache for runtimeEnabled
-                break
-            default:
-                if let cachedAvailable = availabilityCache[featureIdentifier] {
-                    return cachedAvailable
-                }
+        if constraintsEvaluator.canCacheResult(for: feature),
+                let cachedAvailable = availabilityCache[featureIdentifier] {
+            FlintInternal.logger?.debug("Availability check on \(featureIdentifier) returning cached value of isAvailable: \(cachedAvailable)")
+            return cachedAvailable
         }
         
         var available: Bool?
-        switch feature.availability {
-            case .runtimeEnabled:
-                available = feature.enabled
-            case .userToggled:
-                available = userFeatureToggles?.isEnabled(feature)
-            case .purchaseRequired(let requirement):
-                if let validator = purchaseValidator {
-                    available = requirement.isFulfilled(validator: validator)
-                } else {
-                    return nil
-                }
+        let evaluation = constraintsEvaluator.evaluate(for: feature)
+
+        switch (evaluation.satisfied.isEmpty, evaluation.unsatisfied.isEmpty, evaluation.unknown.isEmpty) {
+            case (_, true, true): available = true
+            case (_, false, true): available = false
+            case (_, _, false): available = nil
         }
         
-        // Check the case where permissions are required
-        if available == true {
-            if let featureWithPermissions = feature as? PermissionsRequired.Type {
-                available = featureWithPermissions.permissionsFulfilled()
-            }
-        }
-        
+        // If it is nil we need to get out here, we don't want to waste any more time checking ancestors
+        // and we do't want to cache the results
         guard var seemsAvailable = available else {
             return nil
         }
         
+        // Check ancestors, if necessary
         if let conditionalParent = feature.parent as? ConditionalFeatureDefinition.Type {
             if let parentAvailable = _isAvailable(conditionalParent) {
                 seemsAvailable = seemsAvailable && parentAvailable
@@ -116,6 +87,8 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         // Store it in the cache, if we had any kind of concrete result.
         // Invalidation must occur if we want to re-check in future
         availabilityCache[featureIdentifier] = seemsAvailable
+        
+        FlintInternal.logger?.debug("Availability check on \(featureIdentifier) resulted in isAvailable: \(seemsAvailable)")
         return seemsAvailable
     }
 
