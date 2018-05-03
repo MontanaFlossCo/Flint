@@ -11,13 +11,15 @@ import Foundation
 import Photos
 #endif
 
-class PhotosPermissionAdapter: PermissionAdapter {
+/// Checks and authorises access to the Photo library on supported platforms
+class PhotosPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermission = .photos
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
-    weak var delegate: PermissionAdapterDelegate?
+    weak var delegate: SystemPermissionAdapterDelegate?
     
-    var status: PermissionStatus {
+    var status: SystemPermissionStatus {
+#if os(iOS)
 #if canImport(Photos)
         switch PHPhotoLibrary.authorizationStatus() {
             case .authorized: return .authorized
@@ -28,9 +30,15 @@ class PhotosPermissionAdapter: PermissionAdapter {
 #else
         return .unsupported
 #endif
+#elseif os(macOS)
+        return .authorized
+#else
+        return .unsupported
+#endif
     }
     
     func requestAuthorisation() {
+#if os(iOS)
 #if canImport(Photos)
         guard status == .unknown else {
             return
@@ -41,6 +49,7 @@ class PhotosPermissionAdapter: PermissionAdapter {
                 self.delegate?.permissionStatusDidChange(sender: self)
             }
         })
+#endif
 #endif
     }
 }

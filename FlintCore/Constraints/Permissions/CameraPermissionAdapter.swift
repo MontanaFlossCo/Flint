@@ -11,11 +11,13 @@ import Foundation
 import AVFoundation
 #endif
 
-class CameraPermissionAdapter: PermissionAdapter {
+/// Checks and authorises access to the Camera on supported platforms
+class CameraPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermission = .camera
     let usageDescriptionKey: String = "NSCameraUsageDescription"
 
-    var status: PermissionStatus {
+    var status: SystemPermissionStatus {
+#if os(iOS)
 #if canImport(AVFoundation)
         switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized: return .authorized
@@ -26,9 +28,15 @@ class CameraPermissionAdapter: PermissionAdapter {
 #else
         return .unsupported
 #endif
+#elseif os(macOS)
+        return .authorized
+#else
+        return .unsupported
+#endif
     }
 
     func requestAuthorisation() {
+#if os(iOS)
 #if canImport(AVFoundation)
         guard status == .unknown else {
             return
@@ -41,6 +49,7 @@ class CameraPermissionAdapter: PermissionAdapter {
 
             }
         }
+#endif
 #endif
     }
 }

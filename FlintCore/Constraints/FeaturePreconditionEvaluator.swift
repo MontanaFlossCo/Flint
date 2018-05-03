@@ -8,6 +8,10 @@
 
 import Foundation
 
+/// The interface to types that evaluate whether or not a specific precondition has been met.
 public protocol FeaturePreconditionEvaluator {
+
+    /// - return: `true` only if the precondition is currently satisfied. If the state cannot be determined
+    /// yet and will change, return `nil`
     func isFulfilled(_ precondition: FeaturePrecondition, for feature: ConditionalFeatureDefinition.Type) -> Bool?
 }

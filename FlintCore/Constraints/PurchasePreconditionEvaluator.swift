@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The precondition evaluator for purchases requirements.
 public class PurchasePreconditionEvaluator: FeaturePreconditionEvaluator {
     let purchaseTracker: PurchaseTracker
     

@@ -8,7 +8,9 @@
 
 import Foundation
 
-public enum PermissionStatus {
+/// Permissions required by features can be in a variety of states, this
+/// encapsulates those aacross all the different permission types
+public enum SystemPermissionStatus {
     case unknown
     case authorized
     case denied

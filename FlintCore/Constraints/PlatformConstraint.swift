@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The struct used to define a single platform and version constraint.
 public struct PlatformConstraint: Hashable, CustomStringConvertible {
     public let platform: Platform
     public let version: PlatformVersionConstraint

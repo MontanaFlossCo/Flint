@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// The precondition evaluator that checks the `UserFeatureToggles` implementation to see
+/// if the given feature is currently enabled
 public class UserTogglePreconditionEvaluator: FeaturePreconditionEvaluator {
     let userToggles: UserFeatureToggles
     

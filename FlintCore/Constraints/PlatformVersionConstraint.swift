@@ -8,9 +8,17 @@
 
 import Foundation
 
+/// Defines a single constraint, restricting to a specific version.
+///
+/// Supports initialising from an Int (e.g. 11) and String e.g. ("10.13.2")
 public enum PlatformVersionConstraint: Hashable, Equatable, CustomStringConvertible, ExpressibleByIntegerLiteral, ExpressibleByStringLiteral {
+    /// Matches any version of the platformn
     case any
+    
+    /// Matches any version >= the specified OS version
     case atLeast(version: OperatingSystemVersion)
+    
+    /// Matches no versions, used to prevent all matching on a given platform
     case unsupported
 
     public typealias IntegerLiteralType = UInt
@@ -41,6 +49,7 @@ public enum PlatformVersionConstraint: Hashable, Equatable, CustomStringConverti
         self = .atLeast(version: OperatingSystemVersion(majorVersion: major, minorVersion: minor, patchVersion: patch))
     }
 
+    /// Returns `true` if the current platform that is executing is compatible with this version constraint.
     public var isCurrentCompatible: Bool {
         switch self {
             case .any:

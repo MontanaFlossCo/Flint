@@ -8,11 +8,22 @@
 
 import Foundation
 
+/// A container for the definition and results of evaluating a single Feature's constraints.
 public struct FeatureConstraints  {
+    /// All the platform constraints that were declared on the feature, including those not relevant to the
+    /// current execution platform
     let allDeclaredPlatforms: [Platform:PlatformConstraint]
+    
+    /// The platform constraints that apply to the current OS only
     let currentPlatforms: [Platform:PlatformConstraint]
+    
+    /// The set of preconditions that apply to the feature
     let preconditions: Set<FeaturePrecondition>
+    
+    /// The set of permission that apply to the feature
     let permissions: Set<SystemPermission>
+    
+    /// - return: `true` if and only there are no constraints that currently apply.
     let isEmpty: Bool
     
     public static let empty = FeatureConstraints()

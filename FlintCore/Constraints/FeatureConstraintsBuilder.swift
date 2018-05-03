@@ -8,11 +8,17 @@
 
 import Foundation
 
+/// The protocol for the builder used to evaluate the `constraints` convention function
+/// of conditional features.
 public protocol FeatureConstraintsBuilder: AnyObject {
+
+    /// Called to desclare a new platform requirement
     func platform(_ requirement: PlatformConstraint)
 
+    /// Called to desclare a new precondition requirement
     func precondition(_ requirement: FeaturePrecondition)
 
+    /// Called to desclare a new permission requirement
     func permission(_ permission: SystemPermission)
 }
 

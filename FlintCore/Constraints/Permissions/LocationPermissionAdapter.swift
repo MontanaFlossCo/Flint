@@ -9,15 +9,17 @@
 import Foundation
 import CoreLocation
 
-@objc class LocationPermissionAdapter: NSObject, PermissionAdapter, CLLocationManagerDelegate {
+/// Checks and authorises access to the user's location on supported platforms
+/// !!! TODO: What about macOS?
+@objc class LocationPermissionAdapter: NSObject, SystemPermissionAdapter, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     
     let permission: SystemPermission
     let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
 
-    weak var delegate: PermissionAdapterDelegate?
+    weak var delegate: SystemPermissionAdapterDelegate?
     
-    var status: PermissionStatus {
+    var status: SystemPermissionStatus {
         switch CLLocationManager.authorizationStatus() {
             case .denied: return .denied
             case .notDetermined: return .unknown

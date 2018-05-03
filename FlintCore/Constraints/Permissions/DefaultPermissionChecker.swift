@@ -8,14 +8,19 @@
 
 import Foundation
 
+/// The implementation of the system permission checker.
+///
+/// This registers and verifies the approprite adapaters and uses them to check the status
+/// of all the permissions required by a feature.
+///
 /// !!! TODO: Add sanity check for missing Info.plist usage descriptions?
-public class DefaultPermissionChecker: PermissionChecker, CustomDebugStringConvertible {
-    private let permissionAdapters: [SystemPermission:PermissionAdapter]
+public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStringConvertible {
+    private let permissionAdapters: [SystemPermission:SystemPermissionAdapter]
     
     public init() {
-        var permissionAdapters: [SystemPermission:PermissionAdapter] = [:]
+        var permissionAdapters: [SystemPermission:SystemPermissionAdapter] = [:]
 
-        func _add(_ adapter: PermissionAdapter) {
+        func _add(_ adapter: SystemPermissionAdapter) {
             permissionAdapters[adapter.permission] = adapter
         }
         
@@ -46,7 +51,7 @@ public class DefaultPermissionChecker: PermissionChecker, CustomDebugStringConve
         return result
     }
     
-    public func status(of permission: SystemPermission) -> PermissionStatus {
+    public func status(of permission: SystemPermission) -> SystemPermissionStatus {
         guard let adapter = permissionAdapters[permission] else {
             fatalError("No permission adapter for \(permission)")
         }

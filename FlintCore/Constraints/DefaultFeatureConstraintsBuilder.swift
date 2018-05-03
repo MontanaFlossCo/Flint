@@ -8,11 +8,17 @@
 
 import Foundation
 
+/// The standard implementation of the constraints builder, providing the basic
+/// DSL functions required.
+///
+/// - see: `FeatureConstraintsBuilder` for the syntactic sugar applied to all implementations via extensions
 public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
     private var platformCompatibility: [Platform:PlatformConstraint] = [:]
     private var preconditions: Set<FeaturePrecondition> = []
     private var permissions: Set<SystemPermission> = []
 
+    /// Call to build the constraints from the function passed in and return the structure
+    /// with their definitions
     public func build(_ block: (FeatureConstraintsBuilder) -> ()) -> FeatureConstraints {
         for platform in Platform.all {
             self.platform(PlatformConstraint(platform: platform, version: .any))

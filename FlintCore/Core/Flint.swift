@@ -66,7 +66,7 @@ final public class Flint {
     /// The availability checker for conditional features
     public static var availabilityChecker: AvailabilityChecker!
     
-    public static var permissionChecker: PermissionChecker!
+    public static var permissionChecker: SystemPermissionChecker!
 
     public static var constraintsEvaluator: ConstraintsEvaluator!
     

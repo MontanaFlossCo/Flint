@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// An enum describing the nature of location monitoring
 public enum LocationUsage {
     case always
     case whenInUse

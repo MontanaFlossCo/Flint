@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Enum defining all the platforms that are supported, and whether we are
+/// currently executing on them.
 public enum Platform: Hashable, Equatable {
     case iOS
     case watchOS
