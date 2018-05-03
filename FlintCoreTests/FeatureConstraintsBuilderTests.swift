@@ -26,11 +26,20 @@ class FeatureConstraintsBuilderTests: XCTestCase {
         super.tearDown()
     }
 
+    // MARK: Helpers
+    
     func evaluate(constraints: (FeatureConstraintsBuilder) -> Void) -> FeatureConstraints {
         let builder = DefaultFeatureConstraintsBuilder()
         return builder.build(constraints)
     }
 
+    func _assertContains(_ constraints: FeatureConstraints, _ id: Platform, _ version: PlatformVersionConstraint) {
+        XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
+                      "Expected to find \(id) with \(version) but didn't")
+    }
+
+    // MARK: Tests
+    
     func testPlatformVersionsAdditive() {
     
         let constraints = evaluate { builder in
@@ -40,15 +49,10 @@ class FeatureConstraintsBuilderTests: XCTestCase {
             builder.platform(.init(platform: .watchOS, version: .any))
         }
      
-        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
-                          "Expected to find \(id) with \(version) but didn't")
-        }
-
-        _assertContains(.iOS, .any)
-        _assertContains(.macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
-        _assertContains(.tvOS, .atLeast(version: 11))
-        _assertContains(.watchOS, .any)
+        _assertContains(constraints, .iOS, .any)
+        _assertContains(constraints, .macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
+        _assertContains(constraints, .tvOS, .atLeast(version: 11))
+        _assertContains(constraints, .watchOS, .any)
     }
 
     func testPlatformVersionAssignment() {
@@ -60,15 +64,10 @@ class FeatureConstraintsBuilderTests: XCTestCase {
             builder.watchOS = .any
         }
      
-        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
-                          "Expected to find \(id) with \(version) but didn't")
-        }
-
-        _assertContains(.iOS, .atLeast(version: 11))
-        _assertContains(.macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
-        _assertContains(.tvOS, .atLeast(version: 10))
-        _assertContains(.watchOS, .any)
+        _assertContains(constraints, .iOS, .atLeast(version: 11))
+        _assertContains(constraints, .macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
+        _assertContains(constraints, .tvOS, .atLeast(version: 10))
+        _assertContains(constraints, .watchOS, .any)
     }
 
     func testAnyPlatformVersionsAreDefault() {
@@ -77,15 +76,10 @@ class FeatureConstraintsBuilderTests: XCTestCase {
             // Nothing, default is specified as .any
         }
      
-        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
-                          "Expected to find \(id) with \(version) but didn't")
-        }
-
-        _assertContains(.iOS, .any)
-        _assertContains(.macOS, .any)
-        _assertContains(.tvOS, .any)
-        _assertContains(.watchOS, .any)
+        _assertContains(constraints, .iOS, .any)
+        _assertContains(constraints, .macOS, .any)
+        _assertContains(constraints, .tvOS, .any)
+        _assertContains(constraints, .watchOS, .any)
     }
 
     func testAtLeastIntPlatformVersionsProperties() {
@@ -97,15 +91,10 @@ class FeatureConstraintsBuilderTests: XCTestCase {
             builder.watchOS = 4
         }
      
-        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
-                          "Expected to find \(id) with \(version) but didn't")
-        }
-
-        _assertContains(.iOS, .atLeast(version: 10))
-        _assertContains(.macOS, .atLeast(version: 10))
-        _assertContains(.tvOS, .atLeast(version: 11))
-        _assertContains(.watchOS, .atLeast(version: 4))
+        _assertContains(constraints, .iOS, .atLeast(version: 10))
+        _assertContains(constraints, .macOS, .atLeast(version: 10))
+        _assertContains(constraints, .tvOS, .atLeast(version: 11))
+        _assertContains(constraints, .watchOS, .atLeast(version: 4))
     }
 
     func testAtLeastStringPlatformVersionsProperties() {
@@ -116,15 +105,61 @@ class FeatureConstraintsBuilderTests: XCTestCase {
             builder.tvOS = "11.2"
             builder.watchOS = "4.1"
         }
-     
-        func _assertContains(_ id: Platform, _ version: PlatformVersionConstraint) {
-            XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
-                          "Expected to find \(id) with \(version) but didn't")
-        }
 
-        _assertContains(.iOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 1, patchVersion: 0)))
-        _assertContains(.macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
-        _assertContains(.tvOS, .atLeast(version: OperatingSystemVersion(majorVersion: 11, minorVersion: 2, patchVersion: 0)))
-        _assertContains(.watchOS, .atLeast(version: OperatingSystemVersion(majorVersion: 4, minorVersion: 1, patchVersion: 0)))
+        _assertContains(constraints, .iOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 1, patchVersion: 0)))
+        _assertContains(constraints, .macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
+        _assertContains(constraints, .tvOS, .atLeast(version: OperatingSystemVersion(majorVersion: 11, minorVersion: 2, patchVersion: 0)))
+        _assertContains(constraints, .watchOS, .atLeast(version: OperatingSystemVersion(majorVersion: 4, minorVersion: 1, patchVersion: 0)))
+    }
+
+    func testXXXOnly() {
+    
+        let constraintsiOS = evaluate { builder in
+            builder.macOS = "10.13"
+            builder.tvOS = "11.2"
+            builder.watchOS = "4.1"
+            builder.iOSOnly = 9
+        }
+     
+        _assertContains(constraintsiOS, .iOS, .atLeast(version: OperatingSystemVersion(majorVersion: 9, minorVersion: 0, patchVersion: 0)))
+        _assertContains(constraintsiOS, .macOS, .unsupported)
+        _assertContains(constraintsiOS, .tvOS, .unsupported)
+        _assertContains(constraintsiOS, .watchOS, .unsupported)
+
+        let constraintsMacOS = evaluate { builder in
+            builder.tvOS = "11.2"
+            builder.watchOS = "4.1"
+            builder.iOS = 9
+            builder.macOSOnly = "10.13"
+        }
+     
+        _assertContains(constraintsMacOS, .iOS, .unsupported)
+        _assertContains(constraintsMacOS, .macOS, .atLeast(version: OperatingSystemVersion(majorVersion: 10, minorVersion: 13, patchVersion: 0)))
+        _assertContains(constraintsMacOS, .tvOS, .unsupported)
+        _assertContains(constraintsMacOS, .watchOS, .unsupported)
+
+        let constraintsWatchOS = evaluate { builder in
+            builder.tvOS = "11.2"
+            builder.iOS = 9
+            builder.macOS = "10.13"
+            builder.watchOSOnly = "4.1"
+        }
+     
+        _assertContains(constraintsWatchOS, .iOS, .unsupported)
+        _assertContains(constraintsWatchOS, .macOS, .unsupported)
+        _assertContains(constraintsWatchOS, .tvOS, .unsupported)
+        _assertContains(constraintsWatchOS, .watchOS, .atLeast(version: OperatingSystemVersion(majorVersion: 4, minorVersion: 1, patchVersion: 0)))
+
+        let constraintsTVOS = evaluate { builder in
+            builder.iOS = 9
+            builder.macOS = "10.13"
+            builder.watchOS = "4.1"
+            builder.tvOSOnly = "11.2"
+        }
+     
+        _assertContains(constraintsTVOS, .iOS, .unsupported)
+        _assertContains(constraintsTVOS, .macOS, .unsupported)
+        _assertContains(constraintsTVOS, .tvOS, .atLeast(version: OperatingSystemVersion(majorVersion: 11, minorVersion: 2, patchVersion: 0)))
+        _assertContains(constraintsTVOS, .watchOS, .unsupported)
     }
 }

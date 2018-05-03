@@ -1146,8 +1146,8 @@
 				491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */,
 				49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */,
 				49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */,
-				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
+				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
