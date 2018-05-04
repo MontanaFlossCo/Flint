@@ -1,4 +1,6 @@
-language: swift
+language: objective-c
 xcode_workspace: Flint.xcworkspace
 xcode_scheme: FlintCore-iOS
 osx_image: xcode9.3
+before-install:
+  - carthage bootstrap --platform iOS
