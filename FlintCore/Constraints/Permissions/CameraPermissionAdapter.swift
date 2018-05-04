@@ -35,20 +35,20 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
 
-    func requestAuthorisation() {
+    func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
 #if os(iOS)
 #if canImport(AVFoundation)
         guard status == .notDetermined else {
             return
         }
         
-        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-            if response {
-                //access granted
-            } else {
-
-            }
+        AVCaptureDevice.requestAccess(for: AVMediaType.video) { (granted: Bool) in
+            completion(self, granted ? .authorized : .denied)
         }
+#elseif os(macOS)
+        return .authorized
+#else
+        return .unsupported
 #endif
 #endif
     }

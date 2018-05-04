@@ -16,11 +16,52 @@ import CoreLocation
     
     let permission: SystemPermission
     let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
-
-    weak var delegate: SystemPermissionAdapterDelegate?
+    var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
     
     var status: SystemPermissionStatus {
-        switch CLLocationManager.authorizationStatus() {
+        return authStatusToPermissionStatus(CLLocationManager.authorizationStatus())
+    }
+    
+    public init(usage: LocationUsage) {
+        switch usage {
+            case .always: permission = .location(usage: .always)
+            case .whenInUse: permission = .location(usage: .whenInUse)
+        }
+        super.init()
+        locationManager.delegate = self
+    }
+    
+    func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
+        guard status == .notDetermined else {
+            completion(self, status)
+            return
+        }
+        
+        switch permission {
+            case .location(usage: .always):
+                pendingCompletions.append(completion)
+                locationManager.requestAlwaysAuthorization()
+            case .location(usage: .whenInUse):
+                pendingCompletions.append(completion)
+                locationManager.requestWhenInUseAuthorization()
+            default:
+                fatalError("Incorrect permission type: \(permission)")
+        }
+    }
+
+    // MARK: Location Manager delegate
+
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        for completion in pendingCompletions {
+            completion(self, authStatusToPermissionStatus(status))
+        }
+    }
+    
+    // MARK: Internals
+    
+    func authStatusToPermissionStatus(_ status: CLAuthorizationStatus) -> SystemPermissionStatus {
+        /// !!! TODO: Threading!
+        switch status {
             case .denied: return .denied
             case .notDetermined: return .notDetermined
             case .restricted: return .restricted
@@ -36,40 +77,6 @@ import CoreLocation
                 } else {
                     fatalError("Location adapter has wrong type of permission")
                 }
-        }
-    }
-    
-    public init(usage: LocationUsage) {
-        switch usage {
-            case .always: permission = .location(usage: .always)
-            case .whenInUse: permission = .location(usage: .whenInUse)
-        }
-        super.init()
-        locationManager.delegate = self
-    }
-    
-    func requestAuthorisation() {
-        guard status == .notDetermined else {
-            return
-        }
-        
-        guard case let .location(usage) = permission else {
-            return
-        }
-        
-        switch usage {
-            case .always:
-                locationManager.requestAlwaysAuthorization()
-            case .whenInUse:
-                locationManager.requestWhenInUseAuthorization()
-        }
-    }
-
-    // MARK: Location Manager delegate
-
-    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status != .notDetermined {
-            self.delegate?.permissionStatusDidChange(sender: self)
         }
     }
 }

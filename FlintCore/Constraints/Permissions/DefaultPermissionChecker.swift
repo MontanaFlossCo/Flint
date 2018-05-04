@@ -17,6 +17,8 @@ import Foundation
 public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStringConvertible {
     private let permissionAdapters: [SystemPermission:SystemPermissionAdapter]
     
+    public weak var delegate: SystemPermissionCheckerDelegate?
+    
     public init() {
         var permissionAdapters: [SystemPermission:SystemPermissionAdapter] = [:]
 
@@ -62,7 +64,10 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         guard let adapter = permissionAdapters[permission] else {
             fatalError("No permission adapter for \(permission)")
         }
-        adapter.requestAuthorisation()
+        adapter.requestAuthorisation { adapter, status in
+            // Tell our delegate that things were updated - caches will need to be invalidated etc.
+            self.delegate?.permissionStatusDidChange(adapter.permission)
+        }
     }
 
     public var debugDescription: String {

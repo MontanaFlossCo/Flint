@@ -332,6 +332,7 @@ extension Flint {
         preconditionChangeObserver = PreconditionChangeObserver(availabilityChecker: availabilityChecker)
         purchaseTracker?.addObserver(preconditionChangeObserver!)
         userFeatureToggles.addObserver(preconditionChangeObserver!)
+        permissionChecker?.delegate = preconditionChangeObserver
         
         register(FlintFeatures.self)
         isSetup = true
@@ -416,7 +417,7 @@ public extension Flint {
     }
 }
 
-class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObserver {
+class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObserver, SystemPermissionCheckerDelegate {
     let availabilityChecker: AvailabilityChecker
     
     init(availabilityChecker: AvailabilityChecker) {
@@ -428,6 +429,10 @@ class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObs
     }
     
     func userFeatureTogglesDidChange() {
+        availabilityChecker.invalidate()
+    }
+    
+    func permissionStatusDidChange(_ permission: SystemPermission) {
         availabilityChecker.invalidate()
     }
 }

@@ -160,10 +160,6 @@
 		496136C6209900E200291885 /* CameraPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C4209900E200291885 /* CameraPermissionAdapter.swift */; };
 		496136C7209900E200291885 /* CameraPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C4209900E200291885 /* CameraPermissionAdapter.swift */; };
 		496136C8209900E200291885 /* CameraPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C4209900E200291885 /* CameraPermissionAdapter.swift */; };
-		496136CA2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */; };
-		496136CB2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */; };
-		496136CC2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */; };
-		496136CD2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */; };
 		496136CF2099013000291885 /* PhotosPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136CE2099013000291885 /* PhotosPermissionAdapter.swift */; };
 		496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136CE2099013000291885 /* PhotosPermissionAdapter.swift */; };
 		496136D12099013000291885 /* PhotosPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136CE2099013000291885 /* PhotosPermissionAdapter.swift */; };
@@ -628,7 +624,6 @@
 		496136BA209900BC00291885 /* SystemPermissionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionChecker.swift; sourceTree = "<group>"; };
 		496136BF209900CE00291885 /* SystemPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionAdapter.swift; sourceTree = "<group>"; };
 		496136C4209900E200291885 /* CameraPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionAdapter.swift; sourceTree = "<group>"; };
-		496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionAdapterDelegate.swift; sourceTree = "<group>"; };
 		496136CE2099013000291885 /* PhotosPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPermissionAdapter.swift; sourceTree = "<group>"; };
 		496136D32099015900291885 /* LocationPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionAdapter.swift; sourceTree = "<group>"; };
 		496136D82099017400291885 /* DefaultPermissionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPermissionChecker.swift; sourceTree = "<group>"; };
@@ -860,7 +855,6 @@
 				496136B5209900A700291885 /* SystemPermissionStatus.swift */,
 				496136BA209900BC00291885 /* SystemPermissionChecker.swift */,
 				496136BF209900CE00291885 /* SystemPermissionAdapter.swift */,
-				496136C92099011A00291885 /* SystemPermissionAdapterDelegate.swift */,
 				496136C4209900E200291885 /* CameraPermissionAdapter.swift */,
 				496136CE2099013000291885 /* PhotosPermissionAdapter.swift */,
 				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
@@ -1535,7 +1529,6 @@
 				496F8FD2203EEBDA003AB29B /* NoPresenter.swift in Sources */,
 				496136C1209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FCC203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
-				496136CB2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */,
 				49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
@@ -1674,7 +1667,6 @@
 				496F8FE7203EEBDA003AB29B /* NoPresenter.swift in Sources */,
 				496136C2209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
-				496136CC2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				496F8FD7203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
@@ -1872,7 +1864,6 @@
 				496F8F95203EEBBC003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F72203EEBB2003AB29B /* Timeline.swift in Sources */,
 				4927FEFB208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
-				496136CD2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */,
 				496136C8209900E200291885 /* CameraPermissionAdapter.swift in Sources */,
 				498F976C2077832F00209633 /* DefaultFocusSelection.swift in Sources */,
 				496F8FBC203EEBD4003AB29B /* QueryParametersCodable.swift in Sources */,
@@ -2022,7 +2013,6 @@
 				49966D8F200A63D1004C4AA0 /* AvailabilityChecker.swift in Sources */,
 				494F59332098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				4977DC73205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
-				496136CA2099011A00291885 /* SystemPermissionAdapterDelegate.swift in Sources */,
 				49647D3B20384077005F9825 /* ActivitiesFeature.swift in Sources */,
 				49819EBA1FC9C2310013AF55 /* StaticActionBinding.swift in Sources */,
 				4927FEE8208A362E00163576 /* URLRoutingResult.swift in Sources */,
