@@ -1,6 +1,7 @@
 # 💥 Flint framework
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Build Status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
 
 Building great apps for Apple platforms involves a lot of work; custom URL schemes, in-app purchases, universal links, Handoff and Siri suggestions support, tracking analytics events, feature flagging and more. These things can be fiddly and time consuming.
 
