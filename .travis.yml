@@ -1,0 +1,4 @@
+language: swift
+xcode_workspace: Flint.xcworkspace
+xcode_scheme: FlintCore-iOS
+osx_image: xcode9.3
