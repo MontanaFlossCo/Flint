@@ -11,13 +11,13 @@ import Foundation
 /// The container for constraint evaluation results.
 public struct FeatureEvaluationResult {
     /// The information about the constraints that are currently satisfied
-    let satisfied: FeatureConstraints
+    public let satisfied: FeatureConstraints
 
     /// The information about the constraints that are currently unsatisfied
-    let unsatisfied: FeatureConstraints
+    public let unsatisfied: FeatureConstraints
 
     /// The information about the constraints that are currently undetermined
-    let unknown: FeatureConstraints
+    public let unknown: FeatureConstraints
 
     init(satisfied: FeatureConstraints, unsatisfied: FeatureConstraints, unknown: FeatureConstraints) {
         self.satisfied = satisfied
