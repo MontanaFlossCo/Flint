@@ -22,7 +22,7 @@ import CoreLocation
     var status: SystemPermissionStatus {
         switch CLLocationManager.authorizationStatus() {
             case .denied: return .denied
-            case .notDetermined: return .unknown
+            case .notDetermined: return .notDetermined
             case .restricted: return .restricted
             case .authorizedAlways:
                 if case let .location(usage) = permission {
@@ -49,7 +49,7 @@ import CoreLocation
     }
     
     func requestAuthorisation() {
-        guard status == .unknown else {
+        guard status == .notDetermined else {
             return
         }
         

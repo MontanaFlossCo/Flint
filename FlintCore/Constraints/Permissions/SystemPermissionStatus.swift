@@ -11,7 +11,7 @@ import Foundation
 /// Permissions required by features can be in a variety of states, this
 /// encapsulates those aacross all the different permission types
 public enum SystemPermissionStatus {
-    case unknown
+    case notDetermined
     case authorized
     case denied
     case restricted

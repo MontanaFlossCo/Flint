@@ -24,7 +24,7 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
         switch PHPhotoLibrary.authorizationStatus() {
             case .authorized: return .authorized
             case .denied: return .denied
-            case .notDetermined: return .unknown
+            case .notDetermined: return .notDetermined
             case .restricted: return .restricted
         }
 #else
@@ -40,7 +40,7 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
     func requestAuthorisation() {
 #if os(iOS)
 #if canImport(Photos)
-        guard status == .unknown else {
+        guard status == .notDetermined else {
             return
         }
         
