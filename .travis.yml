@@ -1,6 +1,11 @@
 language: objective-c
 osx_image: xcode9.3
 install:
-  - carthage bootstrap --platform iOS
+- carthage bootstrap
 script:
-  - xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+- xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone
+  X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+notifications:
+  email: false
+  slack:
+    secure: fncX9S6zVun/V3fa+3spchQjkqeuXiJCoTzVuhf/4vNJ/FREF/cHagKmM+riuZaJMk08F0IAUy5KPKKQHubGvxT1tLfxr3LnEHrfYJXAIdcsVBFXetE+xYbPahNK5yhWm7QjUzKFvUBlvCsprErP+sjUvPhcA4MlSaa659gecVnXQuQ8YQcl/bOxvJIKcUYCBqwKxREf8WEALrKx07IDRZH+t/lYUZ8TDD+cawCGl1ZcPearV7pw6M8YBPNrXbqqlERggzlBWYFOmZkb09GsUGEW5nkSnbD2S5ywszLFNIxdyZuOmeSjtK8jYwl9dlpU2dzAXMGXB+VW7BOC5cQpuxkUiGQzZVKAC6leJs/AD3GFXGGWIzeXWXQN6bkvfHlMtD1GRTy1RYI4yb/UrMnWOoGxIfz6Hk1qVn5C2DL5g3Odbg1m8mk4Q731x67bhzMNY7KgjvJFbsObwJgUTprZQmkfAT7yxRxjhEeoHpK9kgXD96IfiZDdzh5l+tcVAWmwY2Zg+0J/Lma5tud4zK/t+BoBTdhVw0aoCVCACKlWhJOoScIxpuPUmcePGo8eR57YG8q1f/8daRFuy3Q9sxfCdlDAsh6AKyseZ4RyYSn9jIYpd0d51/vqdtrhRYNmOBdmcyRJfGCgrNjdHR/XwS9gIHUUBsHDz/Cv64rGjnlza4s=
