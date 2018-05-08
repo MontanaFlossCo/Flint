@@ -22,6 +22,41 @@ import ClassKit
 ///
 /// Failure to do so will usually result in a precondition failure in your app.
 final public class Flint {
+
+    // MARK: Dependencies
+    
+    /// The default link generator to use when creating automatic links to actions for Activities and so on.
+    /// This is populated by default in `quickSetup` with a generator that uses the first app scheme and first domain.
+    ///
+    /// If you need to create URLs to actions in your app, use this. Example:
+    ///
+    /// ```
+    /// let appUrl = Flint.linkCreator.appLink(to: MyFeature.someAction, with: someInput)
+    /// let webUrl = Flint.linkCreator.universalLink(to: MyFeature.someAction, with: someInput)
+    /// ```
+    public static var linkCreator: LinkCreator!
+    
+    /// The dispatcher for all actions
+    public static var dispatcher: ActionDispatcher = DefaultActionDispatcher()
+    
+    /// The availability checker for conditional features
+    public static var availabilityChecker: AvailabilityChecker!
+    
+    /// The permission checker to verify availability of system permissions. You should not need to replace this
+    /// unless you are writing tests and want a mock instance
+    public static var permissionChecker: SystemPermissionChecker!
+
+    /// The constraints evaluator used to define the constraints on features
+    public static var constraintsEvaluator: ConstraintsEvaluator!
+    
+    /// The user feature toggles implementation. By default it will use `UserDefaults` for this, replace with your
+    /// own implementation if you'd like to store these elsewhere.
+    public static var userFeatureToggles: UserFeatureToggles!
+
+    /// The purchase tracker to use to verify purchased products. Replace this with your own implementation if
+    /// the Fling StoreKit tracker is not sufficient.
+    public static var purchaseTracker: PurchaseTracker?
+
     // MARK: Metadata
     
     /// The metadata for all features available
@@ -46,37 +81,13 @@ final public class Flint {
         return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.Flint.metadata"), owner: Flint.self)
     }()
 
-    
-    // MARK: Dependencies
-    
-    /// The default link generator to use when creating automatic links to actions for Activities and so on.
-    /// This is populated by default in `quickSetup` with a generator that uses the first app scheme and first domain.
-    ///
-    /// If you need to create URLs to actions in your app, use this. Example:
-    ///
-    /// ```
-    /// let appUrl = Flint.linkCreator.appLink(to: MyFeature.someAction, with: someInput)
-    /// let webUrl = Flint.linkCreator.universalLink(to: MyFeature.someAction, with: someInput)
-    /// ```
-    public static var linkCreator: LinkCreator!
-    
-    /// The dispatcher for all actions
-    public static var dispatcher: ActionDispatcher = DefaultActionDispatcher()
-    
-    /// The availability checker for conditional features
-    public static var availabilityChecker: AvailabilityChecker!
-    
-    public static var permissionChecker: SystemPermissionChecker!
-
-    public static var constraintsEvaluator: ConstraintsEvaluator!
-    
     /// Get the metadata for the specified feature
     public static func metadata(for feature: FeatureDefinition.Type) -> FeatureMetadata? {
         return metadataAccessQueue.sync {
             return allFeatures.first { $0.feature == feature }
         }
     }
-    
+
     // MARK: Setup and convenience functions
     
     /// Call for the default setup of loggers, link creation, automatic logging of action start/end.
@@ -303,20 +314,25 @@ final public class Flint {
 
 /// Internal helper functions
 extension Flint {
+    /// This will be set to true to prevent multiple calls to `setup`
     static var isSetup = false
-    static var preconditionChangeObserver: PreconditionChangeObserver!
-    static var userFeatureToggles: UserFeatureToggles!
-    static var purchaseTracker: PurchaseTracker?
     
+    static var preconditionChangeObserver: PreconditionChangeObserver!
+
     /// This must always be called at startup, via one of the public setup functions,
     /// after all other features have been prepared
     static func commonSetup() {
 #if !os(watchOS)
-        let userFeatureToggles = UserDefaultsFeatureToggles()
-        let purchaseTracker: PurchaseTracker? = StoreKitPurchaseTracker()
+        if userFeatureToggles == nil {
+            userFeatureToggles = UserDefaultsFeatureToggles()
+        }
+        if purchaseTracker == nil {
+            purchaseTracker = StoreKitPurchaseTracker()
+        }
 #else
-        let userFeatureToggles = UserDefaultsFeatureToggles()
-        let purchaseTracker: PurchaseTracker? = nil
+        if userFeatureToggles == nil {
+            userFeatureToggles = UserDefaultsFeatureToggles()
+        }
 #endif
         
         if permissionChecker == nil {
