@@ -51,10 +51,10 @@ public enum SystemPermissionRequestAction {
 }
 
 public protocol PermissionAuthorisationCoordinator {
-    func begin(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
-    func beforePermissionRequest(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
-    func afterPermissionRequest(for permission: SystemPermission, status: SystemPermissionStatus)
-    func complete(for controller: AuthorisationController, outstandingPermissions: [SystemPermission]?)
+    func willBeginPermissionAuthorisation(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
+    func willRequestPermission(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
+    func didRequestPermission(for permission: SystemPermission, status: SystemPermissionStatus)
+    func didCompletePermissionAuthiorisation(cancelled: Bool, outstandingPermissions: [SystemPermission]?)
 }
 
 public extension ConditionalFeature {
@@ -98,7 +98,8 @@ public protocol AuthorisationController {
 
 class DefaultAuthorisationController: AuthorisationController {
     public var permissions: Set<SystemPermission> = []
-    var outstandingPermissions: [SystemPermission] = []
+    var sortedPermissionsToAuthorize: [SystemPermission] = []
+    var permissionsNotAuthorized: [SystemPermission] = []
     let coordinator: PermissionAuthorisationCoordinator
     var cancelled: Bool = false
     
@@ -109,9 +110,9 @@ class DefaultAuthorisationController: AuthorisationController {
 
     public func begin() {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
-        coordinator.begin(for: permissions) { permissionsToRequest in
+        coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
             if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
-                outstandingPermissions = orderedPermissions
+                sortedPermissionsToAuthorize = orderedPermissions
                 next()
             }
         }
@@ -126,18 +127,26 @@ class DefaultAuthorisationController: AuthorisationController {
     func next() {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         
-        if outstandingPermissions.count > 0 {
-            let permission = outstandingPermissions.removeFirst()
-            coordinator.beforePermissionRequest(for: permission) { action in
+        if sortedPermissionsToAuthorize.count > 0 {
+            let permission = sortedPermissionsToAuthorize.removeFirst()
+            coordinator.willRequestPermission(for: permission) { action in
                 switch action {
                     case .requestPermission:
                         Flint.permissionChecker.requestAuthorization(for: permission) { [weak self] permission, status in
-                            self?.coordinator.afterPermissionRequest(for: permission, status: status)
+                            guard let strongSelf = self else {
+                                return
+                            }
+                            if status == .notDetermined {
+                                strongSelf.permissionsNotAuthorized.append(permission)
+                            }
+                            strongSelf.coordinator.didRequestPermission(for: permission, status: status)
                         }
                     case .skipPermission:
+                        permissionsNotAuthorized.append(permission)
                         next()
                     case .cancelAll:
-                        outstandingPermissions.removeAll()
+                        permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
+                        sortedPermissionsToAuthorize.removeAll()
                         cancel()
                 }
             }
@@ -147,6 +156,6 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func complete(cancelled: Bool) {
-        coordinator.complete(for: self, outstandingPermissions: cancelled ? outstandingPermissions : nil)
+        coordinator.didCompletePermissionAuthiorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
     }
 }
