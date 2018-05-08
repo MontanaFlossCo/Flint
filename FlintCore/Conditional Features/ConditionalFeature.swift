@@ -54,7 +54,7 @@ public protocol PermissionAuthorisationCoordinator {
     func begin(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
     func beforePermissionRequest(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
     func afterPermissionRequest(for permission: SystemPermission, status: SystemPermissionStatus)
-    func complete(for controller: AuthorisationController, cancelled: Bool, outstandingPermissions: [SystemPermission]?)
+    func complete(for controller: AuthorisationController, outstandingPermissions: [SystemPermission]?)
 }
 
 public extension ConditionalFeature {
@@ -75,22 +75,13 @@ public extension ConditionalFeature {
     }
 
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
-    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator) -> AuthorisationController {
-        let authorisationController = DefaultAuthorisationController(coordinator: coordinator)
-
+    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         guard constraints.unsatisfied.permissions.count > 0 else {
-            return authorisationController
+            return nil
         }
         
-        let permissions = constraints.unsatisfied.permissions
-        
-        coordinator.begin(for: permissions) { permissionsToRequest in
-            if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
-                authorisationController.begin(with: orderedPermissions)
-            }
-        }
-        return authorisationController
+        return DefaultAuthorisationController(coordinator: coordinator, permissions: constraints.unsatisfied.permissions)
     }
     
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.
@@ -101,29 +92,37 @@ public extension ConditionalFeature {
 }
 
 public protocol AuthorisationController {
-    var permissions: [SystemPermission] { get }
-    
+    func begin()
     func cancel()
 }
 
 class DefaultAuthorisationController: AuthorisationController {
-    public var permissions: [SystemPermission] = []
+    public var permissions: Set<SystemPermission> = []
     var outstandingPermissions: [SystemPermission] = []
     let coordinator: PermissionAuthorisationCoordinator
     var cancelled: Bool = false
     
-    init(coordinator: PermissionAuthorisationCoordinator) {
+    init(coordinator: PermissionAuthorisationCoordinator, permissions: Set<SystemPermission>) {
         self.coordinator = coordinator
-    }
-    
-    func begin(with permissions: [SystemPermission]) {
-        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         self.permissions = permissions
-        outstandingPermissions = permissions
-        
-        next()
+    }
+
+    public func begin() {
+        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
+        coordinator.begin(for: permissions) { permissionsToRequest in
+            if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
+                outstandingPermissions = orderedPermissions
+                next()
+            }
+        }
     }
     
+    public func cancel() {
+        precondition(!self.cancelled, "Cannot restart a cancelled authorisation controller")
+        complete(cancelled: true)
+        cancelled = true
+    }
+
     func next() {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         
@@ -148,12 +147,6 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func complete(cancelled: Bool) {
-        coordinator.complete(for: self, cancelled: cancelled, outstandingPermissions: cancelled ? outstandingPermissions : nil)
-    }
-    
-    public func cancel() {
-        precondition(!self.cancelled, "Cannot restart a cancelled authorisation controller")
-        complete(cancelled: true)
-        cancelled = true
+        coordinator.complete(for: self, outstandingPermissions: cancelled ? outstandingPermissions : nil)
     }
 }
