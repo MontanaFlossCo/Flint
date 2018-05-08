@@ -54,7 +54,7 @@ public protocol PermissionAuthorisationCoordinator {
     func begin(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
     func beforePermissionRequest(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
     func afterPermissionRequest(for permission: SystemPermission, status: SystemPermissionStatus)
-    func complete(for controller: AuthorisationController, cancelled: Bool)
+    func complete(for controller: AuthorisationController, cancelled: Bool, outstandingPermissions: [SystemPermission]?)
 }
 
 public extension ConditionalFeature {
@@ -75,8 +75,7 @@ public extension ConditionalFeature {
     }
 
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
-    public static func requestMissingPermissions(using coordinator: PermissionAuthorisationCoordinator,
-                                                 completion: (_ permission: SystemPermission, _ status: SystemPermissionStatus) -> Void) -> AuthorisationController {
+    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator) -> AuthorisationController {
         let authorisationController = DefaultAuthorisationController(coordinator: coordinator)
 
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
@@ -109,22 +108,27 @@ public protocol AuthorisationController {
 
 class DefaultAuthorisationController: AuthorisationController {
     public var permissions: [SystemPermission] = []
-    var remainingPermissions: [SystemPermission] = []
+    var outstandingPermissions: [SystemPermission] = []
     let coordinator: PermissionAuthorisationCoordinator
+    var cancelled: Bool = false
     
     init(coordinator: PermissionAuthorisationCoordinator) {
         self.coordinator = coordinator
     }
     
     func begin(with permissions: [SystemPermission]) {
+        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         self.permissions = permissions
-        remainingPermissions = permissions
+        outstandingPermissions = permissions
         
         next()
     }
     
     func next() {
-        if let permission = remainingPermissions.first {
+        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
+        
+        if outstandingPermissions.count > 0 {
+            let permission = outstandingPermissions.removeFirst()
             coordinator.beforePermissionRequest(for: permission) { action in
                 switch action {
                     case .requestPermission:
@@ -134,16 +138,22 @@ class DefaultAuthorisationController: AuthorisationController {
                     case .skipPermission:
                         next()
                     case .cancelAll:
-                        remainingPermissions.removeAll()
+                        outstandingPermissions.removeAll()
                         cancel()
                 }
             }
         } else {
-            coordinator.complete(for: self, cancelled: false)
+            complete(cancelled: false)
         }
     }
 
+    func complete(cancelled: Bool) {
+        coordinator.complete(for: self, cancelled: cancelled, outstandingPermissions: cancelled ? outstandingPermissions : nil)
+    }
+    
     public func cancel() {
-        coordinator.complete(for: self, cancelled: true)
+        precondition(!self.cancelled, "Cannot restart a cancelled authorisation controller")
+        complete(cancelled: true)
+        cancelled = true
     }
 }
