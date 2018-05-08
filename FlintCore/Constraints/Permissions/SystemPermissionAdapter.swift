@@ -21,5 +21,5 @@ public protocol SystemPermissionAdapter {
     var usageDescriptionKey: String { get }
 
     /// When called must ask the OS to ask the user to grant the permission
-    func requestAuthorisation()
+    func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) 
 }

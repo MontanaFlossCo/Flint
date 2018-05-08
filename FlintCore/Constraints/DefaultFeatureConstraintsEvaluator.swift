@@ -120,14 +120,13 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             }
             
             for permission in constraints.permissions {
-                switch permissionChecker.status(of: permission) {
-                    case .unknown:
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) could not determine permission: \(permission)")
-                        unknownPermissions.insert(permission)
-                    case .unsupported,
+                let status = permissionChecker.status(of: permission)
+                switch status {
+                    case .notDetermined,
+                         .unsupported,
                          .restricted,
                          .denied:
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission: \(permission)")
+                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission '\(permission)', status is: \(status)")
                         unsatisfiedPermissions.insert(permission)
                     case .authorized:
                         FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")

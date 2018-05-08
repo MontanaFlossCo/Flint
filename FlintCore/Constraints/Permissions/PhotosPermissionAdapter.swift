@@ -16,17 +16,10 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermission = .photos
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
-    weak var delegate: SystemPermissionAdapterDelegate?
-    
     var status: SystemPermissionStatus {
 #if os(iOS)
 #if canImport(Photos)
-        switch PHPhotoLibrary.authorizationStatus() {
-            case .authorized: return .authorized
-            case .denied: return .denied
-            case .notDetermined: return .unknown
-            case .restricted: return .restricted
-        }
+        return authStatusToPermissionStatus(PHPhotoLibrary.authorizationStatus())
 #else
         return .unsupported
 #endif
@@ -37,20 +30,27 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
     
-    func requestAuthorisation() {
+    func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
 #if os(iOS)
 #if canImport(Photos)
-        guard status == .unknown else {
+        guard status == .notDetermined else {
             return
         }
         
         PHPhotoLibrary.requestAuthorization({status in
-            if status != .notDetermined {
-                self.delegate?.permissionStatusDidChange(sender: self)
-            }
+            completion(self, self.authStatusToPermissionStatus(status))
         })
 #endif
 #endif
+    }
+
+    func authStatusToPermissionStatus(_ authStatus: PHAuthorizationStatus) -> SystemPermissionStatus {
+        switch PHPhotoLibrary.authorizationStatus() {
+            case .authorized: return .authorized
+            case .denied: return .denied
+            case .notDetermined: return .notDetermined
+            case .restricted: return .restricted
+        }
     }
 }
 

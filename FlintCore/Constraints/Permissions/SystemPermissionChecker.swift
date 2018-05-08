@@ -8,10 +8,16 @@
 
 import Foundation
 
+public protocol SystemPermissionCheckerDelegate: AnyObject {
+    func permissionStatusDidChange(_ permission: SystemPermission)
+}
+
 /// The interface for the component that will check that required permissions are granted.
 ///
 /// - see: `DefaultPermissionChecker`
 public protocol SystemPermissionChecker {
+    var delegate: SystemPermissionCheckerDelegate? { get set }
+    
     /// Must return `true` only if all the permissions are authorised
     func isAuthorised(for permissions: Set<SystemPermission>) -> Bool
 
