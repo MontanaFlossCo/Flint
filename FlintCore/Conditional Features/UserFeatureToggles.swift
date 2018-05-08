@@ -27,7 +27,4 @@ public protocol UserFeatureToggles {
     /// - return: Whether or not the feature should currently be enabled for the user.
     /// If the user has not set a preference, return nil
     func isEnabled(_ feature: ConditionalFeatureDefinition.Type) -> Bool?
-    
-    /// Must set the enabled status of the feature for the current user, and persist this.
-    func setEnabled(_ feature: ConditionalFeatureDefinition.Type, enabled: Bool)
 }
