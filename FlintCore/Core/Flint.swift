@@ -425,14 +425,17 @@ class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObs
     }
     
     func purchaseStatusDidChange(productID: String, isPurchased: Bool) {
+        // Note that thread we are notified on does not matter here, availability is threadsafe
         availabilityChecker.invalidate()
     }
     
     func userFeatureTogglesDidChange() {
+        // Note that thread we are notified on does not matter here, availability is threadsafe
         availabilityChecker.invalidate()
     }
     
     func permissionStatusDidChange(_ permission: SystemPermission) {
+        // Note that thread we are notified on does not matter here, availability is threadsafe
         availabilityChecker.invalidate()
     }
 }
