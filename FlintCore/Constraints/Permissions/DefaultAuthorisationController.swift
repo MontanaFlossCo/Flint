@@ -14,14 +14,16 @@ class DefaultAuthorisationController: AuthorisationController {
     var permissionsNotAuthorized: [SystemPermission] = []
     let coordinator: PermissionAuthorisationCoordinator
     var cancelled: Bool = false
+    var retryHandler: (() -> Void)?
     
     init(coordinator: PermissionAuthorisationCoordinator, permissions: Set<SystemPermission>) {
         self.coordinator = coordinator
         self.permissions = permissions
     }
 
-    public func begin() {
+    public func begin(retryHandler: (() -> Void)?) {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
+        self.retryHandler = retryHandler
         coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
             if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
                 sortedPermissionsToAuthorize = orderedPermissions
@@ -70,5 +72,12 @@ class DefaultAuthorisationController: AuthorisationController {
 
     func complete(cancelled: Bool) {
         coordinator.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
+        if !cancelled {
+            if let retryHandler = self.retryHandler {
+                DispatchQueue.main.async {
+                    retryHandler()
+                }
+            }
+        }
     }
 }

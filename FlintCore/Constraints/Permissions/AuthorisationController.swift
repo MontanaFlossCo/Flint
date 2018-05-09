@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol AuthorisationController {
-    func begin()
+    func begin(retryHandler: (() -> Void)?)
+    
     func cancel()
 }
