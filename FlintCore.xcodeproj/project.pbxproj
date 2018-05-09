@@ -498,6 +498,30 @@
 		49DB926120757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926220757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926320757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
+		49DFB7C520A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
+		49DFB7C620A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
+		49DFB7C720A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
+		49DFB7C820A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
+		49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */; };
+		49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */; };
+		49DFB7CC20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */; };
+		49DFB7CD20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */; };
+		49DFB7CF20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */; };
+		49DFB7D020A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */; };
+		49DFB7D120A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */; };
+		49DFB7D220A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */; };
+		49DFB7D420A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */; };
+		49DFB7D520A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */; };
+		49DFB7D620A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */; };
+		49DFB7D720A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */; };
+		49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */; };
+		49DFB7DA20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */; };
+		49DFB7DB20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */; };
+		49DFB7DC20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */; };
+		49DFB7DE20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */; };
+		49DFB7DF20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */; };
+		49DFB7E020A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */; };
+		49DFB7E120A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */; };
 		49E1A231203C31C900F7555C /* FlintInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1A230203C31C900F7555C /* FlintInternal.swift */; };
 		49E1A233203C35C800F7555C /* RouteScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1A232203C35C800F7555C /* RouteScope.swift */; };
 		49EA0BCE208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
@@ -728,6 +752,12 @@
 		49DB92422073C67900F758DC /* PurchaseRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRequirement.swift; sourceTree = "<group>"; };
 		49DB924C2075114C00F758DC /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		49DB925F20757D9500F758DC /* AnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsProvider.swift; sourceTree = "<group>"; };
+		49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorisationController.swift; sourceTree = "<group>"; };
+		49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAuthorisationController.swift; sourceTree = "<group>"; };
+		49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthorisationCoordinator.swift; sourceTree = "<group>"; };
+		49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionRequestAction.swift; sourceTree = "<group>"; };
+		49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePurchaseRequirements.swift; sourceTree = "<group>"; };
+		49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePermissionRequirements.swift; sourceTree = "<group>"; };
 		49E1A230203C31C900F7555C /* FlintInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintInternal.swift; sourceTree = "<group>"; };
 		49E1A232203C35C800F7555C /* RouteScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteScope.swift; sourceTree = "<group>"; };
 		49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartDispatchQueue.swift; sourceTree = "<group>"; };
@@ -844,6 +874,7 @@
 				494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */,
 				49F37A3A209B2AC200B27671 /* PlatformConstraint.swift */,
 				49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */,
+				49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */,
 			);
 			path = Constraints;
 			sourceTree = "<group>";
@@ -860,6 +891,11 @@
 				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
 				496136D82099017400291885 /* DefaultPermissionChecker.swift */,
 				496136DD2099028F00291885 /* LocationUsage.swift */,
+				49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */,
+				49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */,
+				49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */,
+				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
+				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -1530,6 +1566,7 @@
 				496136C1209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FCC203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
+				49DFB7D020A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59432098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
@@ -1563,6 +1600,7 @@
 				4977DC74205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FD5203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
 				496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
+				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC6208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8F5B203EEBB1003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
 				496136B22099004A00291885 /* SystemPermission.swift in Sources */,
@@ -1579,12 +1617,14 @@
 				496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F54203EEBB1003AB29B /* Timeline.swift in Sources */,
 				49839CEE2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
+				49DFB7DA20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				496F8FAC203EEBD3003AB29B /* QueryParametersCodable.swift in Sources */,
 				4927FF01208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F47203EEB0D003AB29B /* String+Extensions.swift in Sources */,
 				496F8F58203EEBB1003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEA2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FC9203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
+				49DFB7DF20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DA209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
@@ -1625,8 +1665,10 @@
 				49BC1C4B20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				496F8FAA203EEBD3003AB29B /* ActionURLMappings.swift in Sources */,
 				496F8FCA203EEBDA003AB29B /* Action.swift in Sources */,
+				49DFB7C620A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				4946FAC1208D16750097E10E /* ActionsBuilder.swift in Sources */,
 				494F59392098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
+				49DFB7D520A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
 				496F8FCB203EEBDA003AB29B /* FeatureAvailability.swift in Sources */,
 				49DB92442073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				496F8F5E203EEBB1003AB29B /* Logging.swift in Sources */,
@@ -1668,6 +1710,7 @@
 				496136C2209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
+				49DFB7D120A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				496F8FD7203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59442098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
@@ -1701,6 +1744,7 @@
 				4977DC75205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FEA203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
 				496136D12099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
+				49DFB7CC20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC7208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8F6A203EEBB2003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
 				496136B32099004A00291885 /* SystemPermission.swift in Sources */,
@@ -1717,12 +1761,14 @@
 				496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F63203EEBB2003AB29B /* Timeline.swift in Sources */,
 				49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
+				49DFB7DB20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				496F8FB4203EEBD4003AB29B /* QueryParametersCodable.swift in Sources */,
 				4927FF02208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F48203EEB0E003AB29B /* String+Extensions.swift in Sources */,
 				496F8F67203EEBB2003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEB2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FDE203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
+				49DFB7E020A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DB209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				494F59122098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
@@ -1763,8 +1809,10 @@
 				49BC1C4C20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				496F8FB2203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
 				496F8FDF203EEBDA003AB29B /* Action.swift in Sources */,
+				49DFB7C720A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				4946FAC2208D16750097E10E /* ActionsBuilder.swift in Sources */,
 				494F593A2098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
+				49DFB7D620A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
 				496F8FE0203EEBDA003AB29B /* FeatureAvailability.swift in Sources */,
 				49DB92452073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				496F8F6D203EEBB2003AB29B /* Logging.swift in Sources */,
@@ -1792,10 +1840,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4927FEFE208A53BB00163576 /* HandleActivityAction.swift in Sources */,
+				49DFB7D220A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				496F8F93203EEBBC003AB29B /* ConditionalFeature.swift in Sources */,
 				494F59362098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				494F591D2098AA380075E7EE /* FeaturePrecondition.swift in Sources */,
 				496F8F77203EEBB3003AB29B /* ContextSpecificLogger.swift in Sources */,
+				49DFB7CD20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				496F8FFB203EEBDB003AB29B /* NoInput.swift in Sources */,
 				494F59402098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
 				4956D5DC209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
@@ -1817,6 +1867,7 @@
 				496F8FF1203EEBDB003AB29B /* ActionStackEntry.swift in Sources */,
 				494F59182098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498F97672077824200209633 /* FocusSelection.swift in Sources */,
+				49DFB7C820A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermission.swift in Sources */,
@@ -1870,6 +1921,7 @@
 				496F8F49203EEB0F003AB29B /* String+Extensions.swift in Sources */,
 				49BC1C4820795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				49298244205FCC6000267A49 /* ActionOutcome.swift in Sources */,
+				49DFB7D720A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
 				498F9771207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8F76203EEBB3003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				496F8FF3203EEBDB003AB29B /* FeatureDefinition.swift in Sources */,
@@ -1885,6 +1937,7 @@
 				49F37A41209B2ACF00B27671 /* PlatformConstraint.swift in Sources */,
 				496F8F7E203EEBB3003AB29B /* PrintLoggerOutput.swift in Sources */,
 				496F8FBD203EEBD4003AB29B /* URLMapped.swift in Sources */,
+				49DFB7E120A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4927FEF4208A3B8800163576 /* ActionSource.swift in Sources */,
 				496F8FEE203EEBDB003AB29B /* ActionSession.swift in Sources */,
 				496F8FF8203EEBDB003AB29B /* Flint.swift in Sources */,
@@ -1896,6 +1949,7 @@
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				4956D5DD209897AB002A2A35 /* PurchaseTrackerObserver.swift in Sources */,
 				496F8FA7203EEBCF003AB29B /* ActivitiesFeature.swift in Sources */,
+				49DFB7DC20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				496F8F98203EEBBC003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				496F8FBA203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
 				4978E07720408C3B001D125D /* ActionStackTracker.swift in Sources */,
@@ -1967,6 +2021,7 @@
 				498F97732077846000209633 /* FocusArea.swift in Sources */,
 				49CCF0D01F8BB25800F7020E /* Logging.swift in Sources */,
 				49935BEA206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
+				49DFB7DE20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				494F59292098AB390075E7EE /* FeaturePreconditionEvaluator.swift in Sources */,
 				495768B6200E629C00CB2E6F /* LinkCreator.swift in Sources */,
 				496136D42099015900291885 /* LocationPermissionAdapter.swift in Sources */,
@@ -1974,6 +2029,7 @@
 				49298237205ED11900267A49 /* FeatureMetadata.swift in Sources */,
 				496136D92099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */,
+				49DFB7CF20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				49F37A46209B2C1E00B27671 /* FeatureEvaluationResult.swift in Sources */,
 				49647D3920374DE1005F9825 /* ActionStackEntry.swift in Sources */,
 				496136BB209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
@@ -1994,6 +2050,7 @@
 				498AF6E1202729AE00AFE666 /* URLMapping.swift in Sources */,
 				49819EBC1FC9C3660013AF55 /* ActionRequest.swift in Sources */,
 				49839CE92046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
+				49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */,
 				496136B12099004A00291885 /* SystemPermission.swift in Sources */,
@@ -2028,6 +2085,7 @@
 				495B6C69202B60A50024CDFB /* FlintAppInfo.swift in Sources */,
 				4929823C205ED12C00267A49 /* ActionMetadata.swift in Sources */,
 				49BC1C4A20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
+				49DFB7D420A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
 				49D447F51FEC69F900DBB352 /* Feature.swift in Sources */,
 				4914EFC72067C4D000FE0F41 /* Formatters.swift in Sources */,
 				496136DE2099028F00291885 /* LocationUsage.swift in Sources */,
@@ -2039,8 +2097,10 @@
 				49298232205ED0D900267A49 /* FeatureActionsBuilder.swift in Sources */,
 				4921AC0F203729BB003465E5 /* DefaultContextSpecificLogger.swift in Sources */,
 				49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */,
+				49DFB7C520A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				4927FF00208A542700163576 /* PublishActivityRequest.swift in Sources */,
+				49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				498A89582069695100457D66 /* FocusFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,6 +25,6 @@ public protocol SystemPermissionChecker {
     func status(of permission: SystemPermission) -> SystemPermissionStatus
 
     /// Must ask the user to grant the given permission
-    func requestAuthorization(for permission: SystemPermission)
+    func requestAuthorization(for permission: SystemPermission, completion: @escaping (_ permission: SystemPermission, _ status: SystemPermissionStatus) -> Void)
 }
 

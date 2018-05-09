@@ -60,11 +60,13 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         return adapter.status
     }
     
-    public func requestAuthorization(for permission: SystemPermission) {
+    public func requestAuthorization(for permission: SystemPermission,
+                                     completion: @escaping (_ permission: SystemPermission, _ status: SystemPermissionStatus) -> Void) {
         guard let adapter = permissionAdapters[permission] else {
             fatalError("No permission adapter for \(permission)")
         }
         adapter.requestAuthorisation { adapter, status in
+            completion(adapter.permission, status)
             // Tell our delegate that things were updated - caches will need to be invalidated etc.
             self.delegate?.permissionStatusDidChange(adapter.permission)
         }

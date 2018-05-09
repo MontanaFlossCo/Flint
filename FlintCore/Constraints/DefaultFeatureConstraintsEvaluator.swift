@@ -65,7 +65,6 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         var unsatisfiedPreconditions: Set<FeaturePrecondition> = []
         var unsatisfiedPermissions: Set<SystemPermission> = []
         var unknownPreconditions: Set<FeaturePrecondition> = []
-        var unknownPermissions: Set<SystemPermission> = []
 
         let featureIdentifier = feature.identifier
 
@@ -143,7 +142,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                                             permissions: unsatisfiedPermissions)
         let unknown = FeatureConstraints(allDeclaredPlatforms: [:],
                                         preconditions: unknownPreconditions,
-                                        permissions: unknownPermissions)
+                                        permissions: [])
         
         return FeatureEvaluationResult(satisfied: satisfied,
                                        unsatisfied: unsatisfied,

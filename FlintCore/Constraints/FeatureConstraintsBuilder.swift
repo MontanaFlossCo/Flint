@@ -24,18 +24,21 @@ public protocol FeatureConstraintsBuilder: AnyObject {
 
 /// Syntactic sugar
 public extension FeatureConstraintsBuilder {
+    /// Call to declare a list of preconditions that your feature requires.
     public func preconditions(_ requirements: FeaturePrecondition...) {
         for requirement in requirements {
             self.precondition(requirement)
         }
     }
 
+    /// Call to declare a list of permissions that your feature requires.
     public func permissions(_ requirements: SystemPermission...) {
         for requirement in requirements {
             self.permission(requirement)
         }
     }
     
+    /// Set this to the minimum iOS version your feature requires
     public var iOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -45,6 +48,8 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum iOS version your feature requires, if it only supports iOS and all other platforms
+    /// should be set to `.unsupported`
     public var iOSOnly: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -57,6 +62,7 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum watchOS version your feature requires
     public var watchOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -66,6 +72,8 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum watchOS version your feature requires, if it only supports watchOS and all other platforms
+    /// should be set to `.unsupported`
     public var watchOSOnly: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -78,6 +86,7 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum tvOS version your feature requires
     public var tvOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -87,6 +96,8 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum tvOS version your feature requires, if it only supports tvOS and all other platforms
+    /// should be set to `.unsupported`
     public var tvOSOnly: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -99,6 +110,7 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum macOS version your feature requires
     public var macOS: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
@@ -108,6 +120,8 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Set this to the minimum macOS version your feature requires, if it only supports macOS and all other platforms
+    /// should be set to `.unsupported`
     public var macOSOnly: PlatformVersionConstraint {
         get {
             fatalError("Not supported, you can only assign in this DSL")
