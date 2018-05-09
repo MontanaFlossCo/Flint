@@ -120,7 +120,7 @@ public extension ConditionalFeature {
     }
     
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
-    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator) -> AuthorisationController? {
+    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         guard constraints.unsatisfied.permissions.count > 0 else {
             return nil
