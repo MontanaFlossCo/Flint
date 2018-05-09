@@ -62,12 +62,12 @@ class DefaultAuthorisationController: AuthorisationController {
                         cancel()
                 }
             }
+        } else {
+            complete(cancelled: false)
         }
-        
-        complete(cancelled: false)
     }
 
     func complete(cancelled: Bool) {
-        coordinator.didCompletePermissionAuthiorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
+        coordinator.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
     }
 }

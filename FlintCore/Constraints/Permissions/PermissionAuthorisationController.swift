@@ -12,5 +12,5 @@ public protocol PermissionAuthorisationCoordinator {
     func willBeginPermissionAuthorisation(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
     func willRequestPermission(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
     func didRequestPermission(for permission: SystemPermission, status: SystemPermissionStatus)
-    func didCompletePermissionAuthiorisation(cancelled: Bool, outstandingPermissions: [SystemPermission]?)
+    func didCompletePermissionAuthorisation(cancelled: Bool, outstandingPermissions: [SystemPermission]?)
 }
