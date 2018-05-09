@@ -52,6 +52,7 @@ class DefaultAuthorisationController: AuthorisationController {
                                 strongSelf.permissionsNotAuthorized.append(permission)
                             }
                             strongSelf.coordinator.didRequestPermission(for: permission, status: status)
+                            strongSelf.next()
                         }
                     case .skipPermission:
                         permissionsNotAuthorized.append(permission)
