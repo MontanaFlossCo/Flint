@@ -12,11 +12,11 @@ class DefaultAuthorisationController: AuthorisationController {
     public var permissions: Set<SystemPermission> = []
     var sortedPermissionsToAuthorize: [SystemPermission] = []
     var permissionsNotAuthorized: [SystemPermission] = []
-    let coordinator: PermissionAuthorisationCoordinator
+    let coordinator: PermissionAuthorisationCoordinator?
     var cancelled: Bool = false
     var retryHandler: (() -> Void)?
     
-    init(coordinator: PermissionAuthorisationCoordinator, permissions: Set<SystemPermission>) {
+    init(coordinator: PermissionAuthorisationCoordinator?, permissions: Set<SystemPermission>) {
         self.coordinator = coordinator
         self.permissions = permissions
     }
@@ -24,11 +24,16 @@ class DefaultAuthorisationController: AuthorisationController {
     public func begin(retryHandler: (() -> Void)?) {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         self.retryHandler = retryHandler
-        coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
-            if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
-                sortedPermissionsToAuthorize = orderedPermissions
-                next()
+        if let coordinator = coordinator {
+            coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
+                if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
+                    sortedPermissionsToAuthorize = orderedPermissions
+                    next()
+                }
             }
+        } else {
+            sortedPermissionsToAuthorize = Array(permissions)
+            next()
         }
     }
     
@@ -43,27 +48,36 @@ class DefaultAuthorisationController: AuthorisationController {
         
         if sortedPermissionsToAuthorize.count > 0 {
             let permission = sortedPermissionsToAuthorize.removeFirst()
-            coordinator.willRequestPermission(for: permission) { action in
-                switch action {
-                    case .requestPermission:
-                        Flint.permissionChecker.requestAuthorization(for: permission) { [weak self] permission, status in
-                            guard let strongSelf = self else {
-                                return
-                            }
-                            if status != .authorized {
-                                strongSelf.permissionsNotAuthorized.append(permission)
-                            }
-                            strongSelf.coordinator.didRequestPermission(for: permission, status: status)
-                            strongSelf.next()
-                        }
-                    case .skipPermission:
-                        permissionsNotAuthorized.append(permission)
-                        next()
-                    case .cancelAll:
-                        permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
-                        sortedPermissionsToAuthorize.removeAll()
-                        cancel()
+            
+            func _requestPermission() {
+                Flint.permissionChecker.requestAuthorization(for: permission) { [weak self] permission, status in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    if status != .authorized {
+                        strongSelf.permissionsNotAuthorized.append(permission)
+                    }
+                    strongSelf.coordinator?.didRequestPermission(for: permission, status: status)
+                    strongSelf.next()
                 }
+            }
+
+            if let coordinator = coordinator {
+                coordinator.willRequestPermission(for: permission) { action in
+                    switch action {
+                        case .requestPermission:
+                            _requestPermission()
+                        case .skipPermission:
+                            permissionsNotAuthorized.append(permission)
+                            next()
+                        case .cancelAll:
+                            permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
+                            sortedPermissionsToAuthorize.removeAll()
+                            cancel()
+                    }
+                }
+            } else {
+                _requestPermission()
             }
         } else {
             complete(cancelled: false)
@@ -71,7 +85,7 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func complete(cancelled: Bool) {
-        coordinator.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
+        coordinator?.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
         if !cancelled {
             if let retryHandler = self.retryHandler {
                 DispatchQueue.main.async {
