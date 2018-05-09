@@ -44,19 +44,7 @@ public protocol ConditionalFeature: ConditionalFeatureDefinition {
     static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> ConditionalActionRequest<Self, T>?
 }
 
-public struct FeaturePurchaseRequirements {
-    public let all: Set<PurchaseRequirement>
-    public let requiredToUnlock: Set<PurchaseRequirement>
-    public let purchased: Set<PurchaseRequirement>
-}
-
-public struct FeaturePermissionRequirements {
-    public let all: Set<SystemPermission>
-    public let notDetermined: Set<SystemPermission>
-    public let denied: Set<SystemPermission>
-    public let restricted: Set<SystemPermission>
-}
-
+/// Convenience functions to do useful things with conditional features
 public extension ConditionalFeature {
     
     /// Verifies that the feature is correctly prepared in Flint and tests `isAvailable` to see if it is true.
@@ -74,6 +62,7 @@ public extension ConditionalFeature {
         return ConditionalActionRequest(actionBinding: actionBinding)
     }
 
+    /// Access information about the permissions required by this feature
     public static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let all = constraints.all.permissions
@@ -93,6 +82,7 @@ public extension ConditionalFeature {
         return FeaturePermissionRequirements(all: all, notDetermined: notDetermined, denied: denied, restricted: restricted)
     }
     
+    /// Access information about the purchases required by this feature
     public static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
         func _extractPurchaseRequirements(_ preconditions: Set<FeaturePrecondition>) -> Set<PurchaseRequirement> {
@@ -112,11 +102,6 @@ public extension ConditionalFeature {
         let purchased = _extractPurchaseRequirements(constraints.satisfied.preconditions)
         
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
-    }
-    
-    public static var isMissingUserToggle: Bool {
-//        return Flint.constraintsEvaluator.evaluate(for: self).unsatisfied.preconditions.contains(.userToggled)
-        return false
     }
     
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter

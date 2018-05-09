@@ -8,6 +8,14 @@
 
 import Foundation
 
+/// The default implementation of `AuthorisationController` that will iterate over the unsatisfied permissions
+/// of a feature and ask the permission checker to authorise each one in turn.
+///
+/// This controller works together with a coordinator you supply, which can orchestrate your UI in such a way that
+/// your users feel informed about what is happening, giving you the chance to maximise the likelihood they will
+/// authorise all the permissions so they can use your feature.
+///
+/// - see: `ConditionalFeature.permissionAuthorisationController` for how you get an instance of this in your app.
 class DefaultAuthorisationController: AuthorisationController {
     public var permissions: Set<SystemPermission> = []
     var sortedPermissionsToAuthorize: [SystemPermission] = []
@@ -26,8 +34,8 @@ class DefaultAuthorisationController: AuthorisationController {
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
             coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
-                if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
-                    sortedPermissionsToAuthorize = orderedPermissions
+                if permissions.count > 0 {
+                    sortedPermissionsToAuthorize = permissionsToRequest
                     next()
                 }
             }
@@ -57,17 +65,22 @@ class DefaultAuthorisationController: AuthorisationController {
                     if status != .authorized {
                         strongSelf.permissionsNotAuthorized.append(permission)
                     }
-                    strongSelf.coordinator?.didRequestPermission(for: permission, status: status)
-                    strongSelf.next()
+                    strongSelf.coordinator?.didRequestPermission(for: permission, status: status, completion: { shouldCancel in
+                        if !shouldCancel {
+                            strongSelf.next()
+                        } else {
+                            strongSelf.cancel()
+                        }
+                    })
                 }
             }
 
             if let coordinator = coordinator {
                 coordinator.willRequestPermission(for: permission) { action in
                     switch action {
-                        case .requestPermission:
+                        case .request:
                             _requestPermission()
-                        case .skipPermission:
+                        case .skip:
                             permissionsNotAuthorized.append(permission)
                             next()
                         case .cancelAll:
