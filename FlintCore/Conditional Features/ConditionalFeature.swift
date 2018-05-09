@@ -44,17 +44,17 @@ public protocol ConditionalFeature: ConditionalFeatureDefinition {
     static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> ConditionalActionRequest<Self, T>?
 }
 
-public enum SystemPermissionRequestAction {
-    case requestPermission
-    case skipPermission
-    case cancelAll
+public struct FeaturePurchaseRequirements {
+    public let all: Set<PurchaseRequirement>
+    public let requiredToUnlock: Set<PurchaseRequirement>
+    public let purchased: Set<PurchaseRequirement>
 }
 
-public protocol PermissionAuthorisationCoordinator {
-    func willBeginPermissionAuthorisation(for permissions: Set<SystemPermission>, completion: (_ permissionsToRequest: [SystemPermission]?) -> ())
-    func willRequestPermission(for permission: SystemPermission, completion: (_ action: SystemPermissionRequestAction) -> ())
-    func didRequestPermission(for permission: SystemPermission, status: SystemPermissionStatus)
-    func didCompletePermissionAuthiorisation(cancelled: Bool, outstandingPermissions: [SystemPermission]?)
+public struct FeaturePermissionRequirements {
+    public let all: Set<SystemPermission>
+    public let notDetermined: Set<SystemPermission>
+    public let denied: Set<SystemPermission>
+    public let restricted: Set<SystemPermission>
 }
 
 public extension ConditionalFeature {
@@ -74,6 +74,51 @@ public extension ConditionalFeature {
         return ConditionalActionRequest(actionBinding: actionBinding)
     }
 
+    public static var permissions: FeaturePermissionRequirements {
+        let constraints = Flint.constraintsEvaluator.evaluate(for: self)
+        let all = constraints.all.permissions
+        
+        func _filter(_ permissions: Set<SystemPermission>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermission> {
+            let results = permissions.filter { permission in
+                let status = Flint.permissionChecker.status(of: permission)
+                return matchingStatus == status
+            }
+            return Set(results)
+        }
+        
+        let notDetermined = _filter(constraints.unsatisfied.permissions, onStatus: .notDetermined)
+        let denied = _filter(constraints.unsatisfied.permissions, onStatus: .denied)
+        let restricted = _filter(constraints.unsatisfied.permissions, onStatus: .restricted)
+
+        return FeaturePermissionRequirements(all: all, notDetermined: notDetermined, denied: denied, restricted: restricted)
+    }
+    
+    public static var purchases: FeaturePurchaseRequirements {
+        // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
+        func _extractPurchaseRequirements(_ preconditions: Set<FeaturePrecondition>) -> Set<PurchaseRequirement> {
+            let requirements: [PurchaseRequirement] = preconditions.flatMap {
+                if case let .purchase(requirement) = $0 {
+                    return requirement
+                } else {
+                    return nil
+                }
+            }
+            return Set(requirements)
+        }
+    
+        let constraints = Flint.constraintsEvaluator.evaluate(for: self)
+        let all = _extractPurchaseRequirements(constraints.all.preconditions)
+        let requiredToUnlock = _extractPurchaseRequirements(constraints.unsatisfied.preconditions)
+        let purchased = _extractPurchaseRequirements(constraints.satisfied.preconditions)
+        
+        return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
+    }
+    
+    public static var isMissingUserToggle: Bool {
+//        return Flint.constraintsEvaluator.evaluate(for: self).unsatisfied.preconditions.contains(.userToggled)
+        return false
+    }
+    
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
     public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
@@ -91,71 +136,3 @@ public extension ConditionalFeature {
 
 }
 
-public protocol AuthorisationController {
-    func begin()
-    func cancel()
-}
-
-class DefaultAuthorisationController: AuthorisationController {
-    public var permissions: Set<SystemPermission> = []
-    var sortedPermissionsToAuthorize: [SystemPermission] = []
-    var permissionsNotAuthorized: [SystemPermission] = []
-    let coordinator: PermissionAuthorisationCoordinator
-    var cancelled: Bool = false
-    
-    init(coordinator: PermissionAuthorisationCoordinator, permissions: Set<SystemPermission>) {
-        self.coordinator = coordinator
-        self.permissions = permissions
-    }
-
-    public func begin() {
-        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
-        coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
-            if let orderedPermissions = permissionsToRequest, permissions.count > 0 {
-                sortedPermissionsToAuthorize = orderedPermissions
-                next()
-            }
-        }
-    }
-    
-    public func cancel() {
-        precondition(!self.cancelled, "Cannot restart a cancelled authorisation controller")
-        complete(cancelled: true)
-        cancelled = true
-    }
-
-    func next() {
-        precondition(!cancelled, "Cannot use a cancelled authorisation controller")
-        
-        if sortedPermissionsToAuthorize.count > 0 {
-            let permission = sortedPermissionsToAuthorize.removeFirst()
-            coordinator.willRequestPermission(for: permission) { action in
-                switch action {
-                    case .requestPermission:
-                        Flint.permissionChecker.requestAuthorization(for: permission) { [weak self] permission, status in
-                            guard let strongSelf = self else {
-                                return
-                            }
-                            if status == .notDetermined {
-                                strongSelf.permissionsNotAuthorized.append(permission)
-                            }
-                            strongSelf.coordinator.didRequestPermission(for: permission, status: status)
-                        }
-                    case .skipPermission:
-                        permissionsNotAuthorized.append(permission)
-                        next()
-                    case .cancelAll:
-                        permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
-                        sortedPermissionsToAuthorize.removeAll()
-                        cancel()
-                }
-            }
-        } else {
-            complete(cancelled: false)
-        }
-    }
-
-    func complete(cancelled: Bool) {
-        coordinator.didCompletePermissionAuthiorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
-    }
-}
