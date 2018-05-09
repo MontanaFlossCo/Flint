@@ -48,7 +48,7 @@ class DefaultAuthorisationController: AuthorisationController {
                             guard let strongSelf = self else {
                                 return
                             }
-                            if status == .notDetermined {
+                            if status != .authorized {
                                 strongSelf.permissionsNotAuthorized.append(permission)
                             }
                             strongSelf.coordinator.didRequestPermission(for: permission, status: status)
