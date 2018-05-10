@@ -7,8 +7,10 @@
 //
 
 import Foundation
+#if canImport(CoreSpotlight)
 import CoreSpotlight
-#if os(iOS) || os(tvOS) || os(macOS)
+#endif
+#if os(iOS) || os(macOS)
 import Intents
 #endif
 #if canImport(ClassKit)
@@ -237,9 +239,11 @@ final public class Flint {
             var source: ActionSource = .continueActivity(type: .other)
             switch activity.activityType {
                 case NSUserActivityTypeBrowsingWeb: source = .continueActivity(type: .browsingWeb)
+#if os(iOS) || os(macOS)
                 case CSQueryContinuationActionType: source = .continueActivity(type: .search)
+#endif
                 default:
-#if os(iOS) || os(tvOS) || os(macOS)
+#if os(iOS) || os(macOS)
                     // Check for a Siri intent
                     if let _ = activity.interaction {
                         source = .continueActivity(type: .siri)

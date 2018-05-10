@@ -23,6 +23,11 @@ import CoreLocation
     }
     
     public init(usage: LocationUsage) {
+#if !os(iOS)
+        if .always == usage {
+            fatalError("Location usage cannot be 'always' on this platform.")
+        }
+#endif
         switch usage {
             case .always: permission = .location(usage: .always)
             case .whenInUse: permission = .location(usage: .whenInUse)
@@ -37,6 +42,11 @@ import CoreLocation
             return
         }
         
+#if os(macOS)
+        // macOS does not have authorization functions
+        completion(self, .authorized)
+        return
+#elseif os(iOS)
         switch permission {
             case .location(usage: .always):
                 pendingCompletions.append(completion)
@@ -47,6 +57,9 @@ import CoreLocation
             default:
                 fatalError("Incorrect permission type: \(permission)")
         }
+#else
+        fatalError("Location usage cannot be 'always' on this platform.")
+#endif
     }
 
     // MARK: Location Manager delegate

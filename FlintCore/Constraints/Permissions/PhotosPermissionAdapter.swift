@@ -17,14 +17,12 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
     var status: SystemPermissionStatus {
-#if os(iOS)
 #if canImport(Photos)
-        return authStatusToPermissionStatus(PHPhotoLibrary.authorizationStatus())
-#else
-        return .unsupported
-#endif
-#elseif os(macOS)
-        return .authorized
+        if #available(iOS 8, tvOS 10, macOS 10.13, *) {
+            return authStatusToPermissionStatus(PHPhotoLibrary.authorizationStatus())
+        } else {
+            return .unsupported
+        }
 #else
         return .unsupported
 #endif
@@ -44,13 +42,20 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
 
+#if canImport(Photos)
+    @available(iOS 8, tvOS 10, macOS 10.13, *)
     func authStatusToPermissionStatus(_ authStatus: PHAuthorizationStatus) -> SystemPermissionStatus {
+#if os(watchOS)
+        return .unsupported
+#else
         switch PHPhotoLibrary.authorizationStatus() {
             case .authorized: return .authorized
             case .denied: return .denied
             case .notDetermined: return .notDetermined
             case .restricted: return .restricted
         }
+#endif
     }
+#endif
 }
 

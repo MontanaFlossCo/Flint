@@ -7,13 +7,16 @@
 //
 
 import Foundation
+#if canImport(StoreKit)
 import StoreKit
+#endif
 
 /// Example of validation of features by StoreKit In-App Purchase or subscription ID.
 ///
 /// Note that this code could be easily hacked on jailbroken devices. You may need to add your
 /// own app-specific logic to verify this so there isn't a single point of verification,
 /// and to check receipts.
+@available(iOS 3, tvOS 9, macOS 10.7, *)
 public class StoreKitPurchaseTracker: PurchaseTracker {
 
     private var observers = ObserverSet<PurchaseTrackerObserver>()
