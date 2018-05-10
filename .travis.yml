@@ -1,10 +1,12 @@
-language: objective-c
-osx_image: xcode9.3
 install:
 - carthage bootstrap
-script:
-- xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone
-  X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+matrix:
+  include:
+    - os: osx
+    - osx_image: xcode9.3
+    - language: objective-c
+    - script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone
+      X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
 notifications:
   email: false
   slack:
