@@ -187,7 +187,7 @@
 		49647D3F203B117D005F9825 /* URLMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3E203B117D005F9825 /* URLMapped.swift */; };
 		496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */; };
 		496E26EF203B7506008E4320 /* FocusContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */; };
-		496F8F10203EE9EA003AB29B /* FlintCore_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */; };
+		496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore.framework */; };
 		496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8F14203EE9EA003AB29B /* FlintCore_tvOSTests.swift */; };
 		496F8F17203EE9EA003AB29B /* FlintCore_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F09203EE9EA003AB29B /* FlintCore_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		496F8F2C203EEA06003AB29B /* FlintCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */; };
@@ -459,6 +459,8 @@
 		49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */; };
 		49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */; };
 		49A99A081FF9073C00A64E8C /* AggregatingLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */; };
+		49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */; };
+		49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
 		49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
@@ -684,7 +686,7 @@
 		49647D3E203B117D005F9825 /* URLMapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMapped.swift; sourceTree = "<group>"; };
 		496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualLoggerTarget.swift; sourceTree = "<group>"; };
 		496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusContextualLoggerTarget.swift; sourceTree = "<group>"; };
-		496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F07203EE9E9003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F09203EE9EA003AB29B /* FlintCore_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_tvOS.h; sourceTree = "<group>"; };
 		496F8F0A203EE9EA003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -753,6 +755,7 @@
 		49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggerFactory.swift; sourceTree = "<group>"; };
 		49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLoggerOutput.swift; sourceTree = "<group>"; };
 		49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatingLoggerOutput.swift; sourceTree = "<group>"; };
+		49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueueDataSource.swift; sourceTree = "<group>"; };
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
@@ -808,7 +811,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				496F8F10203EE9EA003AB29B /* FlintCore_tvOS.framework in Frameworks */,
+				49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */,
+				49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */,
+				496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1026,6 +1031,7 @@
 		4977DC7A205AECB400DAA0C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */,
 				49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */,
 				49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */,
 				49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */,
@@ -1160,7 +1166,7 @@
 			children = (
 				49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */,
 				49CCF0B31F8BB1B200F7020E /* FlintCore-iOS-Tests.xctest */,
-				496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */,
+				496F8F07203EE9E9003AB29B /* FlintCore.framework */,
 				496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */,
 				496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */,
 				496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */,
@@ -1312,7 +1318,7 @@
 			);
 			name = "FlintCore-tvOS";
 			productName = "FlintCore-tvOS";
-			productReference = 496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */;
+			productReference = 496F8F07203EE9E9003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		496F8F0E203EE9EA003AB29B /* FlintCore-tvOSTests */ = {
@@ -2240,7 +2246,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2267,7 +2273,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2282,8 +2288,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2299,8 +2309,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;

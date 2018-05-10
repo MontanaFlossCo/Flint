@@ -34,7 +34,9 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
 #endif
 #if canImport(CoreLocation)
         _add(LocationPermissionAdapter(usage: .whenInUse))
+#if os(iOS) || os(watchOS)
         _add(LocationPermissionAdapter(usage: .always))
+#endif
 #endif
 
         self.permissionAdapters = permissionAdapters
