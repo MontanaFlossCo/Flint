@@ -1,23 +1,39 @@
+cache:
+  directories:
+  - Carthage
+
+before_install:
+  - brew update
+  - brew outdated carthage || brew upgrade carthage
+  - carthage bootstrap --verbose --no-use-binaries --cache-builds
+
 install:
 - carthage bootstrap
+
 matrix:
   include:
     - os: osx
       osx_image: xcode9.3
       language: objective-c
       script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+      env:
+        - _FLAVOUR=iOS
     - os: osx
       osx_image: xcode9.3
       language: objective-c
       script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
+        - _FLAVOUR=tvOS
     - os: osx
       osx_image: xcode9.3
       language: objective-c
-      script: xcodebuild clean build -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch,OS=4.3' -workspace Flint.xcworkspace -scheme FlintCore-watchOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean build -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 42mm,OS=4.3' -workspace Flint.xcworkspace -scheme FlintCore-watchOS CODE_SIGNING_REQUIRED=NO
+        - _FLAVOUR=watchOS
     - os: osx
       osx_image: xcode9.3
       language: objective-c
-      script: xcodebuild clean test -sdk maxosx -workspace Flint.xcworkspace -scheme FlintCore-macOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean test -sdk macosx -workspace Flint.xcworkspace -scheme FlintCore-macOS CODE_SIGNING_REQUIRED=NO
+        - _FLAVOUR=macOS
+
 notifications:
   email: false
   slack:
