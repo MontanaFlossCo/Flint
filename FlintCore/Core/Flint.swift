@@ -44,10 +44,28 @@ final public class Flint {
     
     /// The permission checker to verify availability of system permissions. You should not need to replace this
     /// unless you are writing tests and want a mock instance
-    public static var permissionChecker: SystemPermissionChecker!
+    private static var _permissionChecker: SystemPermissionChecker!
+    public static var permissionChecker: SystemPermissionChecker! {
+        get {
+            requiresSetup()
+            return _permissionChecker
+        }
+        set {
+            _permissionChecker = newValue
+        }
+    }
 
     /// The constraints evaluator used to define the constraints on features
-    public static var constraintsEvaluator: ConstraintsEvaluator!
+    private static var _constraintsEvaluator: ConstraintsEvaluator!
+    public static var constraintsEvaluator: ConstraintsEvaluator! {
+        get {
+            requiresSetup()
+            return _constraintsEvaluator
+        }
+        set {
+            _constraintsEvaluator = newValue
+        }
+    }
     
     /// The user feature toggles implementation. By default it will use `UserDefaults` for this, replace with your
     /// own implementation if you'd like to store these elsewhere.
@@ -136,7 +154,7 @@ final public class Flint {
         if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
             let builder = DefaultFeatureConstraintsBuilder()
             let constraints = builder.build(conditionalFeature.constraints)
-            constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+            _constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
         }
 
         let builder = ActionsBuilder(feature: feature)
@@ -335,20 +353,20 @@ extension Flint {
         }
 #endif
         
-        if permissionChecker == nil {
+        if _permissionChecker == nil {
             permissionChecker = DefaultPermissionChecker()
         }
         
-        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: permissionChecker, purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
+        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: _permissionChecker, purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
         
         if availabilityChecker == nil {
-            availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
+            availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: _constraintsEvaluator)
         }
 
         preconditionChangeObserver = PreconditionChangeObserver(availabilityChecker: availabilityChecker)
         purchaseTracker?.addObserver(preconditionChangeObserver!)
         userFeatureToggles.addObserver(preconditionChangeObserver!)
-        permissionChecker?.delegate = preconditionChangeObserver
+        _permissionChecker?.delegate = preconditionChangeObserver
         
         register(FlintFeatures.self)
         isSetup = true
