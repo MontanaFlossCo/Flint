@@ -698,7 +698,7 @@
 		496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F30203EEA06003AB29B /* FlintCore_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_macOSTests.swift; sourceTree = "<group>"; };
 		496F8F32203EEA06003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_watchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F3F203EEA23003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F41203EEA23003AB29B /* FlintCore_watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_watchOS.h; sourceTree = "<group>"; };
 		496F8F42203EEA23003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4976923A201F3CBE00F97BD5 /* URLMappingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingsBuilder.swift; sourceTree = "<group>"; };
@@ -756,6 +756,8 @@
 		49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLoggerOutput.swift; sourceTree = "<group>"; };
 		49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatingLoggerOutput.swift; sourceTree = "<group>"; };
 		49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		49B06F1820A4C5AC004564E1 /* FlintCore_watchOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_watchOSTests.swift; sourceTree = "<group>"; };
+		49B06F1A20A4C5AC004564E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueueDataSource.swift; sourceTree = "<group>"; };
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
@@ -1133,6 +1135,15 @@
 			path = Focus;
 			sourceTree = "<group>";
 		};
+		49B06F1720A4C5AC004564E1 /* FlintCore-watchOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				49B06F1820A4C5AC004564E1 /* FlintCore_watchOSTests.swift */,
+				49B06F1A20A4C5AC004564E1 /* Info.plist */,
+			);
+			path = "FlintCore-watchOSTests";
+			sourceTree = "<group>";
+		};
 		49C9C3781FFD1C0300E4D500 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -1155,6 +1166,7 @@
 				496F8F24203EEA06003AB29B /* FlintCore-macOS */,
 				496F8F2F203EEA06003AB29B /* FlintCore-macOSTests */,
 				496F8F40203EEA23003AB29B /* FlintCore-watchOS */,
+				49B06F1720A4C5AC004564E1 /* FlintCore-watchOSTests */,
 				49891EC1209714B600B9BCBF /* FlintTestHost */,
 				49CCF0AB1F8BB1B200F7020E /* Products */,
 				4977DC7A205AECB400DAA0C8 /* Frameworks */,
@@ -1170,7 +1182,7 @@
 				496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */,
 				496F8F23203EEA05003AB29B /* FlintCore.framework */,
 				496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */,
-				496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */,
+				496F8F3F203EEA23003AB29B /* FlintCore.framework */,
 				49891EC0209714B600B9BCBF /* FlintTestHost.app */,
 			);
 			name = Products;
@@ -1390,7 +1402,7 @@
 			);
 			name = "FlintCore-watchOS";
 			productName = "FlintCore-watchOS";
-			productReference = 496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */;
+			productReference = 496F8F3F203EEA23003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		49891EBF209714B600B9BCBF /* FlintTestHost */ = {
@@ -2435,9 +2447,9 @@
 				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2463,9 +2475,9 @@
 				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;

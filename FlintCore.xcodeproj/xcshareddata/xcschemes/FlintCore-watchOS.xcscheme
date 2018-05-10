@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "496F8F3E203EEA23003AB29B"
-               BuildableName = "FlintCore_watchOS.framework"
+               BuildableName = "FlintCore.framework"
                BlueprintName = "FlintCore-watchOS"
                ReferencedContainer = "container:FlintCore.xcodeproj">
             </BuildableReference>
@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "496F8F3E203EEA23003AB29B"
+            BuildableName = "FlintCore.framework"
+            BlueprintName = "FlintCore-watchOS"
+            ReferencedContainer = "container:FlintCore.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -46,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "496F8F3E203EEA23003AB29B"
-            BuildableName = "FlintCore_watchOS.framework"
+            BuildableName = "FlintCore.framework"
             BlueprintName = "FlintCore-watchOS"
             ReferencedContainer = "container:FlintCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "496F8F3E203EEA23003AB29B"
-            BuildableName = "FlintCore_watchOS.framework"
+            BuildableName = "FlintCore.framework"
             BlueprintName = "FlintCore-watchOS"
             ReferencedContainer = "container:FlintCore.xcodeproj">
          </BuildableReference>
