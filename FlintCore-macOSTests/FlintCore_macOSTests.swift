@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import FlintCore_macOS
+@testable import FlintCore
 
 class FlintCore_macOSTests: XCTestCase {
     

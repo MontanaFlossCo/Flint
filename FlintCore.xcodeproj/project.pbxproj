@@ -190,7 +190,7 @@
 		496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore.framework */; };
 		496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8F14203EE9EA003AB29B /* FlintCore_tvOSTests.swift */; };
 		496F8F17203EE9EA003AB29B /* FlintCore_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F09203EE9EA003AB29B /* FlintCore_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		496F8F2C203EEA06003AB29B /* FlintCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */; };
+		496F8F2C203EEA06003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F23203EEA05003AB29B /* FlintCore.framework */; };
 		496F8F31203EEA06003AB29B /* FlintCore_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8F30203EEA06003AB29B /* FlintCore_macOSTests.swift */; };
 		496F8F33203EEA06003AB29B /* FlintCore_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F25203EEA06003AB29B /* FlintCore_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		496F8F43203EEA23003AB29B /* FlintCore_watchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F41203EEA23003AB29B /* FlintCore_watchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -692,7 +692,7 @@
 		496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F14203EE9EA003AB29B /* FlintCore_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_tvOSTests.swift; sourceTree = "<group>"; };
 		496F8F16203EE9EA003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F23203EEA05003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F25203EEA06003AB29B /* FlintCore_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_macOS.h; sourceTree = "<group>"; };
 		496F8F26203EEA06003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -829,7 +829,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				496F8F2C203EEA06003AB29B /* FlintCore_macOS.framework in Frameworks */,
+				496F8F2C203EEA06003AB29B /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1168,7 +1168,7 @@
 				49CCF0B31F8BB1B200F7020E /* FlintCore-iOS-Tests.xctest */,
 				496F8F07203EE9E9003AB29B /* FlintCore.framework */,
 				496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */,
-				496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */,
+				496F8F23203EEA05003AB29B /* FlintCore.framework */,
 				496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */,
 				496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */,
 				49891EC0209714B600B9BCBF /* FlintTestHost.app */,
@@ -1354,7 +1354,7 @@
 			);
 			name = "FlintCore-macOS";
 			productName = "FlintCore-macOS";
-			productReference = 496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */;
+			productReference = 496F8F23203EEA05003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		496F8F2A203EEA06003AB29B /* FlintCore-macOSTests */ = {
@@ -2345,7 +2345,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2373,7 +2373,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2388,8 +2388,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2406,8 +2407,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
