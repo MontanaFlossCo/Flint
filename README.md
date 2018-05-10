@@ -3,11 +3,11 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
 
-Building great apps for Apple platforms involves a lot of work; custom URL schemes, in-app purchases, universal links, Handoff and Siri suggestions support, tracking analytics events, feature flagging and more. These things can be fiddly and time consuming.
+Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming.
 
 Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
 
-We made Flint because we want people to build apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that.
+We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
 
 Here are some quick usage examples.
 
@@ -49,22 +49,33 @@ Of course you can easily perform this same action from code in your app if requi
 UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: confirmationToken)
 ```
 
-If you need to, you can create URLs that link to these mapped actions using[`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 
+If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 
 
-## Supporting features that require purchases or other toggling
+## Supporting features that require purchases, permissions or other "toggling"
 
-Because Flint uses feature driven development, we can easily mark large parts of our apps as being conditionally available, at the place that makes sense — where the feature is defined in the app.
+Because Flint uses feature driven development, we can easily mark individual features of our apps as being conditionally available, at the place that makes sense — where the feature is defined in the app.
 
-All you do is make your `Feature` conform to `ConditionalFeature` and set the `availability` property to indicate whether it just needs to be checked at runtime, requires in-app purchases, or manual user toggling.
+All you do is make your `Feature` conform to `ConditionalFeature` and implement the `constraints` function to indicate what kind of constraints apply to that feature.
 
 ```swift
 final class DocumentSharingFeature: ConditionalFeature {
     static var description: String = "Sharing of documents"
     
-    static var availability: FeatureAvailability = .runtimeEvaluated
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        // Platform version minimum requirements for this feature
+        requirements.iOS = 10
+        requirements.maOS = "10.12"
+        
+        // Require location access
+        requirements.permission(.location(usage: .always))
+        
+        // Require an in-app purchase and a runtime test of the `isEnabled` flag
+        requirements.precondition(.purchase(PurchaseRequirement(premiumProduct)))
+        requirements.precondition(.runtimeEvaluated)
+    }
     
     // 💥 Return whether or not this feature is enabled
-    static var isAvailable: Bool? = true
+    static var isEnabled: Bool? = true
     
     static let share = action(DocumentShareAction.self)
     
@@ -74,7 +85,7 @@ final class DocumentSharingFeature: ConditionalFeature {
 }
 ```
 
-In the above feature, you can return `false`  from `isAvailable` to disable all actions related to sharing. If the `availability` is `.userToggled` or `.purchaseRequired`, Flint passes these through to default services that handle that. You can easily provide your own implementations of these.
+In the above feature, you can return `false`  from `isEnabled` to disable all actions related to sharing. Flint takes care of the verification of permissions and purchases, with clean APIs for requesting authorisation of all the unauthorised permissions a single feature needs, with full support for custom UI that guides the user through the process.
 
 When you need to perform an action from a conditional feature, you are forced to first check if the feature is available and handle the case where it is not:
 
@@ -82,11 +93,11 @@ When you need to perform an action from a conditional feature, you are forced to
 if let request = DocumentSharingFeature.share.request() {
     request.perform(using: presenter, with: document)
 } else {
-    showPremiumUpgradeScreen()
+    showPremiumUpgradeOrPermissionAuthorisations()
 }
 ```
 
-This makes your code cleaner and safer. Everybody on the team can see which code is internally feature-flagged or requires a purchase.
+This makes your code cleaner and safer. Everybody on the team can see which code is internally feature-flagged or requires a purchase, and which permissions your app requires.
 
 ## Automatic Handoff and Siri Suggestions support
 
