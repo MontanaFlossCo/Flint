@@ -1,9 +1,12 @@
 # 💥 Flint framework
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Swift 4.1](https://img.shields.io/badge/Swift-4.1-4BC51D.svg?style=flat)](https://swift.org)
-[![Xcode 9.3](https://img.shields.io/badge/Xcode-9.3-4BC51D.svg?style=flat)](https://swift.org)
-[![Build Status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
+![carthage compatible](https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat)
+![swift 4.1](https://img.shields.io/badge/swift-4.1-4BC51D.svg?style=flat)
+![xcode 9.3](https://img.shields.io/badge/Xcode-9.3-4BC51D.svg?style=flat)
+![platforms iOS, macOS, tvOS, watchOS](https://img.shields.io/badge/platforms-iOS%2C%20tvOS%2C%20macOS%2C%20watchOS-4BC51D.svg)
+
+[![build status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
+![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 
 Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
 
