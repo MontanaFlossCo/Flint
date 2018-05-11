@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if canImport(CoreSpotlight)
 import CoreSpotlight
+#endif
 
 /// This internal action is used to auto-publish `NSUserActivity` when an action is performed.
 ///
@@ -62,7 +64,7 @@ final class PublishCurrentActionActivityAction: Action {
         
         var activityDebug: String = ""
         if let _ = context.logs.development?.debug {
-            activityDebug = "Activity type: \(preparedActivity.activityType). Title: \(String(describing: activity.title)). UserInfo: \(String(reflecting: activity.userInfo)). Keywords: \(preparedActivity.keywords). Search? \(activity.isEligibleForSearch). Handoff? \(activity.isEligibleForHandoff). Public indexing? \(activity.isEligibleForPublicIndexing). Search attributes: \(String(reflecting: activity.contentAttributeSet))"
+            activityDebug = preparedActivity._detailedDebugDescription
         }
         if preparedActivity != activity {
             context.logs.development?.debug("Registering custom user activity returned by action: \(activityDebug))")
@@ -77,4 +79,20 @@ final class PublishCurrentActionActivityAction: Action {
         return completion(.success(closeActionStack: true))
     }
 
+}
+
+extension NSUserActivity {
+    var _detailedDebugDescription: String {
+        var result = "Activity type: \(activityType), "
+        result.append("Title: \(String(describing: title)), ")
+        result.append("UserInfo: \(String(reflecting: userInfo)), ")
+        result.append("Keywords: \(keywords), ")
+        result.append("Search? \(isEligibleForSearch), ")
+        result.append("Handoff? \(isEligibleForHandoff), ")
+        result.append("Public indexing? \(isEligibleForPublicIndexing)")
+#if os(iOS) || os(macOS)
+        result.append(", Search attributes: \(String(reflecting: contentAttributeSet))")
+#endif
+        return result
+    }
 }

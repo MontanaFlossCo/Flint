@@ -1,15 +1,14 @@
 //
-//  FlintCore_macOSTests.swift
-//  FlintCore-macOSTests
+//  FlintCore_watchOSTests.swift
+//  FlintCore-watchOSTests
 //
-//  Created by Marc Palmer on 22/02/2018.
+//  Created by Marc Palmer on 10/05/2018.
 //  Copyright © 2018 Montana Floss Co. Ltd. All rights reserved.
 //
 
 import XCTest
-@testable import FlintCore
 
-class FlintCore_macOSTests: XCTestCase {
+class FlintCore_watchOSTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

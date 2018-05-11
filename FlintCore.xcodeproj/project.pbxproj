@@ -187,10 +187,10 @@
 		49647D3F203B117D005F9825 /* URLMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3E203B117D005F9825 /* URLMapped.swift */; };
 		496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */; };
 		496E26EF203B7506008E4320 /* FocusContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */; };
-		496F8F10203EE9EA003AB29B /* FlintCore_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */; };
+		496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore.framework */; };
 		496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8F14203EE9EA003AB29B /* FlintCore_tvOSTests.swift */; };
 		496F8F17203EE9EA003AB29B /* FlintCore_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F09203EE9EA003AB29B /* FlintCore_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		496F8F2C203EEA06003AB29B /* FlintCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */; };
+		496F8F2C203EEA06003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F23203EEA05003AB29B /* FlintCore.framework */; };
 		496F8F31203EEA06003AB29B /* FlintCore_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8F30203EEA06003AB29B /* FlintCore_macOSTests.swift */; };
 		496F8F33203EEA06003AB29B /* FlintCore_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F25203EEA06003AB29B /* FlintCore_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		496F8F43203EEA23003AB29B /* FlintCore_watchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F8F41203EEA23003AB29B /* FlintCore_watchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -459,6 +459,8 @@
 		49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */; };
 		49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */; };
 		49A99A081FF9073C00A64E8C /* AggregatingLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */; };
+		49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */; };
+		49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
 		49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
@@ -542,6 +544,29 @@
 		49F37A47209B2C2000B27671 /* FeatureEvaluationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */; };
 		49F37A48209B2C2100B27671 /* FeatureEvaluationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */; };
 		49F37A49209B2C2200B27671 /* FeatureEvaluationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */; };
+		49FC45F620A46E5E00679F97 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
+		49FC45F820A46E6C00679F97 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */; };
+		49FC45FB20A46F0900679F97 /* URLRoutingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE7208A362E00163576 /* URLRoutingResult.swift */; };
+		49FC45FC20A46F0900679F97 /* URLRoutingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE7208A362E00163576 /* URLRoutingResult.swift */; };
+		49FC45FD20A46F0A00679F97 /* URLRoutingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE7208A362E00163576 /* URLRoutingResult.swift */; };
+		49FC45FE20A46F1900679F97 /* ActionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4948DBE5204D77A90030ED79 /* ActionContext.swift */; };
+		49FC45FF20A46F1A00679F97 /* ActionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4948DBE5204D77A90030ED79 /* ActionContext.swift */; };
+		49FC460020A46F1B00679F97 /* ActionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4948DBE5204D77A90030ED79 /* ActionContext.swift */; };
+		49FC460120A46F2E00679F97 /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BC9206AA80A00CB2B5D /* LogEvent.swift */; };
+		49FC460220A46F2F00679F97 /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BC9206AA80A00CB2B5D /* LogEvent.swift */; };
+		49FC460320A46F3000679F97 /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BC9206AA80A00CB2B5D /* LogEvent.swift */; };
+		49FC460420A4792600679F97 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914EFC62067C4D000FE0F41 /* Formatters.swift */; };
+		49FC460520A4792700679F97 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914EFC62067C4D000FE0F41 /* Formatters.swift */; };
+		49FC460620A4792700679F97 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914EFC62067C4D000FE0F41 /* Formatters.swift */; };
+		49FC460720A4793600679F97 /* FocusFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A89572069695100457D66 /* FocusFeature.swift */; };
+		49FC460820A4793700679F97 /* FocusFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A89572069695100457D66 /* FocusFeature.swift */; };
+		49FC460920A4793800679F97 /* FocusFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498A89572069695100457D66 /* FocusFeature.swift */; };
+		49FC460A20A4795D00679F97 /* PerformIncomingURLAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE9208A364500163576 /* PerformIncomingURLAction.swift */; };
+		49FC460B20A4795E00679F97 /* PerformIncomingURLAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE9208A364500163576 /* PerformIncomingURLAction.swift */; };
+		49FC460C20A4795F00679F97 /* PerformIncomingURLAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE9208A364500163576 /* PerformIncomingURLAction.swift */; };
+		49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CE82046D1CA00C0AED3 /* DebugReportable.swift */; };
+		49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CEC2046D1D500C0AED3 /* DebugReporting.swift */; };
+		49FC460F20A488D000679F97 /* InternalJSONFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977DC72205ABF7400DAA0C8 /* InternalJSONFormatting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -661,19 +686,19 @@
 		49647D3E203B117D005F9825 /* URLMapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMapped.swift; sourceTree = "<group>"; };
 		496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualLoggerTarget.swift; sourceTree = "<group>"; };
 		496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusContextualLoggerTarget.swift; sourceTree = "<group>"; };
-		496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F07203EE9E9003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F09203EE9EA003AB29B /* FlintCore_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_tvOS.h; sourceTree = "<group>"; };
 		496F8F0A203EE9EA003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F14203EE9EA003AB29B /* FlintCore_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_tvOSTests.swift; sourceTree = "<group>"; };
 		496F8F16203EE9EA003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F23203EEA05003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F25203EEA06003AB29B /* FlintCore_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_macOS.h; sourceTree = "<group>"; };
 		496F8F26203EEA06003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F30203EEA06003AB29B /* FlintCore_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_macOSTests.swift; sourceTree = "<group>"; };
 		496F8F32203EEA06003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore_watchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		496F8F3F203EEA23003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F41203EEA23003AB29B /* FlintCore_watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_watchOS.h; sourceTree = "<group>"; };
 		496F8F42203EEA23003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4976923A201F3CBE00F97BD5 /* URLMappingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingsBuilder.swift; sourceTree = "<group>"; };
@@ -730,6 +755,9 @@
 		49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggerFactory.swift; sourceTree = "<group>"; };
 		49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLoggerOutput.swift; sourceTree = "<group>"; };
 		49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatingLoggerOutput.swift; sourceTree = "<group>"; };
+		49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		49B06F1820A4C5AC004564E1 /* FlintCore_watchOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_watchOSTests.swift; sourceTree = "<group>"; };
+		49B06F1A20A4C5AC004564E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueueDataSource.swift; sourceTree = "<group>"; };
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
@@ -767,6 +795,9 @@
 		49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintsBuilderTests.swift; sourceTree = "<group>"; };
 		49F37A3A209B2AC200B27671 /* PlatformConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformConstraint.swift; sourceTree = "<group>"; };
 		49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureEvaluationResult.swift; sourceTree = "<group>"; };
+		49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/tvOS/ZIPFoundation.framework; sourceTree = "<group>"; };
+		49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/Mac/ZIPFoundation.framework; sourceTree = "<group>"; };
+		49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/watchOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,6 +805,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49FC45F620A46E5E00679F97 /* ZIPFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,7 +813,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				496F8F10203EE9EA003AB29B /* FlintCore_tvOS.framework in Frameworks */,
+				49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */,
+				49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */,
+				496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,6 +823,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49FC45F820A46E6C00679F97 /* ZIPFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,7 +831,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				496F8F2C203EEA06003AB29B /* FlintCore_macOS.framework in Frameworks */,
+				496F8F2C203EEA06003AB29B /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -998,6 +1033,10 @@
 		4977DC7A205AECB400DAA0C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */,
+				49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */,
+				49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */,
+				49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */,
 				49891EBA2097118300B9BCBF /* AVFoundation.framework */,
 				49DB924C2075114C00F758DC /* Intents.framework */,
 				49DB63F7205BD55700B9EE5D /* ZIPFoundation.framework */,
@@ -1096,6 +1135,15 @@
 			path = Focus;
 			sourceTree = "<group>";
 		};
+		49B06F1720A4C5AC004564E1 /* FlintCore-watchOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				49B06F1820A4C5AC004564E1 /* FlintCore_watchOSTests.swift */,
+				49B06F1A20A4C5AC004564E1 /* Info.plist */,
+			);
+			path = "FlintCore-watchOSTests";
+			sourceTree = "<group>";
+		};
 		49C9C3781FFD1C0300E4D500 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -1118,6 +1166,7 @@
 				496F8F24203EEA06003AB29B /* FlintCore-macOS */,
 				496F8F2F203EEA06003AB29B /* FlintCore-macOSTests */,
 				496F8F40203EEA23003AB29B /* FlintCore-watchOS */,
+				49B06F1720A4C5AC004564E1 /* FlintCore-watchOSTests */,
 				49891EC1209714B600B9BCBF /* FlintTestHost */,
 				49CCF0AB1F8BB1B200F7020E /* Products */,
 				4977DC7A205AECB400DAA0C8 /* Frameworks */,
@@ -1129,11 +1178,11 @@
 			children = (
 				49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */,
 				49CCF0B31F8BB1B200F7020E /* FlintCore-iOS-Tests.xctest */,
-				496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */,
+				496F8F07203EE9E9003AB29B /* FlintCore.framework */,
 				496F8F0F203EE9EA003AB29B /* FlintCore-tvOSTests.xctest */,
-				496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */,
+				496F8F23203EEA05003AB29B /* FlintCore.framework */,
 				496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */,
-				496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */,
+				496F8F3F203EEA23003AB29B /* FlintCore.framework */,
 				49891EC0209714B600B9BCBF /* FlintTestHost.app */,
 			);
 			name = Products;
@@ -1281,7 +1330,7 @@
 			);
 			name = "FlintCore-tvOS";
 			productName = "FlintCore-tvOS";
-			productReference = 496F8F07203EE9E9003AB29B /* FlintCore_tvOS.framework */;
+			productReference = 496F8F07203EE9E9003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		496F8F0E203EE9EA003AB29B /* FlintCore-tvOSTests */ = {
@@ -1317,7 +1366,7 @@
 			);
 			name = "FlintCore-macOS";
 			productName = "FlintCore-macOS";
-			productReference = 496F8F23203EEA05003AB29B /* FlintCore_macOS.framework */;
+			productReference = 496F8F23203EEA05003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		496F8F2A203EEA06003AB29B /* FlintCore-macOSTests */ = {
@@ -1353,7 +1402,7 @@
 			);
 			name = "FlintCore-watchOS";
 			productName = "FlintCore-watchOS";
-			productReference = 496F8F3F203EEA23003AB29B /* FlintCore_watchOS.framework */;
+			productReference = 496F8F3F203EEA23003AB29B /* FlintCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		49891EBF209714B600B9BCBF /* FlintTestHost */ = {
@@ -1424,23 +1473,23 @@
 				TargetAttributes = {
 					496F8F06203EE9E9003AB29B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					496F8F0E203EE9EA003AB29B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					496F8F22203EEA05003AB29B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					496F8F2A203EEA06003AB29B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					496F8F3E203EEA23003AB29B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					49891EBF209714B600B9BCBF = {
 						CreatedOnToolsVersion = 9.3;
@@ -1449,11 +1498,11 @@
 					49CCF0A91F8BB1B200F7020E = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					49CCF0B21F8BB1B200F7020E = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = 49891EBF209714B600B9BCBF;
 					};
 				};
@@ -1570,6 +1619,7 @@
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59432098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
+				49FC460420A4792600679F97 /* Formatters.swift in Sources */,
 				496F8F61203EEBB1003AB29B /* TopicPath.swift in Sources */,
 				496F8F84203EEBBA003AB29B /* UserFeatureToggles.swift in Sources */,
 				496F8FC7203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
@@ -1587,14 +1637,17 @@
 				496F8FD3203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FAB203EEBD3003AB29B /* LinkCreator.swift in Sources */,
 				4927FEF9208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
+				49FC460120A46F2E00679F97 /* LogEvent.swift in Sources */,
 				496136D52099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F976F207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8FD6203EEBDA003AB29B /* FlintInternal.swift in Sources */,
 				4956D5D520986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
+				49FC460A20A4795D00679F97 /* PerformIncomingURLAction.swift in Sources */,
 				496F8F82203EEBBA003AB29B /* ConditionalActionBinding.swift in Sources */,
 				496F8F9B203EEBC4003AB29B /* RoutesFeature.swift in Sources */,
 				4927FEEF208A3B7B00163576 /* ActivityType.swift in Sources */,
 				496F8FB1203EEBD3003AB29B /* RouteScope.swift in Sources */,
+				49FC45FE20A46F1900679F97 /* ActionContext.swift in Sources */,
 				496F8F5A203EEBB1003AB29B /* DefaultLoggerFactory.swift in Sources */,
 				496F8F56203EEBB1003AB29B /* AggregatingLoggerOutput.swift in Sources */,
 				4977DC74205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
@@ -1613,6 +1666,7 @@
 				49935BCD206B901800CB2B5D /* ConditionalActionRequest.swift in Sources */,
 				496F8F80203EEBBA003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F4B203EEBA5003AB29B /* AnalyticsReporting.swift in Sources */,
+				49FC45FB20A46F0900679F97 /* URLRoutingResult.swift in Sources */,
 				496F8F4A203EEBA5003AB29B /* ObserverSet.swift in Sources */,
 				496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F54203EEBB1003AB29B /* Timeline.swift in Sources */,
@@ -1664,6 +1718,7 @@
 				496F8F86203EEBBA003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4B20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				496F8FAA203EEBD3003AB29B /* ActionURLMappings.swift in Sources */,
+				49FC460720A4793600679F97 /* FocusFeature.swift in Sources */,
 				496F8FCA203EEBDA003AB29B /* Action.swift in Sources */,
 				49DFB7C620A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				4946FAC1208D16750097E10E /* ActionsBuilder.swift in Sources */,
@@ -1714,6 +1769,7 @@
 				496F8FD7203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59442098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
+				49FC460520A4792700679F97 /* Formatters.swift in Sources */,
 				496F8F70203EEBB2003AB29B /* TopicPath.swift in Sources */,
 				496F8F8D203EEBBB003AB29B /* UserFeatureToggles.swift in Sources */,
 				496F8FDC203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
@@ -1731,14 +1787,17 @@
 				496F8FE8203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FB3203EEBD4003AB29B /* LinkCreator.swift in Sources */,
 				4927FEFA208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
+				49FC460220A46F2F00679F97 /* LogEvent.swift in Sources */,
 				496136D62099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F9770207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8FEB203EEBDA003AB29B /* FlintInternal.swift in Sources */,
 				4956D5D620986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
+				49FC460B20A4795E00679F97 /* PerformIncomingURLAction.swift in Sources */,
 				496F8F8B203EEBBB003AB29B /* ConditionalActionBinding.swift in Sources */,
 				496F8F9D203EEBC5003AB29B /* RoutesFeature.swift in Sources */,
 				4927FEF0208A3B7C00163576 /* ActivityType.swift in Sources */,
 				496F8FB9203EEBD4003AB29B /* RouteScope.swift in Sources */,
+				49FC45FF20A46F1A00679F97 /* ActionContext.swift in Sources */,
 				496F8F69203EEBB2003AB29B /* DefaultLoggerFactory.swift in Sources */,
 				496F8F65203EEBB2003AB29B /* AggregatingLoggerOutput.swift in Sources */,
 				4977DC75205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
@@ -1757,6 +1816,7 @@
 				49935BCE206B901800CB2B5D /* ConditionalActionRequest.swift in Sources */,
 				496F8F89203EEBBB003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F4E203EEBA6003AB29B /* AnalyticsReporting.swift in Sources */,
+				49FC45FC20A46F0900679F97 /* URLRoutingResult.swift in Sources */,
 				496F8F4D203EEBA6003AB29B /* ObserverSet.swift in Sources */,
 				496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F63203EEBB2003AB29B /* Timeline.swift in Sources */,
@@ -1808,6 +1868,7 @@
 				496F8F8F203EEBBB003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4C20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				496F8FB2203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
+				49FC460820A4793700679F97 /* FocusFeature.swift in Sources */,
 				496F8FDF203EEBDA003AB29B /* Action.swift in Sources */,
 				49DFB7C720A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				4946FAC2208D16750097E10E /* ActionsBuilder.swift in Sources */,
@@ -1862,12 +1923,14 @@
 				496136BE209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				496F8FEC203EEBDB003AB29B /* ActionDispatcher.swift in Sources */,
 				4946FAC3208D16750097E10E /* ActionsBuilder.swift in Sources */,
+				49FC460020A46F1B00679F97 /* ActionContext.swift in Sources */,
 				496F8F7F203EEBB3003AB29B /* TopicPath.swift in Sources */,
 				496F8F96203EEBBC003AB29B /* UserFeatureToggles.swift in Sources */,
 				496F8FF1203EEBDB003AB29B /* ActionStackEntry.swift in Sources */,
 				494F59182098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498F97672077824200209633 /* FocusSelection.swift in Sources */,
 				49DFB7C820A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
+				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermission.swift in Sources */,
@@ -1888,6 +1951,7 @@
 				49F37A49209B2C2200B27671 /* FeatureEvaluationResult.swift in Sources */,
 				49935BD4206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				496F8F94203EEBBC003AB29B /* ConditionalActionBinding.swift in Sources */,
+				49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */,
 				496136DC2099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				496136D72099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				496F8F9F203EEBC5003AB29B /* RoutesFeature.swift in Sources */,
@@ -1900,11 +1964,16 @@
 				496F8FFF203EEBDB003AB29B /* TopicPath+Extensions.swift in Sources */,
 				496F8F79203EEBB3003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
 				496F8F75203EEBB3003AB29B /* ContextualLoggerTarget.swift in Sources */,
+				49FC460F20A488D000679F97 /* InternalJSONFormatting.swift in Sources */,
 				49DB92412073B4F600F758DC /* Product.swift in Sources */,
 				49298235205ED0D900267A49 /* FeatureActionsBuilder.swift in Sources */,
+				49FC460320A46F3000679F97 /* LogEvent.swift in Sources */,
 				496F8FBE203EEBD4003AB29B /* URLMapping.swift in Sources */,
 				4946FAC8208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8FFE203EEBDB003AB29B /* StaticActionBinding.swift in Sources */,
+				49FC45FD20A46F0A00679F97 /* URLRoutingResult.swift in Sources */,
+				49FC460C20A4795F00679F97 /* PerformIncomingURLAction.swift in Sources */,
+				49FC460620A4792700679F97 /* Formatters.swift in Sources */,
 				494F59132098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				496F8FBF203EEBD4003AB29B /* URLMappings.swift in Sources */,
 				496F8F92203EEBBC003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
@@ -1945,6 +2014,7 @@
 				496F8F7A203EEBB3003AB29B /* FocusContextualLoggerTarget.swift in Sources */,
 				494F590E2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F7D203EEBB3003AB29B /* LoggerLevel.swift in Sources */,
+				49FC460920A4793800679F97 /* FocusFeature.swift in Sources */,
 				496F8FF9203EEBDB003AB29B /* FlintFeatures.swift in Sources */,
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				4956D5DD209897AB002A2A35 /* PurchaseTrackerObserver.swift in Sources */,
@@ -2173,18 +2243,23 @@
 		496F8F19203EE9EA003AB29B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2196,18 +2271,23 @@
 		496F8F1A203EE9EA003AB29B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2220,12 +2300,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -2237,12 +2322,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -2254,20 +2344,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "FlintCore-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2278,20 +2373,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "FlintCore-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2302,15 +2402,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
@@ -2320,15 +2422,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
@@ -2338,18 +2442,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2362,18 +2471,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -2553,10 +2667,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2569,6 +2683,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
 				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -2580,10 +2695,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2596,6 +2711,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
 				PRODUCT_NAME = FlintCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2606,8 +2722,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -2617,6 +2733,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlintTestHost.app/FlintTestHost";
@@ -2627,8 +2744,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -2638,6 +2755,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlintTestHost.app/FlintTestHost";

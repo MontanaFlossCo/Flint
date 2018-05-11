@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import FlintCore_tvOS
+@testable import FlintCore
 
 class FlintCore_tvOSTests: XCTestCase {
     
