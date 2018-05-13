@@ -16,46 +16,6 @@ We made Flint because we want people to build great apps for Apple platforms tha
 
 Here are some quick usage examples.
 
-## Handling URLs
-
-To handle incoming URLs all you need to do is define an action – a type that conforms to the `Action` protocol, and add it to a `Feature` that has one or more URL routes for the action.
-
-Consider the common case of handling a user sign-up confirmation link sent by e-mail. The URL will contain a token and the app should open when it is tapped, verify the token and then show the "You signed in!" screen.
-
-```swift
-class UserAccountManagementFeature: Feature, URLMapped {
-    static var description = "User sign-up, sign in and sign out"
-
-    static let confirmAccount = action(ConfirmAccountAction.self)
- 
-    static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(confirmAccount)
-    }
-       
-    // 💥 Use `routes` to define the URLs and actions
-    static func urlMappings(routes: URLMappingsBuilder) {
-        routes.send("account/confirm", to: confirmAccount)
-    }
-}
-```
-
-Once you add the custom URL scheme to your `Info.plist` and/or an associated domain to your entitlements, your app would then invoke the "confirm account" action when it is asked to open URLs like:
-
-* `your-app://account/confirm`
-* `https://yourappdomain.com/account/confirm`
-
-There's support for multiple mappings per action, multiple URL schemes and multiple associated domains, so legacy URLs are no problem. There's a little [glue code to add](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/routes.md) to your app delegate and to set up your UI when the action comes in.
-
-The action type `ConfirmAccountAction` is not shown here, for brevity. See the [Features and Actions](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/features_and_actions.md) guide for full details.
-
-Of course you can easily perform this same action from code in your app if required:
-
-```swift
-UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: confirmationToken)
-```
-
-If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 
-
 ## Supporting features that require purchases, permissions or other "toggling"
 
 Because Flint uses feature driven development, we can easily mark individual features of our apps as being conditionally available, at the place that makes sense — where the feature is defined in the app.
@@ -104,6 +64,50 @@ if let request = DocumentSharingFeature.share.request() {
 
 This makes your code cleaner and safer. Everybody on the team can see which code is internally feature-flagged or requires a purchase, and which permissions your app requires.
 
+See the [programming guide for Conditional Features](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/conditional_features.md) for more details.
+
+## Handling URLs
+
+To handle incoming URLs all you need to do is define an action – a type that conforms to the `Action` protocol, and add it to a `Feature` that has one or more URL routes for the action.
+
+Consider the common case of handling a user sign-up confirmation link sent by e-mail. The URL will contain a token and the app should open when it is tapped, verify the token and then show the "You signed in!" screen.
+
+```swift
+class UserAccountManagementFeature: Feature, URLMapped {
+    static var description = "User sign-up, sign in and sign out"
+
+    static let confirmAccount = action(ConfirmAccountAction.self)
+ 
+    static func prepare(actions: FeatureActionsBuilder) {
+        actions.declare(confirmAccount)
+    }
+       
+    // 💥 Use `routes` to define the URLs and actions
+    static func urlMappings(routes: URLMappingsBuilder) {
+        routes.send("account/confirm", to: confirmAccount)
+    }
+}
+```
+
+Once you add the custom URL scheme to your `Info.plist` and/or an associated domain to your entitlements, your app would then invoke the "confirm account" action when it is asked to open URLs like:
+
+* `your-app://account/confirm`
+* `https://yourappdomain.com/account/confirm`
+
+There's support for multiple mappings per action, multiple URL schemes and multiple associated domains, so legacy URLs are no problem. There's a little [glue code to add](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/routes.md) to your app delegate and to set up your UI when the action comes in.
+
+The action type `ConfirmAccountAction` is not shown here, for brevity. See the [Features and Actions](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/features_and_actions.md) guide for full details.
+
+Of course you can easily perform this same action from code in your app if required:
+
+```swift
+UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: confirmationToken)
+```
+
+If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 
+
+See the [programming guide for Routes](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/routes.md) for more details.
+
 ## Automatic Handoff and Siri Suggestions support
 
 Apple's `NSUserActivity` is used extensively for telling the system what the user is currently doing, to integrate Handoff between devices, Siri app suggestions, some Spotlight Search integration as well as deep linking. All too often people don't implement this, because of the challenges of executing arbitrary actions in your app when the user chooses an activity.
@@ -130,6 +134,8 @@ This is all you have to do, aside from add `NSUserActivityTypes` to your `Info.p
 
 You can of course customise the attributes of the `NSUserActivity` if you want to, by defining a `prepare(activity:for:)` function. See the [Activities guide](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/activities.md).
 
+See the [programming guide for Activities](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/activities.md) for more details.
+
 ## Track analytics events when users do things
 
 Most apps end up having to do some kind of analytics reporting to get an idea of what your users are actually doing. An analytics event is typically an event ID and a dictionary of keys and values. Flint makes emitting these easy and consistent, using any analytics service you want. Even your own home-spun backend. 
@@ -153,6 +159,8 @@ final class DocumentOpenAction: Action {
 ```
 
 Of course you can customise the dictionary of data passed to the Analytics provider by defining an `analyticsAttributes()` function.
+
+See the [programming guide for Analytics](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/analytics.md) for more details.
 
 ## Find out more
 
