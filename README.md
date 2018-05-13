@@ -10,6 +10,8 @@
 
 Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
 
+[View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/index.md) — [View the FlintDemo-iOS sample project](https://github.com/MontanaFlossCo/FlintDemo-iOS) — [Join the FlintCore Slack](https://join.slack.com/t/flintcore/shared_invite/enQtMzUwOTU4NTU0OTYwLWMxYTNiOTNjNmVkOTM3ZDgwNzZiNzJiNmE2NWUyMzUzMjg3ZTg4YjNmMjdhYmZkYTlmYmI2ZDQ5NjU0ZmQ3ZjU)
+
 Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
 
 We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
@@ -162,16 +164,6 @@ Of course you can customise the dictionary of data passed to the Analytics provi
 
 See the [programming guide for Analytics](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/guides/analytics.md) for more details.
 
-## Find out more
-
-All this is just the tip of the iceberg. Flint has so much more to offer and through the use of protocols almost everywhere, has many extension and customisation points so that you aren't locked in to anything like a specific analytics provider.
-
-If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an idea of how a real app might use Flint.
-
-[View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/index.md)
-
-A Flint blog is coming soon.
-
 ## Getting started
 
 To add Flint to your own project, use [Carthage](https://github.com/Carthage/Carthage) to add the dependency to your `Cartfile`:
@@ -185,6 +177,14 @@ Then run `carthage bootstrap`. For faster builds you can limit to one platform a
 ```
 carthage bootstrap --platform iOS --cache-builds
 ```
+
+## Find out more
+
+All this is just the tip of the iceberg. Flint has so much more to offer and through the use of protocols almost everywhere, has many extension and customisation points so that you aren't locked in to anything like a specific analytics provider.
+
+If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an idea of how a real app might use Flint.
+
+[View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/1.0/index.md)
 
 ## The roadmap to 1.0 final release
 
