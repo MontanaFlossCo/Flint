@@ -28,6 +28,7 @@ public class FeatureDetailViewController: UITableViewController {
     
     enum Section: Int, CustomStringConvertible {
         case properties
+        case constraints
         case features
         case actions
 
@@ -36,6 +37,7 @@ public class FeatureDetailViewController: UITableViewController {
         var description: String {
             switch self {
                 case .properties: return "Properties"
+                case .constraints: return "Constraints"
                 case .features: return "Features"
                 case .actions: return "Actions"
             }
@@ -44,7 +46,6 @@ public class FeatureDetailViewController: UITableViewController {
     
     enum Property: Int {
         case identifier
-        case availability
         case visibility
         case variation
         
@@ -64,8 +65,15 @@ public class FeatureDetailViewController: UITableViewController {
         let hasActions: Bool
     }
     
+    struct ConstraintInfo {
+        let description: String
+        let status: String
+    }
+    
     var featureItems = [SubfeatureInfo]()
     var actionItems = [ActionMetadata]()
+    var constraintInfo = [ConstraintInfo]()
+    
     var selectedAction: ActionMetadata?
     
     public override func viewDidLoad() {
@@ -106,7 +114,14 @@ public class FeatureDetailViewController: UITableViewController {
             preconditionFailure("Invalid section")
         }
         switch sectionType {
-            case .properties: return Property.count
+            case .properties:
+                return Property.count
+            case .constraints:
+                if let constraints = constraintInfo {
+                    return constraints.count
+                } else {
+                    return 0
+                }
             case .features: return featureItems.count > 0 ? featureItems.count : 1
             case .actions: return actionItems.count > 0 ? actionItems.count : 1
         }
@@ -123,18 +138,6 @@ public class FeatureDetailViewController: UITableViewController {
                     case .identifier:
                         cell.textLabel?.text = "ID"
                         cell.detailTextLabel?.text = featureToDisplay.identifier.description
-                    case .availability:
-                        cell.textLabel?.text = "Available"
-                        if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
-                            let availableNow: String
-                            switch conditionalFeature.isAvailable {
-                                case .some(let value): availableNow = value ? "Yes" : "No"
-                                case .none: availableNow = "<unknown>"
-                            }
-                            cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
-                        } else {
-                            cell.detailTextLabel?.text = "Always (no constraints)"
-                        }
                     case .visibility:
                         cell.textLabel?.text = "Visible"
                         cell.detailTextLabel?.text = featureToDisplay.isVisible ? "Yes" : "No"
@@ -147,6 +150,19 @@ public class FeatureDetailViewController: UITableViewController {
                         }
                         cell.textLabel?.text = "A/B Variation"
                         cell.detailTextLabel?.text = variation
+                }
+            case .constraints:
+                
+                cell.textLabel?.text = "Available"
+                if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
+                    let availableNow: String
+                    switch conditionalFeature.isAvailable {
+                        case .some(let value): availableNow = value ? "Yes" : "No"
+                        case .none: availableNow = "<unknown>"
+                    }
+                    cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
+                } else {
+                    cell.detailTextLabel?.text = "Always (no constraints)"
                 }
             case .features:
                 guard featureItems.count > 0 else {
@@ -190,12 +206,9 @@ public class FeatureDetailViewController: UITableViewController {
         let section = Section(rawValue: indexPath.section)!
         switch section {
             case .properties:
-                switch Property(rawValue: indexPath.row)! {
-                    case .availability:
-                        return indexPath // Yes we can select this
-                    default:
-                        return nil
-                }
+                return nil
+            case .constraints:
+                return indexPath // Yes we can select constraints
             case .features: return featureItems.count > 0 ? indexPath : nil
             case .actions:
                 selectedAction = actionItems[indexPath.item]
@@ -214,30 +227,20 @@ public class FeatureDetailViewController: UITableViewController {
                 nextViewController.featureToDisplay = selectedFeature.type
                 navigationController?.pushViewController(nextViewController, animated: true)
                 selectedAction = nil
-            case .properties:
+            case .constraints:
                 if let _ = featureToDisplay! as? ConditionalFeatureDefinition.Type {
-                    showPropertyDetail(Property(rawValue: indexPath.row)!)
+                    let constraint = constraintInfo[indexPath.row]
+                    showConstraintDetail(constraint)
                 }
             default:
                 return
         }
     }
 
-    func showPropertyDetail(_ property: Property) {
-        let text: String
-        let message: String
-        switch property {
-            case .availability:
-                text = "Constraints"
-                if let conditionalFeature = featureToDisplay! as? ConditionalFeatureDefinition.Type {
-                    message = Flint.constraintsEvaluator.description(for: conditionalFeature)
-                } else {
-                    message = "There are no constraints"
-                }
-            default:
-                fatalError("Not supported")
-        }
-        let alert = UIAlertController(title: text, message: message, preferredStyle: .alert)
+    func showConstraintDetail(_ constraint: ConstraintInfo) {
+        let title = "Constraint"
+        let message = "\(constraint.description): \(constraint.status)"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
@@ -274,6 +277,16 @@ public class FeatureDetailViewController: UITableViewController {
         actionItems = metadata.actions
         let subfeatureItems = featuresToShow.map(subfeatureInfo)
         featureItems.append(contentsOf: subfeatureItems)
+
+        constraintInfo.removeAll()
+        if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
+            let evaluationResult = Flint.constraintsEvaluator.evaluate(for: conditionalFeature)
+            for (platform, constraint) in evaluationResult.all.allDeclaredPlatforms {
+                let status =
+                let info = ConstraintInfo(description: "Platform: \(platform) \(constraint)", status: status)
+                constraintInfo.append(info)
+            }
+        }
         
         tableView.reloadData()
 
