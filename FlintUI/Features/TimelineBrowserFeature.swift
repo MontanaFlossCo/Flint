@@ -17,16 +17,16 @@ final public class TimelineBrowserFeature: ConditionalFeature {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.iOSOnly = .any
 
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
 
-    public static var enabled: Bool?
+    public static var isEnabled: Bool?
 
     public static let show = action(ShowTimelineBrowserAction.self)
     public static let hide = action(HideTimelineBrowserAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        enabled = TimelineFeature.isAvailable
+        isEnabled = TimelineFeature.isAvailable
         actions.declare(show)
         actions.declare(hide)
     }

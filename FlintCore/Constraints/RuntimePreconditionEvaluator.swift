@@ -15,7 +15,7 @@ public class RuntimePreconditionEvaluator: FeaturePreconditionEvaluator {
             fatalError("Incorrect precondition type '\(precondition)' passed to runtime evaluator")
         }
 
-        return feature.enabled
+        return feature.isEnabled
     }
 }
 

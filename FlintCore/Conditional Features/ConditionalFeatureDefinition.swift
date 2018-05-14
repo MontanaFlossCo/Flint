@@ -22,10 +22,10 @@ public protocol ConditionalFeatureDefinition: FeatureDefinition {
 }
 
 public extension ConditionalFeatureDefinition {
-    /// By default features with a runtime precondition are enabled.
-    /// Override this in your own types to set it to something else at runtime.
-    static var enabled: Bool? {
-        return true
+    /// By default features with a runtime precondition are neither enabled not disabled.
+    /// Override this in your own types to set it to a default at runtime, or enable changing it at runtime
+    static var isEnabled: Bool? {
+        return nil
     }
     
     /// Check if a feature is available.

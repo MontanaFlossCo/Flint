@@ -13,11 +13,11 @@ import Foundation
 /// which determines how your app will present the UI required for the action.
 final public class RoutesFeature: ConditionalFeature {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
     
     /// Turned on by default, this can be turned off at runtime by setting it to `false`
-    public static var enabled = true
+    public static var isEnabled: Bool? = true
     
     public static var description: String = "URL routes that support deep linking and custom URL schemes"
 

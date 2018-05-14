@@ -17,11 +17,11 @@ import Foundation
 /// - see: `Timeline.snapshot()` for access to the data gathers.
 final public class TimelineFeature: ConditionalFeature {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
 
     /// Set this to `false` at runtime to disable Timeline
-    public static var enabled = true
+    public static var isEnabled: Bool? = true
     
     public static var description: String = "Maintains an in-memory timeline of actions for debugging and reporting"
 
