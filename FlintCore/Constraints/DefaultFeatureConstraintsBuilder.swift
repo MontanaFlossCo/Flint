@@ -14,7 +14,9 @@ import Foundation
 /// - see: `FeatureConstraintsBuilder` for the syntactic sugar applied to all implementations via extensions
 public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
     private var platformCompatibility: [Platform:PlatformConstraint] = [:]
-    private var preconditions: Set<FeaturePrecondition> = []
+    private var userToggledPrecondition: FeaturePrecondition?
+    private var runtimeEnabledPrecondition: FeaturePrecondition?
+    private var purchasePreconditions: Set<FeaturePrecondition> = []
     private var permissions: Set<SystemPermission> = []
 
     /// Call to build the constraints from the function passed in and return the structure
@@ -26,6 +28,14 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
 
         block(self)
         
+        var preconditions: Set<FeaturePrecondition> = purchasePreconditions
+        if let userToggledPrecondition = userToggledPrecondition {
+            preconditions.insert(userToggledPrecondition)
+        }
+        if let runtimeEnabledPrecondition = runtimeEnabledPrecondition {
+            preconditions.insert(runtimeEnabledPrecondition)
+        }
+
         return FeatureConstraints(allDeclaredPlatforms: platformCompatibility,
                                   preconditions: preconditions,
                                   permissions: permissions)
@@ -35,8 +45,16 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
         platformCompatibility[requirement.platform] = requirement
     }
 
-    public func precondition(_ requirement: FeaturePrecondition) {
-        preconditions.insert(requirement)
+    public func runtimeEnabled() {
+        runtimeEnabledPrecondition = FeaturePrecondition.runtimeEnabled
+    }
+
+    public func purchase(_ requirement: PurchaseRequirement) {
+        purchasePreconditions.insert(.purchase(requirement: requirement))
+    }
+
+    public func userToggled(defaultValue: Bool) {
+        userToggledPrecondition = FeaturePrecondition.userToggled(defaultValue: defaultValue)
     }
 
     public func permission(_ permission: SystemPermission) {

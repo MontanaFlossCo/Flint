@@ -14,11 +14,11 @@ import Foundation
 /// setting their `activityEligibility` property.
 public final class ActivitiesFeature: ConditionalFeature {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
 
     /// Set this to `false` to disable automatic user activity publishing
-    public static var enabled = true
+    public static var isEnabled: Bool? = true
 
     public static var description: String = "Automatic NSUserActivity publishing and handling for Handoff, Siri suggestions and Spotlight"
 

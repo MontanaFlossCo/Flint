@@ -178,7 +178,7 @@ final private class ConditionalFeatureA: ConditionalFeature {
     static var description: String = ""
 
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.purchase(requirement: PurchaseRequirement(productA)))
+        requirements.purchase(PurchaseRequirement(productA))
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -189,7 +189,7 @@ final private class ConditionalFeatureB: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.purchase(requirement: PurchaseRequirement(productB)))
+        requirements.purchase(PurchaseRequirement(productB))
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -213,7 +213,7 @@ final private class ConditionalFeatureC: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.purchase(requirement: PurchaseRequirement(productD)))
+        requirements.purchase(PurchaseRequirement(productD))
     }
     
     static func prepare(actions: FeatureActionsBuilder) {
@@ -222,7 +222,7 @@ final private class ConditionalFeatureC: ConditionalFeature {
 
 final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature {
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.purchase(requirement: PurchaseRequirement(productC)))
+        requirements.purchase(PurchaseRequirement(productC))
     }
     
     static var description: String = ""
@@ -237,12 +237,12 @@ final private class ConditionalParentFeatureA: FeatureGroup, ConditionalFeature 
 
 final private class ConditionalFeatureWithCameraPermissionRequirements: ConditionalFeature {
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
         
         requirements.permission(.camera)
     }
     
-    public static var enabled = true
+    public static var isEnabled: Bool? = true
 
     static var description: String = ""
     
@@ -252,13 +252,13 @@ final private class ConditionalFeatureWithCameraPermissionRequirements: Conditio
 
 final private class ConditionalFeatureWithPhotosAndLocationPermissionRequirements: ConditionalFeature {
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
         
         requirements.permission(.camera)
         requirements.permission(.location(usage: .whenInUse))
     }
 
-    public static var enabled = true
+    public static var isEnabled: Bool? = true
 
     static var description: String = ""
     

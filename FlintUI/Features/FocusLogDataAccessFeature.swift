@@ -14,16 +14,16 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
     public static var description: String = "Provides access to the Focus logs for presenting in a UI"
 
     public static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
 
-    public static var enabled: Bool?
+    public static var isEnabled: Bool?
     
     public static let loadInitialResults = action(LoadInitialResultsAction.self)
     public static let loadMoreResults = action(LoadMoreResultsAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        enabled = FocusFeature.isAvailable
+        isEnabled = FocusFeature.isAvailable
         
         actions.declare(loadInitialResults)
         actions.declare(loadMoreResults)

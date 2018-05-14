@@ -17,15 +17,15 @@ final public class LogBrowserFeature: ConditionalFeature {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.iOSOnly = .any
 
-        requirements.precondition(.runtimeEnabled)
+        requirements.runtimeEnabled()
     }
 
-    public static var enabled: Bool?
+    public static var isEnabled: Bool?
 
     public static let show = action(ShowLogBrowserAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {
-         enabled = FocusFeature.isAvailable
+         isEnabled = FocusFeature.isAvailable
          actions.declare(show)
     }
 }

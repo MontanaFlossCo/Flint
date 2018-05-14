@@ -22,6 +22,10 @@
 		4921AC0B20371B83003465E5 /* TopicPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0A20371B83003465E5 /* TopicPath.swift */; };
 		4921AC0D20371D99003465E5 /* TimelineEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0C20371D99003465E5 /* TimelineEntry.swift */; };
 		4921AC0F203729BB003465E5 /* DefaultContextSpecificLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0E203729BB003465E5 /* DefaultContextSpecificLogger.swift */; };
+		4924C6FD20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */; };
+		4924C6FE20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */; };
+		4924C6FF20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */; };
+		4924C70020A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */; };
 		4927FEE8208A362E00163576 /* URLRoutingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE7208A362E00163576 /* URLRoutingResult.swift */; };
 		4927FEEA208A364500163576 /* PerformIncomingURLAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE9208A364500163576 /* PerformIncomingURLAction.swift */; };
 		4927FEEC208A3B2900163576 /* ActionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEEB208A3B2900163576 /* ActionSource.swift */; };
@@ -631,6 +635,7 @@
 		4921AC0A20371B83003465E5 /* TopicPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPath.swift; sourceTree = "<group>"; };
 		4921AC0C20371D99003465E5 /* TimelineEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEntry.swift; sourceTree = "<group>"; };
 		4921AC0E203729BB003465E5 /* DefaultContextSpecificLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultContextSpecificLogger.swift; sourceTree = "<group>"; };
+		4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeatureConstraintsBuilder+Extensions.swift"; sourceTree = "<group>"; };
 		4927FEE7208A362E00163576 /* URLRoutingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRoutingResult.swift; sourceTree = "<group>"; };
 		4927FEE9208A364500163576 /* PerformIncomingURLAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformIncomingURLAction.swift; sourceTree = "<group>"; };
 		4927FEEB208A3B2900163576 /* ActionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSource.swift; sourceTree = "<group>"; };
@@ -910,6 +915,7 @@
 				49F37A3A209B2AC200B27671 /* PlatformConstraint.swift */,
 				49F37A42209B2C1900B27671 /* FeatureEvaluationResult.swift */,
 				49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */,
+				4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */,
 			);
 			path = Constraints;
 			sourceTree = "<group>";
@@ -1703,6 +1709,7 @@
 				496F8FC4203EEBDA003AB29B /* ActionSession.swift in Sources */,
 				494F59342098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				496F8FCE203EEBDA003AB29B /* Flint.swift in Sources */,
+				4924C6FE20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */,
 				498F97742077846000209633 /* FocusArea.swift in Sources */,
 				496F8FC3203EEBDA003AB29B /* ActionRequest.swift in Sources */,
 				498F976A2077832F00209633 /* DefaultFocusSelection.swift in Sources */,
@@ -1853,6 +1860,7 @@
 				496F8FD9203EEBDA003AB29B /* ActionSession.swift in Sources */,
 				494F59352098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				496F8FE3203EEBDA003AB29B /* Flint.swift in Sources */,
+				4924C6FF20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */,
 				498F97752077846000209633 /* FocusArea.swift in Sources */,
 				496F8FD8203EEBDA003AB29B /* ActionRequest.swift in Sources */,
 				498F976B2077832F00209633 /* DefaultFocusSelection.swift in Sources */,
@@ -2003,6 +2011,7 @@
 				496F8FC0203EEBD4003AB29B /* URLMappingsBuilder.swift in Sources */,
 				496F8F7B203EEBB3003AB29B /* LoggerOutput.swift in Sources */,
 				496F8FA0203EEBC5003AB29B /* PresentationRouter.swift in Sources */,
+				4924C70020A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */,
 				49F37A41209B2ACF00B27671 /* PlatformConstraint.swift in Sources */,
 				496F8F7E203EEBB3003AB29B /* PrintLoggerOutput.swift in Sources */,
 				496F8FBD203EEBD4003AB29B /* URLMapped.swift in Sources */,
@@ -2147,6 +2156,7 @@
 				498F976E207783C500209633 /* FocusLogging.swift in Sources */,
 				49F2CF261FF7EB78004F16EF /* NoInput.swift in Sources */,
 				49819EB81FC9C21A0013AF55 /* FeatureAvailability.swift in Sources */,
+				4924C6FD20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */,
 				49E1A233203C35C800F7555C /* RouteScope.swift in Sources */,
 				4921AC0D20371D99003465E5 /* TimelineEntry.swift in Sources */,
 				49966D91200A63EB004C4AA0 /* UserFeatureToggles.swift in Sources */,
