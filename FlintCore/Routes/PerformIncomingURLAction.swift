@@ -78,12 +78,15 @@ final public class PerformIncomingURLAction: Action {
 
         context.logs.development?.debug("Finding action executor for scope: \(foundScope), path \(foundPath)")
         if let executor = ActionURLMappings.instance.actionExecutor(for: foundPath, in: foundScope) {
-            var params: QueryParameters?
+            var params: RouteParameters?
             if let queryItems = urlComponents.queryItems {
-                params = QueryParameters()
+                var queryParameters: [String:String]
                 for item in queryItems {
-                    params![item.name] = item.value
+                    queryParameters[item.name] = item.value
                 }
+                // Calculate the routePath relative to the mapping's path
+                let routePath = matchResult.relativePath
+                params = RouteParameters(queryParameters: queryParameters, routePath: routePath.split("/"))
             }
             context.logs.development?.debug("Executing action with query params: \(String(describing: params))")
             executor(params, presenter, context.source) { outcome in

@@ -20,15 +20,18 @@ import Foundation
 /// That is more the kind of thing we want, where we take the prefix and add different path elements and maybe encode the
 /// other parts of the input state differently because it is a public URL.
 
-public typealias QueryParameters = [String:String]
-
-public protocol QueryParametersDecodable {
-    init?(from queryParameters: QueryParameters?)
+public struct RouteParameters {
+    let queryParameters: [String:String]
+    let routePath: [String]
 }
 
-public protocol QueryParametersEncodable {
-    func encodeAsQueryParameters() -> QueryParameters?
+public protocol RouteParametersDecodable {
+    init?(from routeParameters: RouteParameters?, mapping: URLMapping)
 }
 
-public typealias QueryParametersCodable = QueryParametersDecodable & QueryParametersEncodable
+public protocol RouteParametersEncodable {
+    func encodeAsRouteParameters(for mapping: URLMapping) -> RouteParameters?
+}
+
+public typealias RouteParametersCodable = RouteParametersDecodable & RouteParametersEncodable
 

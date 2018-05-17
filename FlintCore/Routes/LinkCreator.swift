@@ -39,7 +39,7 @@ public class LinkCreator {
     /// Create an app custom URL scheme link to the specified static feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
-    public func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: QueryParametersEncodable {
+    public func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             preconditionFailure("No URL mapping exists for: \(actionBinding)")
         }
@@ -53,7 +53,7 @@ public class LinkCreator {
     /// Create an app custom URL scheme link to the specified conditional feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
-    public func appLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: QueryParametersEncodable {
+    public func appLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             preconditionFailure("No URL mapping exists for: \(actionBinding)")
         }
@@ -67,7 +67,7 @@ public class LinkCreator {
     /// Create a universal/domain URL linking to the specified static feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
-    public func universalLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: QueryParametersEncodable {
+    public func universalLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             preconditionFailure("No URL mapping exists for: \(actionBinding)")
         }
@@ -81,7 +81,7 @@ public class LinkCreator {
     /// Create a universal/domain URL linking to the specified conditional feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
-    public func universalLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: QueryParametersEncodable {
+    public func universalLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             preconditionFailure("No URL mapping exists for: \(actionBinding)")
         }
@@ -97,7 +97,7 @@ public class LinkCreator {
     /// This is an internal unsafe function that takes pre-encoded query params for state, so it must only be called with
     /// state that has already been encoded and of the InputType appropriate for T. This is because we cannot
     /// constrain on `T.InputType: QueryParametersEncodable` at a call site that is only constrained on `T: Action`.
-    func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with encodedState: QueryParameters?) -> URL {
+    func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with encodableState: RouteParametersEncodable?) -> URL {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             preconditionFailure("No URL mapping exists for: \(actionBinding)")
         }
@@ -105,15 +105,16 @@ public class LinkCreator {
         guard let mapping = matchedMapping else {
             preconditionFailure("No app URL mapping found for: \(actionBinding)")
         }
+        let encodedState = encodableState?.encodeAsRouteParameters(for: mapping)
         return build(mapping: mapping, with: encodedState)
     }
     
-    private func build<T>(mapping: URLMapping, with state: T?) -> URL where T: QueryParametersEncodable {
-        let params = state?.encodeAsQueryParameters()
+    private func build<T>(mapping: URLMapping, with state: T?) -> URL where T: RouteParametersEncodable {
+        let params = state?.encodeAsRouteParameters(for: mapping)
         return build(mapping: mapping, with: params)
     }
 
-    private func build(mapping: URLMapping, with encodedState: QueryParameters?) -> URL {
+    private func build(mapping: URLMapping, with encodedState: RouteParameters?) -> URL {
         var urlComponents = URLComponents()
         switch mapping.scope {
             case let .app(scheme):
@@ -131,9 +132,12 @@ public class LinkCreator {
                 urlComponents.host = defaultDomain
                 urlComponents.path = "/\(mapping.path)"
         }
-        if let params = encodedState {
-            let queryItems = params.map { key, value in return URLQueryItem(name: key, value: value) }
+        if let routeParameters = encodedState {
+            let queryItems = routeParameters.queryParameters.map { key, value in return URLQueryItem(name: key, value: value) }
             urlComponents.queryItems = queryItems
+            var pathComponents = routeParameters.routePath
+            pathComponents.insert(urlComponents.path, at: 0)
+            urlComponents.path = pathComponents.joined(separator: "/")
         }
         return urlComponents.url!
     }
