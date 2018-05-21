@@ -21,7 +21,7 @@ public class URLMappingsBuilder {
     private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: StaticActionBinding<FeatureType, ActionType>)
             where ActionType.InputType: RouteParametersDecodable {
 
-        let executor: ActionURLMappings.URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
             if let state = ActionType.InputType.init(from: queryParams, mapping: mapping) {
                 let presentationRouterResult = presentationRouter.presentation(for: actionBinding, with: state)
@@ -55,7 +55,7 @@ public class URLMappingsBuilder {
     private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: ConditionalActionBinding<FeatureType, ActionType>)
             where ActionType.InputType: RouteParametersDecodable {
 
-        let executor: ActionURLMappings.URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
             if let state = ActionType.InputType.init(from: queryParams, mapping: mapping) {
                 let result = presentationRouter.presentation(for: actionBinding, with: state)
@@ -88,18 +88,18 @@ public class URLMappingsBuilder {
 
     public func send<FeatureType, ActionType>(_ pattern: String, to actionBinding: StaticActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny], name: String? = nil)
             where ActionType.InputType: RouteParametersDecodable {
-        FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(actionBinding) with name: \(name)")
+        FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(actionBinding) with name: \(name ?? "<none>")")
         for scope in scopes {
-            let mapping = URLMapping(name: name, scope: scope, pattern: "/\(pattern)")
+            let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(pattern)"))
             add(mapping: mapping, to: actionBinding)
         }
     }
 
-    public func send<FeatureType, ActionType>(_ path: String, to conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny])
+    public func send<FeatureType, ActionType>(_ pattern: String, to conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny], name: String? = nil)
             where ActionType.InputType: RouteParametersDecodable {
-        FlintInternal.urlMappingLogger?.debug("Routing '/\(path)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
+        FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
         for scope in scopes {
-            let mapping = URLMapping(scope: scope, path: path)
+            let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(pattern)"))
             add(mapping: mapping, to: conditionalActionBinding)
         }
     }

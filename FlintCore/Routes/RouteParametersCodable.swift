@@ -22,7 +22,6 @@ import Foundation
 
 public struct RouteParameters {
     let queryParameters: [String:String]
-    let routePath: [String]
 }
 
 public protocol RouteParametersDecodable {

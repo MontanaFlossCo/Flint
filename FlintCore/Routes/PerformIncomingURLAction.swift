@@ -77,19 +77,29 @@ final public class PerformIncomingURLAction: Action {
         }
 
         context.logs.development?.debug("Finding action executor for scope: \(foundScope), path \(foundPath)")
-        if let executor = ActionURLMappings.instance.actionExecutor(for: foundPath, in: foundScope) {
-            var params: RouteParameters?
+        if let executionContext = ActionURLMappings.instance.actionExecutionContext(for: foundPath, in: foundScope) {
+            
+            var queryParameters = [String:String]()
+            // Copy over the query parameters
             if let queryItems = urlComponents.queryItems {
-                var queryParameters: [String:String]
                 for item in queryItems {
                     queryParameters[item.name] = item.value
                 }
-                // Calculate the routePath relative to the mapping's path
-                let routePath = matchResult.relativePath
-                params = RouteParameters(queryParameters: queryParameters, routePath: routePath.split("/"))
+                
             }
+            
+            // We make sure parameters set by the URL path macros win over query parameters.
+            if let parsedParams = executionContext.parsedParameters {
+                queryParameters.merge(parsedParams) { (oldValue, newValue) -> String in
+                    return newValue
+                }
+            }
+            
+            let params: RouteParameters = RouteParameters(queryParameters: queryParameters)
+
             context.logs.development?.debug("Executing action with query params: \(String(describing: params))")
-            executor(params, presenter, context.source) { outcome in
+
+            executionContext.executor(params, presenter, context.source) { outcome in
                 return completion(outcome)
             }
         } else {

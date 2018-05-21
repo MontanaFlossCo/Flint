@@ -115,31 +115,7 @@ public class LinkCreator {
     }
 
     private func build(mapping: URLMapping, with encodedState: RouteParameters?) -> URL {
-        var urlComponents = URLComponents()
-        switch mapping.scope {
-            case let .app(scheme):
-                urlComponents.scheme = scheme
-                urlComponents.host = mapping.path
-            case .appAny:
-                urlComponents.scheme = defaultScheme
-                urlComponents.host = mapping.path
-            case let .universal(domain):
-                urlComponents.scheme = "https"
-                urlComponents.host = domain
-                urlComponents.path = "/\(mapping.path)"
-            case .universalAny:
-                urlComponents.scheme = "https"
-                urlComponents.host = defaultDomain
-                urlComponents.path = "/\(mapping.path)"
-        }
-        if let routeParameters = encodedState {
-            let queryItems = routeParameters.queryParameters.map { key, value in return URLQueryItem(name: key, value: value) }
-            urlComponents.queryItems = queryItems
-            var pathComponents = routeParameters.routePath
-            pathComponents.insert(urlComponents.path, at: 0)
-            urlComponents.path = pathComponents.joined(separator: "/")
-        }
-        return urlComponents.url!
+        return mapping.buildLink(with: encodedState, defaultScheme: defaultScheme, defaultDomain: defaultDomain)
     }
 
 }
