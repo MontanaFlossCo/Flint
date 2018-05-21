@@ -53,9 +53,8 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         }
         let activityTypes = action.activityTypes
         var appLink: URL? = nil
-        if let encodable = input as? QueryParametersEncodable {
-            let queryParameters = encodable.encodeAsQueryParameters()
-            appLink = Flint.linkCreator?.appLink(to: actionRequest.actionBinding, with: queryParameters)
+        if let encodable = input as? RouteParametersEncodable {
+            appLink = Flint.linkCreator?.appLink(to: actionRequest.actionBinding, with: encodable)
         }
         
         let publishState = PublishActivityRequest(actionName: action.name,

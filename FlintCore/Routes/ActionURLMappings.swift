@@ -8,14 +8,15 @@
 
 import Foundation
 
+/// Callback function used to invoke an action for a URL
+typealias URLExecutor = (_ queryParams: RouteParameters?, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: (ActionPerformOutcome) -> Void) -> ()
+
 /// This type stores the URL mappings to features and actions, as defined in the routes specified in `URLMapped`
 /// Feature definitions.
 ///
 /// It is used to add mappings and retrieve them later when a URL is received and there is a need to resolve that
 /// to an Action if possible.
 class ActionURLMappings {
-    /// Callback function used to invoke an action for a URL
-    typealias URLExecutor = (_ queryParams: QueryParameters?, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: (ActionPerformOutcome) -> Void) -> ()
     
     /// Global internal var for all the app's mappings
     static var instance = ActionURLMappings()
@@ -39,14 +40,18 @@ class ActionURLMappings {
     /// Retrieves the action executor block, if any, for the given URL path in the specified Route scope.
     /// The executor captures the original generic Action so that it can be stored here and executed later even though
     /// `Action` has associated types.
-    func actionExecutor(for path: String, in scope: RouteScope) -> URLExecutor? {
+    func actionExecutionContext(for path: String, in scope: RouteScope) -> URLExecutionContext? {
         guard ![RouteScope.appAny, RouteScope.universalAny].contains(scope) else {
             preconditionFailure("Cannot resolve an action executor for non-specific scopes.")
         }
 
-        let mapping = URLMapping(scope: scope, path: path)
-        if let executor = executorsByUrlMapping[mapping] {
-            return executor
+        let matchingResult = findMatchingURLPattern(for: path, in: scope)
+        if let match = matchingResult {
+            if let executor = executorsByUrlMapping[match.mapping] {
+                return URLExecutionContext(executor: executor, parsedParameters: match.parameters, matchedPattern: match.mapping.pattern)
+            } else {
+                return nil
+            }
         } else {
             // There was no specific mapping, is there an Any mapping?
             let wildcardScope: RouteScope
@@ -56,16 +61,29 @@ class ActionURLMappings {
                 default:
                     fatalError("Incorrect scope logic")
             }
-            
-            let wildcardMapping = URLMapping(scope: wildcardScope, path: path)
-            if let executor = executorsByUrlMapping[wildcardMapping] {
-                return executor
-            } else {
-                return nil
+
+            let matchingResult = findMatchingURLPattern(for: path, in: wildcardScope)
+            if let match = matchingResult {
+                if let executor = executorsByUrlMapping[match.mapping] {
+                    return URLExecutionContext(executor: executor, parsedParameters: match.parameters, matchedPattern: match.mapping.pattern)
+                }
             }
+            return nil
         }
     }
-    
+
+    func findMatchingURLPattern(for path: String, in scope: RouteScope) -> URLMappingResult? {
+        let allMappings = urlMappingsByFeatureAndActionName.values.flatMap { $0 }
+        for mapping in allMappings {
+            if scope == mapping.scope {
+                if let matchResult = mapping.matches(path: path) {
+                    return matchResult
+                }
+            }
+        }
+        return nil
+    }
+
     /// Retrieve all the url mappings defined for the specified feature and action combination.
     func mappings(for feature: FeatureDefinition.Type, action actionName: String) -> [URLMapping]? {
         let key = featureActionKey(for: feature, action: actionName)
