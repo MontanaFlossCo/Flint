@@ -13,9 +13,11 @@ public enum URLPatternResult {
     case match(params: [String:String])
 }
 
-public protocol URLPattern /*: Hashable */ {
+public protocol URLPattern {
+    var urlPattern: String { get }
+    var isValidForLinkCreation: Bool { get }
     func match(path: String) -> URLPatternResult
-    func buildPath(with parameters: [String:String]?) -> String
+    func buildPath(with parameters: [String:String]?) -> String?
 }
 
 ///
@@ -46,7 +48,14 @@ public class RegexURLPattern: URLPattern {
     let regexPattern: NSRegularExpression
     let formatPattern: String?
 
+    public var isValidForLinkCreation: Bool {
+        return formatPattern != nil
+    }
+
     init(urlPattern: String) {
+        precondition(!urlPattern.isEmpty, "URL patterns must not be empty")
+        precondition(urlPattern.hasPrefix("/"), "URL patterns must start with /")
+
         self.urlPattern = urlPattern
         
         let components = urlPattern.split(separator: "/", maxSplits: Int.max, omittingEmptySubsequences: false).map { String($0) }
@@ -55,6 +64,7 @@ public class RegexURLPattern: URLPattern {
         var formatPatternString: String? = ""
         var namedComponents: [String] = []
         
+        let regexBracketForPathChars = "[^/]"
         // match any non-whitespace, optionally in parens
         let namedVarExpression = try! NSRegularExpression(pattern: "\\$\\((\\S+?)\\)", options: [])
         print("namedVarExpre \(namedVarExpression)")
@@ -82,7 +92,7 @@ public class RegexURLPattern: URLPattern {
                         in: component,
                         options: [],
                         range: NSRange(location: 0, length: component.utf16.count),
-                        withTemplate: "(.+)")
+                        withTemplate: "(\(regexBracketForPathChars)+)")
                     regexPatternString.append("/")
                     regexPatternString.append(regexConvertedComponent)
                 } else {
@@ -91,10 +101,13 @@ public class RegexURLPattern: URLPattern {
                 }
                 // Keep it as-is for re-linking later
                 formatPatternString!.append("/\(component)")
-            } else if component.contains("**") {
+            } else if component == "**" {
                 precondition(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
-                // match ** for "all path suffix"
+                // match ** for "all the remaining path suffix"
                 regexPatternString.append("/.*")
+
+                // We expect the last component to be ** after a /, so we need to add the / back in to create links
+                formatPatternString!.append("/")
 
                 // Skip all the rest, nothing else applies. Log a warning?
                 break
@@ -103,12 +116,14 @@ public class RegexURLPattern: URLPattern {
                 formatPatternString = nil
                 
                 // match * for "one or more any chars"
-                regexPatternString.append("/.+")
+                regexPatternString.append("/\(regexBracketForPathChars)+")
             } else {
                 if !component.isEmpty || componentIndex > 0 {
                     regexPatternString.append("/")
+                    formatPatternString?.append("/")
                 }
                 regexPatternString.append(component)
+                formatPatternString?.append("\(component)")
             }
         }
         
@@ -149,16 +164,17 @@ public class RegexURLPattern: URLPattern {
         }
     }
     
-    public func buildPath(with parameters: [String:String]?) -> String {
+    public func buildPath(with parameters: [String:String]?) -> String? {
         guard let formatPattern = formatPattern else {
             preconditionFailure("The format pattern contains a * wildcard, and we cannote create a link to this: \(urlPattern)")
         }
-        var result = formatPattern
+        var result: String = formatPattern
         for namedComponent in namedComponents {
             guard let replacementValue = parameters?[namedComponent] else {
-                preconditionFailure("Cannot create link with pattern \(urlPattern) because there is no value for \(namedComponent) in parameters: \(parameters ?? [:])")
+                return nil
             }
-            result = result.replacingOccurrences(of: "$(\(namedComponent))", with: replacementValue)
+            let substition: String = result.replacingOccurrences(of: "$(\(namedComponent))", with: replacementValue)
+            result = substition.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
         }
         return result
     }

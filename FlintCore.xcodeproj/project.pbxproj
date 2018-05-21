@@ -489,6 +489,9 @@
 		49D24B5720ADD35900649BB4 /* RegexURLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5520ADD35900649BB4 /* RegexURLPattern.swift */; };
 		49D24B5820ADD35900649BB4 /* RegexURLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5520ADD35900649BB4 /* RegexURLPattern.swift */; };
 		49D24B5920ADD35900649BB4 /* RegexURLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5520ADD35900649BB4 /* RegexURLPattern.swift */; };
+		49D24B5F20B308F500649BB4 /* URLMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */; };
+		49D24B6020B308F600649BB4 /* URLMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */; };
+		49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */; };
 		49D447F51FEC69F900DBB352 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F41FEC69F900DBB352 /* Feature.swift */; };
 		49D447F71FEC6AA800DBB352 /* ConditionalFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */; };
 		49DB63F8205BD55800B9EE5D /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49DB63F7205BD55700B9EE5D /* ZIPFoundation.framework */; };
@@ -782,6 +785,7 @@
 		49CCF0CA1F8BB23600F7020E /* ActionDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDispatcher.swift; sourceTree = "<group>"; };
 		49CCF0CF1F8BB25600F7020E /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		49D24B5520ADD35900649BB4 /* RegexURLPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexURLPattern.swift; sourceTree = "<group>"; };
+		49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingTests.swift; sourceTree = "<group>"; };
 		49D447F41FEC69F900DBB352 /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalFeature.swift; sourceTree = "<group>"; };
 		49DB63F7205BD55700B9EE5D /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
@@ -1233,6 +1237,7 @@
 				49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */,
 				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
 				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
+				49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -1756,6 +1761,7 @@
 				4929822A205D67A100267A49 /* DummyFeature.swift in Sources */,
 				49F37A38209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				49D24B6020B308F600649BB4 /* URLMappingTests.swift in Sources */,
 				496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1908,6 +1914,7 @@
 				4929822B205D67A100267A49 /* DummyFeature.swift in Sources */,
 				49F37A39209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */,
 				496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2206,6 +2213,7 @@
 				49298229205D67A100267A49 /* DummyFeature.swift in Sources */,
 				49F37A37209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
+				49D24B5F20B308F500649BB4 /* URLMappingTests.swift in Sources */,
 				496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
