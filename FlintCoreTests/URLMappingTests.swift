@@ -24,6 +24,8 @@ class URLMappingTests: XCTestCase {
         let fixtures: [(pattern: String, incomingURLPath: String, expectedParams: [String:String]?)] = [
             (pattern: "/hello/", incomingURLPath: "/hello", expectedParams: nil),
             (pattern: "/hello", incomingURLPath: "/hello", expectedParams: [:]),
+            (pattern: "/^hello", incomingURLPath: "/^hello", expectedParams: [:]),
+            (pattern: "/hello/$(value)", incomingURLPath: "/hello/$someValueWithDollar", expectedParams: ["value":"$someValueWithDollar"]),
             (pattern: "/hello/world", incomingURLPath: "/hello", expectedParams: nil),
             (pattern: "/hello/world", incomingURLPath: "/hello/", expectedParams: nil),
             (pattern: "/hello/world", incomingURLPath: "/hello/worl", expectedParams: nil),
