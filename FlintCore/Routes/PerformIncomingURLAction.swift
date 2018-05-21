@@ -95,7 +95,7 @@ final public class PerformIncomingURLAction: Action {
                 }
             }
             
-            let params: RouteParameters = RouteParameters(queryParameters: queryParameters)
+            let params: RouteParameters = queryParameters
 
             context.logs.development?.debug("Executing action with query params: \(String(describing: params))")
 

@@ -55,9 +55,9 @@ class URLMappingTests: XCTestCase {
             let pattern = RegexURLPattern(urlPattern: $0.pattern)
             print("Testing pattern: \($0.pattern) for URL: \($0.incomingURLPath), expecting: \(String(describing: $0.expectedParams))")
             switch pattern.match(path: $0.incomingURLPath) {
-                case .noMatch:
+                case .none:
                     XCTAssertNil($0.expectedParams, "Testing pattern: \($0.pattern) for URL: \($0.incomingURLPath), expecting: \(String(describing: $0.expectedParams))")
-                case .match(let params):
+                case .some(let params):
                     XCTAssertEqual($0.expectedParams, params, "Testing pattern: \($0.pattern) for URL: \($0.incomingURLPath), expecting: \(String(describing: $0.expectedParams))")
             }
             
@@ -90,12 +90,12 @@ class URLMappingTests: XCTestCase {
         
         fixtures.forEach {
             let pattern = RegexURLPattern(urlPattern: $0.pattern)
-            print("Testing pattern: \($0.pattern) with params: \($0.parameters), expecting: \(String(describing: $0.expectedPath))")
+            print("Testing pattern: \($0.pattern) with params: \(String(describing: $0.parameters)), expecting: \(String(describing: $0.expectedPath))")
             if pattern.isValidForLinkCreation {
                 if let path = pattern.buildPath(with: $0.parameters) {
-                    XCTAssertEqual(path, $0.expectedPath, "With pattern: \($0.pattern) with params: \($0.parameters), expected: \(String(describing: $0.expectedPath))")
+                    XCTAssertEqual(path, $0.expectedPath, "With pattern: \($0.pattern) with params: \(String(describing: $0.parameters)), expected: \(String(describing: $0.expectedPath))")
                 } else {
-                    XCTAssertNil($0.expectedPath, "Expected \($0.expectedPath) for \($0.pattern) but received nil")
+                    XCTAssertNil($0.expectedPath, "Expected \($0.expectedPath ?? "<nil>") for \($0.pattern) but received nil")
                 }
             } else {
                 XCTAssertNil($0.expectedPath, "Expected \($0.pattern) to be link creation compatible but it isn't")

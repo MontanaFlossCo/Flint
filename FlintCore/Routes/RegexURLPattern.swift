@@ -30,14 +30,20 @@ import Foundation
 /// /** --> parameters [:]
 /// ```
 public class RegexURLPattern: URLPattern {
+ 
     public let urlPattern: String
-    let namedComponents: [String]
-    let regexPattern: NSRegularExpression
-    let formatPattern: String?
-
+ 
     public var isValidForLinkCreation: Bool {
         return formatPattern != nil
     }
+
+    static let regexReservedChars = CharacterSet(charactersIn: "*?+[(){}^$|\\.")
+    static let regexBracketForPathChars = "[^/]"
+    static let tempMacroPlaceholder = "__MACRO__"
+    
+    let namedComponents: [String]
+    let regexPattern: NSRegularExpression
+    let formatPattern: String?
 
     init(urlPattern: String) {
         precondition(!urlPattern.isEmpty, "URL patterns must not be empty")
@@ -50,12 +56,11 @@ public class RegexURLPattern: URLPattern {
         var formatPatternString: String? = ""
         var namedComponents: [String] = []
         
-        let regexBracketForPathChars = "[^/]"
         // match any non-whitespace, optionally in parens
         let namedVarExpression = try! NSRegularExpression(pattern: "\\$\\((\\S+?)\\)", options: [])
         for (componentIndex, component) in components.enumerated() {
             if component.contains("$") {
-                // match $xxxx, aaa$xxxx or aaa$(xxxx)bbbb, or aaa$(xxxx)bbb$(yyyy), replacing with regex aaa(.+)bbbb etc.
+                // match $(xxxx), aa$(xxxx)bbbb, or aaa$(xxxx)bbb$(yyyy), replacing with regex aaa(.+)bbbb etc.
                 let matches = namedVarExpression.matches(in: component, options: [], range: NSRange(location: 0, length: component.utf16.count))
                 if matches.count > 0 {
                     for match in matches {
@@ -67,16 +72,26 @@ public class RegexURLPattern: URLPattern {
                         namedComponents.append(String(name)!)
                     }
                     
-                    /// !!! TODO: Escape \ and other regex special chars first
-
-                    // Replace all varname macros with a regex capture group
-                    let regexConvertedComponent = namedVarExpression.stringByReplacingMatches(
+                    // This is a bit of a nasty hack, but it avoids us having to write a stateful parser at the moment.
+                    
+                    // 1. Replace all varname macros with constant string __MACRO__ that won't suffer from regex escaping
+                    let macroSubstitutedComponent = namedVarExpression.stringByReplacingMatches(
                         in: component,
                         options: [],
                         range: NSRange(location: 0, length: component.utf16.count),
-                        withTemplate: "(\(regexBracketForPathChars)+)")
+                        withTemplate: RegexURLPattern.tempMacroPlaceholder)
+
+                    // 2. Escape what is left so we don't accidentally let through regex special chars in the literal parts
+                    let regexEscapedComponent = RegexURLPattern.regexEscaped(macroSubstitutedComponent)
+
+                    // 3. Replace all the constant __MACRO__ strings with regex capture groups
+                    let regexSubstitutedComponent = regexEscapedComponent.replacingOccurrences(
+                        of: RegexURLPattern.tempMacroPlaceholder,
+                        with: "(\(RegexURLPattern.regexBracketForPathChars)+)")
+
+                    // Now we have a string like `/1234\$\$\$456/prefix([^/])+suffix/whatever` we can append
                     regexPatternString.append("/")
-                    regexPatternString.append(regexConvertedComponent)
+                    regexPatternString.append(regexSubstitutedComponent)
                 } else {
                     regexPatternString.append("/")
                     regexPatternString.append(component)
@@ -86,9 +101,7 @@ public class RegexURLPattern: URLPattern {
             } else if component == "**" {
                 precondition(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
 
-                /// !!! TODO: Escape \ and other regex special chars first
-
-                // match ** for "all the remaining path suffix"
+                // Match ** for "all the remaining path suffix"
                 regexPatternString.append("/.*")
 
                 // We expect the last component to be ** after a /, so we need to add the / back in to create links
@@ -100,19 +113,20 @@ public class RegexURLPattern: URLPattern {
                 // We can't rebuild a link for these, we don't know what to put for the *
                 formatPatternString = nil
                 
-                /// !!! TODO: Escape \ and other regex special chars first
-
-                // match * for "one or more any chars"
-                regexPatternString.append("/\(regexBracketForPathChars)+")
+                // Match * for "one or more any chars"
+                regexPatternString.append("/\(RegexURLPattern.regexBracketForPathChars)+")
             } else {
-                if !component.isEmpty || componentIndex > 0 {
+                // Anything that makes it to here is a just standard literal component
+                let regexEscapedComponent = RegexURLPattern.regexEscaped(component)
+
+                if !regexEscapedComponent.isEmpty || componentIndex > 0 {
                     regexPatternString.append("/")
                     formatPatternString?.append("/")
                 }
-                /// !!! TODO: Escape \ and other regex special chars first
-                regexPatternString.append(component)
 
-                formatPatternString?.append("\(component)")
+                regexPatternString.append(regexEscapedComponent)
+
+                formatPatternString?.append(regexEscapedComponent)
             }
         }
         
@@ -124,7 +138,7 @@ public class RegexURLPattern: URLPattern {
         self.formatPattern = formatPatternString
     }
     
-    public func match(path: String) -> URLPatternResult {
+    public func match(path: String) -> [String:String]? {
         let matches = regexPattern.matches(in: path, options: [], range: NSRange(location: 0, length: path.utf16.count))
         if matches.count > 0 {
             var params: [String:String] = [:]
@@ -147,9 +161,9 @@ public class RegexURLPattern: URLPattern {
                     nameIndex = nameIndex + 1
                 }
             }
-            return .match(params: params)
+            return params
         } else {
-            return .noMatch
+            return nil
         }
     }
     
@@ -168,8 +182,9 @@ public class RegexURLPattern: URLPattern {
         return result
     }
 
+    /// Escape regex reserved chars in the input, so that when creating regex strings from inputs
+    /// we don't accidentally create invalid regexes if some of the input contains e.g. `$` or `\`
     static func regexEscaped(_ value: String) -> String {
-//        return value
         var result: String = ""
         for char in value.unicodeScalars {
             if regexReservedChars.contains(char) {
@@ -179,7 +194,5 @@ public class RegexURLPattern: URLPattern {
         }
         return result
     }
-    
-    static let regexReservedChars = CharacterSet(charactersIn: "*?+[(){}^$|\\.")
     
 }

@@ -8,9 +8,9 @@
 
 import Foundation
 
-public enum URLMappingResult {
-    case noMatch
-    case match(mapping: URLMapping, params: [String:String]?)
+public struct URLMappingResult {
+    let mapping: URLMapping
+    let parameters: [String:String]?
 }
 
 
@@ -20,17 +20,19 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
     let scope: RouteScope
     let pattern: URLPattern
 
-    public func matches(path: String) -> URLMappingResult {
+    public func matches(path: String) -> URLMappingResult? {
         switch pattern.match(path: path) {
-            case .noMatch: return .noMatch
-            case .match(let params): return .match(mapping: self, params: params)
+            case .none: return nil
+            case .some(let params): return URLMappingResult(mapping: self, parameters: params)
         }
     }
     
     public func buildLink(with parameters: RouteParameters?, defaultScheme: String, defaultDomain: String) -> URL {
         var urlComponents = URLComponents()
 
-        let generatedPath = pattern.buildPath(with: parameters?.queryParameters)
+        guard let generatedPath = pattern.buildPath(with: parameters) else {
+            preconditionFailure("Unable to generate link, pattern \(pattern) cannot be used to generate a link from \(String(describing: parameters))")
+        }
         switch scope {
             case let .app(scheme):
                 urlComponents.scheme = scheme
@@ -48,7 +50,7 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
                 urlComponents.path = "/\(generatedPath)"
         }
         if let routeParameters = parameters {
-            let queryItems = routeParameters.queryParameters.map { key, value in return URLQueryItem(name: key, value: value) }
+            let queryItems = routeParameters.map { key, value in return URLQueryItem(name: key, value: value) }
             urlComponents.queryItems = queryItems
         }
         return urlComponents.url!

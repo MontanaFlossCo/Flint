@@ -11,12 +11,6 @@ import Foundation
 /// Callback function used to invoke an action for a URL
 typealias URLExecutor = (_ queryParams: RouteParameters?, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: (ActionPerformOutcome) -> Void) -> ()
 
-public struct URLExecutionContext {
-    let executor: URLExecutor
-    let parsedParameters: [String:String]?
-    let matchedPattern: URLPattern
-}
-
 /// This type stores the URL mappings to features and actions, as defined in the routes specified in `URLMapped`
 /// Feature definitions.
 ///
@@ -52,9 +46,9 @@ class ActionURLMappings {
         }
 
         let matchingResult = findMatchingURLPattern(for: path, in: scope)
-        if case let .match(mapping, params) = matchingResult {
-            if let executor = executorsByUrlMapping[mapping] {
-                return URLExecutionContext(executor: executor, parsedParameters: params, matchedPattern: mapping.pattern)
+        if let match = matchingResult {
+            if let executor = executorsByUrlMapping[match.mapping] {
+                return URLExecutionContext(executor: executor, parsedParameters: match.parameters, matchedPattern: match.mapping.pattern)
             } else {
                 return nil
             }
@@ -69,26 +63,25 @@ class ActionURLMappings {
             }
 
             let matchingResult = findMatchingURLPattern(for: path, in: wildcardScope)
-            if case let .match(mapping, params) = matchingResult {
-                if let executor = executorsByUrlMapping[mapping] {
-                    return URLExecutionContext(executor: executor, parsedParameters: params, matchedPattern: mapping.pattern)
+            if let match = matchingResult {
+                if let executor = executorsByUrlMapping[match.mapping] {
+                    return URLExecutionContext(executor: executor, parsedParameters: match.parameters, matchedPattern: match.mapping.pattern)
                 }
             }
             return nil
         }
     }
 
-    func findMatchingURLPattern(for path: String, in scope: RouteScope) -> URLMappingResult {
+    func findMatchingURLPattern(for path: String, in scope: RouteScope) -> URLMappingResult? {
         let allMappings = urlMappingsByFeatureAndActionName.values.flatMap { $0 }
         for mapping in allMappings {
             if scope == mapping.scope {
-                let matchResult = mapping.matches(path: path)
-                if case .match = matchResult {
+                if let matchResult = mapping.matches(path: path) {
                     return matchResult
                 }
             }
         }
-        return .noMatch
+        return nil
     }
 
     /// Retrieve all the url mappings defined for the specified feature and action combination.

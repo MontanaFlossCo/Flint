@@ -20,9 +20,7 @@ import Foundation
 /// That is more the kind of thing we want, where we take the prefix and add different path elements and maybe encode the
 /// other parts of the input state differently because it is a public URL.
 
-public struct RouteParameters {
-    let queryParameters: [String:String]
-}
+public typealias RouteParameters = [String:String]
 
 public protocol RouteParametersDecodable {
     init?(from routeParameters: RouteParameters?, mapping: URLMapping)
