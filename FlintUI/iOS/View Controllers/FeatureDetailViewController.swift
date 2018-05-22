@@ -117,7 +117,7 @@ public class FeatureDetailViewController: UITableViewController {
             case .properties:
                 return Property.count
             case .constraints:
-                return constraintInfo.count
+                return constraintInfo.count > 0 ? constraintInfo.count : 1
             case .features:
                 return featureItems.count > 0 ? featureItems.count : 1
             case .actions:
@@ -150,18 +150,15 @@ public class FeatureDetailViewController: UITableViewController {
                         cell.detailTextLabel?.text = variation
                 }
             case .constraints:
-                cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
-                cell.textLabel?.text = "Available"
-                if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
-                    let availableNow: String
-                    switch conditionalFeature.isAvailable {
-                        case .some(let value): availableNow = value ? "Yes" : "No"
-                        case .none: availableNow = "<unknown>"
-                    }
-                    cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
-                } else {
-                    cell.detailTextLabel?.text = "Always (no constraints)"
+                guard constraintInfo.count > 0 else {
+                    cell = tableView.dequeueReusableCell(withIdentifier: "NoConstraints", for: indexPath)
+                    cell.textLabel?.text = "No constraints"
+                    cell.textLabel?.textColor = UIColor.lightGray
+                    return cell
                 }
+                cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
+                cell.textLabel?.text = constraintInfo[indexPath.row].description
+                cell.detailTextLabel?.text = constraintInfo[indexPath.row].status
             case .features:
                 guard featureItems.count > 0 else {
                     cell = tableView.dequeueReusableCell(withIdentifier: "NoSubfeatures", for: indexPath)
