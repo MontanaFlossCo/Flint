@@ -277,19 +277,27 @@ public class FeatureDetailViewController: UITableViewController {
         if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
             let evaluationResult = Flint.constraintsEvaluator.evaluate(for: conditionalFeature)
 
-            func _addConstraintInfo(platform: Platform, constraint: PlatformConstraint, status: String) {
-                let info = ConstraintInfo(description: "Platform: \(constraint)", status: status)
+            func _addConstraintInfo(description: String, status: String) {
+                let info = ConstraintInfo(description: description, status: status)
                 constraintInfo.append(info)
             }
 
             for (platform, constraint) in evaluationResult.satisfied.allDeclaredPlatforms {
-                _addConstraintInfo(platform: platform, constraint: constraint, status: "✅")
+                _addConstraintInfo(description: "Platform: \(constraint)", status: "✅")
             }
             for (platform, constraint) in evaluationResult.unsatisfied.allDeclaredPlatforms {
-                _addConstraintInfo(platform: platform, constraint: constraint, status: "🚫")
+                _addConstraintInfo(description: "Platform: \(constraint)", status: "🚫")
             }
             for (platform, constraint) in evaluationResult.unknown.allDeclaredPlatforms {
-                _addConstraintInfo(platform: platform, constraint: constraint, status: "❓")
+                _addConstraintInfo(description: "Platform: \(constraint)", status: "❓")
+            }
+
+            for precondition in evaluationResult.all.preconditions {
+                _addConstraintInfo(description: precondition.description, status: "❓")
+            }
+
+            for permission in evaluationResult.all.permissions {
+                _addConstraintInfo(description: permission.description, status: "❓")
             }
         }
         
