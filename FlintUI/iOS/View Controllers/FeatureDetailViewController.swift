@@ -117,13 +117,11 @@ public class FeatureDetailViewController: UITableViewController {
             case .properties:
                 return Property.count
             case .constraints:
-                if let constraints = constraintInfo {
-                    return constraints.count
-                } else {
-                    return 0
-                }
-            case .features: return featureItems.count > 0 ? featureItems.count : 1
-            case .actions: return actionItems.count > 0 ? actionItems.count : 1
+                return constraintInfo.count
+            case .features:
+                return featureItems.count > 0 ? featureItems.count : 1
+            case .actions:
+                return actionItems.count > 0 ? actionItems.count : 1
         }
     }
 
@@ -152,7 +150,7 @@ public class FeatureDetailViewController: UITableViewController {
                         cell.detailTextLabel?.text = variation
                 }
             case .constraints:
-                
+                cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
                 cell.textLabel?.text = "Available"
                 if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
                     let availableNow: String
@@ -281,10 +279,20 @@ public class FeatureDetailViewController: UITableViewController {
         constraintInfo.removeAll()
         if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
             let evaluationResult = Flint.constraintsEvaluator.evaluate(for: conditionalFeature)
-            for (platform, constraint) in evaluationResult.all.allDeclaredPlatforms {
-                let status =
+
+            func _addConstraintInfo(platform: Platform, constraint: PlatformConstraint, status: String) {
                 let info = ConstraintInfo(description: "Platform: \(platform) \(constraint)", status: status)
                 constraintInfo.append(info)
+            }
+
+            for (platform, constraint) in evaluationResult.satisfied.allDeclaredPlatforms {
+                _addConstraintInfo(platform: platform, constraint: constraint, status: "✅")
+            }
+            for (platform, constraint) in evaluationResult.unsatisfied.allDeclaredPlatforms {
+                _addConstraintInfo(platform: platform, constraint: constraint, status: "🚫")
+            }
+            for (platform, constraint) in evaluationResult.unknown.allDeclaredPlatforms {
+                _addConstraintInfo(platform: platform, constraint: constraint, status: "❓")
             }
         }
         
