@@ -26,7 +26,7 @@ final public class TimelineBrowserFeature: ConditionalFeature {
     public static let hide = action(HideTimelineBrowserAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        isEnabled = TimelineFeature.isAvailable
+        isEnabled = TimelineFeature.isEnabled
         actions.declare(show)
         actions.declare(hide)
     }

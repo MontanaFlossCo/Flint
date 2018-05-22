@@ -23,7 +23,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
     public static let loadMoreResults = action(LoadMoreResultsAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        isEnabled = TimelineFeature.isAvailable
+        isEnabled = TimelineFeature.isEnabled
         
         actions.declare(loadInitialResults)
         actions.declare(loadMoreResults)

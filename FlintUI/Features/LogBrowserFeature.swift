@@ -25,7 +25,7 @@ final public class LogBrowserFeature: ConditionalFeature {
     public static let show = action(ShowLogBrowserAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {
-         isEnabled = FocusFeature.isAvailable
+         isEnabled = FocusFeature.isEnabled
          actions.declare(show)
     }
 }

@@ -278,7 +278,7 @@ public class FeatureDetailViewController: UITableViewController {
             let evaluationResult = Flint.constraintsEvaluator.evaluate(for: conditionalFeature)
 
             func _addConstraintInfo(platform: Platform, constraint: PlatformConstraint, status: String) {
-                let info = ConstraintInfo(description: "Platform: \(platform) \(constraint)", status: status)
+                let info = ConstraintInfo(description: "Platform: \(constraint)", status: status)
                 constraintInfo.append(info)
             }
 
