@@ -282,13 +282,13 @@ public class FeatureDetailViewController: UITableViewController {
                 constraintInfo.append(info)
             }
 
-            for (platform, constraint) in evaluationResult.satisfied.allDeclaredPlatforms {
+            for (_, constraint) in evaluationResult.satisfied.allDeclaredPlatforms {
                 _addConstraintInfo(description: "Platform: \(constraint)", status: "✅")
             }
-            for (platform, constraint) in evaluationResult.unsatisfied.allDeclaredPlatforms {
+            for (_, constraint) in evaluationResult.unsatisfied.allDeclaredPlatforms {
                 _addConstraintInfo(description: "Platform: \(constraint)", status: "🚫")
             }
-            for (platform, constraint) in evaluationResult.unknown.allDeclaredPlatforms {
+            for (_, constraint) in evaluationResult.unknown.allDeclaredPlatforms {
                 _addConstraintInfo(description: "Platform: \(constraint)", status: "❓")
             }
 
