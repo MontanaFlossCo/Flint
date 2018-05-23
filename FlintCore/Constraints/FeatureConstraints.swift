@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A container for the definition and results of evaluating a single Feature's constraints.
+/// A container for the definition a single Feature's constraints.
 public struct FeatureConstraints  {
     /// All the platform constraints that were declared on the feature, including those not relevant to the
     /// current execution platform

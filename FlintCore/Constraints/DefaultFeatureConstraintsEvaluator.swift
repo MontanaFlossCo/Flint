@@ -12,7 +12,7 @@ import Foundation
 ///
 /// It is threadsafe.
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
-    var constraintsByFeature: [FeaturePath:FeatureConstraints] = [:]
+    var constraintsByFeature: [FeaturePath:FeatureConstraintResults] = [:]
     var purchaseEvaluator: FeaturePreconditionEvaluator?
     var runtimeEvaluator: FeaturePreconditionEvaluator = RuntimePreconditionEvaluator()
     var userToggleEvaluator: FeaturePreconditionEvaluator?
