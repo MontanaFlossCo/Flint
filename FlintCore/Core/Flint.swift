@@ -146,7 +146,7 @@ final public class Flint {
     }
     
     /// Register the feature with Flint. Call this to register specific features if they are not already
-    /// regsitered by way of being subfeatures of a group.
+    /// registered by way of being subfeatures of a group.
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
     public static func register(_ feature: FeatureDefinition.Type) {
         FlintInternal.logger?.debug("Preparing feature: \(feature)")

@@ -45,7 +45,7 @@ public class DebugReporting {
     
     /// Called to generate a ZIP containing the reports from all reportables, stored in a temporary location.
     ///
-    /// The caller is reponsible for removing the file to free space. The file is in a temporary location but
+    /// The caller is responsible for removing the file to free space. The file is in a temporary location but
     /// it is undefined when that will be cleared out.
     public static func gatherReportZip() -> URL {
         let tempDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)

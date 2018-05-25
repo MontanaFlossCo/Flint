@@ -9,7 +9,7 @@
 import Foundation
 
 /// The actions builder protocol defines the domain-specific-language used to declare
-/// the actions avaialble on a feature.
+/// the actions available on a feature.
 public protocol FeatureActionsBuilder {
 
     /// Declare an action that is always available. This will bind the action and the feature, so that the

@@ -10,7 +10,7 @@ import Foundation
 
 /// This tracker maintains the list of active Action Stacks across all ActionSession(s).
 ///
-/// It is reponsible for vending new stacks when required, or existing ones that are not closed.
+/// It is responsible for vending new stacks when required, or existing ones that are not closed.
 public class ActionStackTracker: DebugReportable {
     public static let instance = ActionStackTracker()
 

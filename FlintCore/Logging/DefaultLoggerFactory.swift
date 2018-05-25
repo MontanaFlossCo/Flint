@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// The defaut Focus-aware filtering logger factory.
+/// The default Focus-aware filtering logger factory.
 ///
 /// This creates contextual loggers that support Focus to restrict logging to specific features at runtime.
 ///

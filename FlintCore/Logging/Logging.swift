@@ -51,7 +51,7 @@ import Foundation
 /// `LoggerOutput` implementation which writes to whatever output you desire.
 ///
 /// There is an `AggregatingLoggerOutput` provided so you can compose multiple log outputs easily and drive them from
-/// the same contextual loggers, e.g. to ouput to Console as well as an ASL log file.
+/// the same contextual loggers, e.g. to output to Console as well as an ASL log file.
 ///
 /// - see: `DefaultLoggerFactory.setup()` for the simple console logging used by default when using `Flint.quickSetup`.
 public struct Logging {
