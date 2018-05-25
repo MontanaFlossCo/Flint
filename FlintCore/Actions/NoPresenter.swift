@@ -8,6 +8,6 @@
 
 import Foundation
 
-/// Convenience type for use when no presenter type is requred.
+/// Convenience type for use when no presenter type is required.
 /// - see: `Action`
 public typealias NoPresenter = Void

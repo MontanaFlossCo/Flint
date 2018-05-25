@@ -22,7 +22,7 @@ public protocol FeatureDefinition: AnyObject {
     
     /// Return `true` if this feature should appear in Feature selection UIs, such as toolbars.
     /// - note: This is purely for app use to categories some features as being surfaced in the UI. Visibility of
-    /// individual actions is controlled by wether or not they are `publish()`'d in the `prepare` function of the feature.
+    /// individual actions is controlled by whether or not they are `publish()`'d in the `prepare` function of the feature.
     /// - note: Accesses to any properties that may change at runtime must only occur on the main thread.
     static var isVisible: Bool { get }
 

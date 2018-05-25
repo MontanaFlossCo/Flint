@@ -10,7 +10,7 @@ import Foundation
 
 /// The implementation of the system permission checker.
 ///
-/// This registers and verifies the approprite adapaters and uses them to check the status
+/// This registers and verifies the approprite adapters and uses them to check the status
 /// of all the permissions required by a feature.
 ///
 /// !!! TODO: Add sanity check for missing Info.plist usage descriptions?

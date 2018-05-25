@@ -21,7 +21,7 @@ class FlintCoreTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: Test artefacts
+    // MARK: Test artifacts
     
     func testFeatureMetadata() {
         Flint.register(DummyFeatures.self)
