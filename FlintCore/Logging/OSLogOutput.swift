@@ -9,6 +9,16 @@
 import Foundation
 import os.log
 
+/// A LoggerOutput implementation that sends log events to the system's OSLog.
+///
+/// The app bundle ID plus action session name are used as the subsystem, e.g:
+///
+/// `co.montanafloss.demo.main`
+///
+/// ...and the "category" is set to the topic path (AKA feature + action path):
+///
+/// `AppFeatures/DocumentEditing/#Save`
+///
 public class OSLogOutput: LoggerOutput {
 
     private var logs: [TopicPath:OSLog] = [:]
@@ -33,7 +43,7 @@ public class OSLogOutput: LoggerOutput {
             case .info:    type = .info
             case .warning: type = .`default` // There is no warning level, docs say this is for something that might result in a failure
             case .none:
-                preconditionFailure("Should never see an even with level .none")
+                preconditionFailure("Should never see an event with level .none")
         }
         os_log("%@", log: log, type: type, text)
     }
