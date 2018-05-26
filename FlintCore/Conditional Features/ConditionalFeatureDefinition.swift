@@ -19,11 +19,13 @@ public protocol ConditionalFeatureDefinition: FeatureDefinition {
     /// Called to define the requirements of this feature
     /// - see: `FeatureConstraintsBuilder` for the functions you can call to define constraints
     static func constraints(requirements: FeatureConstraintsBuilder)
+
+    /// By default features with a runtime precondition are neither enabled nor disabled.
+    /// Override this in your own types to set it to a default at runtime, or enable changing it at runtime
+    static var isEnabled: Bool? { get }
 }
 
 public extension ConditionalFeatureDefinition {
-    /// By default features with a runtime precondition are neither enabled not disabled.
-    /// Override this in your own types to set it to a default at runtime, or enable changing it at runtime
     static var isEnabled: Bool? {
         return nil
     }
