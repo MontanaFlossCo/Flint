@@ -27,5 +27,5 @@ public protocol FeatureConstraintsBuilder: AnyObject {
     func userToggled(defaultValue: Bool)
 
     /// Called to desclare a new permission requirement
-    func permission(_ permission: SystemPermission)
+    func permission(_ permission: SystemPermissionConstraint)
 }

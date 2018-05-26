@@ -67,7 +67,7 @@ public extension ConditionalFeature {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let all = constraints.all.permissions
         
-        func _filter(_ permissions: Set<SystemPermission>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermission> {
+        func _filter(_ permissions: Set<SystemPermissionConstraint>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
             let results = permissions.filter { permission in
                 let status = Flint.permissionChecker.status(of: permission)
                 return matchingStatus == status
@@ -85,7 +85,7 @@ public extension ConditionalFeature {
     /// Access information about the purchases required by this feature
     public static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
-        func _extractPurchaseRequirements(_ preconditions: Set<FeaturePrecondition>) -> Set<PurchaseRequirement> {
+        func _extractPurchaseRequirements(_ preconditions: Set<FeaturePreconditionConstraint>) -> Set<PurchaseRequirement> {
             let requirements: [PurchaseRequirement] = preconditions.flatMap {
                 if case let .purchase(requirement) = $0 {
                     return requirement

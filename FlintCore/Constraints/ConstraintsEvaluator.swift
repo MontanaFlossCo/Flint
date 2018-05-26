@@ -19,7 +19,7 @@ public protocol ConstraintsEvaluator {
     /// Set the constraints for a given feature, for later evaluation.
     ///
     /// This is called when building the constraints from the DSL definitions
-    func set(constraints: FeatureConstraints, for feature: ConditionalFeatureDefinition.Type)
+    func set(constraints: DeclaredFeatureConstraints, for feature: ConditionalFeatureDefinition.Type)
 
     /// - return: `true` if the feature's evaluation can be cached long term. `false` if it needs to be checked every time.
     func canCacheResult(for feature: ConditionalFeatureDefinition.Type) -> Bool
@@ -27,6 +27,6 @@ public protocol ConstraintsEvaluator {
     /// Evaluate the constraints for the feature and return the results.
     /// - note: Implementations should not cache anything. The `AvailabilityChecker` caches its results and manages
     /// this via calls to `canCacheResult(for:)`.
-    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureEvaluationResult
+    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluationResult
 }
 

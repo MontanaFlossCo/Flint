@@ -56,43 +56,43 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     }
     
     func testAvailabilityOfRootFeatureThatIsUnavailableAndThenPurchased() {
-        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productA))])
+        let precondition = DeclaredFeatureConstraints([FeaturePreconditionConstraint.purchase(requirement: PurchaseRequirement(productA))])
         
         // At first we don't know
         evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
-                                      result: FeatureEvaluationResult(unknown: precondition))
+                                      result: FeatureConstraintsEvaluationResult(unknown: precondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
         evaluator.setEvaluationResult(for: ConditionalFeatureA.self,
-                                      result: FeatureEvaluationResult(unsatisfied: precondition))
+                                      result: FeatureConstraintsEvaluationResult(unsatisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), false)
 
         // Then we purchase
-        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureEvaluationResult(satisfied: precondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureA.self, result: FeatureConstraintsEvaluationResult(satisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureA.self), true)
     }
 
     func testAvailabilityOfChildFeatureThatIsUnavailableAndThenPurchased() {
-        let precondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productB))])
+        let precondition = DeclaredFeatureConstraints([FeaturePreconditionConstraint.purchase(requirement: PurchaseRequirement(productB))])
         
         // Then we know we don't have it (data loaded)
         evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
-                                      result: FeatureEvaluationResult(unknown: precondition))
+                                      result: FeatureConstraintsEvaluationResult(unknown: precondition))
         // At first we don't know
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), nil)
 
         // Then we know we don't have it (data loaded)
         evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
-                                      result: FeatureEvaluationResult(unsatisfied: precondition))
+                                      result: FeatureConstraintsEvaluationResult(unsatisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), false)
 
         // Then we purchase
         evaluator.setEvaluationResult(for: ConditionalFeatureB.self,
-                                      result: FeatureEvaluationResult(satisfied: precondition))
+                                      result: FeatureConstraintsEvaluationResult(satisfied: precondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureB.self), true)
     }
@@ -100,45 +100,45 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     /// Verify that all the conditional features in the ancestry need to be purchased for
     /// the child to be available.
     func testAvailabilityOfChildFeatureWithParentThatIsUnavailableAndThenPurchased() {
-        let productCPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC))])
-        let productDPrecondition = FeatureConstraints([FeaturePrecondition.purchase(requirement: PurchaseRequirement(productD))])
-        let productCandDPrecondition = FeatureConstraints([
-            FeaturePrecondition.purchase(requirement: PurchaseRequirement(productC)),
+        let productCPrecondition = DeclaredFeatureConstraints([FeaturePreconditionConstraint.purchase(requirement: PurchaseRequirement(productC))])
+        let productDPrecondition = DeclaredFeatureConstraints([FeaturePreconditionConstraint.purchase(requirement: PurchaseRequirement(productD))])
+        let productCandDPrecondition = DeclaredFeatureConstraints([
+            FeaturePreconditionConstraint.purchase(requirement: PurchaseRequirement(productC)),
             .purchase(requirement: PurchaseRequirement(productD))
         ])
 
         // At first we don't know if the parent is purchased
         evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
-                                      result: FeatureEvaluationResult(unknown: productCPrecondition))
+                                      result: FeatureConstraintsEvaluationResult(unknown: productCPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), nil)
 
         // Then we know we don't have it (data loaded)
         evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
-                                      result: FeatureEvaluationResult(unsatisfied: productCPrecondition))
+                                      result: FeatureConstraintsEvaluationResult(unsatisfied: productCPrecondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), false)
 
         // Then we purchase the parent
         evaluator.setEvaluationResult(for: ConditionalParentFeatureA.self,
-                                      result: FeatureEvaluationResult(satisfied: productCPrecondition))
+                                      result: FeatureConstraintsEvaluationResult(satisfied: productCPrecondition))
         checker.invalidate()
         XCTAssertEqual(checker.isAvailable(ConditionalParentFeatureA.self), true)
 
         // Mark all the requirements as unsatisfied
-        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureConstraintsEvaluationResult(satisfied: productCPrecondition))
         checker.invalidate()
         // The child should still not be available, as the child itself has not been purchased
         XCTAssertNotEqual(checker.isAvailable(ConditionalFeatureC.self), false)
 
         // Purchase the child but not the parent
-        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productDPrecondition, unsatisfied: productCPrecondition, unknown: .empty))
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureConstraintsEvaluationResult(satisfied: productDPrecondition, unsatisfied: productCPrecondition, unknown: .empty))
         checker.invalidate()
 
         // The child should NOT be available as the parent is still not available
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureC.self), false)
 
         // Purchase the child AND the parent
-        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureEvaluationResult(satisfied: productCandDPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureC.self, result: FeatureConstraintsEvaluationResult(satisfied: productCandDPrecondition))
         checker.invalidate()
 
         // The child should NOT be available as the parent is still not available
@@ -149,20 +149,20 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
     /// Test the some of the permissions adapters
     func testPermissions() {
         // Check camera permissions
-        let cameraPrecondition = FeatureConstraints([SystemPermission.camera])
-        let photosLocationPrecondition = FeatureConstraints([SystemPermission.photos, .location(usage: .whenInUse)])
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unknown: cameraPrecondition))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unknown: photosLocationPrecondition))
+        let cameraPrecondition = DeclaredFeatureConstraints([SystemPermissionConstraint.camera])
+        let photosLocationPrecondition = DeclaredFeatureConstraints([SystemPermissionConstraint.photos, .location(usage: .whenInUse)])
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(unknown: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(unknown: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), nil)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), nil)
         
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: cameraPrecondition))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(unsatisfied: photosLocationPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(unsatisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(unsatisfied: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
 
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: cameraPrecondition))
-        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureEvaluationResult(satisfied: photosLocationPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithCameraPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(satisfied: cameraPrecondition))
+        evaluator.setEvaluationResult(for: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self, result: FeatureConstraintsEvaluationResult(satisfied: photosLocationPrecondition))
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithCameraPermissionRequirements.self), false)
         XCTAssertEqual(checker.isAvailable(ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self), false)
     }

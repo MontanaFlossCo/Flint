@@ -9,7 +9,7 @@
 import Foundation
 
 /// Defines a system permission that conditional features can use as a constraint.
-public enum SystemPermission: Hashable, CustomStringConvertible {
+public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
     case location(usage: LocationUsage)

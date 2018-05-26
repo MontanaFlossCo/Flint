@@ -9,14 +9,14 @@
 import Foundation
 
 /// The precondition evaluator for purchases requirements.
-public class PurchasePreconditionEvaluator: FeaturePreconditionEvaluator {
+public class PurchasePreconditionEvaluator: FeaturePreconditionConstraintEvaluator {
     let purchaseTracker: PurchaseTracker
     
     public init(purchaseTracker: PurchaseTracker) {
         self.purchaseTracker = purchaseTracker
     }
     
-    public func isFulfilled(_ precondition: FeaturePrecondition, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
+    public func isFulfilled(_ precondition: FeaturePreconditionConstraint, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
         guard case let .purchase(requirement) = precondition else {
             fatalError("Incorrect precondition type '\(precondition)' passed to purchase evaluator")
         }

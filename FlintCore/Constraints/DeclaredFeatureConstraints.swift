@@ -9,7 +9,7 @@
 import Foundation
 
 /// A container for the definition a single Feature's constraints.
-public struct FeatureConstraints  {
+public struct DeclaredFeatureConstraints {
     /// All the platform constraints that were declared on the feature, including those not relevant to the
     /// current execution platform
     public let allDeclaredPlatforms: [Platform:PlatformConstraint]
@@ -18,19 +18,19 @@ public struct FeatureConstraints  {
     public let currentPlatforms: [Platform:PlatformConstraint]
     
     /// The set of preconditions that apply to the feature
-    public let preconditions: Set<FeaturePrecondition>
+    public let preconditions: Set<FeaturePreconditionConstraint>
     
     /// The set of permission that apply to the feature
-    public let permissions: Set<SystemPermission>
+    public let permissions: Set<SystemPermissionConstraint>
     
     /// - return: `true` if and only there are no constraints that currently apply.
     public let isEmpty: Bool
     
-    public static let empty = FeatureConstraints()
+    public static let empty = DeclaredFeatureConstraints()
     
     public init(allDeclaredPlatforms: [Platform:PlatformConstraint],
-                preconditions: Set<FeaturePrecondition>,
-                permissions: Set<SystemPermission>) {
+                preconditions: Set<FeaturePreconditionConstraint>,
+                permissions: Set<SystemPermissionConstraint>) {
         self.allDeclaredPlatforms = allDeclaredPlatforms
         self.currentPlatforms = allDeclaredPlatforms.filter { $0.value.platform.isCurrentPlatform }
         self.preconditions = preconditions
@@ -46,7 +46,7 @@ public struct FeatureConstraints  {
         isEmpty = preconditions.isEmpty
     }
     
-    public init(_ preconditions: Set<FeaturePrecondition>) {
+    public init(_ preconditions: Set<FeaturePreconditionConstraint>) {
         self.preconditions = preconditions
         permissions = []
         allDeclaredPlatforms = [:]
@@ -54,7 +54,7 @@ public struct FeatureConstraints  {
         isEmpty = preconditions.isEmpty
     }
     
-    public init(_ permissions: Set<SystemPermission>) {
+    public init(_ permissions: Set<SystemPermissionConstraint>) {
         preconditions = []
         self.permissions = permissions
         allDeclaredPlatforms = [:]

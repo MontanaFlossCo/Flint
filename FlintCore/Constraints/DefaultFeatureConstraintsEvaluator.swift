@@ -13,9 +13,9 @@ import Foundation
 /// It is threadsafe.
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     var constraintsByFeature: [FeaturePath:FeatureConstraintResults] = [:]
-    var purchaseEvaluator: FeaturePreconditionEvaluator?
-    var runtimeEvaluator: FeaturePreconditionEvaluator = RuntimePreconditionEvaluator()
-    var userToggleEvaluator: FeaturePreconditionEvaluator?
+    var purchaseEvaluator: FeaturePreconditionConstraintEvaluator?
+    var runtimeEvaluator: FeaturePreconditionConstraintEvaluator = RuntimePreconditionEvaluator()
+    var userToggleEvaluator: FeaturePreconditionConstraintEvaluator?
     let permissionChecker: SystemPermissionChecker
     lazy var accessQueue = {
         return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.DefaultFeatureConstraintsEvaluator"), owner: self)
@@ -52,19 +52,19 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         }
     }
     
-    public func set(constraints: FeatureConstraints, for feature: ConditionalFeatureDefinition.Type) {
+    public func set(constraints: DeclaredFeatureConstraints, for feature: ConditionalFeatureDefinition.Type) {
         FlintInternal.logger?.debug("Constraints evaluator storing constraints for \(feature.identifier): \(constraints)")
         accessQueue.sync {
             constraintsByFeature[feature.identifier] = constraints
         }
     }
 
-    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureEvaluationResult {
-        var satisfiedPreconditions: Set<FeaturePrecondition> = []
-        var satisfiedPermissions: Set<SystemPermission> = []
-        var unsatisfiedPreconditions: Set<FeaturePrecondition> = []
-        var unsatisfiedPermissions: Set<SystemPermission> = []
-        var unknownPreconditions: Set<FeaturePrecondition> = []
+    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluationResult {
+        var satisfiedPreconditions: Set<FeaturePreconditionConstraint> = []
+        var satisfiedPermissions: Set<SystemPermissionConstraint> = []
+        var unsatisfiedPreconditions: Set<FeaturePreconditionConstraint> = []
+        var unsatisfiedPermissions: Set<SystemPermissionConstraint> = []
+        var unknownPreconditions: Set<FeaturePreconditionConstraint> = []
 
         let featureIdentifier = feature.identifier
 
@@ -88,7 +88,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             }
         
             for precondition in constraints.preconditions {
-                let evaluator: FeaturePreconditionEvaluator
+                let evaluator: FeaturePreconditionConstraintEvaluator
                 
                 switch precondition {
                     case .purchase(_):
@@ -134,17 +134,17 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             }
         }
         
-        let satisfied = FeatureConstraints(allDeclaredPlatforms: satisfiedPlatforms,
+        let satisfied = DeclaredFeatureConstraints(allDeclaredPlatforms: satisfiedPlatforms,
                                            preconditions: satisfiedPreconditions,
                                            permissions: satisfiedPermissions)
-        let unsatisfied = FeatureConstraints(allDeclaredPlatforms: unsatisfiedPlatforms,
+        let unsatisfied = DeclaredFeatureConstraints(allDeclaredPlatforms: unsatisfiedPlatforms,
                                             preconditions: unsatisfiedPreconditions,
                                             permissions: unsatisfiedPermissions)
-        let unknown = FeatureConstraints(allDeclaredPlatforms: [:],
+        let unknown = DeclaredFeatureConstraints(allDeclaredPlatforms: [:],
                                         preconditions: unknownPreconditions,
                                         permissions: [])
         
-        return FeatureEvaluationResult(satisfied: satisfied,
+        return FeatureConstraintsEvaluationResult(satisfied: satisfied,
                                        unsatisfied: unsatisfied,
                                        unknown: unknown)
     }

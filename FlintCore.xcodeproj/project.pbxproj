@@ -97,10 +97,10 @@
 		494F591B2098AA380075E7EE /* FeaturePrecondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59192098AA380075E7EE /* FeaturePrecondition.swift */; };
 		494F591C2098AA380075E7EE /* FeaturePrecondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59192098AA380075E7EE /* FeaturePrecondition.swift */; };
 		494F591D2098AA380075E7EE /* FeaturePrecondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59192098AA380075E7EE /* FeaturePrecondition.swift */; };
-		494F591F2098AA5D0075E7EE /* FeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */; };
-		494F59202098AA5D0075E7EE /* FeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */; };
-		494F59212098AA5D0075E7EE /* FeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */; };
-		494F59222098AA5D0075E7EE /* FeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */; };
+		494F591F2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */; };
+		494F59202098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */; };
+		494F59212098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */; };
+		494F59222098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */; };
 		494F59242098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */; };
 		494F59252098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */; };
 		494F59262098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */; };
@@ -144,10 +144,10 @@
 		495FD9FA20026A180007A427 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9F920026A180007A427 /* Timeline.swift */; };
 		495FD9FC20026A520007A427 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FB20026A520007A427 /* ObserverSet.swift */; };
 		495FD9FE200363290007A427 /* FeaturePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FD200363290007A427 /* FeaturePath.swift */; };
-		496136B12099004A00291885 /* SystemPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermission.swift */; };
-		496136B22099004A00291885 /* SystemPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermission.swift */; };
-		496136B32099004A00291885 /* SystemPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermission.swift */; };
-		496136B42099004A00291885 /* SystemPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermission.swift */; };
+		496136B12099004A00291885 /* SystemPermissionConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermissionConstraint.swift */; };
+		496136B22099004A00291885 /* SystemPermissionConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermissionConstraint.swift */; };
+		496136B32099004A00291885 /* SystemPermissionConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermissionConstraint.swift */; };
+		496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B02099004A00291885 /* SystemPermissionConstraint.swift */; };
 		496136B6209900A700291885 /* SystemPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B5209900A700291885 /* SystemPermissionStatus.swift */; };
 		496136B7209900A700291885 /* SystemPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B5209900A700291885 /* SystemPermissionStatus.swift */; };
 		496136B8209900A700291885 /* SystemPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496136B5209900A700291885 /* SystemPermissionStatus.swift */; };
@@ -676,7 +676,7 @@
 		494F590F2098AA140075E7EE /* OperatingSystemVersion+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperatingSystemVersion+Utilities.swift"; sourceTree = "<group>"; };
 		494F59142098AA280075E7EE /* PlatformVersionConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformVersionConstraint.swift; sourceTree = "<group>"; };
 		494F59192098AA380075E7EE /* FeaturePrecondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePrecondition.swift; sourceTree = "<group>"; };
-		494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraints.swift; sourceTree = "<group>"; };
+		494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclaredFeatureConstraints.swift; sourceTree = "<group>"; };
 		494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFeatureConstraintsBuilder.swift; sourceTree = "<group>"; };
 		494F59282098AB390075E7EE /* FeaturePreconditionEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePreconditionEvaluator.swift; sourceTree = "<group>"; };
 		494F59322098AB720075E7EE /* PurchasePreconditionEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePreconditionEvaluator.swift; sourceTree = "<group>"; };
@@ -692,7 +692,7 @@
 		495FD9F920026A180007A427 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		495FD9FB20026A520007A427 /* ObserverSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		495FD9FD200363290007A427 /* FeaturePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePath.swift; sourceTree = "<group>"; };
-		496136B02099004A00291885 /* SystemPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermission.swift; sourceTree = "<group>"; };
+		496136B02099004A00291885 /* SystemPermissionConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionConstraint.swift; sourceTree = "<group>"; };
 		496136B5209900A700291885 /* SystemPermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionStatus.swift; sourceTree = "<group>"; };
 		496136BA209900BC00291885 /* SystemPermissionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionChecker.swift; sourceTree = "<group>"; };
 		496136BF209900CE00291885 /* SystemPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemPermissionAdapter.swift; sourceTree = "<group>"; };
@@ -928,7 +928,7 @@
 				494F590F2098AA140075E7EE /* OperatingSystemVersion+Utilities.swift */,
 				494F59142098AA280075E7EE /* PlatformVersionConstraint.swift */,
 				494F59192098AA380075E7EE /* FeaturePrecondition.swift */,
-				494F591E2098AA5D0075E7EE /* FeatureConstraints.swift */,
+				494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */,
 				494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */,
 				494F59282098AB390075E7EE /* FeaturePreconditionEvaluator.swift */,
 				494F59322098AB720075E7EE /* PurchasePreconditionEvaluator.swift */,
@@ -947,7 +947,7 @@
 		496136AF2099002900291885 /* Permissions */ = {
 			isa = PBXGroup;
 			children = (
-				496136B02099004A00291885 /* SystemPermission.swift */,
+				496136B02099004A00291885 /* SystemPermissionConstraint.swift */,
 				496136B5209900A700291885 /* SystemPermissionStatus.swift */,
 				496136BA209900BC00291885 /* SystemPermissionChecker.swift */,
 				496136BF209900CE00291885 /* SystemPermissionAdapter.swift */,
@@ -1693,7 +1693,7 @@
 				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC6208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8F5B203EEBB1003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
-				496136B22099004A00291885 /* SystemPermission.swift in Sources */,
+				496136B22099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				496F8F57203EEBB1003AB29B /* ContextualLoggerTarget.swift in Sources */,
 				496F8FAE203EEBD3003AB29B /* URLMapping.swift in Sources */,
 				496136BC209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
@@ -1721,7 +1721,7 @@
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590C2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F53203EEBB1003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
-				494F59202098AA5D0075E7EE /* FeatureConstraints.swift in Sources */,
+				494F59202098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				496F8F4C203EEBA5003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
 				4980005720B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				49935BF0206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
@@ -1849,7 +1849,7 @@
 				49DFB7CC20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC7208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8F6A203EEBB2003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
-				496136B32099004A00291885 /* SystemPermission.swift in Sources */,
+				496136B32099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				496F8F66203EEBB2003AB29B /* ContextualLoggerTarget.swift in Sources */,
 				496F8FB6203EEBD4003AB29B /* URLMapping.swift in Sources */,
 				496136BD209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
@@ -1877,7 +1877,7 @@
 				494F59122098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590D2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F62203EEBB2003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
-				494F59212098AA5D0075E7EE /* FeatureConstraints.swift in Sources */,
+				494F59212098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				496F8F4F203EEBA6003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
 				4980005820B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				49935BF1206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
@@ -1981,8 +1981,8 @@
 				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
-				496136B42099004A00291885 /* SystemPermission.swift in Sources */,
-				494F59222098AA5D0075E7EE /* FeatureConstraints.swift in Sources */,
+				496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
+				494F59222098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				498A894F2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */,
 				496136E12099028F00291885 /* LocationUsage.swift in Sources */,
@@ -2115,7 +2115,7 @@
 				495FD9FA20026A180007A427 /* Timeline.swift in Sources */,
 				496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */,
 				4956D5D420986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
-				494F591F2098AA5D0075E7EE /* FeatureConstraints.swift in Sources */,
+				494F591F2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				498AF6E52028972A00AFE666 /* RoutesFeature.swift in Sources */,
 				49769244201F3DA800F97BD5 /* RouteParametersCodable.swift in Sources */,
 				49A99A001FF9065400A64E8C /* ContextualLoggerFactory.swift in Sources */,
@@ -2177,7 +2177,7 @@
 				49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */,
-				496136B12099004A00291885 /* SystemPermission.swift in Sources */,
+				496136B12099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				493572D41FC9D284003AD465 /* FeatureGroup.swift in Sources */,
 				49C9C37A1FFD317800E4D500 /* TopicPath+Extensions.swift in Sources */,
 				498F97642077824200209633 /* FocusSelection.swift in Sources */,

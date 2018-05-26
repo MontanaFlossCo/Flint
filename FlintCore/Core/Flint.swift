@@ -502,7 +502,7 @@ class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObs
         availabilityChecker.invalidate()
     }
     
-    func permissionStatusDidChange(_ permission: SystemPermission) {
+    func permissionStatusDidChange(_ permission: SystemPermissionConstraint) {
         // Note that thread we are notified on does not matter here, availability is threadsafe
         availabilityChecker.invalidate()
     }

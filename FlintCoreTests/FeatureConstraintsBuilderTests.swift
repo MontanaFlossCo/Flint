@@ -28,12 +28,12 @@ class FeatureConstraintsBuilderTests: XCTestCase {
 
     // MARK: Helpers
     
-    func evaluate(constraints: (FeatureConstraintsBuilder) -> Void) -> FeatureConstraints {
+    func evaluate(constraints: (FeatureConstraintsBuilder) -> Void) -> DeclaredFeatureConstraints {
         let builder = DefaultFeatureConstraintsBuilder()
         return builder.build(constraints)
     }
 
-    func _assertContains(_ constraints: FeatureConstraints, _ id: Platform, _ version: PlatformVersionConstraint) {
+    func _assertContains(_ constraints: DeclaredFeatureConstraints, _ id: Platform, _ version: PlatformVersionConstraint) {
         XCTAssertTrue(constraints.allDeclaredPlatforms[id] == PlatformConstraint(platform: id, version: version),
                       "Expected to find \(id) with \(version) but didn't")
     }

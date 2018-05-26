@@ -17,14 +17,14 @@ import Foundation
 ///
 /// - see: `ConditionalFeature.permissionAuthorisationController` for how you get an instance of this in your app.
 class DefaultAuthorisationController: AuthorisationController {
-    public var permissions: Set<SystemPermission> = []
-    var sortedPermissionsToAuthorize: [SystemPermission] = []
-    var permissionsNotAuthorized: [SystemPermission] = []
+    public var permissions: Set<SystemPermissionConstraint> = []
+    var sortedPermissionsToAuthorize: [SystemPermissionConstraint] = []
+    var permissionsNotAuthorized: [SystemPermissionConstraint] = []
     let coordinator: PermissionAuthorisationCoordinator?
     var cancelled: Bool = false
     var retryHandler: (() -> Void)?
     
-    init(coordinator: PermissionAuthorisationCoordinator?, permissions: Set<SystemPermission>) {
+    init(coordinator: PermissionAuthorisationCoordinator?, permissions: Set<SystemPermissionConstraint>) {
         self.coordinator = coordinator
         self.permissions = permissions
     }

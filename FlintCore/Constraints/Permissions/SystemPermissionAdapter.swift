@@ -11,7 +11,7 @@ import Foundation
 /// The interface for components that provide access to underlying system permissions.
 public protocol SystemPermissionAdapter {
     /// The permission this adapter can verify and authorise
-    var permission: SystemPermission { get }
+    var permission: SystemPermissionConstraint { get }
     
     /// The current status of the permission
     var status: SystemPermissionStatus { get }
