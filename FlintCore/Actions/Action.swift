@@ -24,13 +24,13 @@ public protocol Action {
     /// The InputType defines the type of value to expect as the input for the action.
     /// This provides your initial and perhaps changing state, if you want to pass it back in later.
     ///
-    /// If your action requires no input you can use `NoInput`, and pass the value `.none` as input when performing.
+    /// If your action requires no input you can use `NoInput`, and parameter when performing.
     ///
     /// - note: Due to a Swift compiler issue, you cannot declare this as an optional type. As a result, all invocations
     /// are declared as `InputType?` so actions must always be ready to accept nil.
     ///
     /// - see: `NoInput`
-    associatedtype InputType: CustomStringConvertible
+    associatedtype InputType: CustomStringConvertible = NoInput
 
     /// The type to use as the presenter (UI) for the action.
     ///
@@ -39,8 +39,8 @@ public protocol Action {
     /// You can use any type. It is better to use non-UI framework types and introduce your own cross-platform
     /// protocols instead. This makes unit testing of features and actions possible.
     ///
-    /// If your action requires no UI, you can set it to `NoPresenter` and pass `nil` when calling `perform()`
-    associatedtype PresenterType
+    /// If your action requires no UI, you can set it to `NoPresenter` and omit the presenter when calling `perform()`
+    associatedtype PresenterType  = NoPresenter
 
     /// The name of the action, for logging and UIs
     /// There is a default implementation provided.
