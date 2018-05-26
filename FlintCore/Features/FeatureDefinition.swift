@@ -36,6 +36,12 @@ public protocol FeatureDefinition: AnyObject {
     /// this function.
     /// - note: May be called multiple times in tests
     static func prepare(actions: FeatureActionsBuilder)
+
+    /// Called to allow the feature to do any post-preparation after all features in the same feature group
+    /// have prepared their actions.
+    ///
+    /// Default implementation does nothing, override only if you need to do something.
+    static func postPrepare()
 }
 
 /// Default implementations of the properties
@@ -77,6 +83,10 @@ public extension FeatureDefinition {
     /// By default, no variation. Override and supply your own variation values using whatever system you
     /// have for determining the A/B testing variations.
     static var variation: String? { return nil }
+
+    /// NO-OP
+    static func postPrepare() {
+    }
 }
 
 
