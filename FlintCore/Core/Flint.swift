@@ -172,6 +172,7 @@ final public class Flint {
         createMetadata(for: group)
         _registerUrlMappings(feature: group)
 
+        // Allow them all to prepare actions
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
             guard existingParent == nil else {
@@ -190,8 +191,36 @@ final public class Flint {
                 register(subfeature)
             }
         }
+        
+        // Go round a second time for any that need to post-prepare, e.g. they look at other features's actions or metadata
+        group.subfeatures.forEach { subfeature in
+            subfeature.postPrepare()
+        }
+
+        // Apply our own sanity checks that we apply to all features and actions
+        
+        checkRequiredActivityTypes(features: [group])
+        checkRequiredActivityTypes(features: group.subfeatures)
     }
     
+    private static func checkRequiredActivityTypes(features: [FeatureDefinition.Type]) {
+        let declaredActivityTypes = Set(FlintAppInfo.activityTypes)
+        
+        for feature in features {
+            guard let featureMetadata = metadata(for: feature) else {
+                preconditionFailure("We must have metadata for \(feature) by now")
+            }
+            for action in featureMetadata.actions {
+                if action.activityTypes.count > 0 {
+                    let activityID = PublishCurrentActionActivityAction.makeActivityID(forActionName: action.name)
+                    if !declaredActivityTypes.contains(activityID) {
+                        FlintInternal.logger?.warning("Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
+                    }
+                }
+            }
+        }
+    }
+
     // MARK: Integration points for App Delegates
     
     /// Open the specified URL, dispatching the appropriately mapped action if it has been set up via a
@@ -373,6 +402,7 @@ extension Flint {
         _permissionChecker?.delegate = preconditionChangeObserver
         
         register(FlintFeatures.self)
+        
         isSetup = true
         
         preflightCheck()

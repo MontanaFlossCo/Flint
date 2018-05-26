@@ -35,7 +35,7 @@ final class PublishCurrentActionActivityAction: Action {
         
         // These are the basic activity requirements
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = "\(bundleID).\(context.input.actionName.lowerCasedID())"
+        let activityID = makeActivityID(forActionName: context.input.actionName)
         precondition(FlintAppInfo.activityTypes.contains(activityID),
                      "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
                      "The ID `\(activityID)` is not there.")
@@ -79,6 +79,9 @@ final class PublishCurrentActionActivityAction: Action {
         return completion(.success(closeActionStack: true))
     }
 
+    static func makeActivityID(forActionName name: String) -> String {
+        return "\(bundleID).\(name.lowerCasedID())"
+    }
 }
 
 extension NSUserActivity {

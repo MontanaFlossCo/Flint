@@ -40,4 +40,3 @@ public final class ActivitiesFeature: ConditionalFeature {
     static let autoURLUserInfoKey = "tools.flint.auto.action.url"
 }
 
-
