@@ -16,7 +16,7 @@ import Foundation
 ///
 /// This means you can run all your subsystems at `info` level but turn your app loggic to `debug` for example.
 public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
-    public static let noSessionName = "N/A"
+    public static let noSessionName = "_no-session_"
     
     public var level: LoggerLevel {
         get {
@@ -67,7 +67,8 @@ public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
     /// Quick setup default logging behaviours, tracking the specified hierarchy of features.
     public static func setup(initialDebugLogLevel: LoggerLevel = .debug, initialProductionLogLevel: LoggerLevel = .info, briefLogging: Bool = true) {
         let outputs: [LoggerOutput] = [
-            PrintLoggerImplementation(prefix: "🐞", timeOnly: briefLogging)
+            PrintLoggerImplementation(prefix: "🐞", timeOnly: briefLogging),
+            OSLogOutput()
         ]
 
         let prodOutputs: [LoggerOutput] = [
