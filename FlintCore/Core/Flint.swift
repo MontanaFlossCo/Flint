@@ -383,7 +383,7 @@ extension Flint {
     static func outputEnvironment() {
         let devLevel = Logging.development?.level ?? .none
         let prodLevel = Logging.production?.level ?? .none
-        print("💥 Flint is setup. Logging: development=\(devLevel), production=\(prodLevel)")
+        FlintInternal.logger?.info("💥 Flint is set up. Logging: development=\(devLevel), production=\(prodLevel)")
     }
     
     /// Here we will sanity-check the setup of the Features and Actions
