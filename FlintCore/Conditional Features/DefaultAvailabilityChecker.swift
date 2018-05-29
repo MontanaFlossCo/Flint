@@ -58,9 +58,9 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         let evaluation = constraintsEvaluator.evaluate(for: feature)
 
         switch (evaluation.hasUnsatisfiedConstraints, evaluation.hasUnknownConstraints) {
-            case (true, true): available = true
-            case (false, true): available = false
-            case (_, false): available = nil
+            case (_, true): available = nil
+            case (false, false): available = true
+            case (true, false): available = false
         }
         
         // If it is nil we need to get out here, we don't want to waste any more time checking ancestors

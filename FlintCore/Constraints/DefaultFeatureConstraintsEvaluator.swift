@@ -75,26 +75,26 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         return FeatureConstraintsEvaluation(permissions: permissions, preconditions: preconditions, platforms: platforms)
     }
     
-    private func evaluatePlatforms(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<PlatformConstraint>> {
+    private func evaluatePlatforms(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<FeatureConstraintResult<PlatformConstraint>> {
         guard let constraints = constraints else {
             return []
         }
-        var results: Set<WTFFeatureConstraintResult<PlatformConstraint>> = []
+        var results: Set<FeatureConstraintResult<PlatformConstraint>> = []
         for platformConstraint in constraints.allDeclaredPlatforms.values {
             // Only add evaluator for our current platform
             let isActive = platformConstraint.platform.isCurrentPlatform
             let isFulfilled = isActive && platformConstraint.version.isCurrentCompatible
-            results.insert(WTFFeatureConstraintResult(constraint: platformConstraint, isActive: isActive, isFulfilled: isFulfilled))
+            results.insert(FeatureConstraintResult(constraint: platformConstraint, isActive: isActive, isFulfilled: isFulfilled))
         }
         return results
     }
 
-    private func evaluatePermissions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<SystemPermissionConstraint>> {
+    private func evaluatePermissions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<FeatureConstraintResult<SystemPermissionConstraint>> {
         guard let constraints = constraints else {
             return []
         }
         let featureIdentifier = feature.identifier
-        var results: Set<WTFFeatureConstraintResult<SystemPermissionConstraint>> = []
+        var results: Set<FeatureConstraintResult<SystemPermissionConstraint>> = []
         for permission in constraints.permissions {
             let status = permissionChecker.status(of: permission)
             let isFulfilled: Bool?
@@ -110,17 +110,17 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")
                     isFulfilled = true
             }
-            results.insert(WTFFeatureConstraintResult(constraint: permission, isActive: true, isFulfilled: isFulfilled))
+            results.insert(FeatureConstraintResult(constraint: permission, isActive: true, isFulfilled: isFulfilled))
         }
         return results
     }
     
-    private func evaluatePreconditions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<FeaturePreconditionConstraint>> {
+    private func evaluatePreconditions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<FeatureConstraintResult<FeaturePreconditionConstraint>> {
         guard let constraints = constraints else {
             return []
         }
         let featureIdentifier = feature.identifier
-        var results: Set<WTFFeatureConstraintResult<FeaturePreconditionConstraint>> = []
+        var results: Set<FeatureConstraintResult<FeaturePreconditionConstraint>> = []
         for precondition in constraints.preconditions {
             let evaluator: FeaturePreconditionConstraintEvaluator
 
@@ -151,7 +151,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) could not determine precondition: \(precondition)")
                     isFulfilled = nil
             }
-            results.insert(WTFFeatureConstraintResult(constraint: precondition, isActive: true, isFulfilled: isFulfilled))
+            results.insert(FeatureConstraintResult(constraint: precondition, isActive: true, isFulfilled: isFulfilled))
         }
         return results
     }

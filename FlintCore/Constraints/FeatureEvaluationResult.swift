@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct FeatureConstraintResult<T>where T: FeatureConstraint {
+public struct FeatureConstraintResult<T>: Hashable where T: FeatureConstraint {
     public let isActive: Bool
     public let isFulfilled: Bool?
     public let constraint: T
@@ -74,18 +74,25 @@ public protocol FeatureConstraintEvaluationResults {
 
 public class DefaultFeatureConstraintEvaluationResults<ConstraintType>: FeatureConstraintEvaluationResults where ConstraintType: FeatureConstraint {
     public let all: Set<FeatureConstraintResult<ConstraintType>>
+
     public lazy var satisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isFulfilled == true }
+        return all.filter { $0.isActive && $0.isFulfilled == true }
     }()
+
     public lazy var unsatisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isFulfilled == false }
+        return all.filter { $0.isActive && $0.isFulfilled == false }
     }()
+
     public lazy var unknown: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isFulfilled == nil }
+        return all.filter { $0.isActive && $0.isFulfilled == nil }
     }()
     
     public init(_ results: Set<FeatureConstraintResult<ConstraintType>>) {
         self.all = results
+    }
+
+    public init(_ array: [FeatureConstraintResult<ConstraintType>]) {
+        self.all = Set(array)
     }
 }
 
@@ -110,6 +117,24 @@ public struct FeatureConstraintsEvaluation {
          platforms: Set<FeatureConstraintResult<PlatformConstraint>>) {
         self.permissions = DefaultFeatureConstraintEvaluationResults(permissions)
         self.preconditions = DefaultFeatureConstraintEvaluationResults(preconditions)
+        self.platforms = DefaultFeatureConstraintEvaluationResults(platforms)
+    }
+
+    init(permissions: Set<FeatureConstraintResult<SystemPermissionConstraint>>) {
+        self.permissions = DefaultFeatureConstraintEvaluationResults(permissions)
+        self.preconditions = DefaultFeatureConstraintEvaluationResults([])
+        self.platforms = DefaultFeatureConstraintEvaluationResults([])
+    }
+
+    init(preconditions: Set<FeatureConstraintResult<FeaturePreconditionConstraint>>) {
+        self.permissions = DefaultFeatureConstraintEvaluationResults([])
+        self.preconditions = DefaultFeatureConstraintEvaluationResults(preconditions)
+        self.platforms = DefaultFeatureConstraintEvaluationResults([])
+    }
+
+    init(platforms: Set<FeatureConstraintResult<PlatformConstraint>>) {
+        self.permissions = DefaultFeatureConstraintEvaluationResults([])
+        self.preconditions = DefaultFeatureConstraintEvaluationResults([])
         self.platforms = DefaultFeatureConstraintEvaluationResults(platforms)
     }
 }
