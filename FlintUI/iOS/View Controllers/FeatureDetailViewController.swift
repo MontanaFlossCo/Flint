@@ -28,6 +28,7 @@ public class FeatureDetailViewController: UITableViewController {
     
     enum Section: Int, CustomStringConvertible {
         case properties
+        case constraints
         case features
         case actions
 
@@ -36,7 +37,8 @@ public class FeatureDetailViewController: UITableViewController {
         var description: String {
             switch self {
                 case .properties: return "Properties"
-                case .features: return "Features"
+                case .constraints: return "Constraints"
+                case .features: return "Sub-features"
                 case .actions: return "Actions"
             }
         }
@@ -44,7 +46,6 @@ public class FeatureDetailViewController: UITableViewController {
     
     enum Property: Int {
         case identifier
-        case availability
         case visibility
         case variation
         
@@ -64,8 +65,15 @@ public class FeatureDetailViewController: UITableViewController {
         let hasActions: Bool
     }
     
+    struct ConstraintInfo {
+        let description: String
+        let status: String
+    }
+    
     var featureItems = [SubfeatureInfo]()
     var actionItems = [ActionMetadata]()
+    var constraintInfo = [ConstraintInfo]()
+    
     var selectedAction: ActionMetadata?
     
     public override func viewDidLoad() {
@@ -106,9 +114,14 @@ public class FeatureDetailViewController: UITableViewController {
             preconditionFailure("Invalid section")
         }
         switch sectionType {
-            case .properties: return Property.count
-            case .features: return featureItems.count > 0 ? featureItems.count : 1
-            case .actions: return actionItems.count > 0 ? actionItems.count : 1
+            case .properties:
+                return Property.count
+            case .constraints:
+                return constraintInfo.count > 0 ? constraintInfo.count : 1
+            case .features:
+                return featureItems.count > 0 ? featureItems.count : 1
+            case .actions:
+                return actionItems.count > 0 ? actionItems.count : 1
         }
     }
 
@@ -123,18 +136,6 @@ public class FeatureDetailViewController: UITableViewController {
                     case .identifier:
                         cell.textLabel?.text = "ID"
                         cell.detailTextLabel?.text = featureToDisplay.identifier.description
-                    case .availability:
-                        cell.textLabel?.text = "Available"
-                        if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
-                            let availableNow: String
-                            switch conditionalFeature.isAvailable {
-                                case .some(let value): availableNow = value ? "Yes" : "No"
-                                case .none: availableNow = "<unknown>"
-                            }
-                            cell.detailTextLabel?.text = "\(availableNow) (\(Flint.constraintsEvaluator.description(for: conditionalFeature))"
-                        } else {
-                            cell.detailTextLabel?.text = "Always (no constraints)"
-                        }
                     case .visibility:
                         cell.textLabel?.text = "Visible"
                         cell.detailTextLabel?.text = featureToDisplay.isVisible ? "Yes" : "No"
@@ -148,6 +149,16 @@ public class FeatureDetailViewController: UITableViewController {
                         cell.textLabel?.text = "A/B Variation"
                         cell.detailTextLabel?.text = variation
                 }
+            case .constraints:
+                guard constraintInfo.count > 0 else {
+                    cell = tableView.dequeueReusableCell(withIdentifier: "NoConstraints", for: indexPath)
+                    cell.textLabel?.text = "No constraints"
+                    cell.textLabel?.textColor = UIColor.lightGray
+                    return cell
+                }
+                cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
+                cell.textLabel?.text = constraintInfo[indexPath.row].description
+                cell.detailTextLabel?.text = constraintInfo[indexPath.row].status
             case .features:
                 guard featureItems.count > 0 else {
                     cell = tableView.dequeueReusableCell(withIdentifier: "NoSubfeatures", for: indexPath)
@@ -190,12 +201,9 @@ public class FeatureDetailViewController: UITableViewController {
         let section = Section(rawValue: indexPath.section)!
         switch section {
             case .properties:
-                switch Property(rawValue: indexPath.row)! {
-                    case .availability:
-                        return indexPath // Yes we can select this
-                    default:
-                        return nil
-                }
+                return nil
+            case .constraints:
+                return indexPath // Yes we can select constraints
             case .features: return featureItems.count > 0 ? indexPath : nil
             case .actions:
                 selectedAction = actionItems[indexPath.item]
@@ -214,30 +222,20 @@ public class FeatureDetailViewController: UITableViewController {
                 nextViewController.featureToDisplay = selectedFeature.type
                 navigationController?.pushViewController(nextViewController, animated: true)
                 selectedAction = nil
-            case .properties:
+            case .constraints:
                 if let _ = featureToDisplay! as? ConditionalFeatureDefinition.Type {
-                    showPropertyDetail(Property(rawValue: indexPath.row)!)
+                    let constraint = constraintInfo[indexPath.row]
+                    showConstraintDetail(constraint)
                 }
             default:
                 return
         }
     }
 
-    func showPropertyDetail(_ property: Property) {
-        let text: String
-        let message: String
-        switch property {
-            case .availability:
-                text = "Constraints"
-                if let conditionalFeature = featureToDisplay! as? ConditionalFeatureDefinition.Type {
-                    message = Flint.constraintsEvaluator.description(for: conditionalFeature)
-                } else {
-                    message = "There are no constraints"
-                }
-            default:
-                fatalError("Not supported")
-        }
-        let alert = UIAlertController(title: text, message: message, preferredStyle: .alert)
+    func showConstraintDetail(_ constraint: ConstraintInfo) {
+        let title = "Constraint"
+        let message = "\(constraint.description): \(constraint.status)"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
@@ -274,6 +272,51 @@ public class FeatureDetailViewController: UITableViewController {
         actionItems = metadata.actions
         let subfeatureItems = featuresToShow.map(subfeatureInfo)
         featureItems.append(contentsOf: subfeatureItems)
+
+        constraintInfo.removeAll()
+        if let conditionalFeature = featureToDisplay as? ConditionalFeatureDefinition.Type {
+            let evaluationResult = Flint.constraintsEvaluator.evaluate(for: conditionalFeature)
+
+            func _addConstraintInfo(description: String, status: String) {
+                let info = ConstraintInfo(description: description, status: status)
+                constraintInfo.append(info)
+            }
+
+            for (result) in evaluationResult.platforms.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Platform: \(result.constraint.name)", status: status)
+            }
+
+            for (result) in evaluationResult.preconditions.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Precondition: \(result.constraint.name)", status: status)
+            }
+
+
+            for (result) in evaluationResult.permissions.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Permission: \(result.constraint.name)", status: status)
+            }
+
+        }
         
         tableView.reloadData()
 

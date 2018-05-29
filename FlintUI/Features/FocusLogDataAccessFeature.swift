@@ -23,7 +23,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
     public static let loadMoreResults = action(LoadMoreResultsAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        isEnabled = FocusFeature.isAvailable
+        isEnabled = FocusFeature.isEnabled
         
         actions.declare(loadInitialResults)
         actions.declare(loadMoreResults)
