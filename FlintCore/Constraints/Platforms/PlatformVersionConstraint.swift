@@ -64,7 +64,7 @@ public enum PlatformVersionConstraint: Hashable, Equatable, CustomStringConverti
     public var description: String {
         switch self {
             case .any: return "*"
-            case .atLeast(let version): return ">= \(version)"
+            case .atLeast(let version): return ">= \(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
             case .unsupported: return "unsupported"
         }
     }

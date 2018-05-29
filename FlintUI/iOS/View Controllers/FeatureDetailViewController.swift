@@ -38,7 +38,7 @@ public class FeatureDetailViewController: UITableViewController {
             switch self {
                 case .properties: return "Properties"
                 case .constraints: return "Constraints"
-                case .features: return "Features"
+                case .features: return "Sub-features"
                 case .actions: return "Actions"
             }
         }
