@@ -8,7 +8,6 @@
 
 import Foundation
 
-/*
 /// A type that encapsulates information about the permission requirements of a feature, for
 /// easy access when determining what to do in your app when a Feature is not available.
 ///
@@ -19,7 +18,7 @@ public struct FeaturePermissionRequirements {
 
     /// The set of all as-yet-not-authorised-or-denied permissions the feature requires.
     /// This will *not* include permissions that are unsupported, denied or restricted
-    public let notDetermined: Set<SystemPermissionConstraint>
+    public var notDetermined: Set<SystemPermissionConstraint>
 
     /// The set of all denied permissions that the feature requires.
     /// This will only include permissions that the user has been offered to authorise and they
@@ -31,4 +30,3 @@ public struct FeaturePermissionRequirements {
     /// device profile restrictions
     public let restricted: Set<SystemPermissionConstraint>
 }
-*/
