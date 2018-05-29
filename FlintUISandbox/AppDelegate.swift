@@ -90,11 +90,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let evaluation = Flint.constraintsEvaluator.evaluate(for: FakeFeature.self)
         for result in evaluation.permissions.all {
-            if !result.isActive {
-                print("Inactive: \(result)")
-            }
-            if result.isFulfilled != true {
-                print("Not fulfilled: \(result)")
+            switch result.status {
+                case .notActive: print("Inactive: \(result)")
+                case .notSatisfied, .notDetermined: print("Not satisfied: \(result)")
+                case .satisfied: print("Satisfied: \(result)")
             }
             print("parametersDescription: \(result.constraint.parametersDescription)")
         }

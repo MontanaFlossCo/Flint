@@ -8,24 +8,28 @@
 
 import Foundation
 
+public enum FeatureConstraintStatus: Hashable {
+    case notActive
+    case notDetermined
+    case notSatisfied
+    case satisfied
+}
+
 public struct FeatureConstraintResult<T>: Hashable where T: FeatureConstraint {
-    public let isActive: Bool
-    public let isFulfilled: Bool?
+    public let status: FeatureConstraintStatus
     public let constraint: T
     
-    public init(constraint: T, isActive: Bool, isFulfilled: Bool?) {
-        self.isActive = isActive
+    public init(constraint: T, status: FeatureConstraintStatus) {
         self.constraint = constraint
-        self.isFulfilled = isFulfilled
+        self.status = status
     }
     
     public var hashValue: Int {
-        return isActive.hashValue ^ (isFulfilled ?? false).hashValue ^ constraint.hashValue
+        return status.hashValue ^ constraint.hashValue
     }
 
     public static func ==(lhs: FeatureConstraintResult<T>, rhs: FeatureConstraintResult<T>) -> Bool {
-        return lhs.isActive == rhs.isActive &&
-            lhs.isFulfilled == rhs.isFulfilled &&
+        return lhs.status == rhs.status  &&
             lhs.constraint == rhs.constraint
     }
 }
@@ -69,22 +73,22 @@ public protocol FeatureConstraintEvaluationResults {
     var all: Set<FeatureConstraintResult<ConstraintType>> { get }
     var satisfied: Set<FeatureConstraintResult<ConstraintType>> { get }
     var unsatisfied: Set<FeatureConstraintResult<ConstraintType>> { get }
-    var unknown: Set<FeatureConstraintResult<ConstraintType>> { get }
+    var notDetermined: Set<FeatureConstraintResult<ConstraintType>> { get }
 }
 
 public class DefaultFeatureConstraintEvaluationResults<ConstraintType>: FeatureConstraintEvaluationResults where ConstraintType: FeatureConstraint {
     public let all: Set<FeatureConstraintResult<ConstraintType>>
 
     public lazy var satisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isActive && $0.isFulfilled == true }
+        return all.filter { $0.status == .satisfied }
     }()
 
     public lazy var unsatisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isActive && $0.isFulfilled == false }
+        return all.filter { $0.status == .notSatisfied }
     }()
 
-    public lazy var unknown: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.isActive && $0.isFulfilled == nil }
+    public lazy var notDetermined: Set<FeatureConstraintResult<ConstraintType>> = {
+        return all.filter { $0.status == .notDetermined }
     }()
     
     public init(_ results: Set<FeatureConstraintResult<ConstraintType>>) {
@@ -109,7 +113,7 @@ public struct FeatureConstraintsEvaluation {
     }
     
     public var hasUnknownConstraints: Bool {
-        return permissions.unknown.count > 0 || preconditions.unknown.count > 0 || platforms.unknown.count > 0
+        return permissions.notDetermined.count > 0 || preconditions.notDetermined.count > 0 || platforms.notDetermined.count > 0
     }
     
     init(permissions: Set<FeatureConstraintResult<SystemPermissionConstraint>>,

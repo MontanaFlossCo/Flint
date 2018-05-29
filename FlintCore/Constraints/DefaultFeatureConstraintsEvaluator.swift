@@ -82,9 +82,13 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         var results: Set<FeatureConstraintResult<PlatformConstraint>> = []
         for platformConstraint in constraints.allDeclaredPlatforms.values {
             // Only add evaluator for our current platform
-            let isActive = platformConstraint.platform.isCurrentPlatform
-            let isFulfilled = isActive && platformConstraint.version.isCurrentCompatible
-            results.insert(FeatureConstraintResult(constraint: platformConstraint, isActive: isActive, isFulfilled: isFulfilled))
+            let status: FeatureConstraintStatus
+            if platformConstraint.platform.isCurrentPlatform {
+                status = platformConstraint.version.isCurrentCompatible ? .satisfied : .notSatisfied
+            } else {
+                status = .notActive
+            }
+            results.insert(FeatureConstraintResult(constraint: platformConstraint, status: status))
         }
         return results
     }
@@ -96,21 +100,21 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         let featureIdentifier = feature.identifier
         var results: Set<FeatureConstraintResult<SystemPermissionConstraint>> = []
         for permission in constraints.permissions {
-            let status = permissionChecker.status(of: permission)
-            let isFulfilled: Bool?
-            switch status {
+            let permissionStatus = permissionChecker.status(of: permission)
+            let status: FeatureConstraintStatus
+            switch permissionStatus {
                 case .notDetermined:
-                    isFulfilled = nil
+                    status = .notDetermined
                 case .unsupported,
                      .restricted,
                      .denied:
-                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission '\(permission)', status is: \(status)")
-                    isFulfilled = false
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission '\(permission)', status is: \(permissionStatus)")
+                    status = .notSatisfied
                 case .authorized:
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")
-                    isFulfilled = true
+                    status = .satisfied
             }
-            results.insert(FeatureConstraintResult(constraint: permission, isActive: true, isFulfilled: isFulfilled))
+            results.insert(FeatureConstraintResult(constraint: permission, status: status))
         }
         return results
     }
@@ -139,19 +143,19 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                     evaluator = userToggleEvaluator
             }
 
-            let isFulfilled: Bool?
+            let status: FeatureConstraintStatus
             switch evaluator.isFulfilled(precondition, for: feature) {
                 case .some(true):
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) satisfied precondition: \(precondition)")
-                    isFulfilled = true
+                    status = .satisfied
                 case .some(false):
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not satisfy precondition: \(precondition)")
-                    isFulfilled = false
+                    status = .notSatisfied
                 case .none:
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) could not determine precondition: \(precondition)")
-                    isFulfilled = nil
+                    status = .notDetermined
             }
-            results.insert(FeatureConstraintResult(constraint: precondition, isActive: true, isFulfilled: isFulfilled))
+            results.insert(FeatureConstraintResult(constraint: precondition, status: status))
         }
         return results
     }
