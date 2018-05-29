@@ -16,23 +16,24 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
 
         // Trigger some fake data
-
-        FakeFeature.action1.perform(with: .none, completion: { (outcome: ActionOutcome) in
-            switch outcome {
-                case .success:
-                   assert(true)
-                case .failure(_):
-                   assert(false)
-            }
-        })
-        FakeFeature.action1.perform(with: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
-            switch outcome {
-                case .success:
-                   assert(true)
-                case .failure(_):
-                   assert(false)
-            }
-        })
+        if let request = FakeFeature.action1.request() {
+            request.perform(with: .none, completion: { (outcome: ActionOutcome) in
+                switch outcome {
+                    case .success:
+                       assert(true)
+                    case .failure(_):
+                       assert(false)
+                }
+            })
+            request.perform(with: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
+                switch outcome {
+                    case .success:
+                       assert(true)
+                    case .failure(_):
+                       assert(false)
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {

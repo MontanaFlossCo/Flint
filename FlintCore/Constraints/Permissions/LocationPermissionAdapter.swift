@@ -14,7 +14,7 @@ import CoreLocation
 @objc class LocationPermissionAdapter: NSObject, SystemPermissionAdapter, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     
-    let permission: SystemPermission
+    let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
     

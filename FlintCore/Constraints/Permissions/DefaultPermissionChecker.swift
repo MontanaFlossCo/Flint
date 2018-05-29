@@ -15,12 +15,12 @@ import Foundation
 ///
 /// !!! TODO: Add sanity check for missing Info.plist usage descriptions?
 public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStringConvertible {
-    private let permissionAdapters: [SystemPermission:SystemPermissionAdapter]
+    private let permissionAdapters: [SystemPermissionConstraint:SystemPermissionAdapter]
     
     public weak var delegate: SystemPermissionCheckerDelegate?
     
     public init() {
-        var permissionAdapters: [SystemPermission:SystemPermissionAdapter] = [:]
+        var permissionAdapters: [SystemPermissionConstraint:SystemPermissionAdapter] = [:]
 
         func _add(_ adapter: SystemPermissionAdapter) {
             permissionAdapters[adapter.permission] = adapter
@@ -42,7 +42,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         self.permissionAdapters = permissionAdapters
     }
 
-    public func isAuthorised(for permissions: Set<SystemPermission>) -> Bool {
+    public func isAuthorised(for permissions: Set<SystemPermissionConstraint>) -> Bool {
         var result = false
         for permission in permissions {
             if status(of: permission) != .authorized {
@@ -55,15 +55,15 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         return result
     }
     
-    public func status(of permission: SystemPermission) -> SystemPermissionStatus {
+    public func status(of permission: SystemPermissionConstraint) -> SystemPermissionStatus {
         guard let adapter = permissionAdapters[permission] else {
             fatalError("No permission adapter for \(permission)")
         }
         return adapter.status
     }
     
-    public func requestAuthorization(for permission: SystemPermission,
-                                     completion: @escaping (_ permission: SystemPermission, _ status: SystemPermissionStatus) -> Void) {
+    public func requestAuthorization(for permission: SystemPermissionConstraint,
+                                     completion: @escaping (_ permission: SystemPermissionConstraint, _ status: SystemPermissionStatus) -> Void) {
         guard let adapter = permissionAdapters[permission] else {
             fatalError("No permission adapter for \(permission)")
         }

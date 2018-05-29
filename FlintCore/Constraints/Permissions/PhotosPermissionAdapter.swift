@@ -13,7 +13,7 @@ import Photos
 
 /// Checks and authorises access to the Photo library on supported platforms
 class PhotosPermissionAdapter: SystemPermissionAdapter {
-    let permission: SystemPermission = .photos
+    let permission: SystemPermissionConstraint = .photos
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
     var status: SystemPermissionStatus {

@@ -17,3 +17,10 @@ public struct PlatformConstraint: Hashable, CustomStringConvertible {
         return "\(platform) \(version)"
     }
 }
+
+extension PlatformConstraint: FeatureConstraint {
+    public var name: String { return String(describing: self) }
+    public var parametersDescription: String {
+        return self.version.description
+    }
+}

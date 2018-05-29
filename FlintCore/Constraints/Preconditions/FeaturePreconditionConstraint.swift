@@ -1,5 +1,5 @@
 //
-//  FeaturePrecondition.swift
+//  FeaturePreconditionConstraint.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 01/05/2018.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// Defines the list of possible feature preconditions
-public enum FeaturePrecondition: Hashable, CustomStringConvertible {
+public enum FeaturePreconditionConstraint: Hashable, CustomStringConvertible {
     /// Indicates that the feature supports User Toggling and its default value for when
     /// there is no setting in the user's preferences yet. If the user toggle is `false`
     /// the feature will not be available.
@@ -29,6 +29,17 @@ public enum FeaturePrecondition: Hashable, CustomStringConvertible {
             case .userToggled(let defaultValue): return "User toggled (default: \(defaultValue))"
             case .runtimeEnabled: return "Runtime enabled"
             case .purchase(let requirement): return "Purchase \(requirement.description)"
+        }
+    }
+}
+
+extension FeaturePreconditionConstraint: FeatureConstraint {
+    public var name: String { return String(describing: self) }
+    public var parametersDescription: String {
+        switch self {
+            case .purchase(let requirement): return "requirement: \(requirement)"
+            case .runtimeEnabled: return ""
+            case .userToggled(let defaultValue): return "defaultValue: \(defaultValue)"
         }
     }
 }

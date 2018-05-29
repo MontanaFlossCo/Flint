@@ -13,7 +13,7 @@ import AVFoundation
 
 /// Checks and authorises access to the Camera on supported platforms
 class CameraPermissionAdapter: SystemPermissionAdapter {
-    let permission: SystemPermission = .camera
+    let permission: SystemPermissionConstraint = .camera
     let usageDescriptionKey: String = "NSCameraUsageDescription"
 
     var status: SystemPermissionStatus {

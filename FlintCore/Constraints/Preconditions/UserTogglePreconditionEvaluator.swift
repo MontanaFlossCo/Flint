@@ -10,14 +10,14 @@ import Foundation
 
 /// The precondition evaluator that checks the `UserFeatureToggles` implementation to see
 /// if the given feature is currently enabled
-public class UserTogglePreconditionEvaluator: FeaturePreconditionEvaluator {
+public class UserTogglePreconditionEvaluator: FeaturePreconditionConstraintEvaluator {
     let userToggles: UserFeatureToggles
     
     public init(userToggles: UserFeatureToggles) {
         self.userToggles = userToggles
     }
 
-    public func isFulfilled(_ precondition: FeaturePrecondition, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
+    public func isFulfilled(_ precondition: FeaturePreconditionConstraint, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
         guard case let .userToggled(defaultValue) = precondition else {
             fatalError("Incorrect precondition type '\(precondition)' passed to user toggle evaluator")
         }

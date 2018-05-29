@@ -11,7 +11,7 @@ import Foundation
 /// Syntactic sugar
 public extension FeatureConstraintsBuilder {
     /// Call to declare a list of permissions that your feature requires.
-    public func permissions(_ requirements: SystemPermission...) {
+    public func permissions(_ requirements: SystemPermissionConstraint...) {
         for requirement in requirements {
             self.permission(requirement)
         }
