@@ -11,7 +11,7 @@ import FlintCore
 
 class MockFeatureConstraintsEvaluator: ConstraintsEvaluator {
     private var constraintsForFeatures: [FeaturePath:DeclaredFeatureConstraints] = [:]
-    private var mockEvaluations: [FeaturePath:FeatureConstraintsEvaluationResult] = [:]
+    private var mockEvaluations: [FeaturePath:FeatureConstraintsEvaluation] = [:]
 
     func description(for feature: ConditionalFeatureDefinition.Type) -> String {
         return ""
@@ -25,7 +25,7 @@ class MockFeatureConstraintsEvaluator: ConstraintsEvaluator {
         return true
     }
     
-    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluationResult {
+    func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluation {
         guard let result = mockEvaluations[feature.identifier] else {
             fatalError("Mock evaluator has no evaluation result set for feature: \(feature)")
         }
@@ -34,7 +34,7 @@ class MockFeatureConstraintsEvaluator: ConstraintsEvaluator {
 
     // MARK: Test helpers
     
-    func setEvaluationResult(for feature: ConditionalFeatureDefinition.Type, result: FeatureConstraintsEvaluationResult) {
+    func setEvaluationResult(for feature: ConditionalFeatureDefinition.Type, result: FeatureConstraintsEvaluation) {
         mockEvaluations[feature.identifier] = result
     }
         
