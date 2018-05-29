@@ -65,7 +65,23 @@ public extension ConditionalFeature {
     /// Access information about the permissions required by this feature
     public static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        return constraints.permissions
+        
+        func _filter(_ permissions: [SystemPermissionConstraint], onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
+            let results = permissions.filter { permission in
+                let status = Flint.permissionChecker.status(of: permission)
+                return matchingStatus == status
+            }
+            return Set(results)
+        }
+        
+        let notDetermined = _filter(constraints.permissions.notDetermined.map { $0.constraint }, onStatus: .notDetermined)
+        let denied = _filter(constraints.permissions.notSatisfied.map { $0.constraint }, onStatus: .denied)
+        let restricted = _filter(constraints.permissions.notSatisfied.map { $0.constraint }, onStatus: .restricted)
+
+        return FeaturePermissionRequirements(all: Set(constraints.permissions.all.map { $0.constraint }),
+                                             notDetermined: notDetermined,
+                                             denied: denied,
+                                             restricted: restricted)
     }
     
     /// Access information about the purchases required by this feature
