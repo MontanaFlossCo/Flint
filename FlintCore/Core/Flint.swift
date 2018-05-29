@@ -214,7 +214,7 @@ final public class Flint {
                 if action.activityTypes.count > 0 {
                     let activityID = PublishCurrentActionActivityAction.makeActivityID(forActionName: action.name)
                     if !declaredActivityTypes.contains(activityID) {
-                        FlintInternal.logger?.warning("Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
+                        FlintInternal.logger?.warning("🚑 Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
                     }
                 }
             }
@@ -421,7 +421,7 @@ extension Flint {
     }
     
     static func requiresSetup() {
-        precondition(isSetup, "Flint setup has not been called")
+        precondition(isSetup, "🚑 Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
     }
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
