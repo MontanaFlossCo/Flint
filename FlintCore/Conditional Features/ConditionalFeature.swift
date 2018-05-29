@@ -63,7 +63,7 @@ public extension ConditionalFeature {
     }
 
     /// Access information about the permissions required by this feature
-    public static var permissions: DefaultFeatureConstraintEvaluationResults<SystemPermissionConstraint> {
+    public static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         return constraints.permissions
     }
