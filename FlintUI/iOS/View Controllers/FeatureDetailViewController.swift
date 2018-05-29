@@ -282,23 +282,40 @@ public class FeatureDetailViewController: UITableViewController {
                 constraintInfo.append(info)
             }
 
-            for (_, constraint) in evaluationResult.satisfied.allDeclaredPlatforms {
-                _addConstraintInfo(description: "Platform: \(constraint)", status: "✅")
-            }
-            for (_, constraint) in evaluationResult.unsatisfied.allDeclaredPlatforms {
-                _addConstraintInfo(description: "Platform: \(constraint)", status: "🚫")
-            }
-            for (_, constraint) in evaluationResult.unknown.allDeclaredPlatforms {
-                _addConstraintInfo(description: "Platform: \(constraint)", status: "❓")
-            }
-
-            for precondition in evaluationResult.all.preconditions {
-                _addConstraintInfo(description: precondition.description, status: "❓")
+            for (result) in evaluationResult.platforms.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Platform: \(result.constraint.name)", status: status)
             }
 
-            for permission in evaluationResult.all.permissions {
-                _addConstraintInfo(description: permission.description, status: "❓")
+            for (result) in evaluationResult.preconditions.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Precondition: \(result.constraint.name)", status: status)
             }
+
+
+            for (result) in evaluationResult.permissions.all {
+                let status: String
+                switch result.status {
+                    case .notActive: status = "N/A"
+                    case .notDetermined: status = "❓"
+                    case .notSatisfied: status = "⛔️"
+                    case .satisfied: status = "✅"
+                }
+                _addConstraintInfo(description: "Permission: \(result.constraint.name)", status: status)
+            }
+
         }
         
         tableView.reloadData()
