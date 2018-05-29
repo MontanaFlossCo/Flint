@@ -84,7 +84,7 @@ public extension ConditionalFeature {
     
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let all = _extractPurchaseRequirements(constraints.preconditions.all.map { $0.constraint })
-        let requiredToUnlock = _extractPurchaseRequirements(constraints.preconditions.unsatisfied.map { $0.constraint })
+        let requiredToUnlock = _extractPurchaseRequirements(constraints.preconditions.notSatisfied.map { $0.constraint })
         let purchased = _extractPurchaseRequirements(constraints.preconditions.satisfied.map { $0.constraint })
         
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
@@ -93,12 +93,12 @@ public extension ConditionalFeature {
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
     public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        guard constraints.permissions.unsatisfied.count > 0 else {
+        guard constraints.permissions.notSatisfied.count > 0 else {
             return nil
         }
         
         return DefaultAuthorisationController(coordinator: coordinator,
-                                              permissions: Set(constraints.permissions.unsatisfied.map { $0.constraint }))
+                                              permissions: Set(constraints.permissions.notSatisfied.map { $0.constraint }))
     }
     
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.

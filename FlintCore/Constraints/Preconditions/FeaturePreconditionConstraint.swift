@@ -32,3 +32,14 @@ public enum FeaturePreconditionConstraint: Hashable, CustomStringConvertible {
         }
     }
 }
+
+extension FeaturePreconditionConstraint: FeatureConstraint {
+    public var name: String { return String(describing: self) }
+    public var parametersDescription: String {
+        switch self {
+            case .purchase(let requirement): return "requirement: \(requirement)"
+            case .runtimeEnabled: return ""
+            case .userToggled(let defaultValue): return "defaultValue: \(defaultValue)"
+        }
+    }
+}

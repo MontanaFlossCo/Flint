@@ -40,3 +40,13 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     }
 }
 
+extension SystemPermissionConstraint: FeatureConstraint {
+    public var name: String { return String(describing: self) }
+    public var parametersDescription: String {
+        switch self {
+            case .camera: return ""
+            case .location(let usage): return "usage \(usage)"
+            case .photos: return ""
+        }
+    }
+}

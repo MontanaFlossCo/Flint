@@ -57,7 +57,7 @@ public class DefaultAvailabilityChecker: AvailabilityChecker {
         var available: Bool?
         let evaluation = constraintsEvaluator.evaluate(for: feature)
 
-        switch (evaluation.hasUnsatisfiedConstraints, evaluation.hasUnknownConstraints) {
+        switch (evaluation.hasNotSatisfiedConstraints, evaluation.hasNotDeterminedConstraints) {
             case (_, true): available = nil
             case (false, false): available = true
             case (true, false): available = false
