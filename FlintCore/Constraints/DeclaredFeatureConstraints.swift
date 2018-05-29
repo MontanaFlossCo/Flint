@@ -14,9 +14,6 @@ public struct DeclaredFeatureConstraints {
     /// current execution platform
     public let allDeclaredPlatforms: [Platform:PlatformConstraint]
     
-    /// The platform constraints that apply to the current OS only
-    public let currentPlatforms: [Platform:PlatformConstraint]
-    
     /// The set of preconditions that apply to the feature
     public let preconditions: Set<FeaturePreconditionConstraint>
     
@@ -32,15 +29,13 @@ public struct DeclaredFeatureConstraints {
                 preconditions: Set<FeaturePreconditionConstraint>,
                 permissions: Set<SystemPermissionConstraint>) {
         self.allDeclaredPlatforms = allDeclaredPlatforms
-        self.currentPlatforms = allDeclaredPlatforms.filter { $0.value.platform.isCurrentPlatform }
         self.preconditions = preconditions
         self.permissions = permissions
-        isEmpty = currentPlatforms.isEmpty && preconditions.isEmpty && permissions.isEmpty
+        isEmpty = preconditions.isEmpty && permissions.isEmpty
     }
 
     public init(_ allDeclaredPlatforms: [Platform:PlatformConstraint]) {
         self.allDeclaredPlatforms = allDeclaredPlatforms
-        self.currentPlatforms = allDeclaredPlatforms.filter { $0.value.platform.isCurrentPlatform }
         permissions = []
         preconditions = []
         isEmpty = preconditions.isEmpty
@@ -50,7 +45,6 @@ public struct DeclaredFeatureConstraints {
         self.preconditions = preconditions
         permissions = []
         allDeclaredPlatforms = [:]
-        currentPlatforms = [:]
         isEmpty = preconditions.isEmpty
     }
     
@@ -58,13 +52,11 @@ public struct DeclaredFeatureConstraints {
         preconditions = []
         self.permissions = permissions
         allDeclaredPlatforms = [:]
-        currentPlatforms = [:]
         isEmpty = permissions.isEmpty
     }
     
     public init() {
         allDeclaredPlatforms = [:]
-        currentPlatforms = [:]
         preconditions = []
         permissions = []
         isEmpty = true

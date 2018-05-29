@@ -27,7 +27,7 @@ class FakeFeatures: FeatureGroup {
     static var subfeatures: [FeatureDefinition.Type] = [FakeFeature.self]
 }
 
-final class FakeFeature: Feature {
+final class FakeFeature: ConditionalFeature {
     static var name = "FakeFeature1"
     
     static var description = "A fake feature"
@@ -36,6 +36,12 @@ final class FakeFeature: Feature {
     
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
+    }
+
+    static func constraints(requirements: FeatureConstraintsBuilder) {
+        requirements.iOSOnly = 10
+        requirements.permission(.camera)
+        requirements.permission(.photos)
     }
 }
 
@@ -69,7 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         testTimer?.schedule(deadline: DispatchTime.now(), repeating: 10.0)
         testTimer?.setEventHandler(handler: {
             print("Performing a fake feature, this will show even if not in Focus")
-            FakeFeature.action1.perform(with: .none)
+            if let request = FakeFeature.action1.request() {
+                request.perform()
+            }
             logger?.debug("Test output from logger")
         })
         testTimer?.resume()
@@ -78,6 +86,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let request = FocusFeature.request(FocusFeature.resetFocus) {
                 request.perform(with: .none)
             }
+        }
+        
+        let evaluation = Flint.constraintsEvaluator.evaluate(for: FakeFeature.self)
+        for result in evaluation.permissions.all {
+            if !result.isActive {
+                print("Inactive: \(result)")
+            }
+            if result.isFulfilled != true {
+                print("Not fulfilled: \(result)")
+            }
+            print("parametersDescription: \(result.constraint.parametersDescription)")
         }
         return true
     }

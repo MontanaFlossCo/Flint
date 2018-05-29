@@ -63,29 +63,15 @@ public extension ConditionalFeature {
     }
 
     /// Access information about the permissions required by this feature
-    public static var permissions: FeaturePermissionRequirements {
+    public static var permissions: DefaultFeatureConstraintEvaluationResults<SystemPermissionConstraint> {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        let all = constraints.all.permissions
-        
-        func _filter(_ permissions: Set<SystemPermissionConstraint>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
-            let results = permissions.filter { permission in
-                let status = Flint.permissionChecker.status(of: permission)
-                return matchingStatus == status
-            }
-            return Set(results)
-        }
-        
-        let notDetermined = _filter(constraints.unsatisfied.permissions, onStatus: .notDetermined)
-        let denied = _filter(constraints.unsatisfied.permissions, onStatus: .denied)
-        let restricted = _filter(constraints.unsatisfied.permissions, onStatus: .restricted)
-
-        return FeaturePermissionRequirements(all: all, notDetermined: notDetermined, denied: denied, restricted: restricted)
+        return constraints.permissions
     }
     
     /// Access information about the purchases required by this feature
     public static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
-        func _extractPurchaseRequirements(_ preconditions: Set<FeaturePreconditionConstraint>) -> Set<PurchaseRequirement> {
+        func _extractPurchaseRequirements(_ preconditions: [FeaturePreconditionConstraint]) -> Set<PurchaseRequirement> {
             let requirements: [PurchaseRequirement] = preconditions.flatMap {
                 if case let .purchase(requirement) = $0 {
                     return requirement
@@ -97,9 +83,9 @@ public extension ConditionalFeature {
         }
     
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        let all = _extractPurchaseRequirements(constraints.all.preconditions)
-        let requiredToUnlock = _extractPurchaseRequirements(constraints.unsatisfied.preconditions)
-        let purchased = _extractPurchaseRequirements(constraints.satisfied.preconditions)
+        let all = _extractPurchaseRequirements(constraints.preconditions.all.map { $0.constraint })
+        let requiredToUnlock = _extractPurchaseRequirements(constraints.preconditions.unsatisfied.map { $0.constraint })
+        let purchased = _extractPurchaseRequirements(constraints.preconditions.satisfied.map { $0.constraint })
         
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
     }
@@ -107,11 +93,12 @@ public extension ConditionalFeature {
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
     public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        guard constraints.unsatisfied.permissions.count > 0 else {
+        guard constraints.permissions.unsatisfied.count > 0 else {
             return nil
         }
         
-        return DefaultAuthorisationController(coordinator: coordinator, permissions: constraints.unsatisfied.permissions)
+        return DefaultAuthorisationController(coordinator: coordinator,
+                                              permissions: Set(constraints.permissions.unsatisfied.map { $0.constraint }))
     }
     
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.

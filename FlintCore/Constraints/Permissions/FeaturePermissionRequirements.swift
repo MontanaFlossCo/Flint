@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 /// A type that encapsulates information about the permission requirements of a feature, for
 /// easy access when determining what to do in your app when a Feature is not available.
 ///
@@ -30,3 +31,4 @@ public struct FeaturePermissionRequirements {
     /// device profile restrictions
     public let restricted: Set<SystemPermissionConstraint>
 }
+*/

@@ -12,7 +12,7 @@ import Foundation
 ///
 /// It is threadsafe.
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
-    var constraintsByFeature: [FeaturePath:FeatureConstraintResults] = [:]
+    var constraintsByFeature: [FeaturePath:DeclaredFeatureConstraints] = [:]
     var purchaseEvaluator: FeaturePreconditionConstraintEvaluator?
     var runtimeEvaluator: FeaturePreconditionConstraintEvaluator = RuntimePreconditionEvaluator()
     var userToggleEvaluator: FeaturePreconditionConstraintEvaluator?
@@ -59,93 +59,100 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         }
     }
 
-    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluationResult {
-        var satisfiedPreconditions: Set<FeaturePreconditionConstraint> = []
-        var satisfiedPermissions: Set<SystemPermissionConstraint> = []
-        var unsatisfiedPreconditions: Set<FeaturePreconditionConstraint> = []
-        var unsatisfiedPermissions: Set<SystemPermissionConstraint> = []
-        var unknownPreconditions: Set<FeaturePreconditionConstraint> = []
-
+    public func evaluate(for feature: ConditionalFeatureDefinition.Type) -> FeatureConstraintsEvaluation {
         let featureIdentifier = feature.identifier
 
         FlintInternal.logger?.debug("Constraints evaluator evaluating constraints for \(featureIdentifier)")
 
-        let knownConstraints = accessQueue.sync {
+        let constraints = accessQueue.sync {
             constraintsByFeature[featureIdentifier]
         }
         
-        var satisfiedPlatforms: [Platform:PlatformConstraint] = [:]
-        var unsatisfiedPlatforms: [Platform:PlatformConstraint] = [:]
-        
-        if let constraints = knownConstraints {
-            for platformConstraint in constraints.currentPlatforms.values {
-                // Only add evaluator for our current platform
-                if platformConstraint.platform.isCurrentPlatform && platformConstraint.version.isCurrentCompatible {
-                    satisfiedPlatforms[platformConstraint.platform] = platformConstraint
-                } else {
-                    unsatisfiedPlatforms[platformConstraint.platform] = platformConstraint
-                }
-            }
-        
-            for precondition in constraints.preconditions {
-                let evaluator: FeaturePreconditionConstraintEvaluator
-                
-                switch precondition {
-                    case .purchase(_):
-                        guard let purchaseEvaluator = purchaseEvaluator else {
-                            fatalError("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
-                        }
-                        evaluator = purchaseEvaluator
-                    case .runtimeEnabled:
-                        evaluator = runtimeEvaluator
-                    case .userToggled(_):
-                        guard let userToggleEvaluator = userToggleEvaluator else {
-                            fatalError("Feature '\(feature)' has a user toggling precondition but there is no purchase evaluator")
-                        }
-                        evaluator = userToggleEvaluator
-                }
-                
-                switch evaluator.isFulfilled(precondition, for: feature) {
-                    case .some(true):
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) satisfied precondition: \(precondition)")
-                        satisfiedPreconditions.insert(precondition)
-                    case .some(false):
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not satisfy precondition: \(precondition)")
-                        unsatisfiedPreconditions.insert(precondition)
-                    case .none:
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) could not determine precondition: \(precondition)")
-                        unknownPreconditions.insert(precondition)
-                }
-            }
-            
-            for permission in constraints.permissions {
-                let status = permissionChecker.status(of: permission)
-                switch status {
-                    case .notDetermined,
-                         .unsupported,
-                         .restricted,
-                         .denied:
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission '\(permission)', status is: \(status)")
-                        unsatisfiedPermissions.insert(permission)
-                    case .authorized:
-                        FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")
-                        satisfiedPermissions.insert(permission)
-                }
-            }
+        let platforms = evaluatePlatforms(for: feature, constraints: constraints)
+        let permissions = evaluatePermissions(for: feature, constraints: constraints)
+        let preconditions = evaluatePreconditions(for: feature, constraints: constraints)
+
+        return FeatureConstraintsEvaluation(permissions: permissions, preconditions: preconditions, platforms: platforms)
+    }
+    
+    private func evaluatePlatforms(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<PlatformConstraint>> {
+        guard let constraints = constraints else {
+            return []
         }
-        
-        let satisfied = DeclaredFeatureConstraints(allDeclaredPlatforms: satisfiedPlatforms,
-                                           preconditions: satisfiedPreconditions,
-                                           permissions: satisfiedPermissions)
-        let unsatisfied = DeclaredFeatureConstraints(allDeclaredPlatforms: unsatisfiedPlatforms,
-                                            preconditions: unsatisfiedPreconditions,
-                                            permissions: unsatisfiedPermissions)
-        let unknown = DeclaredFeatureConstraints(allDeclaredPlatforms: [:],
-                                        preconditions: unknownPreconditions,
-                                        permissions: [])
-        
-        return FeatureConstraintsEvaluationResult(satisfied: satisfied,
-                                       unsatisfied: unsatisfied,
-                                       unknown: unknown)
+        var results: Set<WTFFeatureConstraintResult<PlatformConstraint>> = []
+        for platformConstraint in constraints.allDeclaredPlatforms.values {
+            // Only add evaluator for our current platform
+            let isActive = platformConstraint.platform.isCurrentPlatform
+            let isFulfilled = isActive && platformConstraint.version.isCurrentCompatible
+            results.insert(WTFFeatureConstraintResult(constraint: platformConstraint, isActive: isActive, isFulfilled: isFulfilled))
+        }
+        return results
+    }
+
+    private func evaluatePermissions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<SystemPermissionConstraint>> {
+        guard let constraints = constraints else {
+            return []
+        }
+        let featureIdentifier = feature.identifier
+        var results: Set<WTFFeatureConstraintResult<SystemPermissionConstraint>> = []
+        for permission in constraints.permissions {
+            let status = permissionChecker.status(of: permission)
+            let isFulfilled: Bool?
+            switch status {
+                case .notDetermined:
+                    isFulfilled = nil
+                case .unsupported,
+                     .restricted,
+                     .denied:
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not have permission '\(permission)', status is: \(status)")
+                    isFulfilled = false
+                case .authorized:
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")
+                    isFulfilled = true
+            }
+            results.insert(WTFFeatureConstraintResult(constraint: permission, isActive: true, isFulfilled: isFulfilled))
+        }
+        return results
+    }
+    
+    private func evaluatePreconditions(for feature: ConditionalFeatureDefinition.Type, constraints: DeclaredFeatureConstraints?) -> Set<WTFFeatureConstraintResult<FeaturePreconditionConstraint>> {
+        guard let constraints = constraints else {
+            return []
+        }
+        let featureIdentifier = feature.identifier
+        var results: Set<WTFFeatureConstraintResult<FeaturePreconditionConstraint>> = []
+        for precondition in constraints.preconditions {
+            let evaluator: FeaturePreconditionConstraintEvaluator
+
+            switch precondition {
+                case .purchase(_):
+                    guard let purchaseEvaluator = purchaseEvaluator else {
+                        fatalError("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
+                    }
+                    evaluator = purchaseEvaluator
+                case .runtimeEnabled:
+                    evaluator = runtimeEvaluator
+                case .userToggled(_):
+                    guard let userToggleEvaluator = userToggleEvaluator else {
+                        fatalError("Feature '\(feature)' has a user toggling precondition but there is no purchase evaluator")
+                    }
+                    evaluator = userToggleEvaluator
+            }
+
+            let isFulfilled: Bool?
+            switch evaluator.isFulfilled(precondition, for: feature) {
+                case .some(true):
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) satisfied precondition: \(precondition)")
+                    isFulfilled = true
+                case .some(false):
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) did not satisfy precondition: \(precondition)")
+                    isFulfilled = false
+                case .none:
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) could not determine precondition: \(precondition)")
+                    isFulfilled = nil
+            }
+            results.insert(WTFFeatureConstraintResult(constraint: precondition, isActive: true, isFulfilled: isFulfilled))
+        }
+        return results
     }
 }
