@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Testing camera permission</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Contacts testing</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photos testing</string>
 	<key>NSUserActivityTypes</key>
