@@ -56,9 +56,13 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
             return
         }
         
-        PHPhotoLibrary.requestAuthorization({status in
-            completion(self, self.authStatusToPermissionStatus(status))
-        })
+        if #available(iOS 8, tvOS 10, macOS 10.13, *) {
+            PHPhotoLibrary.requestAuthorization({status in
+                completion(self, self.authStatusToPermissionStatus(status))
+            })
+        } else {
+                completion(self, .unsupported)
+        }
 #endif
     }
 
