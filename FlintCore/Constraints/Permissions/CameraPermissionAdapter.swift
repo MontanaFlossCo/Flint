@@ -51,6 +51,7 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
     func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
 #if os(iOS)
         guard status == .notDetermined else {
+            completion(self, .notDetermined)
             return
         }
         
@@ -58,9 +59,9 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
             completion(self, granted ? .authorized : .denied)
         }
 #elseif os(macOS)
-        return .authorized
+        completion(self, .authorized)
 #else
-        return .unsupported
+        completion(self, .unsupported)
 #endif
     }
 }

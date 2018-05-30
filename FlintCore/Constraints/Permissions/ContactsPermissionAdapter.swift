@@ -38,8 +38,10 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
-    let contactStore = CNContactStore()
+#if canImport(Contacts)
+    let contactStore: CNContactStore = CNContactStore()
     let entityType: CNEntityType
+#endif
 
     var status: SystemPermissionStatus {
 #if canImport(Contacts)
@@ -48,6 +50,8 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         } else {
             return .unsupported
         }
+#else
+        return .unsupported
 #endif
     }
     
@@ -55,9 +59,11 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         guard case let .contacts(entityType) = permission else {
             preconditionFailure("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
         }
+#if canImport(Contacts)
         switch entityType {
             case .contacts: self.entityType = .contacts
         }
+#endif
         self.permission = permission
     }
     
@@ -67,9 +73,11 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             return
         }
         
+#if canImport(Contacts)
         contactStore.requestAccess(for: .contacts) { (_, _) in
             completion(self, self.status)
         }
+#endif
 #else
         completion(self, .unsupported)
 #endif
