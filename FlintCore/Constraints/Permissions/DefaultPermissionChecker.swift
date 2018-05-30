@@ -26,11 +26,13 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     }
     
     /// - note: Call only from the access queue
-    private func add(_ adapter: SystemPermissionAdapter) {
-        permissionAdapters[adapter.permission] = adapter
+    private func add(_ adapters: [SystemPermissionAdapter]) {
+        for adapter in adapters {
+            permissionAdapters[adapter.permission] = adapter
+        }
     }
 
-    /// Get the corret adapter for a given permission, lazily creating it if it has not been requested
+    /// Get the correct adapter for a given permission, lazily creating it if it has not been requested
     /// previously. This allows us to avoid bootstrapping a bunch of SDK APIs e.g. CoreLocation if the permission
     /// is never used.
     private func getAdapter(for permission: SystemPermissionConstraint) -> SystemPermissionAdapter? {
@@ -41,27 +43,25 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
             }
             
             // Lazily create the required adapter, to avoid e.g. creating a location manager when it is not needed
+            let adapterType: SystemPermissionAdapter.Type?
             switch permission {
                 case .camera:
-#if canImport(AVFoundation)
-                    // We probably need to also verify there is actual camera hardware, e.g. WatchOS
-                    add(CameraPermissionAdapter())
-#endif
+                    adapterType = CameraPermissionAdapter.self
                 case .location:
-#if canImport(CoreLocation)
-                    // One for whenInUse checking
-                    add(LocationPermissionAdapter(usage: .whenInUse))
-#if os(iOS) || os(watchOS)
-                    // One for always checking
-                    add(LocationPermissionAdapter(usage: .always))
-#endif
-#endif
+                    adapterType = LocationPermissionAdapter.self
+                case .contacts:
+                    adapterType = ContactsPermissionAdapter.self
                 case .photos:
-#if canImport(Photos)
-                    add(PhotosPermissionAdapter())
-#endif
+                    adapterType = PhotosPermissionAdapter.self
             }
-            
+
+            if let adapter = adapterType {
+                if adapter.isSupported {
+                    // We probably need to also verify there is actual camera hardware, e.g. WatchOS
+                    add(adapter.createAdapters())
+                }
+            }
+
             // Return the one appropriate for the request, now we have it created (if possible)
             return permissionAdapters[permission]
         }

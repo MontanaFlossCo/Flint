@@ -9,14 +9,17 @@
 import Foundation
 
 /// Defines a system permission that conditional features can use as a constraint.
+///
+/// - note: Any associated values for permission variants must use Flint or foundation types because
+/// we cannot have permissions force dependency on any given framework.
 public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
     case location(usage: LocationUsage)
+    case contacts(entity: ContactsEntity)
 
 // The rest of these are "coming soon"
 /*
-    case contacts
     case calendars
     case reminders
     case homeKit
@@ -36,6 +39,10 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
                     case .whenInUse: return "Location when in use"
                     case .always: return "Location always"
                 }
+            case .contacts(let entity):
+                switch entity {
+                    case .contacts: return "Contacts"
+                }
         }
     }
 }
@@ -46,6 +53,7 @@ extension SystemPermissionConstraint: FeatureConstraint {
         switch self {
             case .camera: return ""
             case .location(let usage): return "usage \(usage)"
+            case .contacts(_): return ""
             case .photos: return ""
         }
     }

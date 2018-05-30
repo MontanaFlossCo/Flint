@@ -42,6 +42,7 @@ final class FakeFeature: ConditionalFeature {
         requirements.iOSOnly = 10
         requirements.permission(.camera)
         requirements.permission(.photos)
+        requirements.permission(.contacts(entity: .contacts))
     }
 }
 
