@@ -20,12 +20,16 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Testing calendar access</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Testing camera permission</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Contacts testing</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photos testing</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Testing reminders access</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>co.montanafloss.FlintUISandbox.do-something-fake</string>
