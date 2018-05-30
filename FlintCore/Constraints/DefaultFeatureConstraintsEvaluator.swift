@@ -10,7 +10,7 @@ import Foundation
 
 /// This is the implementation of the constraints evaluator.
 ///
-/// It is threadsafe.
+/// It is threadsafe, you may call this from any thread
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     var constraintsByFeature: [FeaturePath:DeclaredFeatureConstraints] = [:]
     var purchaseEvaluator: FeaturePreconditionConstraintEvaluator?

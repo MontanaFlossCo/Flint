@@ -15,31 +15,56 @@ import Foundation
 ///
 /// !!! TODO: Add sanity check for missing Info.plist usage descriptions?
 public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStringConvertible {
-    private let permissionAdapters: [SystemPermissionConstraint:SystemPermissionAdapter]
+    /// - note: Access only from the accessQueue
+    private var permissionAdapters: [SystemPermissionConstraint:SystemPermissionAdapter] = [:]
     
     public weak var delegate: SystemPermissionCheckerDelegate?
     
+    private var accessQueue = DispatchQueue(label: "tools.flint.permission-checker")
+    
     public init() {
-        var permissionAdapters: [SystemPermissionConstraint:SystemPermissionAdapter] = [:]
+    }
+    
+    /// - note: Call only from the access queue
+    private func add(_ adapter: SystemPermissionAdapter) {
+        permissionAdapters[adapter.permission] = adapter
+    }
 
-        func _add(_ adapter: SystemPermissionAdapter) {
-            permissionAdapters[adapter.permission] = adapter
-        }
-        
+    /// Get the corret adapter for a given permission, lazily creating it if it has not been requested
+    /// previously. This allows us to avoid bootstrapping a bunch of SDK APIs e.g. CoreLocation if the permission
+    /// is never used.
+    private func getAdapter(for permission: SystemPermissionConstraint) -> SystemPermissionAdapter? {
+        return accessQueue.sync {
+            // Fast-path with existing adapters
+            if let result = permissionAdapters[permission] {
+                return result
+            }
+            
+            // Lazily create the required adapter, to avoid e.g. creating a location manager when it is not needed
+            switch permission {
+                case .camera:
 #if canImport(AVFoundation)
-        _add(CameraPermissionAdapter())
+                    // We probably need to also verify there is actual camera hardware, e.g. WatchOS
+                    add(CameraPermissionAdapter())
 #endif
-#if canImport(Photos)
-        _add(PhotosPermissionAdapter())
-#endif
+                case .location:
 #if canImport(CoreLocation)
-        _add(LocationPermissionAdapter(usage: .whenInUse))
+                    // One for whenInUse checking
+                    add(LocationPermissionAdapter(usage: .whenInUse))
 #if os(iOS) || os(watchOS)
-        _add(LocationPermissionAdapter(usage: .always))
+                    // One for always checking
+                    add(LocationPermissionAdapter(usage: .always))
 #endif
 #endif
-
-        self.permissionAdapters = permissionAdapters
+                case .photos:
+#if canImport(Photos)
+                    add(PhotosPermissionAdapter())
+#endif
+            }
+            
+            // Return the one appropriate for the request, now we have it created (if possible)
+            return permissionAdapters[permission]
+        }
     }
 
     public func isAuthorised(for permissions: Set<SystemPermissionConstraint>) -> Bool {
@@ -56,7 +81,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     }
     
     public func status(of permission: SystemPermissionConstraint) -> SystemPermissionStatus {
-        guard let adapter = permissionAdapters[permission] else {
+        guard let adapter = getAdapter(for: permission) else {
             fatalError("No permission adapter for \(permission)")
         }
         return adapter.status
@@ -64,7 +89,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     
     public func requestAuthorization(for permission: SystemPermissionConstraint,
                                      completion: @escaping (_ permission: SystemPermissionConstraint, _ status: SystemPermissionStatus) -> Void) {
-        guard let adapter = permissionAdapters[permission] else {
+        guard let adapter = getAdapter(for: permission) else {
             fatalError("No permission adapter for \(permission)")
         }
         adapter.requestAuthorisation { adapter, status in
@@ -75,7 +100,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     }
 
     public var debugDescription: String {
-        let results = permissionAdapters.values.map { adapter in
+        let adapters = accessQueue.sync { permissionAdapters }
+        let results = adapters.values.map { adapter in
             return "\(adapter.permission): \(adapter.status)"
         }
         return "Current permission statuses:\n\(results.joined(separator: "\n"))"
