@@ -17,11 +17,11 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case photos
     case location(usage: LocationUsage)
     case contacts(entity: ContactsEntity)
+    case calendarEvents
+    case reminders
 
 // The rest of these are "coming soon"
 /*
-    case calendars
-    case reminders
     case homeKit
     case health
     case motionAndFitness
@@ -34,6 +34,8 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
         switch self {
             case .camera: return "Camera"
             case .photos: return "Photos"
+            case .calendarEvents: return "Calendar Events"
+            case .reminders: return "Reminders"
             case .location(let usage):
                 switch usage {
                     case .whenInUse: return "Location when in use"
@@ -51,10 +53,13 @@ extension SystemPermissionConstraint: FeatureConstraint {
     public var name: String { return String(describing: self) }
     public var parametersDescription: String {
         switch self {
-            case .camera: return ""
+            case .camera,
+                 .calendarEvents,
+                 .reminders,
+                 .contacts,
+                 .photos:
+                return ""
             case .location(let usage): return "usage \(usage)"
-            case .contacts(_): return ""
-            case .photos: return ""
         }
     }
 }

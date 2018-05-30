@@ -27,8 +27,8 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
 
-    static func createAdapters() -> [SystemPermissionAdapter] {
-        return [PhotosPermissionAdapter(permission: .photos)]
+    static func createAdapters(for permission: SystemPermissionConstraint) -> [SystemPermissionAdapter] {
+        return [PhotosPermissionAdapter(permission: permission)]
     }
 
     let permission: SystemPermissionConstraint

@@ -53,12 +53,16 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = ContactsPermissionAdapter.self
                 case .photos:
                     adapterType = PhotosPermissionAdapter.self
+                case .calendarEvents:
+                    adapterType = EventKitPermissionAdapter.self
+                case .reminders:
+                    adapterType = EventKitPermissionAdapter.self
             }
 
             if let adapter = adapterType {
                 if adapter.isSupported {
                     // We probably need to also verify there is actual camera hardware, e.g. WatchOS
-                    add(adapter.createAdapters())
+                    add(adapter.createAdapters(for: permission))
                 }
             }
 

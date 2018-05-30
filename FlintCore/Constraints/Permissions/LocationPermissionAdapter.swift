@@ -21,7 +21,7 @@ import CoreLocation
         }
     }
     
-    static func createAdapters() -> [SystemPermissionAdapter] {
+    static func createAdapters(for permission: SystemPermissionConstraint) -> [SystemPermissionAdapter] {
         var results: [SystemPermissionAdapter] = []
 #if canImport(CoreLocation)
         // One for whenInUse checking

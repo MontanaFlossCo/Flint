@@ -36,8 +36,6 @@ final public class ShowTimelineBrowserAction: Action {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     
-    public static var activityTypes: Set<ActivityEligibility> = [.perform]
-
     public static var description: String = "Shows a view Timeline browser UI"
 
     public static var hideFromTimeline: Bool = true
@@ -67,8 +65,6 @@ extension TerminatingAction {
 final public class HideTimelineBrowserAction: TerminatingAction {
     public typealias InputType = NoInput
     public typealias PresenterType = NoPresenter
-
-    public static var activityTypes: Set<ActivityEligibility> = [.perform]
 
     public static var description: String = "Dismisses a Timeline browser"
 

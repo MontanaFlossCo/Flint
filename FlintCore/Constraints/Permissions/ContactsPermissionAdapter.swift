@@ -32,14 +32,14 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
 
-    static func createAdapters() -> [SystemPermissionAdapter] {
-        return [ContactsPermissionAdapter(permission: .contacts(entity: .contacts))]
+    static func createAdapters(for permission: SystemPermissionConstraint) -> [SystemPermissionAdapter] {
+        return [ContactsPermissionAdapter(permission: permission)]
     }
 
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
 #if canImport(Contacts)
-    let contactStore: CNContactStore = CNContactStore()
+    lazy var contactStore: CNContactStore = { CNContactStore() }()
     let entityType: CNEntityType
 #endif
 
@@ -74,7 +74,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(Contacts)
-        contactStore.requestAccess(for: .contacts) { (_, _) in
+        contactStore.requestAccess(for: entityType) { (_, _) in
             completion(self, self.status)
         }
 #endif

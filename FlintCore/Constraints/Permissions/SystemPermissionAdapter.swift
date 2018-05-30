@@ -19,7 +19,7 @@ public protocol SystemPermissionAdapter: AnyObject {
     /// Called to create all the adapters supported by this type of permission.
     /// This is called to enable adapters that have multiple variants to create all the appropriate
     /// objects for the current platform.
-    static func createAdapters() -> [SystemPermissionAdapter]
+    static func createAdapters(for permission: SystemPermissionConstraint) -> [SystemPermissionAdapter]
 
     /// The permission this adapter can verify and authorise
     var permission: SystemPermissionConstraint { get }
