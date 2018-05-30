@@ -981,6 +981,7 @@
 				496136C4209900E200291885 /* CameraPermissionAdapter.swift */,
 				496136CE2099013000291885 /* PhotosPermissionAdapter.swift */,
 				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
+				494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */,
 				496136D82099017400291885 /* DefaultPermissionChecker.swift */,
 				496136DD2099028F00291885 /* LocationUsage.swift */,
 				49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */,
@@ -988,7 +989,6 @@
 				49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */,
 				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
 				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
-				494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";

@@ -37,12 +37,12 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
+    let usageDescriptionKey: String = "NSContactsUsageDescription"
     let contactStore = CNContactStore()
     let entityType: CNEntityType
 
     var status: SystemPermissionStatus {
-#if canImport(Photos)
+#if canImport(Contacts)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
             return authStatusToPermissionStatus(CNContactStore.authorizationStatus(for: entityType))
         } else {

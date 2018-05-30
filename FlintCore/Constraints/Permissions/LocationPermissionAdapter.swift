@@ -37,7 +37,7 @@ import CoreLocation
     let locationManager = CLLocationManager()
     
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
+    let usageDescriptionKey: String
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
     
     var status: SystemPermissionStatus {
@@ -55,6 +55,11 @@ import CoreLocation
         }
 #endif
         self.permission = permission
+
+        switch usage {
+            case .whenInUse: usageDescriptionKey = "NSLocationWhenInUseUsageDescription"
+            case .always: usageDescriptionKey = "NSLocationAlwaysUsageDescription"
+        }
         
         super.init()
         
