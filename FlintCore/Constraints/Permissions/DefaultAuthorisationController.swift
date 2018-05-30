@@ -65,13 +65,18 @@ class DefaultAuthorisationController: AuthorisationController {
                     if status != .authorized {
                         strongSelf.permissionsNotAuthorized.append(permission)
                     }
-                    strongSelf.coordinator?.didRequestPermission(for: permission, status: status, completion: { shouldCancel in
-                        if !shouldCancel {
-                            strongSelf.next()
-                        } else {
-                            strongSelf.cancel()
-                        }
-                    })
+                    if let coordinator = strongSelf.coordinator {
+                        coordinator.didRequestPermission(for: permission, status: status, completion: { shouldCancel in
+                            if !shouldCancel {
+                                strongSelf.next()
+                            } else {
+                                strongSelf.cancel()
+                            }
+                        })
+                    } else {
+                        // Assume if there is no coordinator that we'll just carry on to the next
+                        strongSelf.next()
+                    }
                 }
             }
 

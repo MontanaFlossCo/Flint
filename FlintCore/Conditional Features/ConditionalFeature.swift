@@ -109,12 +109,12 @@ public extension ConditionalFeature {
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
     public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        guard constraints.permissions.notSatisfied.count > 0 else {
+        guard constraints.permissions.notDetermined.count > 0 else {
             return nil
         }
         
         return DefaultAuthorisationController(coordinator: coordinator,
-                                              permissions: Set(constraints.permissions.notSatisfied.map { $0.constraint }))
+                                              permissions: Set(constraints.permissions.notDetermined.map { $0.constraint }))
     }
     
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.

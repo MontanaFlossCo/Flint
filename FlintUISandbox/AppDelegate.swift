@@ -42,6 +42,7 @@ final class FakeFeature: ConditionalFeature {
         requirements.iOSOnly = 10
         requirements.permission(.camera)
         requirements.permission(.photos)
+        requirements.permission(.contacts(entity: .contacts))
     }
 }
 
@@ -62,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var testTimer: DispatchSourceTimer?
+    var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .info, initialProductionLogLevel: .info)
@@ -97,6 +99,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             print("parametersDescription: \(result.constraint.parametersDescription)")
         }
+        
+        controller = FakeFeature.permissionAuthorisationController(using: nil)
+        controller?.begin(retryHandler: nil)
         return true
     }
 

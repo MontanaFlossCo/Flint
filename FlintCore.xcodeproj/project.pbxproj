@@ -81,6 +81,10 @@
 		4946FAC7208E23740097E10E /* ActionPerformOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946FAC4208E23740097E10E /* ActionPerformOutcome.swift */; };
 		4946FAC8208E23740097E10E /* ActionPerformOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946FAC4208E23740097E10E /* ActionPerformOutcome.swift */; };
 		4948DBE6204D77A90030ED79 /* ActionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4948DBE5204D77A90030ED79 /* ActionContext.swift */; };
+		494C278B20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
+		494C278C20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
+		494C278D20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
+		494C278E20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
 		494F590B2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
 		494F590C2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
 		494F590D2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
@@ -692,6 +696,7 @@
 		4946FABF208D16750097E10E /* ActionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsBuilder.swift; sourceTree = "<group>"; };
 		4946FAC4208E23740097E10E /* ActionPerformOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPerformOutcome.swift; sourceTree = "<group>"; };
 		4948DBE5204D77A90030ED79 /* ActionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionContext.swift; sourceTree = "<group>"; };
+		494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPermissionAdapter.swift; sourceTree = "<group>"; };
 		494F590A2098A9F70075E7EE /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		494F590F2098AA140075E7EE /* OperatingSystemVersion+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperatingSystemVersion+Utilities.swift"; sourceTree = "<group>"; };
 		494F59142098AA280075E7EE /* PlatformVersionConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformVersionConstraint.swift; sourceTree = "<group>"; };
@@ -976,6 +981,7 @@
 				496136C4209900E200291885 /* CameraPermissionAdapter.swift */,
 				496136CE2099013000291885 /* PhotosPermissionAdapter.swift */,
 				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
+				494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */,
 				496136D82099017400291885 /* DefaultPermissionChecker.swift */,
 				496136DD2099028F00291885 /* LocationUsage.swift */,
 				49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */,
@@ -1719,6 +1725,7 @@
 				496F8FD3203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FAB203EEBD3003AB29B /* LinkCreator.swift in Sources */,
 				4927FEF9208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
+				494C278C20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				49FC460120A46F2E00679F97 /* LogEvent.swift in Sources */,
 				496136D52099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F976F207783C500209633 /* FocusLogging.swift in Sources */,
@@ -1880,6 +1887,7 @@
 				496F8FE8203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FB3203EEBD4003AB29B /* LinkCreator.swift in Sources */,
 				4927FEFA208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
+				494C278D20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				49FC460220A46F2F00679F97 /* LogEvent.swift in Sources */,
 				496136D62099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F9770207783C500209633 /* FocusLogging.swift in Sources */,
@@ -2041,6 +2049,7 @@
 				494F59222098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				498A894F2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */,
+				494C278E20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				496136E12099028F00291885 /* LocationUsage.swift in Sources */,
 				496F8FF7203EEBDB003AB29B /* FeaturePath.swift in Sources */,
 				494F592C2098AB390075E7EE /* FeaturePreconditionEvaluator.swift in Sources */,
@@ -2195,6 +2204,7 @@
 				49A999FC1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift in Sources */,
 				496136CF2099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49298241205FCC6000267A49 /* ActionOutcome.swift in Sources */,
+				494C278B20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				494F593D2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
 				49935BCA206AA80A00CB2B5D /* LogEvent.swift in Sources */,
 				4927FEF8208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,

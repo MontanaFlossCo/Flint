@@ -10,29 +10,59 @@ import Foundation
 import CoreLocation
 
 /// Checks and authorises access to the user's location on supported platforms
-/// !!! TODO: What about macOS?
+///
+/// Supports: iOS 2+, macOS 10.6+, watchOS 2+, tvOS 9+
 @objc class LocationPermissionAdapter: NSObject, SystemPermissionAdapter, CLLocationManagerDelegate {
+    static var isSupported: Bool {
+        if #available(iOS 2, macOS 10.6, watchOS 2, tvOS 9, *) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    static func createAdapters() -> [SystemPermissionAdapter] {
+        var results: [SystemPermissionAdapter] = []
+#if canImport(CoreLocation)
+        // One for whenInUse checking
+        results.append(LocationPermissionAdapter(permission: .location(usage: .whenInUse)))
+#if os(iOS) || os(watchOS)
+        // One for always checking
+        results.append(LocationPermissionAdapter(permission: .location(usage: .always)))
+#endif
+#endif
+        return results
+    }
+
     let locationManager = CLLocationManager()
     
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSLocationWhenInUseUsageDescription"
+    let usageDescriptionKey: String
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
     
     var status: SystemPermissionStatus {
         return authStatusToPermissionStatus(CLLocationManager.authorizationStatus())
     }
     
-    public init(usage: LocationUsage) {
+    required init(permission: SystemPermissionConstraint) {
+        guard case let .location(usage) = permission else {
+            preconditionFailure("Cannot use LocationPermissionAdapter with \(permission)")
+        }
+
 #if !os(iOS)
         if .always == usage {
             fatalError("Location usage cannot be 'always' on this platform.")
         }
 #endif
+        self.permission = permission
+
         switch usage {
-            case .always: permission = .location(usage: .always)
-            case .whenInUse: permission = .location(usage: .whenInUse)
+            case .whenInUse: usageDescriptionKey = "NSLocationWhenInUseUsageDescription"
+            case .always: usageDescriptionKey = "NSLocationAlwaysUsageDescription"
         }
+        
         super.init()
+        
         locationManager.delegate = self
     }
     

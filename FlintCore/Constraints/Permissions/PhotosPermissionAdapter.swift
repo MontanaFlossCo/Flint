@@ -12,8 +12,26 @@ import Photos
 #endif
 
 /// Checks and authorises access to the Photo library on supported platforms
+///
+/// Supports: iOS 8+, macOS 10.13+, watchOS ⛔️, tvOS 10+
 class PhotosPermissionAdapter: SystemPermissionAdapter {
-    let permission: SystemPermissionConstraint = .photos
+    static var isSupported: Bool {
+#if os(watchOS)
+        return false
+#else
+        if #available(iOS 8, macOS 10.13, tvOS 10, *) {
+            return true
+        } else {
+            return false
+        }
+#endif
+    }
+
+    static func createAdapters() -> [SystemPermissionAdapter] {
+        return [PhotosPermissionAdapter(permission: .photos)]
+    }
+
+    let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
     var status: SystemPermissionStatus {
@@ -28,17 +46,23 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 #endif
     }
     
+    required init(permission: SystemPermissionConstraint) {
+        self.permission = permission
+    }
+    
     func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
-#if os(iOS)
 #if canImport(Photos)
         guard status == .notDetermined else {
             return
         }
         
-        PHPhotoLibrary.requestAuthorization({status in
-            completion(self, self.authStatusToPermissionStatus(status))
-        })
-#endif
+        if #available(iOS 8, tvOS 10, macOS 10.13, *) {
+            PHPhotoLibrary.requestAuthorization({status in
+                completion(self, self.authStatusToPermissionStatus(status))
+            })
+        } else {
+                completion(self, .unsupported)
+        }
 #endif
     }
 
