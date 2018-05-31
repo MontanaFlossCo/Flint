@@ -52,7 +52,7 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
     }
     
     func requestAuthorisation(completion: @escaping (SystemPermissionAdapter, SystemPermissionStatus) -> Void) {
-        let start = Date()-1
+        let start = Date().addingTimeInterval(-24*60*60)
         let end = Date()
 
 #if canImport(CoreMotion)
