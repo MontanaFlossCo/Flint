@@ -89,6 +89,10 @@
 		494C279120BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */; };
 		494C279220BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */; };
 		494C279320BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */; };
+		494C27A320C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */; };
+		494C27A420C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */; };
+		494C27A520C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */; };
+		494C27A620C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */; };
 		494F590B2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
 		494F590C2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
 		494F590D2098A9F70075E7EE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F590A2098A9F70075E7EE /* Platform.swift */; };
@@ -702,6 +706,7 @@
 		4948DBE5204D77A90030ED79 /* ActionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionContext.swift; sourceTree = "<group>"; };
 		494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPermissionAdapter.swift; sourceTree = "<group>"; };
 		494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKitPermissionAdapter.swift; sourceTree = "<group>"; };
+		494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionPermissionAdapter.swift; sourceTree = "<group>"; };
 		494F590A2098A9F70075E7EE /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		494F590F2098AA140075E7EE /* OperatingSystemVersion+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperatingSystemVersion+Utilities.swift"; sourceTree = "<group>"; };
 		494F59142098AA280075E7EE /* PlatformVersionConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformVersionConstraint.swift; sourceTree = "<group>"; };
@@ -995,6 +1000,7 @@
 				49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */,
 				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
 				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
+				494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -1750,6 +1756,7 @@
 				4980004D20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC74205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FD5203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
+				494C27A420C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC6208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
@@ -1913,6 +1920,7 @@
 				4980004E20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC75205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FEA203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
+				494C27A520C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D12099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49DFB7CC20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				4946FAC7208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
@@ -2076,6 +2084,7 @@
 				4980004F20B32CF100D68321 /* URLPattern.swift in Sources */,
 				496F8F94203EEBBC003AB29B /* ConditionalActionBinding.swift in Sources */,
 				49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */,
+				494C27A620C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136DC2099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				496136D72099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				496F8F9F203EEBC5003AB29B /* RoutesFeature.swift in Sources */,
@@ -2232,6 +2241,7 @@
 				4980004C20B32CF100D68321 /* URLPattern.swift in Sources */,
 				496136D42099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				494F59422098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
+				494C27A320C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				49298237205ED11900267A49 /* FeatureMetadata.swift in Sources */,
 				496136D92099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */,
