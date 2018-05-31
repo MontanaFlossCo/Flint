@@ -12,6 +12,9 @@ import Foundation
 ///
 /// - note: Any associated values for permission variants must use Flint or foundation types because
 /// we cannot have permissions force dependency on any given framework.
+///
+/// - see: Apple's document on user privacy for details of authorisations available
+/// https://developer.apple.com/documentation/uikit/core_app/protecting_the_user_s_privacy
 public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
