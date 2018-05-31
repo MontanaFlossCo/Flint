@@ -103,6 +103,9 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func complete(cancelled: Bool) {
+        if permissionsNotAuthorized.count > 0 && !cancelled {
+            FlintInternal.logger?.warning("Authorisation controller completed with outstanding permissions required: \(self.permissionsNotAuthorized)")
+        }
         coordinator?.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
         if !cancelled {
             if let retryHandler = self.retryHandler {
