@@ -42,8 +42,10 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
     
     let usageDescriptionKey: String = "NSMotionUsageDescription"
 
+#if canImport(CoreMotion)
     private lazy var activityManager: CMMotionActivityManager = { CMMotionActivityManager() }()
-    
+#endif
+
     init(permission: SystemPermissionConstraint) {
         guard permission == .motion else {
             preconditionFailure("Cannot use MotionPermissionAdapter with: \(permission)")
