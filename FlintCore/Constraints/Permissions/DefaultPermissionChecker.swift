@@ -57,6 +57,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = EventKitPermissionAdapter.self
                 case .reminders:
                     adapterType = EventKitPermissionAdapter.self
+                case .motion:
+                    adapterType = MotionPermissionAdapter.self
             }
 
             if let adapter = adapterType {
@@ -86,7 +88,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     
     public func status(of permission: SystemPermissionConstraint) -> SystemPermissionStatus {
         guard let adapter = getAdapter(for: permission) else {
-            fatalError("No permission adapter for \(permission)")
+            FlintInternal.logger?.warning("Cannot get status \(permission), there is no permission adapter for it")
+            return .unsupported
         }
         return adapter.status
     }
@@ -96,7 +99,11 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         guard let adapter = getAdapter(for: permission) else {
             fatalError("No permission adapter for \(permission)")
         }
+
+        FlintInternal.logger?.debug("Permission checker requesting authorization for: \(permission)")
+
         adapter.requestAuthorisation { adapter, status in
+            FlintInternal.logger?.debug("Permission checker authorization request for: \(permission) result in \(status)")
             completion(adapter.permission, status)
             // Tell our delegate that things were updated - caches will need to be invalidated etc.
             self.delegate?.permissionStatusDidChange(adapter.permission)

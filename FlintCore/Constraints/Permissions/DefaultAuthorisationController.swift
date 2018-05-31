@@ -81,14 +81,18 @@ class DefaultAuthorisationController: AuthorisationController {
             }
 
             if let coordinator = coordinator {
+                FlintInternal.logger?.debug("Authorisation controller calling willRequestPermission for: \(permission)")
                 coordinator.willRequestPermission(for: permission) { action in
                     switch action {
                         case .request:
+                            FlintInternal.logger?.debug("Authorisation controller was told to continue requesting authorization for: \(permission)")
                             _requestPermission()
                         case .skip:
+                            FlintInternal.logger?.debug("Authorisation controller was told to skip: \(permission)")
                             permissionsNotAuthorized.append(permission)
                             next()
                         case .cancelAll:
+                            FlintInternal.logger?.debug("Authorisation controller was told to cancel while handling: \(permission)")
                             permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
                             sortedPermissionsToAuthorize.removeAll()
                             cancel()
@@ -103,6 +107,10 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func complete(cancelled: Bool) {
+        FlintInternal.logger?.debug("Authorisation controller completed. Cancelled?: \(cancelled)")
+        if permissionsNotAuthorized.count > 0 && !cancelled {
+            FlintInternal.logger?.warning("Authorisation controller completed with outstanding permissions required: \(self.permissionsNotAuthorized)")
+        }
         coordinator?.didCompletePermissionAuthorisation(cancelled: cancelled, outstandingPermissions: permissionsNotAuthorized)
         if !cancelled {
             if let retryHandler = self.retryHandler {

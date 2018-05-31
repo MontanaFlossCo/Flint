@@ -89,6 +89,7 @@
 		49089576208F48B10022E0A7 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49089579208F48CA0022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4947302520435D6A00E483D1 /* ActionStackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackListViewController.swift; sourceTree = "<group>"; };
+		494C27A720C02D6A00053FF7 /* FlintUISandbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlintUISandbox.entitlements; sourceTree = "<group>"; };
 		496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDetailViewController.swift; sourceTree = "<group>"; };
 		498CB40A203ECDCB0072E544 /* FlintUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40D203ECDCB0072E544 /* FlintUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintUI.h; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		4904958B2060304B00A57991 /* FlintUISandbox */ = {
 			isa = PBXGroup;
 			children = (
+				494C27A720C02D6A00053FF7 /* FlintUISandbox.entitlements */,
 				4908956F208F47910022E0A7 /* Frameworks */,
 				4904958C2060304B00A57991 /* AppDelegate.swift */,
 				4904958E2060304B00A57991 /* ViewController.swift */,
@@ -339,6 +341,11 @@
 					490495892060304B00A57991 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 0;
+							};
+						};
 					};
 					498CB409203ECDCB0072E544 = {
 						CreatedOnToolsVersion = 9.2;
@@ -490,7 +497,7 @@
 				IBSC_MODULE = "$(PRODUCT_MODULE_NAME)";
 				INFOPLIST_FILE = FlintUISandbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintUISandbox;
+				PRODUCT_BUNDLE_IDENTIFIER = tools.flint.FlintUISandbox;
 				PRODUCT_MODULE_NAME = FlintUISandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -514,7 +521,7 @@
 				IBSC_MODULE = "$(PRODUCT_MODULE_NAME)";
 				INFOPLIST_FILE = FlintUISandbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintUISandbox;
+				PRODUCT_BUNDLE_IDENTIFIER = tools.flint.FlintUISandbox;
 				PRODUCT_MODULE_NAME = FlintUISandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

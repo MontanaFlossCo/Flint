@@ -12,6 +12,9 @@ import Foundation
 ///
 /// - note: Any associated values for permission variants must use Flint or foundation types because
 /// we cannot have permissions force dependency on any given framework.
+///
+/// - see: Apple's document on user privacy for details of authorisations available
+/// https://developer.apple.com/documentation/uikit/core_app/protecting_the_user_s_privacy
 public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
@@ -19,15 +22,15 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case contacts(entity: ContactsEntity)
     case calendarEvents
     case reminders
+    case motion
 
 // The rest of these are "coming soon"
 /*
-    case homeKit
-    case health
-    case motionAndFitness
     case speechRecognition
     case bluetoothSharing
     case mediaLibrary
+    case homeKit
+    case health
 */
 
     public var description: String {
@@ -36,6 +39,7 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
             case .photos: return "Photos"
             case .calendarEvents: return "Calendar Events"
             case .reminders: return "Reminders"
+            case .motion: return "Motion"
             case .location(let usage):
                 switch usage {
                     case .whenInUse: return "Location when in use"
@@ -57,7 +61,8 @@ extension SystemPermissionConstraint: FeatureConstraint {
                  .calendarEvents,
                  .reminders,
                  .contacts,
-                 .photos:
+                 .photos,
+                 .motion:
                 return ""
             case .location(let usage): return "usage \(usage)"
         }
