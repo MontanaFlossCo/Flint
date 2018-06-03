@@ -585,6 +585,10 @@
 		49EA0BCF208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
 		49EA0BD0208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
 		49EA0BD1208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
+		49EFE2BC20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */; };
+		49EFE2BD20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */; };
+		49EFE2BE20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */; };
+		49EFE2BF20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */; };
 		49F2CF221FF7B56B004F16EF /* NoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF211FF7B56B004F16EF /* NoPresenter.swift */; };
 		49F2CF241FF7EB2C004F16EF /* ConditionalActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */; };
 		49F2CF261FF7EB78004F16EF /* NoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2CF251FF7EB78004F16EF /* NoInput.swift */; };
@@ -858,6 +862,7 @@
 		49E1A230203C31C900F7555C /* FlintInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintInternal.swift; sourceTree = "<group>"; };
 		49E1A232203C35C800F7555C /* RouteScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteScope.swift; sourceTree = "<group>"; };
 		49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartDispatchQueue.swift; sourceTree = "<group>"; };
+		49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionPermissionAdapt.swift; sourceTree = "<group>"; };
 		49F2CF211FF7B56B004F16EF /* NoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPresenter.swift; sourceTree = "<group>"; };
 		49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalActionBinding.swift; sourceTree = "<group>"; };
 		49F2CF251FF7EB78004F16EF /* NoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInput.swift; sourceTree = "<group>"; };
@@ -1001,6 +1006,7 @@
 				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
 				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
 				494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */,
+				49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -1780,6 +1786,7 @@
 				496F8FAC203EEBD3003AB29B /* RouteParametersCodable.swift in Sources */,
 				4927FF01208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F47203EEB0D003AB29B /* String+Extensions.swift in Sources */,
+				49EFE2BD20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */,
 				496F8F58203EEBB1003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEA2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FC9203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
@@ -1944,6 +1951,7 @@
 				496F8FB4203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
 				4927FF02208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F48203EEB0E003AB29B /* String+Extensions.swift in Sources */,
+				49EFE2BE20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */,
 				496F8F67203EEBB2003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEB2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FDE203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
@@ -2108,6 +2116,7 @@
 				49FC460C20A4795F00679F97 /* PerformIncomingURLAction.swift in Sources */,
 				49FC460620A4792700679F97 /* Formatters.swift in Sources */,
 				494F59132098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
+				49EFE2BF20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */,
 				496F8FBF203EEBD4003AB29B /* URLMappings.swift in Sources */,
 				496F8F92203EEBBC003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F51203EEBA8003AB29B /* AnalyticsReporting.swift in Sources */,
@@ -2265,6 +2274,7 @@
 				49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */,
 				498AF6E1202729AE00AFE666 /* URLMapping.swift in Sources */,
 				49819EBC1FC9C3660013AF55 /* ActionRequest.swift in Sources */,
+				49EFE2BC20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapt.swift in Sources */,
 				49839CE92046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
