@@ -59,6 +59,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = EventKitPermissionAdapter.self
                 case .motion:
                     adapterType = MotionPermissionAdapter.self
+                case .speechRecognition:
+                    adapterType = SpeechRecognitionPermissionAdapter.self
             }
 
             if let adapter = adapterType {

@@ -30,6 +30,8 @@
 	<string>Photos testing</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Testing reminders access</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech permission testing</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>co.montanafloss.FlintUISandbox.do-something-fake</string>
