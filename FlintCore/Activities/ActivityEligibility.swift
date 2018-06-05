@@ -19,10 +19,13 @@ public enum ActivityEligibility {
     case handoff
     
     /// Specify this to also register for Spotlight search when the activity is published.
-    /// - note: This is unusual. Normally you will index items for spotlight using Spotlight APIs.
+    /// - note: Normally you will index items for spotlight using Spotlight APIs.
     case search
     
     /// Specify this if the activity refers to publicly accessible content that should be indexed.
     /// - note: This requires a public web URL is set on the activity
     case publicIndexing
+    
+    /// Allow the activity to qualify for Siri prediction
+    case prediction
 }

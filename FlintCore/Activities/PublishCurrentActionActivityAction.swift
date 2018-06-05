@@ -46,6 +46,12 @@ final class PublishCurrentActionActivityAction: Action {
         activity.isEligibleForHandoff = activityTypes.contains(.handoff)
         activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
 
+#if os(iOS) || os(watchOS)
+        if #available(iOS 12, watchOS 5, *) {
+            activity.isEligibleForPrediction = activityTypes.contains(.prediction)
+        }
+#endif
+
         // If the action provides some extra data, use this. Note that the prepareFunction has already been
         // essentially "curried" to capture the original `input` of the action being published.
         guard let preparedActivity = context.input.prepareFunction(activity) else {
