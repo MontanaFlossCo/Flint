@@ -30,6 +30,10 @@ public class FeatureMetadata: Hashable, Equatable {
         _bind(action, publish: false)
     }
 
+    func hasDeclaredAction<T>(_ action: T.Type) -> Bool where T: Action {
+        return actions.contains { $0.typeName == String(reflecting: action) }
+    }
+
     func publish<T>(_ action: T.Type) where T: Action {
         _bind(action, publish: true)
     }

@@ -311,8 +311,10 @@ public class ActionSession: CustomDebugStringConvertible {
             fatalError(message)
         }
 
+        // Sanity checkes and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: request.actionBinding.feature)
+        precondition(Flint.isDeclared(request.actionBinding.action, on: request.actionBinding.feature) , "Action \(request.actionBinding.action) has not been declared on \(request.actionBinding.feature)")
         
         // Work out if we have a sequence for the request's feature, create a new one if not
         let actionStack = actionStackTracker.findOrCreateActionStack(for: request.actionBinding.feature,
