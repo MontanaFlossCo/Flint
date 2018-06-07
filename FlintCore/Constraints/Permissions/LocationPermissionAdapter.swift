@@ -39,7 +39,8 @@ import CoreLocation
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
-    
+    var statusBeforeRequesting: CLAuthorizationStatus?
+
     var status: SystemPermissionStatus {
         return authStatusToPermissionStatus(CLLocationManager.authorizationStatus())
     }
@@ -72,6 +73,10 @@ import CoreLocation
             return
         }
         
+        // Keep this so that we can detect actual changes to status, not the lies
+        // that CLLocationManager tells us
+        statusBeforeRequesting = CLLocationManager.authorizationStatus()
+        
 #if os(macOS)
         // macOS does not have authorization functions
         completion(self, .authorized)
@@ -97,7 +102,10 @@ import CoreLocation
     // MARK: Location Manager delegate
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        FlintInternal.logger?.debug("Location permission adaoter received status change: \(status)")
+        guard statusBeforeRequesting != status else {
+            return
+        }
+        FlintInternal.logger?.debug("Location permission adapter received status change: \(status)")
         for completion in pendingCompletions {
             completion(self, authStatusToPermissionStatus(status))
         }
