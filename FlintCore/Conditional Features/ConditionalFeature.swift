@@ -52,8 +52,11 @@ public extension ConditionalFeature {
     ///
     /// The default `isAvailable` implementation will delegate to the `AvailabilityChecker` to see if the feature is available.
     public static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> ConditionalActionRequest<Self, T>? {
+        // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: actionBinding.feature)
+        precondition(Flint.isDeclared(actionBinding.action, on: actionBinding.feature) ,
+            "Action \(actionBinding.action) has not been declared on \(actionBinding.feature). Call 'declare' or 'publish' with it in your feature's prepare function.")
 
         /// The action is possible only if this feature is currently available
         guard let available = isAvailable, available == true else {
