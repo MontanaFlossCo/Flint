@@ -80,9 +80,11 @@ import CoreLocation
         switch permission {
             case .location(usage: .always):
                 pendingCompletions.append(completion)
+                FlintInternal.logger?.debug("Location permission adapter requesting 'always' authorization")
                 locationManager.requestAlwaysAuthorization()
             case .location(usage: .whenInUse):
                 pendingCompletions.append(completion)
+                FlintInternal.logger?.debug("Location permission adapter requesting 'when in use' authorization")
                 locationManager.requestWhenInUseAuthorization()
             default:
                 fatalError("Incorrect permission type: \(permission)")
@@ -95,6 +97,7 @@ import CoreLocation
     // MARK: Location Manager delegate
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        FlintInternal.logger?.debug("Location permission adaoter received status change: \(status)")
         for completion in pendingCompletions {
             completion(self, authStatusToPermissionStatus(status))
         }

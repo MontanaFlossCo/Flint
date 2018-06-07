@@ -105,7 +105,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
         FlintInternal.logger?.debug("Permission checker requesting authorization for: \(permission)")
 
         adapter.requestAuthorisation { adapter, status in
-            FlintInternal.logger?.debug("Permission checker authorization request for: \(permission) result in \(status)")
+            FlintInternal.logger?.debug("Permission checker authorization request for: \(permission) resulted in \(status)")
             completion(adapter.permission, status)
             // Tell our delegate that things were updated - caches will need to be invalidated etc.
             self.delegate?.permissionStatusDidChange(adapter.permission)
