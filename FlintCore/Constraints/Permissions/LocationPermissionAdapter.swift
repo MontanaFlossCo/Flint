@@ -39,7 +39,8 @@ import CoreLocation
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
-    
+    var statusBeforeRequesting: CLAuthorizationStatus?
+
     var status: SystemPermissionStatus {
         return authStatusToPermissionStatus(CLLocationManager.authorizationStatus())
     }
@@ -72,6 +73,10 @@ import CoreLocation
             return
         }
         
+        // Keep this so that we can detect actual changes to status, not the lies
+        // that CLLocationManager tells us
+        statusBeforeRequesting = CLLocationManager.authorizationStatus()
+        
 #if os(macOS)
         // macOS does not have authorization functions
         completion(self, .authorized)
@@ -80,9 +85,11 @@ import CoreLocation
         switch permission {
             case .location(usage: .always):
                 pendingCompletions.append(completion)
+                FlintInternal.logger?.debug("Location permission adapter requesting 'always' authorization")
                 locationManager.requestAlwaysAuthorization()
             case .location(usage: .whenInUse):
                 pendingCompletions.append(completion)
+                FlintInternal.logger?.debug("Location permission adapter requesting 'when in use' authorization")
                 locationManager.requestWhenInUseAuthorization()
             default:
                 fatalError("Incorrect permission type: \(permission)")
@@ -95,6 +102,10 @@ import CoreLocation
     // MARK: Location Manager delegate
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        guard statusBeforeRequesting != status else {
+            return
+        }
+        FlintInternal.logger?.debug("Location permission adapter received status change: \(status)")
         for completion in pendingCompletions {
             completion(self, authStatusToPermissionStatus(status))
         }

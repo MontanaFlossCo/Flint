@@ -35,7 +35,7 @@ final class FakeFeature: ConditionalFeature {
     static let action1 = action(DoSomethingFakeAction.self)
     
     static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(action1)
+//        actions.declare(action1)
     }
 
     static func constraints(requirements: FeatureConstraintsBuilder) {

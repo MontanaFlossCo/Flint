@@ -444,7 +444,7 @@ extension Flint {
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
         FlintInternal.logger?.debug("Binding action \(action) to feature: \(self)")
 
-        // Get the existing FeatureMetadata for the feature, create if not found
+        // Get the existing FeatureMetadata for the feature
         metadataAccessQueue.sync {
             guard let featureMetadata = metadata(for: feature) else {
                 preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
@@ -458,12 +458,22 @@ extension Flint {
         FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(self)")
 
         metadataAccessQueue.sync {
-            // Get the existing FeatureMetadata for the feature, create if not found
+            // Get the existing FeatureMetadata for the feature
             guard let featureMetadata = metadata(for: feature) else {
                 preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
             }
             
             featureMetadata.publish(action)
+        }
+    }
+    
+    static func isDeclared<T>(_ action: T.Type, on feature: FeatureDefinition.Type) -> Bool where T: Action {
+        return metadataAccessQueue.sync {
+            guard let featureMetadata = metadata(for: feature) else {
+                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            return featureMetadata.hasDeclaredAction(action)
         }
     }
     

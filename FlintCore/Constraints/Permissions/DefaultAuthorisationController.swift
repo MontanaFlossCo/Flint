@@ -33,6 +33,7 @@ class DefaultAuthorisationController: AuthorisationController {
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
+            FlintInternal.logger?.debug("Authorisation controller notifying coordinator that it will begin")
             coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
                 if permissions.count > 0 {
                     sortedPermissionsToAuthorize = permissionsToRequest
@@ -52,16 +53,19 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     func next() {
+        FlintInternal.logger?.debug("Authorisation controller checking next permission, remaining permissions: \(self.sortedPermissionsToAuthorize)")
         precondition(!cancelled, "Cannot use a cancelled authorisation controller")
         
         if sortedPermissionsToAuthorize.count > 0 {
             let permission = sortedPermissionsToAuthorize.removeFirst()
             
             func _requestPermission() {
+                FlintInternal.logger?.debug("Authorisation controller requesting permission: \(permission)")
                 Flint.permissionChecker.requestAuthorization(for: permission) { [weak self] permission, status in
                     guard let strongSelf = self else {
                         return
                     }
+                    FlintInternal.logger?.debug("Authorisation controller requested permission: \(permission), received status: \(status)")
                     if status != .authorized {
                         strongSelf.permissionsNotAuthorized.append(permission)
                     }
