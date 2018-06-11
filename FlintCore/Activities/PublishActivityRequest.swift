@@ -12,6 +12,8 @@ import Foundation
 struct PublishActivityRequest: CustomStringConvertible, CustomDebugStringConvertible {
     let actionName: String
     let feature: FeatureDefinition.Type
+    let userInfoFunction: () -> [AnyHashable: Any]?
+    let requiredUserInfoKeysFunction: () -> Set<String>?
     let prepareFunction: (_ activity: NSUserActivity) -> NSUserActivity?
     let activityTypes: Set<ActivityEligibility>
     let appLink: URL?

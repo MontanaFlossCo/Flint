@@ -59,6 +59,7 @@ final class PublishCurrentActionActivityAction: Action {
 
         // If the action provides some extra data, use this. Note that the prepareFunction has already been
         // essentially "curried" to capture the original `input` of the action being published.
+        // The action can veto publishing this activity by returning nil.
         guard let preparedActivity = context.input.prepareFunction(activity) else {
             return completion(.success(closeActionStack: true))
         }
@@ -68,9 +69,34 @@ final class PublishCurrentActionActivityAction: Action {
                 preconditionFailure("Activity cannot be indexed for search without a title set")
             }
         }
+
+        // Get the keys, so that the system knows what userInfo to persist
+        let requiredKeys = context.input.requiredUserInfoKeysFunction()
+        if let foundRequiredKeys = requiredKeys {
+            activity.requiredUserInfoKeys = foundRequiredKeys
+        }
+
+        // Get the userInfo from the action for this input.
+        // Note that Siri uses the userInfo to find patterns across different NSUserActivity instances.
+        //
+        // NSUserActivity.userInfo accepts only:
+        // NSArray, NSData, NSDate, NSDictionary, NSNull, NSNumber, NSSet, NSString, NSURL, or NSUUID
+        var userInfo = [AnyHashable: Any]()
+        if let inputUserInfo = context.input.userInfoFunction() {
+            guard let foundRequiredKeys = requiredKeys else {
+                fatalError("Action \(context.input.actionName) supplies activityUserInfo but does not define any activityUserInfoKeys. You must define the list of keys NSUserActivity needs to store by setting activityUserInfoKeys")
+            }
+            guard Set(inputUserInfo.keys).isSuperset(of: foundRequiredKeys) else {
+                fatalError("Action \(context.input.actionName) supplies activityUserInfo but does not define all the keys required by activityUserInfoKeys: \(foundRequiredKeys)")
+            }
+            activity.addUserInfoEntries(from: inputUserInfo)
+        } else if let foundRequiredKeys = requiredKeys, foundRequiredKeys.count > 0 {
+            fatalError("Action \(context.input.actionName) did not supply any activityUserInfo but required activityUserInfoKeys: \(foundRequiredKeys)")
+        }
         
+        // Put in the auto link, if set
         if let url = context.input.appLink {
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+            userInfo[ActivitiesFeature.autoURLUserInfoKey] = url
         }
         
         var activityDebug: String = ""
@@ -81,6 +107,10 @@ final class PublishCurrentActionActivityAction: Action {
             context.logs.development?.debug("Registering custom user activity returned by action: \(activityDebug))")
         } else {
             context.logs.development?.debug("Setting user activity: \(activityDebug)")
+        }
+        
+        if let previousActivity = currentActivity {
+            previousActivity.resignCurrent()
         }
         
         // Keep a reference to the activity

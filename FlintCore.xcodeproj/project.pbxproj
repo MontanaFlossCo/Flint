@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		490A21D7205B034F003E1D00 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4977DC7B205AECB500DAA0C8 /* ZIPFoundation.framework */; };
+		49137FF320CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
+		49137FF420CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
+		49137FF520CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
+		49137FF620CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
 		4914EFC72067C4D000FE0F41 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4914EFC62067C4D000FE0F41 /* Formatters.swift */; };
 		491533662093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */; };
 		491533672093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */; };
@@ -682,6 +686,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49137FF220CF29C500C696F4 /* Action+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Action+Extensions.swift"; sourceTree = "<group>"; };
 		4914EFC62067C4D000FE0F41 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAvailabilityCheckerTests.swift; sourceTree = "<group>"; };
 		4915336A2093B7A800B1E4D2 /* MockUserToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserToggles.swift; sourceTree = "<group>"; };
@@ -1164,6 +1169,7 @@
 			isa = PBXGroup;
 			children = (
 				49819EAF1FC9C1500013AF55 /* Action.swift */,
+				49137FF220CF29C500C696F4 /* Action+Extensions.swift */,
 				4927FEEB208A3B2900163576 /* ActionSource.swift */,
 				4948DBE5204D77A90030ED79 /* ActionContext.swift */,
 				49819EBB1FC9C3660013AF55 /* ActionRequest.swift */,
@@ -1728,6 +1734,7 @@
 				49FC460420A4792600679F97 /* Formatters.swift in Sources */,
 				496F8F61203EEBB1003AB29B /* TopicPath.swift in Sources */,
 				496F8F84203EEBBA003AB29B /* UserFeatureToggles.swift in Sources */,
+				49137FF420CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				496F8FC7203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
 				496F8F55203EEBB1003AB29B /* TimelineEntry.swift in Sources */,
 				4929823D205ED12C00267A49 /* ActionMetadata.swift in Sources */,
@@ -1893,6 +1900,7 @@
 				49FC460520A4792700679F97 /* Formatters.swift in Sources */,
 				496F8F70203EEBB2003AB29B /* TopicPath.swift in Sources */,
 				496F8F8D203EEBBB003AB29B /* UserFeatureToggles.swift in Sources */,
+				49137FF520CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				496F8FDC203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
 				496F8F64203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				4929823E205ED12C00267A49 /* ActionMetadata.swift in Sources */,
@@ -2058,6 +2066,7 @@
 				49DB923C2073AF9C00F758DC /* StoreKitPurchaseTracker.swift in Sources */,
 				496136BE209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				496F8FEC203EEBDB003AB29B /* ActionDispatcher.swift in Sources */,
+				49137FF620CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				4946FAC3208D16750097E10E /* ActionsBuilder.swift in Sources */,
 				49FC460020A46F1B00679F97 /* ActionContext.swift in Sources */,
 				496F8F7F203EEBB3003AB29B /* TopicPath.swift in Sources */,
@@ -2216,6 +2225,7 @@
 				498AF6E52028972A00AFE666 /* RoutesFeature.swift in Sources */,
 				49769244201F3DA800F97BD5 /* RouteParametersCodable.swift in Sources */,
 				49A99A001FF9065400A64E8C /* ContextualLoggerFactory.swift in Sources */,
+				49137FF320CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				49966D95200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift in Sources */,
 				49F2CF221FF7B56B004F16EF /* NoPresenter.swift in Sources */,
 				49CCF0CB1F8BB23B00F7020E /* FeatureDefinition.swift in Sources */,
