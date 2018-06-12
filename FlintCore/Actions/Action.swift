@@ -96,7 +96,7 @@ public protocol Action {
     /// - see: `ActivitiesFeature`
     static var activityTypes: Set<ActivityEligibility> { get }
 
-    /// Implement this function to configure the NSUserActivity for any extra preparation required by the action.
+    /// Implement this function to configure the NSUserActivity manually for any extra preparation required by the action.
     ///
     /// The activity will have been already populated for the action's ID and eligibility.
     /// You do not need to implement this if your feature and action support URL Routes, unless you have
@@ -109,4 +109,50 @@ public protocol Action {
 
     static var activityUserInfoKeys: Set<String>? { get }
 
+/*
+    // Return non-nil to register for Relevant shortcuts on Apple Watc
+    static func siriCardTemplate(for input: InputType) -> INCardTemplate?
+
+    static func activityTitle(for input: InputType) -> String?
+
+    static func activitySubtitle(for input: InputType) -> String?
+
+    static func activityImage(for input: InputType) -> UIImage?
+
+    static func activityCardImage(for input: InputType) -> INImage?
+
+    // OR
+    static func buildActivity(input: InputType) -> ActivityInfo? {
+       var result = ActivityInfo()
+       result.title = "x"
+       result.subtitle = "x"
+       result.image = "x"
+       result.requiredKeys = ["a", "b"]
+       result.userInfo = ["a":33, "b": 44]
+       return result
+    }
+    
+    static func buildActivity(builder: ActivityBuilder<InputType>) {
+        builder.title = builder.input.name
+        builder.subtitle = builder.input.description
+        builder.image = builder.input.photo
+    }
+    
+    static func buildShortcuts(builder: ShortcutsBuilder<InputType>) {
+        builder.register { shortcut in
+            shortcut.title = builder.input.name
+            shortcut.subtitle = builder.input.description
+            shortcut.image = builder.input.photo
+            shortcut.params = ["name": "whatevs"]
+        }
+    }
+    
+    static func buildRelevantShortcut(builder: RelevantActivityBuilder<InputType>) {
+        builder.title = builder.input.name
+        builder.subtitle = builder.input.description
+        builder.watchTemplate = .default
+        builder.watchImage = INImage(named:"x")
+        builder.relevance = .situation(.evening)
+    }
+*/
 }
