@@ -46,9 +46,14 @@ final class PublishCurrentActionActivityAction: Action {
         activity.isEligibleForHandoff = activityTypes.contains(.handoff)
         activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
 
-#if os(iOS) || os(watchOS)
+// This is the only compile-time check we have available to us right now for Xcode 10 SDKs
+#if swift(>=4.2)
         if #available(iOS 12, watchOS 5, *) {
             activity.isEligibleForPrediction = activityTypes.contains(.prediction)
+            // Force search eligibility as this is required for prediction too
+            if activity.isEligibleForPrediction {
+                activity.isEligibleForSearch = true
+            }
         }
 #endif
 
