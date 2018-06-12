@@ -14,7 +14,6 @@
 		490495972060304B00A57991 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 490495952060304B00A57991 /* LaunchScreen.storyboard */; };
 		49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
 		49089568208F471C0022E0A7 /* FlintUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		49089573208F47C10022E0A7 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089572208F47C10022E0A7 /* FlintCore.framework */; };
 		49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089574208F48060022E0A7 /* ZIPFoundation.framework */; };
 		49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; };
 		49089578208F48B20022E0A7 /* ZIPFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -22,6 +21,7 @@
 		4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4947302620435D6A00E483D1 /* ActionStackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947302520435D6A00E483D1 /* ActionStackListViewController.swift */; };
 		496F8EFF203EE85A003AB29B /* FeatureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */; };
+		497BFF2020C7F55300E70157 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BFF1F20C7F55300E70157 /* FlintCore.framework */; };
 		498CB414203ECDCB0072E544 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
 		498CB419203ECDCB0072E544 /* FlintUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498CB418203ECDCB0072E544 /* FlintUITests.swift */; };
 		498CB41B203ECDCB0072E544 /* FlintUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 498CB40D203ECDCB0072E544 /* FlintUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -91,6 +91,7 @@
 		4947302520435D6A00E483D1 /* ActionStackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackListViewController.swift; sourceTree = "<group>"; };
 		494C27A720C02D6A00053FF7 /* FlintUISandbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlintUISandbox.entitlements; sourceTree = "<group>"; };
 		496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDetailViewController.swift; sourceTree = "<group>"; };
+		497BFF1F20C7F55300E70157 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40A203ECDCB0072E544 /* FlintUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40D203ECDCB0072E544 /* FlintUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintUI.h; sourceTree = "<group>"; };
 		498CB40E203ECDCB0072E544 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,8 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497BFF2020C7F55300E70157 /* FlintCore.framework in Frameworks */,
 				49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */,
-				49089573208F47C10022E0A7 /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +188,7 @@
 		496F8EF9203ED479003AB29B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				497BFF1F20C7F55300E70157 /* FlintCore.framework */,
 				49089574208F48060022E0A7 /* ZIPFoundation.framework */,
 				49089572208F47C10022E0A7 /* FlintCore.framework */,
 			);
