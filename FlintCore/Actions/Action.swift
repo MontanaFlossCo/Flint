@@ -97,16 +97,13 @@ public protocol Action {
     /// - see: `ActivitiesFeature`
     static var activityTypes: Set<ActivityEligibility> { get }
 
-    /// Implement this function to configure the NSUserActivity manually for any extra preparation required by the action.
+    /// Implement this function to configure the NSUserActivity for any extra preparation required by the action.
     ///
     /// The activity will have been already populated for the action's ID and eligibility.
     /// You do not need to implement this if your feature and action support URL Routes, unless you have
     /// extra information not included in the URL that you wish to include.
     ///
-    /// - return: nil to veto publishing the activity at all, or return another value replace it with your own instance.
-//    static func prepare(activity: NSUserActivity, with input: InputType) -> NSUserActivity?
+    /// Call `cancel` on the builder to veto publishing the activity at all.
+    static func prepareActivity(_ activity: ActivityBuilder<InputType>)
 
-    static func prepareActivity(_ activity: ActivityBuilder<InputType>) 
-
-//    static var activityUserInfoKeys: Set<String>? { get }
 }

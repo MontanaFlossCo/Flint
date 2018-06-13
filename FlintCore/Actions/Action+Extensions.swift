@@ -68,7 +68,7 @@ public extension Action {
     static func prepareActivity(_ activity: ActivityBuilder<InputType>) {        
     }
 
-    static func activity(for input: InputType) -> NSUserActivity? {
-        return PublishCurrentActionActivityAction.createActivity(for: self, with: input)
+    public static func activity(for input: InputType, withURL url: URL?) -> NSUserActivity? {
+        return PublishCurrentActionActivityAction.createActivity(for: self, with: input, appLink: url)
     }
 }

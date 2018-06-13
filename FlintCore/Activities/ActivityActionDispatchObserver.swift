@@ -48,16 +48,16 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         let action = actionRequest.actionBinding.action
         let input = actionRequest.context.input
 
-        let prepareActivityWrapper = { () -> NSUserActivity? in
-            return action.activity(for: input)
-        }
-
-        let activityTypes = action.activityTypes
         var appLink: URL? = nil
         if let encodable = input as? RouteParametersEncodable {
             appLink = Flint.linkCreator?.appLink(to: actionRequest.actionBinding, with: encodable)
         }
-        
+
+        // Create the lazy function that will create the activity on demand
+        let prepareActivityWrapper = { () -> NSUserActivity? in
+            return action.activity(for: input, withURL: appLink)
+        }
+
         let publishState = PublishActivityRequest(actionName: action.name,
                                                 feature: actionRequest.actionBinding.feature,
                                                 activityCreator: prepareActivityWrapper,
