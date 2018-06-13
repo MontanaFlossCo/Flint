@@ -54,8 +54,9 @@ final class PublishCurrentActionActivityAction: Action {
         activity.isEligibleForHandoff = activityTypes.contains(.handoff)
         activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
 
-// This is the only compile-time check we have available to us right now for Xcode 10 SDKs
-#if swift(>=4.2)
+// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+// require raising the language level to Swift 4.2 in the target.
+#if canImport(Network)
         if #available(iOS 12, watchOS 5, *) {
             activity.isEligibleForPrediction = activityTypes.contains(.prediction)
             // Force search eligibility as this is required for prediction too
