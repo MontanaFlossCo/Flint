@@ -36,14 +36,35 @@ final class PublishCurrentActionActivityAction: Action {
     static let bundleID = Bundle.main.bundleIdentifier!
 
     static func perform(with context: ActionContext<InputType>, using presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
-        let activityTypes = context.input.activityTypes
+        if let activity = context.input.activityCreator() {
+            var activityDebug: String = ""
+            if let _ = context.logs.development?.debug {
+                activityDebug = activity._detailedDebugDescription
+            }
+
+            context.logs.development?.debug("Setting user activity: \(activityDebug)")
+            
+            // Keep a reference to the activity
+            currentActivity = activity
+        }
+        
+        return completion(.success(closeActionStack: true))
+    }
+
+    static func makeActivityID(forActionName name: String) -> String {
+        return "\(bundleID).\(name.lowerCasedID())"
+    }
+    
+    /// A helper function for creating an `NSUserActivity` for an action with a given inputt
+    public static func createActivity<ActionType>(for action: ActionType.Type, with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
+        let activityTypes = action.activityTypes
         guard activityTypes.count > 0 else {
-            return completion(.success(closeActionStack: true))
+            return nil
         }
         
         // These are the basic activity requirements
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = makeActivityID(forActionName: context.input.actionName)
+        let activityID = makeActivityID(forActionName: action.name)
         precondition(FlintAppInfo.activityTypes.contains(activityID),
                      "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
                      "The ID `\(activityID)` is not there.")
@@ -65,24 +86,27 @@ final class PublishCurrentActionActivityAction: Action {
             }
         }
 #endif
-
+        
+        // Put in the auto link, if set and part of a URLMapped feature
+        if let url = appLink {
+            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+        }
+        
         // If the action provides some extra data, use this. Note that the prepareFunction has already been
         // essentially "curried" to capture the original `input` of the action being published.
         // The action can veto publishing this activity by returning nil.
         
         // Introduce a new scope to prevent accidentaly use of the wrong activity instance
         do {
-            guard let preparedActivity = context.input.prepareFunction(activity) else {
-                return completion(.success(closeActionStack: true))
+
+            let builder = ActivityBuilder(baseActivity: activity, input: input)
+            let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
+            guard let preparedActivity = builder.build(function) else {
+                return nil
             }
             activity = preparedActivity
         }
-        
-        // Put in the auto link, if set and part of a URLMapped feature
-        if let url = context.input.appLink {
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
-        }
-        
+
         // Apply sanity checks to the generated activity
         /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
         
@@ -98,25 +122,11 @@ final class PublishCurrentActionActivityAction: Action {
             let infoKeys = Set(userInfo.keys)
             let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
             guard missingKeys.count == 0 else {
-                fatalError("Action \(context.input.actionName) supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
+                fatalError("Action \(action.name) supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
             }
         }
         
-        var activityDebug: String = ""
-        if let _ = context.logs.development?.debug {
-            activityDebug = activity._detailedDebugDescription
-        }
-
-        context.logs.development?.debug("Setting user activity: \(activityDebug)")
-        
-        // Keep a reference to the activity
-        currentActivity = activity
-
-        return completion(.success(closeActionStack: true))
-    }
-
-    static func makeActivityID(forActionName name: String) -> String {
-        return "\(bundleID).\(name.lowerCasedID())"
+        return activity
     }
 }
 

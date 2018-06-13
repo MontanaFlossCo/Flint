@@ -48,11 +48,8 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         let action = actionRequest.actionBinding.action
         let input = actionRequest.context.input
 
-        let prepareWrapper = { (activity: NSUserActivity) -> NSUserActivity? in
-            let builder = ActivityBuilder(baseActivity: activity, input: input)
-            let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
-            let activity = builder.build(function)
-            return activity
+        let prepareActivityWrapper = { () -> NSUserActivity? in
+            return action.activity(for: input)
         }
 
         let activityTypes = action.activityTypes
@@ -63,8 +60,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         
         let publishState = PublishActivityRequest(actionName: action.name,
                                                 feature: actionRequest.actionBinding.feature,
-                                                prepareFunction: prepareWrapper,
-                                                activityTypes: activityTypes,
+                                                activityCreator: prepareActivityWrapper,
                                                 appLink: appLink)
         DispatchQueue.main.async {
             publishRequest.perform(using: NoPresenter(), with: publishState, userInitiated: false, source: .application)

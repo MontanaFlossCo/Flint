@@ -12,8 +12,7 @@ import Foundation
 struct PublishActivityRequest: CustomStringConvertible, CustomDebugStringConvertible {
     let actionName: String
     let feature: FeatureDefinition.Type
-    let prepareFunction: (_ activity: NSUserActivity) -> NSUserActivity?
-    let activityTypes: Set<ActivityEligibility>
+    let activityCreator: () -> NSUserActivity?
     let appLink: URL?
 
     var description: String {
@@ -21,8 +20,7 @@ struct PublishActivityRequest: CustomStringConvertible, CustomDebugStringConvert
     }
     
     var debugDescription: String {
-        let activities = activityTypes.map({ String(reflecting: $0) }).joined(separator: ", ")
-        return "PublishActivityRequest for action: \(actionName) of feature \(feature). Activity types: \(activities). URL: \(appLink?.description ?? "nil")"
+        return "PublishActivityRequest for action: \(actionName) of feature \(feature). URL: \(appLink?.description ?? "nil")"
     }
 }
 

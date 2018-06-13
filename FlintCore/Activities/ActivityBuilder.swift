@@ -46,11 +46,12 @@ public class ActivityBuilder<T> {
     }
 
 #if os(macOS)
-    public var image: NSImage?
+    public var thumbnail: NSImage?
 #else
-    public var image: UIImage?
+    public var thumbnail: UIImage?
 #endif
-    public var imageData: Data?
+    public var thumbnailData: Data?
+    public var thumbnailURL: URL?
     public var requiredUserInfoKeys: [String] = []
     public var userInfo: [AnyHashable:Any] = [:]
     
@@ -98,9 +99,11 @@ public class ActivityBuilder<T> {
             activity.keywords = keywords
         }
 
-        if let imageData = imageData {
+        if let imageURL = thumbnailURL {
+            searchAttributes.thumbnailURL = imageURL
+        } else if let imageData = thumbnailData {
             searchAttributes.thumbnailData = imageData
-        } else if let image = image {
+        } else if let image = thumbnail {
 #if !os(macOS)
             searchAttributes.thumbnailData = UIImagePNGRepresentation(image)
 #endif
