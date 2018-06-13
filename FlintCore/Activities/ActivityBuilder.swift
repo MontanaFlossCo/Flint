@@ -30,6 +30,18 @@ public class ActivityBuilder<T> {
     }
     
     public var subtitle: String?
+
+    private var _keywords: Set<String>?
+    /// Lazily created search attributes
+    public var keywords: Set<String> {
+        get {
+            if _keywords == nil {
+                _keywords = Set<String>()
+            }
+            return _keywords!
+        }
+    }
+
 #if os(macOS)
     public var image: NSImage?
 #else
@@ -38,6 +50,19 @@ public class ActivityBuilder<T> {
     public var imageData: Data?
     public var requiredUserInfoKeys: [String] = []
     public var userInfo: [AnyHashable:Any] = [:]
+    
+    private var _searchAttributes: CSSearchableItemAttributeSet?
+    
+    /// Lazily created search attributes
+    public var searchAttributes: CSSearchableItemAttributeSet {
+        get {
+            if _searchAttributes == nil {
+                _searchAttributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
+            }
+            return _searchAttributes!
+        }
+    }
+    
     private var cancelled: Bool = false
     
     init(baseActivity: NSUserActivity, input: T) {
@@ -62,8 +87,14 @@ public class ActivityBuilder<T> {
 
         builtActivity.addUserInfoEntries(from: userInfo)
         
-        let searchAttributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-        searchAttributes.contentDescription = subtitle
+        if let subtitle = subtitle {
+            searchAttributes.contentDescription = subtitle
+        }
+
+        if let keywords = _keywords {
+            activity.keywords = keywords
+        }
+
         if let imageData = imageData {
             searchAttributes.thumbnailData = imageData
         } else if let image = image {
@@ -72,8 +103,9 @@ public class ActivityBuilder<T> {
 #endif
         }
 
-        builtActivity.contentAttributeSet = searchAttributes
-
+        // Don't assign search attributes if they were never needed, so use the non-self-populating property
+        builtActivity.contentAttributeSet = _searchAttributes
+        
         return builtActivity
     }
 }
