@@ -65,16 +65,7 @@ public extension Action {
     /// The default behaviour is to return the input activity unchanged.
     ///
     /// Provide your own implementation if you need to customize the `NSUserActivity` for an Action.
-    static func prepare(activity: NSUserActivity, with state: InputType) -> NSUserActivity? {
-        return activity
-    }
-
-    static func activityUserInfo(with input: InputType) -> [AnyHashable:Any]? {
-        return nil
-    }
-    
-    static var activityUserInfoKeys: Set<String>? {
-        return nil
+    static func prepareActivity(_ activity: ActivityBuilder<InputType>) {        
     }
 
 }

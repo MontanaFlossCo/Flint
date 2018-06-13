@@ -54,12 +54,13 @@ final class DoSomethingFakeAction: Action {
     typealias InputType = NoInput
     typealias PresenterType = NoPresenter
     
-    static var activityTypes: Set<ActivityEligibility> = [.handoff]
+    static var activityTypes: Set<ActivityEligibility> = [.handoff, .prediction]
 
-    static var activityUserInfoKeys: Set<String>? = ["fake"]
-    
-    static func activityUserInfo(with input: InputType) -> [AnyHashable:Any]? {
-        return ["fake": true]
+    static func prepareActivity(_ activity: ActivityBuilder<InputType>) {
+        activity.title = "Do a fake thing"
+        activity.subtitle = "This will show up in Siri shortcuts on iOS 12"
+        activity.requiredUserInfoKeys = ["fake"]
+        activity.userInfo["fake"] = true
     }
 
     static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {

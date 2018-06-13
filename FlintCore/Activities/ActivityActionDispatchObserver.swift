@@ -49,19 +49,12 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         let input = actionRequest.context.input
 
         let prepareWrapper = { (activity: NSUserActivity) -> NSUserActivity? in
-            return action.prepare(activity: activity, with: input)
+            let builder = ActivityBuilder(baseActivity: activity, input: input)
+            let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
+            let activity = builder.build(function)
+            return activity
         }
 
-        // TODO: These don't need to be functions, make them variables and always call
-        let userInfoWrapper = { () -> [AnyHashable:Any]? in
-            return action.activityUserInfo(with: input)
-        }
-
-        let requiredUserInfoKeysWrapper = { () -> Set<String>? in
-            return action.activityUserInfoKeys
-        }
-        
-        
         let activityTypes = action.activityTypes
         var appLink: URL? = nil
         if let encodable = input as? RouteParametersEncodable {
@@ -70,8 +63,6 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         
         let publishState = PublishActivityRequest(actionName: action.name,
                                                 feature: actionRequest.actionBinding.feature,
-                                                userInfoFunction: userInfoWrapper,
-                                                requiredUserInfoKeysFunction: requiredUserInfoKeysWrapper,
                                                 prepareFunction: prepareWrapper,
                                                 activityTypes: activityTypes,
                                                 appLink: appLink)

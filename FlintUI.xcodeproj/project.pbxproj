@@ -89,7 +89,6 @@
 		49089576208F48B10022E0A7 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49089579208F48CA0022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4947302520435D6A00E483D1 /* ActionStackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackListViewController.swift; sourceTree = "<group>"; };
-		494C27A720C02D6A00053FF7 /* FlintUISandbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlintUISandbox.entitlements; sourceTree = "<group>"; };
 		496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDetailViewController.swift; sourceTree = "<group>"; };
 		497BFF1F20C7F55300E70157 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40A203ECDCB0072E544 /* FlintUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,7 +148,6 @@
 		4904958B2060304B00A57991 /* FlintUISandbox */ = {
 			isa = PBXGroup;
 			children = (
-				494C27A720C02D6A00053FF7 /* FlintUISandbox.entitlements */,
 				4908956F208F47910022E0A7 /* Frameworks */,
 				4904958C2060304B00A57991 /* AppDelegate.swift */,
 				4904958E2060304B00A57991 /* ViewController.swift */,

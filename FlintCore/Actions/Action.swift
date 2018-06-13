@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreSpotlight
 
 /// Actions that can be performed conform to this protocol to define their inputs, presenter and logic.
 ///
@@ -103,56 +104,9 @@ public protocol Action {
     /// extra information not included in the URL that you wish to include.
     ///
     /// - return: nil to veto publishing the activity at all, or return another value replace it with your own instance.
-    static func prepare(activity: NSUserActivity, with input: InputType) -> NSUserActivity?
+//    static func prepare(activity: NSUserActivity, with input: InputType) -> NSUserActivity?
 
-    static func activityUserInfo(with input: InputType) -> [AnyHashable:Any]?
+    static func prepareActivity(_ activity: ActivityBuilder<InputType>) 
 
-    static var activityUserInfoKeys: Set<String>? { get }
-
-/*
-    // Return non-nil to register for Relevant shortcuts on Apple Watc
-    static func siriCardTemplate(for input: InputType) -> INCardTemplate?
-
-    static func activityTitle(for input: InputType) -> String?
-
-    static func activitySubtitle(for input: InputType) -> String?
-
-    static func activityImage(for input: InputType) -> UIImage?
-
-    static func activityCardImage(for input: InputType) -> INImage?
-
-    // OR
-    static func buildActivity(input: InputType) -> ActivityInfo? {
-       var result = ActivityInfo()
-       result.title = "x"
-       result.subtitle = "x"
-       result.image = "x"
-       result.requiredKeys = ["a", "b"]
-       result.userInfo = ["a":33, "b": 44]
-       return result
-    }
-    
-    static func buildActivity(builder: ActivityBuilder<InputType>) {
-        builder.title = builder.input.name
-        builder.subtitle = builder.input.description
-        builder.image = builder.input.photo
-    }
-    
-    static func buildShortcuts(builder: ShortcutsBuilder<InputType>) {
-        builder.register { shortcut in
-            shortcut.title = builder.input.name
-            shortcut.subtitle = builder.input.description
-            shortcut.image = builder.input.photo
-            shortcut.params = ["name": "whatevs"]
-        }
-    }
-    
-    static func buildRelevantShortcut(builder: RelevantActivityBuilder<InputType>) {
-        builder.title = builder.input.name
-        builder.subtitle = builder.input.description
-        builder.watchTemplate = .default
-        builder.watchImage = INImage(named:"x")
-        builder.relevance = .situation(.evening)
-    }
-*/
+//    static var activityUserInfoKeys: Set<String>? { get }
 }
