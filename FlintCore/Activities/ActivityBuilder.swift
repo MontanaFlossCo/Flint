@@ -40,6 +40,9 @@ public class ActivityBuilder<T> {
             }
             return _keywords!
         }
+        set {
+            _keywords = newValue
+        }
     }
 
 #if os(macOS)
