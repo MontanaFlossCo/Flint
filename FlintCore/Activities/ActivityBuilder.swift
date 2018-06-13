@@ -7,7 +7,12 @@
 //
 
 import Foundation
+#if canImport(CoreSpotlight)
 import CoreSpotlight
+#endif
+#if canImport(UIKit)
+import UIKit
+#endif
 #if os(macOS)
 import CoreServices
 import Cocoa
@@ -52,10 +57,11 @@ public class ActivityBuilder<T> {
         }
     }
 
-#if os(macOS)
+#if canImport(CoreSpotlight)
+#if canImport(Cocoa)
     /// Set to a thumbnail to show when displaying this activity
     public var thumbnail: NSImage?
-#else
+#elseif canImport(UIKit)
     /// Set to a thumbnail to show when displaying this activity
     public var thumbnail: UIImage?
 #endif
@@ -63,6 +69,7 @@ public class ActivityBuilder<T> {
     public var thumbnailData: Data?
     /// Set to URL pointing at local thumbnail data to show when displaying this activity
     public var thumbnailURL: URL?
+#endif
 
     /// Set this to the userInfo keys required to continue the activity later.
     /// - note: You must specify this if you want Siri prediction to work and you have arguments.
@@ -76,8 +83,12 @@ public class ActivityBuilder<T> {
     /// continuing later.
     public var userInfo: [AnyHashable:Any] = [:]
     
+/// !!! TODO: Add a wrapper for these so actions on watchOS and tvOS don't have to adapt to the platform
+// Note we can't use canImport(CoreSpotlight) as this exists on tvOS and watchOS but the attribute set does not
+#if canImport(CoreSpotlight)
+#if os(iOS) || os(macOS)
     private var _searchAttributes: CSSearchableItemAttributeSet?
-    
+
     /// Lazily created search attributes. Amend these to provide extra search proeprties.
     public var searchAttributes: CSSearchableItemAttributeSet {
         get {
@@ -87,7 +98,9 @@ public class ActivityBuilder<T> {
             return _searchAttributes!
         }
     }
-    
+#endif
+#endif
+
     private var cancelled: Bool = false
     
     init(baseActivity: NSUserActivity, input: T) {
@@ -112,12 +125,10 @@ public class ActivityBuilder<T> {
 
         builtActivity.addUserInfoEntries(from: userInfo)
         
+#if canImport(CoreSpotlight)
+#if os(iOS) || os(macOS)
         if let subtitle = subtitle {
             searchAttributes.contentDescription = subtitle
-        }
-
-        if let keywords = _keywords {
-            activity.keywords = keywords
         }
 
         if let imageURL = thumbnailURL {
@@ -132,7 +143,14 @@ public class ActivityBuilder<T> {
 
         // Don't assign search attributes if they were never needed, so use the non-self-populating property
         builtActivity.contentAttributeSet = _searchAttributes
-        
+#endif
+#endif
+
+        if let keywords = _keywords {
+            activity.keywords = keywords
+        }
+
+
         return builtActivity
     }
 }
