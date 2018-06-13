@@ -35,7 +35,7 @@ final class FakeFeature: ConditionalFeature {
     static let action1 = action(DoSomethingFakeAction.self)
     
     static func prepare(actions: FeatureActionsBuilder) {
-//        actions.declare(action1)
+        actions.declare(action1)
     }
 
     static func constraints(requirements: FeatureConstraintsBuilder) {
@@ -45,7 +45,7 @@ final class FakeFeature: ConditionalFeature {
         requirements.permission(.contacts(entity: .contacts))
         requirements.permission(.calendarEvents)
         requirements.permission(.reminders)
-        requirements.permission(.motion)
+//        requirements.permission(.motion)
         requirements.permission(.speechRecognition)
     }
 }
@@ -54,8 +54,15 @@ final class DoSomethingFakeAction: Action {
     typealias InputType = NoInput
     typealias PresenterType = NoPresenter
     
-    static var activityTypes: Set<ActivityEligibility> = [.handoff]
-    
+    static var activityTypes: Set<ActivityEligibility> = [.handoff, .prediction]
+
+    static func prepareActivity(_ activity: ActivityBuilder<InputType>) {
+        activity.title = "Do a fake thing"
+        activity.subtitle = "This will show up in Siri shortcuts on iOS 12"
+        activity.requiredUserInfoKeys = ["fake"]
+        activity.userInfo["fake"] = true
+    }
+
     static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
         context.logs.development?.info("Testing logs from fake feature")
         completion(.success(closeActionStack: true))
@@ -80,9 +87,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         testTimer = DispatchSource.makeTimerSource(flags: [], queue: .main)
         testTimer?.schedule(deadline: DispatchTime.now(), repeating: 10.0)
         testTimer?.setEventHandler(handler: {
-            print("Performing a fake feature, this will show even if not in Focus")
+            print("Performing a fake action, this will show even if not in Focus")
             if let request = FakeFeature.action1.request() {
                 request.perform()
+            } else {
+                print("NOT Performing the fake action, permissions were not available")
             }
             logger?.debug("Test output from logger")
         })

@@ -23,31 +23,61 @@ final class PublishCurrentActionActivityAction: Action {
     
     static let description: String = "Automatic publishing of NSUserActivity for actions with activityEligibility set"
     
-    static private var currentActivity: NSUserActivity?
+    static private var currentActivity: NSUserActivity? {
+        didSet {
+            if let previousActivity = oldValue {
+                previousActivity.resignCurrent()
+            }
+        
+            currentActivity?.becomeCurrent()
+        }
+    }
 
     static let bundleID = Bundle.main.bundleIdentifier!
 
     static func perform(with context: ActionContext<InputType>, using presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
-        let activityTypes = context.input.activityTypes
+        if let activity = context.input.activityCreator() {
+            var activityDebug: String = ""
+            if let _ = context.logs.development?.debug {
+                activityDebug = activity._detailedDebugDescription
+            }
+
+            context.logs.development?.debug("Setting user activity: \(activityDebug)")
+            
+            // Keep a reference to the activity
+            currentActivity = activity
+        }
+        
+        return completion(.success(closeActionStack: true))
+    }
+
+    static func makeActivityID(forActionName name: String) -> String {
+        return "\(bundleID).\(name.lowerCasedID())"
+    }
+    
+    /// A helper function for creating an `NSUserActivity` for an action with a given inputt
+    public static func createActivity<ActionType>(for action: ActionType.Type, with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
+        let activityTypes = action.activityTypes
         guard activityTypes.count > 0 else {
-            return completion(.success(closeActionStack: true))
+            return nil
         }
         
         // These are the basic activity requirements
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = makeActivityID(forActionName: context.input.actionName)
+        let activityID = makeActivityID(forActionName: action.name)
         precondition(FlintAppInfo.activityTypes.contains(activityID),
                      "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
                      "The ID `\(activityID)` is not there.")
 
-        let activity = NSUserActivity(activityType: activityID)
+        var activity = NSUserActivity(activityType: activityID)
 
         activity.isEligibleForSearch = activityTypes.contains(.search)
         activity.isEligibleForHandoff = activityTypes.contains(.handoff)
         activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
 
-// This is the only compile-time check we have available to us right now for Xcode 10 SDKs
-#if swift(>=4.2)
+// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+// require raising the language level to Swift 4.2 in the target.
+#if canImport(Network) && (os(iOS) || os(watchOS))
         if #available(iOS 12, watchOS 5, *) {
             activity.isEligibleForPrediction = activityTypes.contains(.prediction)
             // Force search eligibility as this is required for prediction too
@@ -56,42 +86,47 @@ final class PublishCurrentActionActivityAction: Action {
             }
         }
 #endif
-
-        // If the action provides some extra data, use this. Note that the prepareFunction has already been
-        // essentially "curried" to capture the original `input` of the action being published.
-        guard let preparedActivity = context.input.prepareFunction(activity) else {
-            return completion(.success(closeActionStack: true))
+        
+        // Put in the auto link, if set and part of a URLMapped feature
+        if let url = appLink {
+            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
         }
         
-        if activity.isEligibleForSearch  {
+        // If the action provides some extra data, use this. Note that the prepareFunction has already been
+        // essentially "curried" to capture the original `input` of the action being published.
+        // The action can veto publishing this activity by returning nil.
+        
+        // Introduce a new scope to prevent accidentaly use of the wrong activity instance
+        do {
+
+            let builder = ActivityBuilder(baseActivity: activity, input: input)
+            let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
+            guard let preparedActivity = builder.build(function) else {
+                return nil
+            }
+            activity = preparedActivity
+        }
+
+        // Apply sanity checks to the generated activity
+        /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
+        
+        // Check 1: Check there is a title
+        if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
             guard let _ = activity.title else {
                 preconditionFailure("Activity cannot be indexed for search without a title set")
             }
         }
-        
-        if let url = context.input.appLink {
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
-        }
-        
-        var activityDebug: String = ""
-        if let _ = context.logs.development?.debug {
-            activityDebug = preparedActivity._detailedDebugDescription
-        }
-        if preparedActivity != activity {
-            context.logs.development?.debug("Registering custom user activity returned by action: \(activityDebug))")
-        } else {
-            context.logs.development?.debug("Setting user activity: \(activityDebug)")
-        }
-        
-        // Keep a reference to the activity
-        currentActivity = preparedActivity
-        preparedActivity.becomeCurrent()
 
-        return completion(.success(closeActionStack: true))
-    }
-
-    static func makeActivityID(forActionName name: String) -> String {
-        return "\(bundleID).\(name.lowerCasedID())"
+        // Check 2: If there are required userInfo keys, make sure there's a value for every key
+        if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
+            let infoKeys = Set(userInfo.keys)
+            let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
+            guard missingKeys.count == 0 else {
+                fatalError("Action \(action.name) supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
+            }
+        }
+        
+        return activity
     }
 }
 
