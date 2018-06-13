@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreSpotlight
 
 /// Actions that can be performed conform to this protocol to define their inputs, presenter and logic.
 ///
