@@ -10,6 +10,7 @@ import Foundation
 import CoreSpotlight
 #if os(macOS)
 import CoreServices
+import Cocoa
 #else
 import MobileCoreServices
 #endif
