@@ -68,6 +68,10 @@ public extension Action {
     static func prepareActivity(_ activity: ActivityBuilder<InputType>) {        
     }
 
+    /// Convenience function for creating an activity for this action with a given input.
+    /// - param url: If specified, will be assumed to be a URL from a URLMapped feature that maps to invoke the action.
+    /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will
+    /// publish activities automatically.
     public static func activity(for input: InputType, withURL url: URL?) -> NSUserActivity? {
         return PublishCurrentActionActivityAction.createActivity(for: self, with: input, appLink: url)
     }

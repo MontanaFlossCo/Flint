@@ -16,10 +16,13 @@ import MobileCoreServices
 
 /// A builder used to set required properties
 public class ActivityBuilder<T> {
+    /// This provides access to the input value for this activity
     public let input: T
 
     private var activity: NSUserActivity
     
+    /// Set this to a title to use in the `NSUserActivity`, shown in
+    /// search results and suggestions.
     public var title: String? {
         get {
             return activity.title
@@ -29,10 +32,13 @@ public class ActivityBuilder<T> {
         }
     }
     
+    /// Set this to a title to use in the `NSUserActivity`, shown in
+    /// search results and suggestions.
     public var subtitle: String?
 
-    private var _keywords: Set<String>?
     /// Lazily created search attributes
+    private var _keywords: Set<String>?
+    /// Set this to optional keywords to use spotlight indexing of this activity
     public var keywords: Set<String> {
         get {
             if _keywords == nil {
@@ -46,18 +52,32 @@ public class ActivityBuilder<T> {
     }
 
 #if os(macOS)
+    /// Set to a thumbnail to show when displaying this activity
     public var thumbnail: NSImage?
 #else
+    /// Set to a thumbnail to show when displaying this activity
     public var thumbnail: UIImage?
 #endif
+    /// Set to thumbnail data to show when displaying this activity
     public var thumbnailData: Data?
+    /// Set to URL pointing at local thumbnail data to show when displaying this activity
     public var thumbnailURL: URL?
+
+    /// Set this to the userInfo keys required to continue the activity later.
+    /// - note: You must specify this if you want Siri prediction to work and you have arguments.
+    /// This is so Siri can learn which variations of the activity your users are performing, e.g. which
+    /// document they are opening.
+    /// - note: If you are using Flint's automatic URLs you can use this to store extra values,
+    /// but any data not included in the URL will not be placed into the Input when continuing your action.
     public var requiredUserInfoKeys: [String] = []
+    
+    /// Set this to the keys and values that the action needs to reconstruct its Input when
+    /// continuing later.
     public var userInfo: [AnyHashable:Any] = [:]
     
     private var _searchAttributes: CSSearchableItemAttributeSet?
     
-    /// Lazily created search attributes
+    /// Lazily created search attributes. Amend these to provide extra search proeprties.
     public var searchAttributes: CSSearchableItemAttributeSet {
         get {
             if _searchAttributes == nil {

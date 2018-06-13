@@ -104,6 +104,8 @@ public protocol Action {
     /// extra information not included in the URL that you wish to include.
     ///
     /// Call `cancel` on the builder to veto publishing the activity at all.
+    ///
+    /// - see: `ActivityBuilder`
     static func prepareActivity(_ activity: ActivityBuilder<InputType>)
 
 }
