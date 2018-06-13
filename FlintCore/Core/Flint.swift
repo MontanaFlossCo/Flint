@@ -298,7 +298,7 @@ final public class Flint {
 #endif
 
 #if canImport(ClassKit)
-                    if #available(iOS 11.4, *) {
+                    if #available(iOS 12, *) {
                         // Check for a ClassKit activity
                         if activity.isClassKitDeepLink {
                             source = .continueActivity(type: .classKit)
