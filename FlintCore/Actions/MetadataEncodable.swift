@@ -37,22 +37,22 @@ public struct Metadata {
 }
 
 public class MetadataBuilder {
-    public private(set) var title: String?
-    public private(set) var subtitle: String?
+    public var title: String?
+    public var subtitle: String?
 
 #if canImport(CoreSpotlight)
     /// Set to a thumbnail to show when displaying this activity
-    public private(set) var thumbnail: FlintImage?
+    public var thumbnail: FlintImage?
     /// Set to thumbnail data to show when displaying this activity
-    public private(set) var thumbnailData: Data?
+    public var thumbnailData: Data?
     /// Set to URL pointing at local thumbnail data to show when displaying this activity
-    public private(set) var thumbnailURL: URL?
+    public var thumbnailURL: URL?
 #endif
 
-    public private(set) var keywords: Set<String>?
+    public var keywords: Set<String>?
 
 #if canImport(CoreSpotlight) && (os(iOS) || os(macOS))
-    public private(set) var searchAttributes: CSSearchableItemAttributeSet?
+    public var searchAttributes: CSSearchableItemAttributeSet?
 #endif
     
     private var metadata = Metadata()
