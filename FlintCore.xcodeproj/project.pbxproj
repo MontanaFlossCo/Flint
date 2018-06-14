@@ -34,6 +34,10 @@
 		4921706120D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
 		4921706220D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
 		4921706320D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
+		4921706520D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
+		4921706620D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
+		4921706720D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
+		4921706820D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
 		4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0820371B15003465E5 /* ContextSpecificLogger.swift */; };
 		4921AC0B20371B83003465E5 /* TopicPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0A20371B83003465E5 /* TopicPath.swift */; };
 		4921AC0D20371D99003465E5 /* TimelineEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921AC0C20371D99003465E5 /* TimelineEntry.swift */; };
@@ -706,6 +710,7 @@
 		4921705320D13B31007D6883 /* ActivityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuilder.swift; sourceTree = "<group>"; };
 		4921705A20D25625007D6883 /* ActivityCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCodable.swift; sourceTree = "<group>"; };
 		4921705F20D25996007D6883 /* MetadataEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataEncodable.swift; sourceTree = "<group>"; };
+		4921706420D27D14007D6883 /* FlintImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintImage.swift; sourceTree = "<group>"; };
 		4921AC0820371B15003465E5 /* ContextSpecificLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextSpecificLogger.swift; sourceTree = "<group>"; };
 		4921AC0A20371B83003465E5 /* TopicPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPath.swift; sourceTree = "<group>"; };
 		4921AC0C20371D99003465E5 /* TimelineEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEntry.swift; sourceTree = "<group>"; };
@@ -1222,6 +1227,7 @@
 				49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */,
 				49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */,
 				49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */,
+				4921706420D27D14007D6883 /* FlintImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1820,6 +1826,7 @@
 				499FE35920BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				49DFB7DF20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DA209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
+				4921706620D27D14007D6883 /* FlintImage.swift in Sources */,
 				49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590C2098A9F70075E7EE /* Platform.swift in Sources */,
@@ -1989,6 +1996,7 @@
 				499FE35A20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				49DFB7E020A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DB209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
+				4921706720D27D14007D6883 /* FlintImage.swift in Sources */,
 				49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				494F59122098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590D2098A9F70075E7EE /* Platform.swift in Sources */,
@@ -2158,6 +2166,7 @@
 				499FE35B20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				494F593B2098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
 				49935BCF206B901800CB2B5D /* ConditionalActionRequest.swift in Sources */,
+				4921706820D27D14007D6883 /* FlintImage.swift in Sources */,
 				496F8F50203EEBA8003AB29B /* ObserverSet.swift in Sources */,
 				496F8F95203EEBBC003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F72203EEBB2003AB29B /* Timeline.swift in Sources */,
@@ -2320,6 +2329,7 @@
 				499FE35820BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */,
 				496136B12099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
+				4921706520D27D14007D6883 /* FlintImage.swift in Sources */,
 				493572D41FC9D284003AD465 /* FeatureGroup.swift in Sources */,
 				49C9C37A1FFD317800E4D500 /* TopicPath+Extensions.swift in Sources */,
 				498F97642077824200209633 /* FocusSelection.swift in Sources */,
