@@ -12,22 +12,22 @@ import CoreSpotlight
 #endif
 
 public struct Metadata {
-    public private(set) var title: String?
-    public private(set) var subtitle: String?
+    public internal(set) var title: String?
+    public internal(set) var subtitle: String?
 
 #if canImport(CoreSpotlight)
     /// Set to a thumbnail to show when displaying this activity
-    public private(set) var thumbnail: FlintImage?
+    public internal(set) var thumbnail: FlintImage?
     /// Set to thumbnail data to show when displaying this activity
-    public private(set) var thumbnailData: Data?
+    public internal(set) var thumbnailData: Data?
     /// Set to URL pointing at local thumbnail data to show when displaying this activity
-    public private(set) var thumbnailURL: URL?
+    public internal(set) var thumbnailURL: URL?
 #endif
 
-    public private(set) var keywords: Set<String>?
+    public internal(set) var keywords: Set<String>?
 
 #if canImport(CoreSpotlight) && (os(iOS) || os(macOS))
-    public private(set) var searchAttributes: CSSearchableItemAttributeSet?
+    public internal(set) var searchAttributes: CSSearchableItemAttributeSet?
 #endif
 
     public static func build(_ block: (_ builder: MetadataBuilder) -> ()) -> Metadata {
@@ -37,22 +37,73 @@ public struct Metadata {
 }
 
 public class MetadataBuilder {
-    public var title: String?
-    public var subtitle: String?
+    public var title: String? {
+        get {
+            return metadata.title
+        }
+        set {
+            metadata.title = newValue
+        }
+    }
+    public var subtitle: String? {
+        get {
+            return metadata.subtitle
+        }
+        set {
+            metadata.subtitle = newValue
+        }
+    }
 
 #if canImport(CoreSpotlight)
     /// Set to a thumbnail to show when displaying this activity
-    public var thumbnail: FlintImage?
+    public var thumbnail: FlintImage? {
+        get {
+            return metadata.thumbnail
+        }
+        set {
+            metadata.thumbnail = newValue
+        }
+    }
+    
     /// Set to thumbnail data to show when displaying this activity
-    public var thumbnailData: Data?
+    public var thumbnailData: Data? {
+        get {
+            return metadata.thumbnailData
+        }
+        set {
+            metadata.thumbnailData = newValue
+        }
+    }
+    
     /// Set to URL pointing at local thumbnail data to show when displaying this activity
-    public var thumbnailURL: URL?
+    public var thumbnailURL: URL? {
+        get {
+            return metadata.thumbnailURL
+        }
+        set {
+            metadata.thumbnailURL = newValue
+        }
+    }
 #endif
 
-    public var keywords: Set<String>?
+    public var keywords: Set<String>? {
+        get {
+            return metadata.keywords
+        }
+        set {
+            metadata.keywords = newValue
+        }
+    }
 
 #if canImport(CoreSpotlight) && (os(iOS) || os(macOS))
-    public var searchAttributes: CSSearchableItemAttributeSet?
+    public var searchAttributes: CSSearchableItemAttributeSet? {
+        get {
+            return metadata.searchAttributes
+        }
+        set {
+            metadata.searchAttributes = newValue
+        }
+    }
 #endif
     
     private var metadata = Metadata()
