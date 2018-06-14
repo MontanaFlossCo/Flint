@@ -24,7 +24,7 @@ import MobileCoreServices
 public class ActivityBuilder<T> {
     /// This provides access to the input value for this activity
     public let input: T
-    public private(set) var metadata: Metadata?
+    public private(set) var metadata: ActivityMetadata?
 
     private var activity: NSUserActivity
     
@@ -140,7 +140,7 @@ public class ActivityBuilder<T> {
     func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
     
         // Check for inputs that describe themselves by conforming to MetadataRepresentable
-        if let metadataInput = input as? MetadataRepresentable {
+        if let metadataInput = input as? ActivityMetadataRepresentable {
             let metadata = metadataInput.metadata 
             self.metadata = metadata
             title = metadata.title

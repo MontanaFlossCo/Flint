@@ -1,5 +1,5 @@
 //
-//  MetadataEncodable.swift
+//  ActivityMetadataBuilder.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 14/06/2018.
@@ -11,32 +11,11 @@ import Foundation
 import CoreSpotlight
 #endif
 
-public struct Metadata {
-    public internal(set) var title: String?
-    public internal(set) var subtitle: String?
-
-#if canImport(CoreSpotlight)
-    /// Set to a thumbnail to show when displaying this activity
-    public internal(set) var thumbnail: FlintImage?
-    /// Set to thumbnail data to show when displaying this activity
-    public internal(set) var thumbnailData: Data?
-    /// Set to URL pointing at local thumbnail data to show when displaying this activity
-    public internal(set) var thumbnailURL: URL?
-#endif
-
-    public internal(set) var keywords: Set<String>?
-
-#if canImport(CoreSpotlight) && (os(iOS) || os(macOS))
-    public internal(set) var searchAttributes: CSSearchableItemAttributeSet?
-#endif
-
-    public static func build(_ block: (_ builder: MetadataBuilder) -> ()) -> Metadata {
-        let builder = MetadataBuilder()
-        return builder.build(block)
-    }
-}
-
-public class MetadataBuilder {
+/// This is a builder for creating Metadata instances without requiring a mutable type or ugly initializer permutation.
+///
+/// - see: `ActivityMetadata.build` for the function that creates this builder.
+public class ActivityMetadataBuilder {
+    /// Set to a title representing this item, such as a document file name or title.
     public var title: String? {
         get {
             return metadata.title
@@ -45,6 +24,8 @@ public class MetadataBuilder {
             metadata.title = newValue
         }
     }
+
+    /// Set to a subtitle representing this item, such as a document summary.
     public var subtitle: String? {
         get {
             return metadata.subtitle
@@ -86,6 +67,7 @@ public class MetadataBuilder {
     }
 #endif
 
+    /// Set any keywords that apply to this input's activity
     public var keywords: Set<String>? {
         get {
             return metadata.keywords
@@ -96,6 +78,9 @@ public class MetadataBuilder {
     }
 
 #if canImport(CoreSpotlight) && (os(iOS) || os(macOS))
+    /// Set to any specific searchAttributes you wish to define.
+    /// - note: `subtitle` is used to set `contentDescription`, so you only need to use this to define other
+    /// Spotlight attributes such as `contentCreationDate` or `kind`.
     public var searchAttributes: CSSearchableItemAttributeSet? {
         get {
             return metadata.searchAttributes
@@ -106,22 +91,11 @@ public class MetadataBuilder {
     }
 #endif
     
-    private var metadata = Metadata()
+    private var metadata = ActivityMetadata()
     
-    func build(_ block: (_ builder: MetadataBuilder) -> ()) -> Metadata {
+    /// Called internally to execute the builder
+    func build(_ block: (_ builder: ActivityMetadataBuilder) -> ()) -> ActivityMetadata {
         block(self)
         return metadata
     }
-}
-
-/// Allow inputs to provide information for user-facing activities and shortcuts
-///
-/// * title
-/// * subtitle
-/// * thumbnail
-/// * keywords
-/// * custom attributes
-/// * addedDate etc.
-public protocol MetadataRepresentable {
-    var metadata: Metadata { get }
 }

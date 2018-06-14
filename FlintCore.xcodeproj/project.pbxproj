@@ -30,10 +30,6 @@
 		4921705C20D25625007D6883 /* ActivityCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705A20D25625007D6883 /* ActivityCodable.swift */; };
 		4921705D20D25625007D6883 /* ActivityCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705A20D25625007D6883 /* ActivityCodable.swift */; };
 		4921705E20D25625007D6883 /* ActivityCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705A20D25625007D6883 /* ActivityCodable.swift */; };
-		4921706020D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
-		4921706120D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
-		4921706220D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
-		4921706320D25996007D6883 /* MetadataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705F20D25996007D6883 /* MetadataEncodable.swift */; };
 		4921706520D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
 		4921706620D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
 		4921706720D27D14007D6883 /* FlintImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921706420D27D14007D6883 /* FlintImage.swift */; };
@@ -623,6 +619,18 @@
 		49F37A47209B2C2000B27671 /* FeatureConstraintsEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */; };
 		49F37A48209B2C2100B27671 /* FeatureConstraintsEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */; };
 		49F37A49209B2C2200B27671 /* FeatureConstraintsEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */; };
+		49F6823A20D2BEF100B02318 /* ActivityMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823920D2BEF100B02318 /* ActivityMetadata.swift */; };
+		49F6823B20D2BEF100B02318 /* ActivityMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823920D2BEF100B02318 /* ActivityMetadata.swift */; };
+		49F6823C20D2BEF100B02318 /* ActivityMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823920D2BEF100B02318 /* ActivityMetadata.swift */; };
+		49F6823D20D2BEF100B02318 /* ActivityMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823920D2BEF100B02318 /* ActivityMetadata.swift */; };
+		49F6823F20D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */; };
+		49F6824020D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */; };
+		49F6824120D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */; };
+		49F6824220D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */; };
+		49F6824420D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */; };
+		49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */; };
+		49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */; };
+		49F6824720D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */; };
 		49FC45F620A46E5E00679F97 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
 		49FC45F820A46E6C00679F97 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */; };
 		49FC45FB20A46F0900679F97 /* URLRoutingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927FEE7208A362E00163576 /* URLRoutingResult.swift */; };
@@ -709,7 +717,6 @@
 		4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPurchaseValidator.swift; sourceTree = "<group>"; };
 		4921705320D13B31007D6883 /* ActivityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuilder.swift; sourceTree = "<group>"; };
 		4921705A20D25625007D6883 /* ActivityCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCodable.swift; sourceTree = "<group>"; };
-		4921705F20D25996007D6883 /* MetadataEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataEncodable.swift; sourceTree = "<group>"; };
 		4921706420D27D14007D6883 /* FlintImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintImage.swift; sourceTree = "<group>"; };
 		4921AC0820371B15003465E5 /* ContextSpecificLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextSpecificLogger.swift; sourceTree = "<group>"; };
 		4921AC0A20371B83003465E5 /* TopicPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPath.swift; sourceTree = "<group>"; };
@@ -894,6 +901,9 @@
 		49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintsBuilderTests.swift; sourceTree = "<group>"; };
 		49F37A3A209B2AC200B27671 /* PlatformConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformConstraint.swift; sourceTree = "<group>"; };
 		49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintsEvaluation.swift; sourceTree = "<group>"; };
+		49F6823920D2BEF100B02318 /* ActivityMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityMetadata.swift; sourceTree = "<group>"; };
+		49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityMetadataBuilder.swift; sourceTree = "<group>"; };
+		49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityMetadataRepresentable.swift; sourceTree = "<group>"; };
 		49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/tvOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/Mac/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/watchOS/ZIPFoundation.framework; sourceTree = "<group>"; };
@@ -1092,6 +1102,10 @@
 				4927FEFF208A542700163576 /* PublishActivityRequest.swift */,
 				4927FF04208A556E00163576 /* ActivityEligibility.swift */,
 				4921705320D13B31007D6883 /* ActivityBuilder.swift */,
+				4921705A20D25625007D6883 /* ActivityCodable.swift */,
+				49F6823920D2BEF100B02318 /* ActivityMetadata.swift */,
+				49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */,
+				49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */,
 			);
 			path = Activities;
 			sourceTree = "<group>";
@@ -1200,8 +1214,6 @@
 				49F2CF251FF7EB78004F16EF /* NoInput.swift */,
 				49F2CF211FF7B56B004F16EF /* NoPresenter.swift */,
 				49819EB91FC9C2310013AF55 /* StaticActionBinding.swift */,
-				4921705A20D25625007D6883 /* ActivityCodable.swift */,
-				4921705F20D25996007D6883 /* MetadataEncodable.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -1767,6 +1779,7 @@
 				494F59482098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FC5203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
+				49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FCD203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				494F593E2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -1793,7 +1806,6 @@
 				4980004D20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC74205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FD5203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
-				4921706120D25996007D6883 /* MetadataEncodable.swift in Sources */,
 				494C27A420C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
@@ -1836,6 +1848,7 @@
 				4980005720B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				49935BF0206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				496F8F88203EEBBA003AB29B /* StoreKitPurchaseTracker.swift in Sources */,
+				49F6824020D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
 				496136DF2099028F00291885 /* LocationUsage.swift in Sources */,
 				496F8F87203EEBBA003AB29B /* DefaultAvailabilityChecker.swift in Sources */,
 				496F8FB0203EEBD3003AB29B /* URLMappingsBuilder.swift in Sources */,
@@ -1870,6 +1883,7 @@
 				498F97652077824200209633 /* FocusSelection.swift in Sources */,
 				496F8F86203EEBBA003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4B20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
+				49F6823B20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4921705520D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				496F8FAA203EEBD3003AB29B /* ActionURLMappings.swift in Sources */,
 				49FC460720A4793600679F97 /* FocusFeature.swift in Sources */,
@@ -1937,6 +1951,7 @@
 				494F59492098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
+				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FE2203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				494F593F2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -1963,7 +1978,6 @@
 				4980004E20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC75205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FEA203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
-				4921706220D25996007D6883 /* MetadataEncodable.swift in Sources */,
 				494C27A520C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D12099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49DFB7CC20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
@@ -2006,6 +2020,7 @@
 				4980005820B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				49935BF1206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				496F8F91203EEBBB003AB29B /* StoreKitPurchaseTracker.swift in Sources */,
+				49F6824120D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
 				496136E02099028F00291885 /* LocationUsage.swift in Sources */,
 				496F8F90203EEBBB003AB29B /* DefaultAvailabilityChecker.swift in Sources */,
 				496F8FB8203EEBD4003AB29B /* URLMappingsBuilder.swift in Sources */,
@@ -2040,6 +2055,7 @@
 				498F97662077824200209633 /* FocusSelection.swift in Sources */,
 				496F8F8F203EEBBB003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4C20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
+				49F6823C20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4921705620D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				496F8FB2203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
 				49FC460820A4793700679F97 /* FocusFeature.swift in Sources */,
@@ -2107,6 +2123,7 @@
 				494F59182098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498F97672077824200209633 /* FocusSelection.swift in Sources */,
 				49DFB7C820A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
+				49F6824720D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
@@ -2133,7 +2150,6 @@
 				4980004F20B32CF100D68321 /* URLPattern.swift in Sources */,
 				496F8F94203EEBBC003AB29B /* ConditionalActionBinding.swift in Sources */,
 				49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */,
-				4921706320D25996007D6883 /* MetadataEncodable.swift in Sources */,
 				494C27A620C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136DC2099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				496136D72099015900291885 /* LocationPermissionAdapter.swift in Sources */,
@@ -2176,6 +2192,7 @@
 				4980005920B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				496F8FBC203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
 				496F8F49203EEB0F003AB29B /* String+Extensions.swift in Sources */,
+				49F6824220D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
 				49BC1C4820795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				49298244205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				49DFB7D720A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
@@ -2210,6 +2227,7 @@
 				49FC460920A4793800679F97 /* FocusFeature.swift in Sources */,
 				496F8FF9203EEBDB003AB29B /* FlintFeatures.swift in Sources */,
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
+				49F6823D20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4921705720D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				4956D5DD209897AB002A2A35 /* PurchaseTrackerObserver.swift in Sources */,
 				496F8FA7203EEBCF003AB29B /* ActivitiesFeature.swift in Sources */,
@@ -2270,6 +2288,7 @@
 				4921AC0B20371B83003465E5 /* TopicPath.swift in Sources */,
 				4946FAC5208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				498F97692077832F00209633 /* DefaultFocusSelection.swift in Sources */,
+				49F6824420D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				495B6C70202BC9280024CDFB /* Flint.swift in Sources */,
 				49DB926020757D9500F758DC /* AnalyticsProvider.swift in Sources */,
 				49CCF0CD1F8BB24000F7020E /* ActionSession.swift in Sources */,
@@ -2296,7 +2315,6 @@
 				4980004C20B32CF100D68321 /* URLPattern.swift in Sources */,
 				496136D42099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				494F59422098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
-				4921706020D25996007D6883 /* MetadataEncodable.swift in Sources */,
 				494C27A320C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				49298237205ED11900267A49 /* FeatureMetadata.swift in Sources */,
 				496136D92099017400291885 /* DefaultPermissionChecker.swift in Sources */,
@@ -2339,6 +2357,7 @@
 				4980005620B3621200D68321 /* URLExecutionContext.swift in Sources */,
 				49A999FA1FF7FA6700A64E8C /* AnalyticsReporting.swift in Sources */,
 				4976923B201F3CBE00F97BD5 /* URLMappingsBuilder.swift in Sources */,
+				49F6823F20D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
 				496136C5209900E200291885 /* CameraPermissionAdapter.swift in Sources */,
 				495FD9FE200363290007A427 /* FeaturePath.swift in Sources */,
 				49647D372037434B005F9825 /* StoreKitPurchaseTracker.swift in Sources */,
@@ -2373,6 +2392,7 @@
 				496136DE2099028F00291885 /* LocationUsage.swift in Sources */,
 				49769247201F3DD700F97BD5 /* PresentationRouter.swift in Sources */,
 				4927FF05208A556E00163576 /* ActivityEligibility.swift in Sources */,
+				49F6823A20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				494F59382098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
 				499F94EF1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift in Sources */,
