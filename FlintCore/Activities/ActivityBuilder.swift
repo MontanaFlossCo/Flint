@@ -24,6 +24,7 @@ import MobileCoreServices
 public class ActivityBuilder<T> {
     /// This provides access to the input value for this activity
     public let input: T
+    public private(set) var metadata: Metadata?
 
     private var activity: NSUserActivity
     
@@ -103,9 +104,31 @@ public class ActivityBuilder<T> {
 
     private var cancelled: Bool = false
     
-    init(baseActivity: NSUserActivity, input: T) {
-        activity = baseActivity
+    init(activityID: String, activityTypes: Set<ActivityEligibility>, appLink: URL?, input: T) {
         self.input = input
+
+        activity = NSUserActivity(activityType: activityID)
+
+        activity.isEligibleForSearch = activityTypes.contains(.search)
+        activity.isEligibleForHandoff = activityTypes.contains(.handoff)
+        activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
+
+// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+// require raising the language level to Swift 4.2 in the target.
+#if canImport(Network) && (os(iOS) || os(watchOS))
+        if #available(iOS 12, watchOS 5, *) {
+            activity.isEligibleForPrediction = activityTypes.contains(.prediction)
+            // Force search eligibility as this is required for prediction too
+            if activity.isEligibleForPrediction {
+                activity.isEligibleForSearch = true
+            }
+        }
+#endif
+        
+        // Put in the auto link, if set and part of a URLMapped feature
+        if let url = appLink {
+            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+        }
     }
     
     /// Call to cancel the activity and not have anything published
@@ -115,6 +138,38 @@ public class ActivityBuilder<T> {
     
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
     func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
+    
+        // Check for inputs that describe themselves by conforming to MetadataRepresentable
+        if let metadataInput = input as? MetadataRepresentable {
+            let metadata = metadataInput.metadata 
+            self.metadata = metadata
+            title = metadata.title
+            subtitle = metadata.subtitle
+            if let keywords = metadata.keywords {
+                self.keywords = keywords
+            }
+
+#if canImport(CoreSpotlight)
+#if os(iOS) || os(macOS)
+            thumbnail = metadata.thumbnail
+            thumbnailURL = metadata.thumbnailURL
+            thumbnailData = metadata.thumbnailData
+
+            if let searchAttributes = metadata.searchAttributes {
+                _searchAttributes = searchAttributes
+            }
+#endif
+#endif
+        }
+    
+        // Check for inputs that can be coded to and from userInfo by conforming to ActivityCodable
+        if let codableInput = input as? ActivityCodable {
+            if let userInfo = codableInput.encodeForActivity() {
+                activity.addUserInfoEntries(from: userInfo)
+            }
+            activity.requiredUserInfoKeys = codableInput.requiredUserInfoKeys
+        }
+    
         block(self)
         
         guard !cancelled else {
@@ -150,7 +205,28 @@ public class ActivityBuilder<T> {
             activity.keywords = keywords
         }
 
+        /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
+        applySanityChecks(to: activity)
 
         return builtActivity
+    }
+    
+    // Apply sanity checks to a generated activity
+    func applySanityChecks(to activity: NSUserActivity) {
+        // Check 1: Check there is a title
+        if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
+            guard let _ = activity.title else {
+                preconditionFailure("Activity cannot be indexed for search without a title set")
+            }
+        }
+
+        // Check 2: If there are required userInfo keys, make sure there's a value for every key
+        if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
+            let infoKeys = Set(userInfo.keys)
+            let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
+            guard missingKeys.count == 0 else {
+                fatalError("Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
+            }
+        }
     }
 }

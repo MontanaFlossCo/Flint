@@ -69,63 +69,11 @@ final class PublishCurrentActionActivityAction: Action {
                      "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
                      "The ID `\(activityID)` is not there.")
 
-        var activity = NSUserActivity(activityType: activityID)
-
-        activity.isEligibleForSearch = activityTypes.contains(.search)
-        activity.isEligibleForHandoff = activityTypes.contains(.handoff)
-        activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
-
-// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
-// require raising the language level to Swift 4.2 in the target.
-#if canImport(Network) && (os(iOS) || os(watchOS))
-        if #available(iOS 12, watchOS 5, *) {
-            activity.isEligibleForPrediction = activityTypes.contains(.prediction)
-            // Force search eligibility as this is required for prediction too
-            if activity.isEligibleForPrediction {
-                activity.isEligibleForSearch = true
-            }
-        }
-#endif
-        
-        // Put in the auto link, if set and part of a URLMapped feature
-        if let url = appLink {
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
-        }
-        
-        // If the action provides some extra data, use this. Note that the prepareFunction has already been
-        // essentially "curried" to capture the original `input` of the action being published.
-        // The action can veto publishing this activity by returning nil.
-        
-        // Introduce a new scope to prevent accidentaly use of the wrong activity instance
-        do {
-
-            let builder = ActivityBuilder(baseActivity: activity, input: input)
-            let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
-            guard let preparedActivity = builder.build(function) else {
-                return nil
-            }
-            activity = preparedActivity
-        }
-
-        // Apply sanity checks to the generated activity
-        /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
-        
-        // Check 1: Check there is a title
-        if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
-            guard let _ = activity.title else {
-                preconditionFailure("Activity cannot be indexed for search without a title set")
-            }
-        }
-
-        // Check 2: If there are required userInfo keys, make sure there's a value for every key
-        if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
-            let infoKeys = Set(userInfo.keys)
-            let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
-            guard missingKeys.count == 0 else {
-                fatalError("Action \(action.name) supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
-            }
-        }
-        
+        // The action can populate or veto publishing this activity by cancelling the builder passed in.
+        // Introduce a new scope to prevent accidentally use of the wrong activity instance
+        let builder = ActivityBuilder(activityID: activityID, activityTypes: activityTypes, appLink: appLink, input: input)
+        let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
+        let activity = builder.build(function)
         return activity
     }
 }
