@@ -77,8 +77,8 @@ final public class PerformIncomingURLAction: Action {
         }
 
         context.logs.development?.debug("Finding action executor for scope: \(foundScope), path \(foundPath)")
+        
         if let executionContext = ActionURLMappings.instance.actionExecutionContext(for: foundPath, in: foundScope) {
-            
             var queryParameters = [String:String]()
             // Copy over the query parameters
             if let queryItems = urlComponents.queryItems {

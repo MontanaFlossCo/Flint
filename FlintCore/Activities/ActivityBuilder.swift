@@ -103,6 +103,8 @@ public class ActivityBuilder<T> {
 #endif
 
     private var cancelled: Bool = false
+    private let appLink: URL?
+    private var shouldWarnAutoContinueWillFail: Bool = true
     
     init(activityID: String, activityTypes: Set<ActivityEligibility>, appLink: URL?, input: T) {
         self.input = input
@@ -124,11 +126,7 @@ public class ActivityBuilder<T> {
             }
         }
 #endif
-        
-        // Put in the auto link, if set and part of a URLMapped feature
-        if let url = appLink {
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
-        }
+        self.appLink = appLink
     }
     
     /// Call to cancel the activity and not have anything published
@@ -136,9 +134,14 @@ public class ActivityBuilder<T> {
         cancelled = true
     }
     
+    public func bypassFlintContinueActivity() {
+        shouldWarnAutoContinueWillFail = false
+    }
+    
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
     func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
-    
+        shouldWarnAutoContinueWillFail = true
+        
         // Check for inputs that describe themselves by conforming to MetadataRepresentable
         if let metadataInput = input as? ActivityMetadataRepresentable {
             let metadata = metadataInput.metadata 
@@ -162,15 +165,25 @@ public class ActivityBuilder<T> {
 #endif
         }
     
+        shouldWarnAutoContinueWillFail = true
         // Check for inputs that can be coded to and from userInfo by conforming to ActivityCodable
         if let codableInput = input as? ActivityCodable {
             if let userInfo = codableInput.encodeForActivity() {
                 activity.addUserInfoEntries(from: userInfo)
             }
             activity.requiredUserInfoKeys = codableInput.requiredUserInfoKeys
+            shouldWarnAutoContinueWillFail = false
+        } else if let url = appLink {
+            // Put in the auto link, if set and part of a URLMapped feature
+            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+            shouldWarnAutoContinueWillFail = false
         }
     
         block(self)
+        
+        guard !shouldWarnAutoContinueWillFail else {
+            fatalError("Flint will not be able to perform the action for this activity. Activity has no URL mapping and the action input is not ActivityCodable. Add a URL mapping or make the input conform to ActivityCodable, or call bypassFlintContinueActivity() if you have custom handling of the incoming activity.")
+        }
         
         guard !cancelled else {
             return nil

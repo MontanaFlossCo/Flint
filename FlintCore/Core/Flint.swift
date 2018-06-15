@@ -159,19 +159,21 @@ final public class Flint {
             _constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
         }
 
-        let builder = ActionsBuilder(feature: feature)
+        let builder = ActionsBuilder(feature: feature, activityMappings: ActionActivityMappings.instance)
+        
+        // Allow the feature to prepare its action declarations
         feature.prepare(actions: builder)
 
         _registerUrlMappings(feature: feature)
     }
-
+    
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
     /// Only call this if you have not passed this group to `setup` or `quickSetup`.
     public static func register(_ group: FeatureGroup.Type) {
         FlintInternal.logger?.debug("Preparing feature group: \(group)")
         createMetadata(for: group)
         _registerUrlMappings(feature: group)
-
+        
         // Allow them all to prepare actions
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
@@ -206,13 +208,14 @@ final public class Flint {
     private static func checkRequiredActivityTypes(features: [FeatureDefinition.Type]) {
         let declaredActivityTypes = Set(FlintAppInfo.activityTypes)
         
+        /// !!! TODO: Change this to use metadata stored in ActionActivityMappings.instance
         for feature in features {
             guard let featureMetadata = metadata(for: feature) else {
                 preconditionFailure("We must have metadata for \(feature) by now")
             }
             for action in featureMetadata.actions {
                 if action.activityTypes.count > 0 {
-                    let activityID = PublishCurrentActionActivityAction.makeActivityID(forActionName: action.name)
+                    let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
                     if !declaredActivityTypes.contains(activityID) {
                         FlintInternal.logger?.warning("🚑 Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
                     }

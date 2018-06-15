@@ -33,8 +33,6 @@ final class PublishCurrentActionActivityAction: Action {
         }
     }
 
-    static let bundleID = Bundle.main.bundleIdentifier!
-
     static func perform(with context: ActionContext<InputType>, using presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
         if let activity = context.input.activityCreator() {
             var activityDebug: String = ""
@@ -49,32 +47,6 @@ final class PublishCurrentActionActivityAction: Action {
         }
         
         return completion(.success(closeActionStack: true))
-    }
-
-    static func makeActivityID(forActionName name: String) -> String {
-        return "\(bundleID).\(name.lowerCasedID())"
-    }
-    
-    /// A helper function for creating an `NSUserActivity` for an action with a given inputt
-    public static func createActivity<ActionType>(for action: ActionType.Type, with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
-        let activityTypes = action.activityTypes
-        guard activityTypes.count > 0 else {
-            return nil
-        }
-        
-        // These are the basic activity requirements
-        /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = makeActivityID(forActionName: action.name)
-        precondition(FlintAppInfo.activityTypes.contains(activityID),
-                     "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
-                     "The ID `\(activityID)` is not there.")
-
-        // The action can populate or veto publishing this activity by cancelling the builder passed in.
-        // Introduce a new scope to prevent accidentally use of the wrong activity instance
-        let builder = ActivityBuilder(activityID: activityID, activityTypes: activityTypes, appLink: appLink, input: input)
-        let function: (ActivityBuilder<ActionType.InputType>) -> Void = action.prepareActivity
-        let activity = builder.build(function)
-        return activity
     }
 }
 

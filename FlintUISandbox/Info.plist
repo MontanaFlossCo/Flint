@@ -34,7 +34,7 @@
 	<string>Speech permission testing</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>tools.flint.FlintUISandbox.do-something-fake</string>
+		<string>tools.flint.FlintUISandbox.fakefeature1.do-something-fake</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

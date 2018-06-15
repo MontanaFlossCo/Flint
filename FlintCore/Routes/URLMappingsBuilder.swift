@@ -23,8 +23,11 @@ public class URLMappingsBuilder {
 
         let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
+      
             if let state = ActionType.InputType.init(from: queryParams, mapping: mapping) {
+
                 let presentationRouterResult = presentationRouter.presentation(for: actionBinding, with: state)
+
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with state \(state)")
                 switch presentationRouterResult {
                     case .appReady(let presenter):
@@ -34,6 +37,7 @@ public class URLMappingsBuilder {
                     case .appCancelled, .userCancelled, .appPerformed:
                     break
                 }
+
             } else {
                 preconditionFailure("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
             }
@@ -63,7 +67,7 @@ public class URLMappingsBuilder {
                 switch result {
                     case .appReady(let presenter):
                         if let request = actionBinding.request() {
-                            ActionSession.main.perform(request, using: presenter, with: state, userInitiated: true, source: source)
+                            request.perform(using: presenter, with: state, userInitiated: true, source: source)
                         }
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
