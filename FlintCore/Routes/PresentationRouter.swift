@@ -45,7 +45,7 @@ public protocol PresentationRouter {
     /// - return: The outcome of the presentation routing.
     /// - see: `PresentationResult<PresenterType>`
     func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>, with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType>
-
+    
     /// Called to obtain the presenter, if possible, for the conditional action binding provided.
     /// - return: The outcome of the presentation routing.
     /// - see: `PresentationResult<PresenterType>`

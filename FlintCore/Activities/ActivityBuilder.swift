@@ -24,6 +24,7 @@ import MobileCoreServices
 public class ActivityBuilder<T> {
     /// This provides access to the input value for this activity
     public let input: T
+    public private(set) var metadata: ActivityMetadata?
 
     private var activity: NSUserActivity
     
@@ -102,10 +103,30 @@ public class ActivityBuilder<T> {
 #endif
 
     private var cancelled: Bool = false
+    private let appLink: URL?
+    private var shouldWarnAutoContinueWillFail: Bool = true
     
-    init(baseActivity: NSUserActivity, input: T) {
-        activity = baseActivity
+    init(activityID: String, activityTypes: Set<ActivityEligibility>, appLink: URL?, input: T) {
         self.input = input
+
+        activity = NSUserActivity(activityType: activityID)
+
+        activity.isEligibleForSearch = activityTypes.contains(.search)
+        activity.isEligibleForHandoff = activityTypes.contains(.handoff)
+        activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
+
+// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+// require raising the language level to Swift 4.2 in the target.
+#if canImport(Network) && (os(iOS) || os(watchOS))
+        if #available(iOS 12, watchOS 5, *) {
+            activity.isEligibleForPrediction = activityTypes.contains(.prediction)
+            // Force search eligibility as this is required for prediction too
+            if activity.isEligibleForPrediction {
+                activity.isEligibleForSearch = true
+            }
+        }
+#endif
+        self.appLink = appLink
     }
     
     /// Call to cancel the activity and not have anything published
@@ -113,9 +134,65 @@ public class ActivityBuilder<T> {
         cancelled = true
     }
     
+    /// Call to indicate that your activity configuration created with the builder will not require Flint's ability
+    /// to auto-continue activities received from the system.
+    ///
+    /// If your action's feature has a URL mapping for the action, or the action's input type conforms to `ActivitytCodable`,
+    /// your application delegate can just all `Flint.continueActivity` to automatically dispatch incoming activities.
+    ///
+    /// If neither of those is the case, you must use your own logic in your app delegate to establish what action
+    /// needs to be performed. If this is want you want, you must call this function to stop Flint applying footgun
+    /// defences that will terminate your app with a warning.
+    public func bypassFlintContinueActivity() {
+        shouldWarnAutoContinueWillFail = false
+    }
+    
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
     func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
+        shouldWarnAutoContinueWillFail = true
+        
+        // Check for inputs that describe themselves by conforming to MetadataRepresentable
+        if let metadataInput = input as? ActivityMetadataRepresentable {
+            let metadata = metadataInput.metadata 
+            self.metadata = metadata
+            title = metadata.title
+            subtitle = metadata.subtitle
+            if let keywords = metadata.keywords {
+                self.keywords = keywords
+            }
+
+#if canImport(CoreSpotlight)
+#if os(iOS) || os(macOS)
+            thumbnail = metadata.thumbnail
+            thumbnailURL = metadata.thumbnailURL
+            thumbnailData = metadata.thumbnailData
+
+            if let searchAttributes = metadata.searchAttributes {
+                _searchAttributes = searchAttributes
+            }
+#endif
+#endif
+        }
+    
+        shouldWarnAutoContinueWillFail = true
+        // Check for inputs that can be coded to and from userInfo by conforming to ActivityCodable
+        if let codableInput = input as? ActivityCodable {
+            if let userInfo = codableInput.encodeForActivity() {
+                activity.addUserInfoEntries(from: userInfo)
+            }
+            activity.requiredUserInfoKeys = codableInput.requiredUserInfoKeys
+            shouldWarnAutoContinueWillFail = false
+        } else if let url = appLink {
+            // Put in the auto link, if set and part of a URLMapped feature
+            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+            shouldWarnAutoContinueWillFail = false
+        }
+    
         block(self)
+        
+        guard !shouldWarnAutoContinueWillFail else {
+            fatalError("Flint will not be able to perform the action for this activity. Activity has no URL mapping and the action input is not ActivityCodable. Add a URL mapping or make the input conform to ActivityCodable, or call bypassFlintContinueActivity() if you have custom handling of the incoming activity.")
+        }
         
         guard !cancelled else {
             return nil
@@ -150,7 +227,28 @@ public class ActivityBuilder<T> {
             activity.keywords = keywords
         }
 
+        /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
+        applySanityChecks(to: activity)
 
         return builtActivity
+    }
+    
+    // Apply sanity checks to a generated activity
+    func applySanityChecks(to activity: NSUserActivity) {
+        // Check 1: Check there is a title
+        if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
+            guard let _ = activity.title else {
+                preconditionFailure("Activity cannot be indexed for search without a title set")
+            }
+        }
+
+        // Check 2: If there are required userInfo keys, make sure there's a value for every key
+        if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
+            let infoKeys = Set(userInfo.keys)
+            let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
+            guard missingKeys.count == 0 else {
+                fatalError("Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
+            }
+        }
     }
 }

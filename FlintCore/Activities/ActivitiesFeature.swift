@@ -24,10 +24,12 @@ public final class ActivitiesFeature: ConditionalFeature {
 
     static var publishCurrentActionActivity = action(PublishCurrentActionActivityAction.self)
     static var handleActivity = action(HandleActivityAction.self)
-    
+    static var performIncomingActivity = action(PerformIncomingActivityAction.self)
+
     public static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(handleActivity)
         actions.declare(publishCurrentActionActivity)
+        actions.declare(performIncomingActivity)
         
         if isAvailable == true {
             // Implements Auto-Activities
