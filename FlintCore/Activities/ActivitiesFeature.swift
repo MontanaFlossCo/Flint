@@ -29,6 +29,7 @@ public final class ActivitiesFeature: ConditionalFeature {
     public static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(handleActivity)
         actions.declare(publishCurrentActionActivity)
+        actions.declare(performIncomingActivity)
         
         if isAvailable == true {
             // Implements Auto-Activities

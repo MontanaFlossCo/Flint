@@ -134,6 +134,15 @@ public class ActivityBuilder<T> {
         cancelled = true
     }
     
+    /// Call to indicate that your activity configuration created with the builder will not require Flint's ability
+    /// to auto-continue activities received from the system.
+    ///
+    /// If your action's feature has a URL mapping for the action, or the action's input type conforms to `ActivitytCodable`,
+    /// your application delegate can just all `Flint.continueActivity` to automatically dispatch incoming activities.
+    ///
+    /// If neither of those is the case, you must use your own logic in your app delegate to establish what action
+    /// needs to be performed. If this is want you want, you must call this function to stop Flint applying footgun
+    /// defences that will terminate your app with a warning.
     public func bypassFlintContinueActivity() {
         shouldWarnAutoContinueWillFail = false
     }
