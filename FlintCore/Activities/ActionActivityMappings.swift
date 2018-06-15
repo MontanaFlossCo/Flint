@@ -82,6 +82,7 @@ class ActionActivityMappings {
     }
 
     private func addMapping(for activityID: String, to actionName: String, executor: @escaping ActivityExecutor) {
+        FlintInternal.logger?.debug("Adding activity mapping for \(activityID) to \(actionName)")
         executorsByActivityID[activityID] = executor
     }
     

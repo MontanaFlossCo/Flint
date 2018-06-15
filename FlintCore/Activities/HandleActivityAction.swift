@@ -22,23 +22,35 @@ final class HandleActivityAction: Action {
         if let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL {
             context.logs.development?.debug("Auto URL found: \(autoURL)")
             if let request = RoutesFeature.request(RoutesFeature.performIncomingURL) {
+                var result: ActionPerformOutcome = .failure(error: nil, closeActionStack: true)
                 request.perform(using: presenter, with: autoURL, userInitiated: true, source: context.source) { outcome in
                     context.logs.development?.debug("Auto URL perform completed: \(outcome)")
+                    if case .success = outcome {
+                        result = .success(closeActionStack: true)
+                    } else {
+                        result = .success(closeActionStack: true)
+                    }
                 }
-                return completion(.success(closeActionStack: true))
+                completion(result)
             } else {
-                context.logs.development?.error("Cannot perform automatic activity URL handling as Deep Linking feature is disabled")
-                return completion(.failure(error: nil, closeActionStack: true))
+                context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
+                completion(.failure(error: nil, closeActionStack: true))
             }
         } else {
             if let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) {
+                var result: ActionPerformOutcome = .failure(error: nil, closeActionStack: true)
                 request.perform(using: presenter, with: context.input, userInitiated: true, source: context.source) { outcome in
                     context.logs.development?.debug("userInfo perform completed: \(outcome)")
+                    if case .success = outcome {
+                        result = .success(closeActionStack: true)
+                    } else {
+                        result = .success(closeActionStack: true)
+                    }
                 }
-                return completion(.success(closeActionStack: true))
+                completion(result)
             } else {
-                context.logs.development?.error("Cannot perform automatic activity URL handling as Deep Linking feature is disabled")
-                return completion(.failure(error: nil, closeActionStack: true))
+                context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
+                completion(.failure(error: nil, closeActionStack: true))
             }
         }
     }
