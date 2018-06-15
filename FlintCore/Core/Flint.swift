@@ -315,12 +315,12 @@ final public class Flint {
             }
             
             ActionSession.main.perform(request, using: presentationRouter, with: activity, userInitiated: true, source: source) { outcome in
-                FlintInternal.logger?.debug("Activity auto URL result: \(outcome)")
+                FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
             }
             /// !!! TODO: How to get blocking completion?
             guard let outcome = performOutcome else {
-                preconditionFailure("Perform URL unexpectedly happened asynchronously")
+                preconditionFailure("Action's perform unexpectedly happened asynchronously")
             }
             switch outcome {
                 case .success:
