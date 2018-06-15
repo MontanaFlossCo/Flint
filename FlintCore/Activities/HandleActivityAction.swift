@@ -38,8 +38,8 @@ final class HandleActivityAction: Action {
                     context.logs.development?.debug("Auto URL perform completed: \(outcome)")
                     if case .success = outcome {
                         result = .success(closeActionStack: true)
-                    } else {
-                        result = .success(closeActionStack: true)
+                    } else if case .failure(let error) = outcome {
+                        result = .failure(error: error, closeActionStack: true)
                     }
                 }
                 completion(result)
@@ -54,7 +54,7 @@ final class HandleActivityAction: Action {
                     context.logs.development?.debug("userInfo perform completed: \(outcome)")
                     if case .success = outcome {
                         result = .success(closeActionStack: true)
-                    } else case .failure(let error) {
+                    } else if case .failure(let error) = outcome {
                         result = .failure(error: error, closeActionStack: true)
                     }
                 }
