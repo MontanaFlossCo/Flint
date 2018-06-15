@@ -32,7 +32,7 @@ final class FakeFeature: ConditionalFeature {
     
     static var description = "A fake feature"
     
-    static let action1 = action(DoSomethingFakeAction.self)
+    static let action1: ConditionalActionBinding<FakeFeature, DoSomethingFakeAction> = action(DoSomethingFakeAction.self)
     
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .info, initialProductionLogLevel: .info)
+        Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .debug, initialProductionLogLevel: .info)
         Flint.register(FlintUIFeatures.self)
         
         // Spit out a fake action every few seconds
@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
             if let request = FocusFeature.request(FocusFeature.resetFocus) {
-                request.perform(with: .none)
+                request.perform()
             }
         }
         

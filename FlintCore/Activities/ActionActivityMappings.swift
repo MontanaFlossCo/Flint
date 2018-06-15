@@ -88,6 +88,11 @@ class ActionActivityMappings {
     
     /// Adds a mapping from an `activityType` ID to a feature/action binding.
     func registerActivity<FeatureType, ActionType>(for binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        guard ActionType.activityTypes.count > 0 else {
+            FlintInternal.logger?.debug("Not registering activity for \(ActionType.self), no activity types set.")
+            return
+        }
+
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
 
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
@@ -124,6 +129,11 @@ class ActionActivityMappings {
 
     /// Adds a mapping from an `activityType` ID to a conditional feature/action binding.
     func registerActivity<FeatureType, ActionType>(for binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        guard ActionType.activityTypes.count > 0 else {
+            FlintInternal.logger?.debug("Not registering activity for \(ActionType.self), no activity types set.")
+            return
+        }
+        
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
 
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
