@@ -185,6 +185,7 @@ public class ActivityBuilder<T> {
         } else if let url = appLink {
             // Put in the auto link, if set and part of a URLMapped feature
             activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
+            activity.requiredUserInfoKeys = [ActivitiesFeature.autoURLUserInfoKey]
             shouldWarnAutoContinueWillFail = false
         }
     
