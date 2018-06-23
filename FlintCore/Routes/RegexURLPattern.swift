@@ -46,8 +46,8 @@ public class RegexURLPattern: URLPattern {
     let formatPattern: String?
 
     init(urlPattern: String) {
-        precondition(!urlPattern.isEmpty, "URL patterns must not be empty")
-        precondition(urlPattern.hasPrefix("/"), "URL patterns must start with /")
+        flintUsageAssert(!urlPattern.isEmpty, "URL patterns must not be empty")
+        flintUsageAssert(urlPattern.hasPrefix("/"), "URL patterns must start with /")
 
         self.urlPattern = urlPattern
         
@@ -99,7 +99,7 @@ public class RegexURLPattern: URLPattern {
                 // Keep it as-is for re-linking later
                 formatPatternString!.append("/\(component)")
             } else if component == "**" {
-                precondition(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
+                flintUsageAssert(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
 
                 // Match ** for "all the remaining path suffix"
                 regexPatternString.append("/.*")
@@ -142,7 +142,7 @@ public class RegexURLPattern: URLPattern {
         let matches = regexPattern.matches(in: path, options: [], range: NSRange(location: 0, length: path.utf16.count))
         if matches.count > 0 {
             var params: [String:String] = [:]
-            precondition(matches.count == 1, "URL pattern matching error, number of URL pattern matches can only be 1")
+            flintBug(matches.count == 1, "URL pattern matching error, number of URL pattern matches can only be 1")
             guard let match = matches.first else {
                 preconditionFailure("URL pattern matching error, no match")
             }

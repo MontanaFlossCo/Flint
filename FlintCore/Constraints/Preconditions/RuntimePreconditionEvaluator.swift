@@ -12,7 +12,7 @@ import Foundation
 public class RuntimePreconditionEvaluator: FeaturePreconditionConstraintEvaluator {
     public func isFulfilled(_ precondition: FeaturePreconditionConstraint, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
         guard case .runtimeEnabled = precondition else {
-            fatalError("Incorrect precondition type '\(precondition)' passed to runtime evaluator")
+            flintBug("Incorrect precondition type '\(precondition)' passed to runtime evaluator")
         }
 
         return feature.isEnabled

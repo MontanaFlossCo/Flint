@@ -57,7 +57,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     
     required init(permission: SystemPermissionConstraint) {
         guard case let .contacts(entityType) = permission else {
-            preconditionFailure("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
+            flintBug("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
         }
 #if canImport(Contacts)
         switch entityType {

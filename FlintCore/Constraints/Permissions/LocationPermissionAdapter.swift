@@ -47,7 +47,7 @@ import CoreLocation
     
     required init(permission: SystemPermissionConstraint) {
         guard case let .location(usage) = permission else {
-            preconditionFailure("Cannot use LocationPermissionAdapter with \(permission)")
+            flintBug("Cannot use LocationPermissionAdapter with \(permission)")
         }
 
 #if !os(iOS)

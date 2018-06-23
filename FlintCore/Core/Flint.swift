@@ -119,7 +119,7 @@ final public class Flint {
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
                                   initialProductionLogLevel: LoggerLevel = .info, briefLogging: Bool = true) {
-        precondition(!isSetup, "Setup has already been called")
+        flintUsageAssert(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
         FlintAppInfo.associatedDomains.append(contentsOf: domains)
@@ -140,7 +140,7 @@ final public class Flint {
     ///
     /// Use this only if you have manually configured your logging and action sessions.
     public static func setup(_ group: FeatureGroup.Type) {
-        precondition(!isSetup, "Setup has already been called")
+        flintUsageAssert(!isSetup, "Setup has already been called")
         commonSetup()
         register(group)
     }
@@ -430,13 +430,13 @@ extension Flint {
     }
     
     static func requiresSetup() {
-        precondition(isSetup, "🚑 Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
+        flintAdvisoryAssert(isSetup, "🚑 Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
     }
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
         metadataAccessQueue.sync {
             guard let _ = metadata(for: feature) else {
-                preconditionFailure("prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
+                flintUsageAssert("prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
             }
         }
     }
