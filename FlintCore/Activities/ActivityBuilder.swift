@@ -21,9 +21,9 @@ import MobileCoreServices
 #endif
 
 /// A builder used to set required properties
-public class ActivityBuilder<T> {
+public class ActivityBuilder<ActionType> where ActionType: Action {
     /// This provides access to the input value for this activity
-    public let input: T
+    public let input: ActionType.InputType
     public private(set) var metadata: ActivityMetadata?
 
     private var activity: NSUserActivity
@@ -45,7 +45,7 @@ public class ActivityBuilder<T> {
 
     /// Lazily created search attributes
     private var _keywords: Set<String>?
-    /// Set this to optional keywords to use spotlight indexing of this activity
+    /// Set this to optional keywords to use spotlight indexing of this activity by key words
     public var keywords: Set<String> {
         get {
             if _keywords == nil {
@@ -102,28 +102,42 @@ public class ActivityBuilder<T> {
 #endif
 #endif
 
+#if canImport(Network) && (os(iOS) || os(watchOS))
+    @available(iOS 12, watchOS 5, *)
+    public var suggestedInvocationPhrase: String? {
+        get {
+            return activity.suggestedInvocationPhrase
+        }
+        set {
+            activity.suggestedInvocationPhrase = newValue
+        }
+    }
+#endif
+
     private var cancelled: Bool = false
     private let appLink: URL?
     private var canAutoContinueActivity: Bool = true
     
-    init(activityID: String, activityTypes: Set<ActivityEligibility>, appLink: URL?, input: T) {
+    init(activityID: String, action: ActionType.Type, input: ActionType.InputType, appLink: URL?) {
         self.input = input
 
         activity = NSUserActivity(activityType: activityID)
 
-        activity.isEligibleForSearch = activityTypes.contains(.search)
-        activity.isEligibleForHandoff = activityTypes.contains(.handoff)
-        activity.isEligibleForPublicIndexing = activityTypes.contains(.publicIndexing)
+        activity.isEligibleForSearch = action.activityTypes.contains(.search)
+        activity.isEligibleForHandoff = action.activityTypes.contains(.handoff)
+        activity.isEligibleForPublicIndexing = action.activityTypes.contains(.publicIndexing)
 
 // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
 // require raising the language level to Swift 4.2 in the target.
 #if canImport(Network) && (os(iOS) || os(watchOS))
         if #available(iOS 12, watchOS 5, *) {
-            activity.isEligibleForPrediction = activityTypes.contains(.prediction)
+            activity.isEligibleForPrediction = action.activityTypes.contains(.prediction)
             // Force search eligibility as this is required for prediction too
             if activity.isEligibleForPrediction {
                 activity.isEligibleForSearch = true
             }
+
+            activity.suggestedInvocationPhrase = action.suggestedInvocationPhrase
         }
 #endif
         self.appLink = appLink

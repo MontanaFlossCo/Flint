@@ -56,9 +56,16 @@ extension NSUserActivity {
         result.append("Title: \(String(describing: title)), ")
         result.append("UserInfo: \(String(reflecting: userInfo)), ")
         result.append("Keywords: \(keywords), ")
-        result.append("Search? \(isEligibleForSearch), ")
-        result.append("Handoff? \(isEligibleForHandoff), ")
-        result.append("Public indexing? \(isEligibleForPublicIndexing)")
+        result.append("Search: \(isEligibleForSearch), ")
+        result.append("Handoff: \(isEligibleForHandoff), ")
+        result.append("Public indexing: \(isEligibleForPublicIndexing)")
+#if os(iOS)
+#if canImport(Network)
+        if #available(iOS 12, *) {
+            result.append("Prediction: \(isEligibleForPrediction)")
+        }
+#endif
+#endif
 #if os(iOS) || os(macOS)
         result.append(", Search attributes: \(String(reflecting: contentAttributeSet))")
 #endif

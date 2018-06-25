@@ -65,6 +65,12 @@ public extension Action {
     /// The default behaviour is to return the input activity unchanged.
     ///
     /// Provide your own implementation if you need to customize the `NSUserActivity` for an Action.
-    static func prepareActivity(_ activity: ActivityBuilder<InputType>) {        
+    static func prepareActivity(_ activity: ActivityBuilder<Self>) {        
+    }
+
+    // MARK: Siri integrations
+    
+    static var suggestedInvocationPhrase: String? {
+        return nil
     }
 }
