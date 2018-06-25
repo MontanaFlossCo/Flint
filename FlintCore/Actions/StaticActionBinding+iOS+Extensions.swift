@@ -23,10 +23,33 @@ extension StaticActionBinding {
             fatalError("No NSUserActivity was created for \(self)")
         }
         let shortcut = INShortcut(userActivity: activity)
-        let viewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
-        presenter.present(viewController, animated: true)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
     }
 #endif
 
 }
 
+@available(iOS 12, *)
+@objc private class AddVoiceShortcutCoordinator: NSObject, INUIAddVoiceShortcutViewControllerDelegate {
+    static let shared = AddVoiceShortcutCoordinator()
+    
+    var addVoiceShortcutViewController: INUIAddVoiceShortcutViewController?
+    
+    func show(for shortcut: INShortcut, with presenter: UIViewController) {
+        let addVoiceShortcutViewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
+        addVoiceShortcutViewController.delegate = self
+        presenter.present(addVoiceShortcutViewController, animated: true)
+        self.addVoiceShortcutViewController = addVoiceShortcutViewController
+    }
+
+    func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
+        controller.presentingViewController?.dismiss(animated: true, completion: nil)
+        addVoiceShortcutViewController = nil
+    }
+    
+    func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
+        controller.presentingViewController?.dismiss(animated: true, completion: nil)
+        addVoiceShortcutViewController = nil
+    }
+    
+}
