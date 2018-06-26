@@ -1,4 +1,4 @@
-<img src="./logo-dark-on-white.svg" width="300" alt="Flint framework logo">
+<img src="./logo-dark-on-white.svg" width="230" alt="Flint framework logo">
 
 ![carthage compatible](https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat)
 ![swift 4.1](https://img.shields.io/badge/swift-4.1-4BC51D.svg?style=flat)
