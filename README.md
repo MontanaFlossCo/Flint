@@ -1,9 +1,9 @@
 <img src="./logo-dark-on-white.svg" width="230" alt="Flint framework logo">
 
-![carthage compatible](https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat)
-![swift 4.1](https://img.shields.io/badge/swift-4.1-4BC51D.svg?style=flat)
-![xcode 9.3](https://img.shields.io/badge/Xcode-9.3-4BC51D.svg?style=flat)
-![platforms iOS, macOS, tvOS, watchOS](https://img.shields.io/badge/platforms-iOS%2C%20tvOS%2C%20macOS%2C%20watchOS-4BC51D.svg)
+![carthage compatible](https://img.shields.io/badge/carthage-compatible-83FB95.svg?style=flat)
+![swift 4.1](https://img.shields.io/badge/swift-4.1-83FB95.svg?style=flat)
+![xcode 9.3](https://img.shields.io/badge/Xcode-9.3-83FB95.svg?style=flat)
+![platforms iOS, macOS, tvOS, watchOS](https://img.shields.io/badge/platforms-iOS%2C%20tvOS%2C%20macOS%2C%20watchOS-83FB95.svg)
 
 [![build status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
