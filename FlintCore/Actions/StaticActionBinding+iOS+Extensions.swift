@@ -14,9 +14,10 @@ import IntentsUI
 #endif
 #endif
 
+// Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
+#if canImport(Network) && os(iOS)
 extension StaticActionBinding {
 
-#if os(iOS)
     @available(iOS 12, *)
     public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
         guard let activity = ActionActivityMappings.createActivity(for: self, with: input, appLink: nil) else {
@@ -25,8 +26,6 @@ extension StaticActionBinding {
         let shortcut = INShortcut(userActivity: activity)
         AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
     }
-#endif
-
 }
 
 @available(iOS 12, *)
@@ -53,3 +52,4 @@ extension StaticActionBinding {
     }
     
 }
+#endif
