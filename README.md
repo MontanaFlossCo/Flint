@@ -14,49 +14,74 @@ Flint is a framework that helps you deal with all this easily, leaving you and y
 
 We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
 
-📖 [View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation)
-\
+📖 [View the documentation](https://flint.tools/manual/)
+
 🔬 [View the FlintDemo-iOS sample project](https://github.com/MontanaFlossCo/FlintDemo-iOS)
-\
+
 💬 [Join the FlintCore Slack](https://join.slack.com/t/flintcore/shared_invite/enQtMzUwOTU4NTU0OTYwLWMxYTNiOTNjNmVkOTM3ZDgwNzZiNzJiNmE2NWUyMzUzMjg3ZTg4YjNmMjdhYmZkYTlmYmI2ZDQ5NjU0ZmQ3ZjU)
 
-Here are some quick usage examples.
+## The basics
 
-## Supporting features that require purchases, permissions or other "toggling"
-
-Because Flint uses feature driven development, we can easily mark individual features of our apps as being conditionally available, at the place that makes sense — where the feature is defined in the app.
-
-All you do is make your `Feature` conform to `ConditionalFeature` and implement the `constraints` function to indicate what kind of constraints apply to that feature.
+**Features** in Flint conform to the `Feature` protocol:
 
 ```swift
-final class DocumentSharingFeature: ConditionalFeature {
-    static var description: String = "Sharing of documents"
-    
-    static func constraints(requirements: FeatureConstraintsBuilder) {
-        // Platform version minimum requirements for this feature
-        requirements.iOS = 10
-        requirements.maOS = "10.12"
-        
-        // Require location access
-        requirements.permission(.location(usage: .always))
-        
-        // Require an in-app purchase and a runtime test of the `isEnabled` flag
-        requirements.precondition(.purchase(PurchaseRequirement(premiumProduct)))
-        requirements.precondition(.runtimeEvaluated)
-    }
-    
-    // 💥 Return whether or not this feature is enabled
-    static var isEnabled: Bool? = true
-    
-    static let share = action(DocumentShareAction.self)
-    
+class DocumentManagementFeature: Feature {
+    static let description = "Create, Open and Save documents"
+
+    static let openDocument = action(DocumentOpenAction.self)
+
     static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(share)
+        actions.declare(openDocument)
+    }
+ }
+```
+
+**Actions** are high level tasks the user can perform with your app, like "Open a document", "Close a document", "Share a document". Actions are types conforming to `Action` that are declared on features as in the above example, taking an `input` and a `presenter` that are types you define:
+
+```swift
+final class DocumentOpenAction: Action {
+    typealias InputType = DocumentRef
+    typealias PresenterType = DocumentPresenter
+
+    static var description = "Open a document"
+    
+    static func perform(with context: ActionContext<DocumentRef>,
+                        using presenter: DocumentPresenter,
+                        completion: @escaping ((ActionPerformOutcome) -> ())) {
+        presenter.openDocument(context.input)
+        completion(.success(closeActionStack: false))
     }
 }
 ```
 
-In the above feature, you can return `false`  from `isEnabled` to disable all actions related to sharing. Flint takes care of the verification of permissions and purchases, with clean APIs for requesting authorisation of all the unauthorised permissions a single feature needs, with full support for custom UI that guides the user through the process.
+Once you define actions, Flint can observe when your code performs any high level tasks. This unlocks many [behaviours](link) like automatic `NSUserActivity` and Siri integration. When you perform these actions, the framework observes what is happening, and magical things can happen, including automatic `NSUserActivity` support for Handoff, Spotlight and Siri Suggestions, analytics tracking and improved debug logging.
+
+However, because Flint also knows how to **invoke your actions** for a given input, it can handle all the different app entry points for you too, including app or deep-linking URLs and continued activities including Handoff, Spotlight, Siri Suggestions. [Read more in the Features & Actions guide](https://flint.tools/manual/guides/features_and_actions).
+
+What about features that require in-app purchases or certain system permissions? **Conditional Features** support constraints. These can include platforms, OS versions, system permissions, in-app purchases and more. Thanks to Swift your code can’t perform actions of conditional features unless you also handle the case where the feature is not currently available.
+
+```swift
+let premiumSubscription = Product(name: "💎 Premium Subscription",
+                                  description: "Unlock the Selfietron!",
+                                  productID: "SUB0001")
+
+public class SelfieFeature: ConditionalFeature {
+    public static var description: String = "Selfie Posting"
+
+    public static func constraints(requirements: FeatureConstraintsBuilder) {
+      requirements.userToggled(defaultValue: true)
+      requirements.runtimeEnabled()
+      requirements.purchase(PurchaseRequirement(premiumSubscription))
+      requirements.permissions(.camera,
+                               .photos,
+                               .location(usage: .whenInUse))
+    }
+
+    ...
+}
+```
+
+Features that require multiple permissions or one of many purchase options are easily accommodated, and Flint will [help you build a first class permissions onboarding](https://flint.tools/manual/guides/conditional_features) UI to maximise the number of users that can use your feature.
 
 When you need to perform an action from a conditional feature, you are forced to first check if the feature is available and handle the case where it is not:
 
@@ -70,7 +95,7 @@ if let request = DocumentSharingFeature.share.request() {
 
 This makes your code cleaner and safer. Everybody on the team can see which code is internally feature-flagged or requires a purchase, and which permissions your app requires.
 
-See the [programming guide for Conditional Features](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/guides/conditional_features.md) for more details.
+See the [programming guide for Conditional Features](https://flint.tools/manual/guides/conditional_features.md) for more details.
 
 ## Handling URLs
 
@@ -112,7 +137,7 @@ UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: conf
 
 If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 
 
-See the [programming guide for Routes](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/guides/routes.md) for more details.
+See the [programming guide for Routes](https://flint.tools/manual/guides/routes.md) for more details.
 
 ## Automatic Handoff and Siri Suggestions support
 
@@ -140,7 +165,7 @@ This is all you have to do, aside from add `NSUserActivityTypes` to your `Info.p
 
 You can of course customise the attributes of the `NSUserActivity` if you want to, by defining a `prepare(activity:for:)` function. See the [Activities guide](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/guides/activities.md).
 
-See the [programming guide for Activities](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/guides/activities.md) for more details.
+See the [programming guide for Activities](https://flint.tools/manual/guides/activities.md) for more details.
 
 ## Track analytics events when users do things
 
@@ -166,7 +191,7 @@ final class DocumentOpenAction: Action {
 
 Of course you can customise the dictionary of data passed to the Analytics provider by defining an `analyticsAttributes()` function.
 
-See the [programming guide for Analytics](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/guides/analytics.md) for more details.
+See the [programming guide for Analytics](https://flint.tools/manual/guides/analytics.md) for more details.
 
 ## Getting started
 
@@ -188,7 +213,7 @@ All this is just the tip of the iceberg. Flint has so much more to offer and thr
 
 If you want to see a sample project that uses Flint, there is the  [FlintDemo-iOS][] project here on Github. You can browse that to get an idea of how a real app might use Flint.
 
-[View the 1.0 documentation](https://github.com/MontanaFlossCo/Flint-Documentation/blob/master/index.md)
+[View the documentation](https://flint.tools/manual/)
 
 ## The roadmap to 1.0 final release
 
