@@ -226,9 +226,10 @@ There is of course much left to do! Here is a high level roadmap  of planned wor
 * ✅ Focus feature
 * ✅ Action Stacks feature
 * ✅ Exportable debug reports
+* ✅ Set up CI
 * 👨‍💻 Early-access public API review 
 * 👨‍💻 Implement IAP / Subscription validation
-* 👨‍💻 Implement core unit tests, set up CI
+* 👨‍💻 Implement core unit tests
 * 👨‍💻 Implement Built-in persistent file logger
 * 👨‍💻 Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
 * 👨‍💻 Examples of Mixpanel, Hockey and Fabric integrations
