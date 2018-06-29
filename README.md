@@ -14,6 +14,8 @@ Flint is a framework that helps you deal with all this easily, leaving you and y
 
 We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
 
+🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where author Marc Palmer explains the motivation and ideas behind Flint
+
 📖 [View the documentation](https://github.com/MontanaFlossCo/Flint-Documentation)
 
 🔬 [View the FlintDemo-iOS sample project](https://github.com/MontanaFlossCo/FlintDemo-iOS)
