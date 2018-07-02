@@ -1,4 +1,4 @@
-<img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo">
+<a href="https://flint.tools"><img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo"></a>
 
 ![carthage compatible](https://img.shields.io/badge/carthage-compatible-lightgrey.svg?style=flat)
 ![swift 4.1](https://img.shields.io/badge/swift-4.1-lightgrey.svg?style=flat)
@@ -13,6 +13,8 @@ Building great apps for Apple platforms involves a lot of work; **custom URL sch
 Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
 
 We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
+
+🏠 [flint.tools](https://flint.tools) is the official web site, with guide & API docs and blog
 
 🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where author Marc Palmer explains the motivation and ideas behind Flint
 
