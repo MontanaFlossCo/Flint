@@ -429,7 +429,7 @@ extension Flint {
     }
     
     static func requiresSetup() {
-        flintAdvisoryAssert(isSetup, "🚑 Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
+        flintAdvisoryAssert(isSetup, "Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
     }
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
