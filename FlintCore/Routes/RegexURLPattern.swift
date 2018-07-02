@@ -46,8 +46,8 @@ public class RegexURLPattern: URLPattern {
     let formatPattern: String?
 
     init(urlPattern: String) {
-        precondition(!urlPattern.isEmpty, "URL patterns must not be empty")
-        precondition(urlPattern.hasPrefix("/"), "URL patterns must start with /")
+        flintUsagePrecondition(!urlPattern.isEmpty, "URL patterns must not be empty")
+        flintUsagePrecondition(urlPattern.hasPrefix("/"), "URL patterns must start with /")
 
         self.urlPattern = urlPattern
         
@@ -66,7 +66,7 @@ public class RegexURLPattern: URLPattern {
                     for match in matches {
                         // Hmm, is this utf16?
                         guard let range = Range(match.range(at: 1), in: component) else {
-                            preconditionFailure("Could not convert NSRange \(match.range) to Range")
+                            flintBug("Could not convert NSRange \(match.range) to Range")
                         }
                         let name = component.utf16[range]
                         namedComponents.append(String(name)!)
@@ -99,7 +99,7 @@ public class RegexURLPattern: URLPattern {
                 // Keep it as-is for re-linking later
                 formatPatternString!.append("/\(component)")
             } else if component == "**" {
-                precondition(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
+                flintUsagePrecondition(componentIndex == components.count-1, "The recursive ** wildcard cannot be used here, it is only valid as the last path component. Pattern is: \(urlPattern)")
 
                 // Match ** for "all the remaining path suffix"
                 regexPatternString.append("/.*")
@@ -142,9 +142,9 @@ public class RegexURLPattern: URLPattern {
         let matches = regexPattern.matches(in: path, options: [], range: NSRange(location: 0, length: path.utf16.count))
         if matches.count > 0 {
             var params: [String:String] = [:]
-            precondition(matches.count == 1, "URL pattern matching error, number of URL pattern matches can only be 1")
+            flintBugPrecondition(matches.count == 1, "URL pattern matching error, number of URL pattern matches can only be 1")
             guard let match = matches.first else {
-                preconditionFailure("URL pattern matching error, no match")
+                flintBug("URL pattern matching error, no match")
             }
             
             var nameIndex = 0
@@ -153,7 +153,7 @@ public class RegexURLPattern: URLPattern {
                 for index in 1..<match.numberOfRanges {
                     let matchRange = match.range(at: index)
                     guard let range = Range(matchRange, in: path) else {
-                        preconditionFailure("Could not convert NSRange \(matchRange) to Range")
+                        flintBug("Could not convert NSRange \(matchRange) to Range")
                     }
                     let matchedValue = path.utf16[range]
                     let matchedName = namedComponents[nameIndex]
@@ -169,7 +169,7 @@ public class RegexURLPattern: URLPattern {
     
     public func buildPath(with parameters: [String:String]?) -> String? {
         guard let formatPattern = formatPattern else {
-            preconditionFailure("The format pattern contains a * wildcard, and we cannote create a link to this: \(urlPattern)")
+            flintUsageError("The format pattern contains a * wildcard, and we cannote create a link to this: \(urlPattern)")
         }
         var result: String = formatPattern
         for namedComponent in namedComponents {

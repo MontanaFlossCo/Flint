@@ -47,7 +47,7 @@ import CoreLocation
     
     required init(permission: SystemPermissionConstraint) {
         guard case let .location(usage) = permission else {
-            preconditionFailure("Cannot use LocationPermissionAdapter with \(permission)")
+            flintBug("Cannot use LocationPermissionAdapter with \(permission)")
         }
 
 #if !os(iOS)
@@ -92,10 +92,10 @@ import CoreLocation
                 FlintInternal.logger?.debug("Location permission adapter requesting 'when in use' authorization")
                 locationManager.requestWhenInUseAuthorization()
             default:
-                fatalError("Incorrect permission type: \(permission)")
+                flintBug("Incorrect permission type: \(permission)")
         }
 #else
-        fatalError("Location usage cannot be 'always' on this platform.")
+        flintUsageError("Location usage cannot be 'always' on this platform.")
 #endif
     }
 
@@ -123,13 +123,13 @@ import CoreLocation
                 if case let .location(usage) = permission {
                     return usage == .always ? .authorized : .denied
                 } else {
-                    fatalError("Location adapter has wrong type of permission")
+                    flintBug("Location adapter has wrong type of permission")
                 }
             case .authorizedWhenInUse:
                 if case let .location(usage) = permission {
                     return usage == .whenInUse ? .authorized : .denied
                 } else {
-                    fatalError("Location adapter has wrong type of permission")
+                    flintBug("Location adapter has wrong type of permission")
                 }
         }
     }

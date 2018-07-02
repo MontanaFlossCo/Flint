@@ -77,7 +77,7 @@ public class FocusLogViewController: UITableViewController, FocusLogPresenter {
     public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard indexPath.item < items.count else {
             guard let request = FocusLogDataAccessFeature.request(FocusLogDataAccessFeature.loadMoreResults) else {
-                preconditionFailure("This UI requires that FocusLogFeature is enabled. Set FocusLogFeature.isAvailable = true at startup.")
+                flintUsageError("This UI requires that FocusLogFeature is enabled. Set FocusLogFeature.isAvailable = true at startup.")
             }
             request.perform(using: self, with: 20)
             return nil

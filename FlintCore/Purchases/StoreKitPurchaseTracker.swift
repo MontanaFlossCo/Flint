@@ -40,7 +40,7 @@ public class StoreKitPurchaseTracker: PurchaseTracker {
        
         // 3. Check requirement
         // return requirement.isFulfilled(verifiedPurchasedProducts: products as Set)
-        preconditionFailure("IAP checking is not implemented yet")
+        flintNotImplemented("IAP checking is not implemented yet")
     }
     
 }

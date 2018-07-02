@@ -99,7 +99,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     public func requestAuthorization(for permission: SystemPermissionConstraint,
                                      completion: @escaping (_ permission: SystemPermissionConstraint, _ status: SystemPermissionStatus) -> Void) {
         guard let adapter = getAdapter(for: permission) else {
-            fatalError("No permission adapter for \(permission)")
+            flintBug("No permission adapter for \(permission)")
         }
 
         FlintInternal.logger?.debug("Permission checker requesting authorization for: \(permission)")

@@ -31,7 +31,7 @@ public extension FeatureConstraintsBuilder {
     /// Set this to the minimum iOS version your feature requires
     public var iOS: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .iOS, version: newValue))
@@ -42,7 +42,7 @@ public extension FeatureConstraintsBuilder {
     /// should be set to `.unsupported`
     public var iOSOnly: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .macOS, version: .unsupported))
@@ -55,7 +55,7 @@ public extension FeatureConstraintsBuilder {
     /// Set this to the minimum watchOS version your feature requires
     public var watchOS: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .watchOS, version: newValue))
@@ -66,7 +66,7 @@ public extension FeatureConstraintsBuilder {
     /// should be set to `.unsupported`
     public var watchOSOnly: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .macOS, version: .unsupported))
@@ -79,7 +79,7 @@ public extension FeatureConstraintsBuilder {
     /// Set this to the minimum tvOS version your feature requires
     public var tvOS: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .tvOS, version: newValue))
@@ -90,7 +90,7 @@ public extension FeatureConstraintsBuilder {
     /// should be set to `.unsupported`
     public var tvOSOnly: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .macOS, version: .unsupported))
@@ -103,7 +103,7 @@ public extension FeatureConstraintsBuilder {
     /// Set this to the minimum macOS version your feature requires
     public var macOS: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .macOS, version: newValue))
@@ -114,7 +114,7 @@ public extension FeatureConstraintsBuilder {
     /// should be set to `.unsupported`
     public var macOSOnly: PlatformVersionConstraint {
         get {
-            fatalError("Not supported, you can only assign in this DSL")
+            flintUsageError("Not supported, you can only assign in this DSL")
         }
         set {
             self.platform(.init(platform: .macOS, version: newValue))

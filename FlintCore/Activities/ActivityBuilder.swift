@@ -104,7 +104,7 @@ public class ActivityBuilder<T> {
 
     private var cancelled: Bool = false
     private let appLink: URL?
-    private var shouldWarnAutoContinueWillFail: Bool = true
+    private var canAutoContinueActivity: Bool = true
     
     init(activityID: String, activityTypes: Set<ActivityEligibility>, appLink: URL?, input: T) {
         self.input = input
@@ -144,12 +144,12 @@ public class ActivityBuilder<T> {
     /// needs to be performed. If this is want you want, you must call this function to stop Flint applying footgun
     /// defences that will terminate your app with a warning.
     public func bypassFlintContinueActivity() {
-        shouldWarnAutoContinueWillFail = false
+        canAutoContinueActivity = false
     }
     
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
     func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
-        shouldWarnAutoContinueWillFail = true
+        canAutoContinueActivity = true
         
         // Check for inputs that describe themselves by conforming to MetadataRepresentable
         if let metadataInput = input as? ActivityMetadataRepresentable {
@@ -174,26 +174,24 @@ public class ActivityBuilder<T> {
 #endif
         }
     
-        shouldWarnAutoContinueWillFail = true
+        canAutoContinueActivity = false
         // Check for inputs that can be coded to and from userInfo by conforming to ActivityCodable
         if let codableInput = input as? ActivityCodable {
             if let userInfo = codableInput.encodeForActivity() {
                 activity.addUserInfoEntries(from: userInfo)
             }
             activity.requiredUserInfoKeys = codableInput.requiredUserInfoKeys
-            shouldWarnAutoContinueWillFail = false
+            canAutoContinueActivity = true
         } else if let url = appLink {
             // Put in the auto link, if set and part of a URLMapped feature
             activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
             activity.requiredUserInfoKeys = [ActivitiesFeature.autoURLUserInfoKey]
-            shouldWarnAutoContinueWillFail = false
+            canAutoContinueActivity = true
         }
     
         block(self)
         
-        guard !shouldWarnAutoContinueWillFail else {
-            fatalError("Flint will not be able to perform the action for this activity. Activity has no URL mapping and the action input is not ActivityCodable. Add a URL mapping or make the input conform to ActivityCodable, or call bypassFlintContinueActivity() if you have custom handling of the incoming activity.")
-        }
+        flintAdvisoryPrecondition(canAutoContinueActivity, "Flint will not be able to perform the action for this activity. Activity has no URL mapping and the action input is not ActivityCodable. Add a URL mapping or make the input conform to ActivityCodable, or call bypassFlintContinueActivity() if you have custom handling of the incoming activity.")
         
         guard !cancelled else {
             return nil
@@ -238,18 +236,14 @@ public class ActivityBuilder<T> {
     func applySanityChecks(to activity: NSUserActivity) {
         // Check 1: Check there is a title
         if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
-            guard let _ = activity.title else {
-                preconditionFailure("Activity cannot be indexed for search without a title set")
-            }
+            flintUsagePrecondition(activity.title != nil, "Activity cannot be indexed for search without a title set")
         }
 
         // Check 2: If there are required userInfo keys, make sure there's a value for every key
         if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
             let infoKeys = Set(userInfo.keys)
             let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
-            guard missingKeys.count == 0 else {
-                fatalError("Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
-            }
+            flintUsagePrecondition(missingKeys.count == 0, "Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
         }
     }
 }

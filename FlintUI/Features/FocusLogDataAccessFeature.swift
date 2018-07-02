@@ -65,7 +65,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
         
         public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             guard let focusLogController = presenter.focusLogController else {
-                preconditionFailure("Initial results have not been loaded")
+                flintBug("Initial results have not been loaded")
             }
             focusLogController.loadMore(count: context.input)
             completion(.success(closeActionStack: false))

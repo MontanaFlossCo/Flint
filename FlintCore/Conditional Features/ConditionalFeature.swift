@@ -55,9 +55,9 @@ public extension ConditionalFeature {
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: actionBinding.feature)
-        guard Flint.isDeclared(actionBinding.action, on: actionBinding.feature) else {
-            fatalError("Action \(actionBinding.action) has not been declared on \(actionBinding.feature). Call 'declare' or 'publish' with it in your feature's prepare function.")
-        }
+
+        flintBugPrecondition(Flint.isDeclared(actionBinding.action, on: actionBinding.feature),
+                             "Action \(actionBinding.action) has not been declared on \(actionBinding.feature). Call 'declare' or 'publish' with it in your feature's prepare function.")
 
         /// The action is possible only if this feature is currently available
         guard let available = isAvailable, available == true else {

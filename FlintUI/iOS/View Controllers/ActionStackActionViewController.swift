@@ -20,7 +20,7 @@ class ActionStackActionViewController: UITableViewController {
     var actionStackEntry: ActionStackEntry! {
         didSet {
             guard case let .action(name, source, input) = actionStackEntry.details else {
-                preconditionFailure("This view controller only displays action entries")
+                flintBug("This view controller only displays action entries")
             }
             
             actionDetails = ActionDetails(name: name, source: source, input: input)

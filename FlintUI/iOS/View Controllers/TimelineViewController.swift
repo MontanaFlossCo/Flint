@@ -104,7 +104,7 @@ public class TimelineViewController: UITableViewController, TimelinePresenter {
     public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard indexPath.item < items.count else {
             guard let request = TimelineDataAccessFeature.request(TimelineDataAccessFeature.loadMoreResults) else {
-                preconditionFailure("This UI requires that TimelineFeature is enabled. Set TimelineFeature.isAvailable = true at startup.")
+                flintUsageError("This UI requires that TimelineFeature is enabled. Set TimelineFeature.isAvailable = true at startup.")
             }
             request.perform(using: self, with: 20)
             return nil

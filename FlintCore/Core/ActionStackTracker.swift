@@ -139,7 +139,7 @@ extension ActionStackTracker {
         if let results = try? JSONSerialization.data(withJSONObject: jsonPayload, options: [.prettyPrinted]) {
             data.append(results)
         } else {
-            preconditionFailure("Couldn not generate JSON report")
+            flintBug("Could not generate JSON report")
         }
     }
 }

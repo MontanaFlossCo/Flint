@@ -60,7 +60,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
         
         public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             guard let timelineController = presenter.timelineController else {
-                preconditionFailure("Initial results have not been loaded")
+                flintBug("Initial results have not been loaded")
             }
             timelineController.loadMore(count: context.input)
             completion(.success(closeActionStack: false))
