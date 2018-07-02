@@ -30,7 +30,7 @@ class DefaultAuthorisationController: AuthorisationController {
     }
 
     public func begin(retryHandler: (() -> Void)?) {
-        flintUsageAssert(!cancelled, "Cannot use a cancelled authorisation controller")
+        flintUsagePrecondition(!cancelled, "Cannot use a cancelled authorisation controller")
         
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
@@ -48,14 +48,14 @@ class DefaultAuthorisationController: AuthorisationController {
     }
     
     public func cancel() {
-        flintUsageAssert(!self.cancelled, "Cannot cancel a cancelled authorisation controller")
+        flintUsagePrecondition(!self.cancelled, "Cannot cancel a cancelled authorisation controller")
         complete(cancelled: true)
         cancelled = true
     }
 
     func next() {
         FlintInternal.logger?.debug("Authorisation controller checking next permission, remaining permissions: \(self.sortedPermissionsToAuthorize)")
-        flintUsageAssert(!cancelled, "Cannot use a cancelled authorisation controller")
+        flintUsagePrecondition(!cancelled, "Cannot use a cancelled authorisation controller")
         
         if sortedPermissionsToAuthorize.count > 0 {
             let permission = sortedPermissionsToAuthorize.removeFirst()

@@ -41,7 +41,7 @@ class ActionURLMappings {
     /// The executor captures the original generic Action so that it can be stored here and executed later even though
     /// `Action` has associated types.
     func actionExecutionContext(for path: String, in scope: RouteScope) -> URLExecutionContext? {
-        flintUsageAssert( ![RouteScope.appAny, RouteScope.universalAny].contains(scope),
+        flintUsagePrecondition( ![RouteScope.appAny, RouteScope.universalAny].contains(scope),
                           "Cannot resolve an action executor for non-specific scopes.")
 
         let matchingResult = findMatchingURLPattern(for: path, in: scope)

@@ -64,7 +64,7 @@ class ActionActivityMappings {
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
 
-        flintAdvisoryAssert(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
+        flintAdvisoryPrecondition(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
             "The ID `\(activityID)` is not there.")
 
         // The action can populate or veto publishing this activity by cancelling the builder passed in.

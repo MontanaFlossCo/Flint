@@ -119,7 +119,7 @@ final public class Flint {
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
                                   initialProductionLogLevel: LoggerLevel = .info, briefLogging: Bool = true) {
-        flintUsageAssert(!isSetup, "Setup has already been called")
+        flintUsagePrecondition(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
         FlintAppInfo.associatedDomains.append(contentsOf: domains)
@@ -140,7 +140,7 @@ final public class Flint {
     ///
     /// Use this only if you have manually configured your logging and action sessions.
     public static func setup(_ group: FeatureGroup.Type) {
-        flintUsageAssert(!isSetup, "Setup has already been called")
+        flintUsagePrecondition(!isSetup, "Setup has already been called")
         commonSetup()
         register(group)
     }
@@ -178,7 +178,7 @@ final public class Flint {
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
 
-            flintUsageAssert(existingParent == nil, "Subfeature \(subfeature) of \(group) has already been registered with a parent: \(String(reflecting: existingParent))")
+            flintUsagePrecondition(existingParent == nil, "Subfeature \(subfeature) of \(group) has already been registered with a parent: \(String(reflecting: existingParent))")
             
             // Store the parent automatically
             metadataAccessQueue.sync {
@@ -429,12 +429,12 @@ extension Flint {
     }
     
     static func requiresSetup() {
-        flintAdvisoryAssert(isSetup, "Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
+        flintAdvisoryPrecondition(isSetup, "Flint.setup or Flint.quickSetup has not been called, you must do this at start up.")
     }
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
         metadataAccessQueue.sync {
-            flintUsageAssert( nil != metadata(for: feature), "prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
+            flintUsagePrecondition( nil != metadata(for: feature), "prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
         }
     }
     

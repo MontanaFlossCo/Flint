@@ -31,7 +31,7 @@ public enum PlatformVersionConstraint: Hashable, Equatable, CustomStringConverti
     public init(stringLiteral value: StringLiteralType) {
         let parts = value.split(separator: ".")
 
-        flintUsageAssert((1...3).contains(parts.count), "Platform versions specified as strings must have between one and three parts. This has \(parts.count): \(value)")
+        flintUsagePrecondition((1...3).contains(parts.count), "Platform versions specified as strings must have between one and three parts. This has \(parts.count): \(value)")
 
         let numbers: [Int?] = parts.map { return Int($0) }
         guard numbers.first(where: { $0 == nil }) == nil else {
