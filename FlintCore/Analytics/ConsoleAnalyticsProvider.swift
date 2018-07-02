@@ -16,7 +16,7 @@ public class ConsoleAnalyticsProvider: AnalyticsProvider {
     /// Implement and override this for specific action types to marshal the appropriate analytics keys if required
     public func analyticsEventWillBegin<T>(feature: FeatureDefinition.Type, action: T.Type, context: [String:Any?]?) where T: Action {
         guard let id = action.analyticsID else {
-            fatalError("Analytics events must include and ID")
+            flintBug("Analytics events must include an ID")
         }
         print("📊 Begin event: \(id) with \(context ?? [:])")
     }
@@ -24,7 +24,7 @@ public class ConsoleAnalyticsProvider: AnalyticsProvider {
     /// - note: Surely we'll need to include some kind of result of the action here?
     public func analyticsEventDidEnd<T>(feature: FeatureDefinition.Type, action: T.Type, context: [String:Any?]?, outcome: ActionPerformOutcome) where T: Action {
         guard let id = action.analyticsID else {
-            fatalError("Analytics events must include and ID")
+            flintBug("Analytics events must include an ID")
         }
         print("📊 Completed event: \(id) with \(context ?? [:]), outcome: \(outcome)")
     }

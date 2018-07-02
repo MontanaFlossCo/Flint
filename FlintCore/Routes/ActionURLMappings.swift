@@ -58,7 +58,7 @@ class ActionURLMappings {
                 case .app: wildcardScope = .appAny
                 case .universal: wildcardScope = .universalAny
                 default:
-                    fatalError("Incorrect scope logic")
+                    flintBug("Incorrect URL scope logic")
             }
 
             let matchingResult = findMatchingURLPattern(for: path, in: wildcardScope)

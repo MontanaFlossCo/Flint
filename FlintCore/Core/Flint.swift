@@ -177,9 +177,8 @@ final public class Flint {
         // Allow them all to prepare actions
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
-            guard existingParent == nil else {
-                fatalError("Subfeature \(subfeature) of \(group) has already been registered with a parent: \(String(reflecting: existingParent))")
-            }
+
+            flintUsageAssert(existingParent == nil, "Subfeature \(subfeature) of \(group) has already been registered with a parent: \(String(reflecting: existingParent))")
             
             // Store the parent automatically
             metadataAccessQueue.sync {

@@ -18,7 +18,7 @@ public class PurchasePreconditionEvaluator: FeaturePreconditionConstraintEvaluat
     
     public func isFulfilled(_ precondition: FeaturePreconditionConstraint, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
         guard case let .purchase(requirement) = precondition else {
-            fatalError("Incorrect precondition type '\(precondition)' passed to purchase evaluator")
+            flintBug("Incorrect precondition type '\(precondition)' passed to purchase evaluator")
         }
 
         return requirement.isFulfilled(validator: purchaseTracker)

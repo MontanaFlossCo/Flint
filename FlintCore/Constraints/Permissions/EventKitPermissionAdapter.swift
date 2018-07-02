@@ -59,7 +59,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
             case .calendarEvents: self.entityType = .event
             case .reminders: self.entityType = .reminder
             default:
-                fatalError("Guard failed to protect from incorrect permision type")
+                flintBug("Unsupported EventKit permission type")
         }
 #endif
         self.permission = permission

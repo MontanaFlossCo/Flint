@@ -132,14 +132,14 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
             switch precondition {
                 case .purchase(_):
                     guard let purchaseEvaluator = purchaseEvaluator else {
-                        fatalError("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
+                        flintBug("Feature '\(feature)' has a purchase precondition but there is no purchase evaluator")
                     }
                     evaluator = purchaseEvaluator
                 case .runtimeEnabled:
                     evaluator = runtimeEvaluator
                 case .userToggled(_):
                     guard let userToggleEvaluator = userToggleEvaluator else {
-                        fatalError("Feature '\(feature)' has a user toggling precondition but there is no purchase evaluator")
+                        flintBug("Feature '\(feature)' has a user toggling precondition but there is no purchase evaluator")
                     }
                     evaluator = userToggleEvaluator
             }

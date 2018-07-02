@@ -63,10 +63,9 @@ class ActionActivityMappings {
         // These are the basic activity requirements
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
-        if !FlintAppInfo.activityTypes.contains(activityID) {
-            fatalError("The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
-                "The ID `\(activityID)` is not there.")
-        }
+
+        flintAdvisoryAssert(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
+            "The ID `\(activityID)` is not there.")
 
         // The action can populate or veto publishing this activity by cancelling the builder passed in.
         // Introduce a new scope to prevent accidentally use of the wrong activity instance
@@ -98,7 +97,7 @@ class ActionActivityMappings {
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
-                fatalError("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
+                flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
             }
       
             do {
@@ -116,11 +115,11 @@ class ActionActivityMappings {
                     break
                 }
             } catch ActivityCodableError.missingKeys(let keys) {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self).self, userInfo values are missing for keys: \(keys)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self).self, userInfo values are missing for keys: \(keys)")
             } catch ActivityCodableError.invalidValues(let keys) {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are invalid for keys: \(keys)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are invalid for keys: \(keys)")
             } catch {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self): \(error)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self): \(error)")
             }
         }
 
@@ -139,7 +138,7 @@ class ActionActivityMappings {
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
-                fatalError("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
+                flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
             }
 
             do {
@@ -159,11 +158,11 @@ class ActionActivityMappings {
                     break
                 }
             } catch ActivityCodableError.missingKeys(let keys) {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are missing for keys: \(keys)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are missing for keys: \(keys)")
             } catch ActivityCodableError.invalidValues(let keys) {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are invalid for keys: \(keys)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are invalid for keys: \(keys)")
             } catch {
-                fatalError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self): \(error)")
+                flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self): \(error)")
             }
         }
 

@@ -19,7 +19,7 @@ public class UserTogglePreconditionEvaluator: FeaturePreconditionConstraintEvalu
 
     public func isFulfilled(_ precondition: FeaturePreconditionConstraint, for feature: ConditionalFeatureDefinition.Type) -> Bool? {
         guard case let .userToggled(defaultValue) = precondition else {
-            fatalError("Incorrect precondition type '\(precondition)' passed to user toggle evaluator")
+            flintBug("Incorrect precondition type '\(precondition)' passed to user toggle evaluator")
         }
         
         return userToggles.isEnabled(feature) ?? defaultValue

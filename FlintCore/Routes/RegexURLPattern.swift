@@ -153,7 +153,7 @@ public class RegexURLPattern: URLPattern {
                 for index in 1..<match.numberOfRanges {
                     let matchRange = match.range(at: index)
                     guard let range = Range(matchRange, in: path) else {
-                        preconditionFailure("Could not convert NSRange \(matchRange) to Range")
+                        flintBug("Could not convert NSRange \(matchRange) to Range")
                     }
                     let matchedValue = path.utf16[range]
                     let matchedName = namedComponents[nameIndex]
