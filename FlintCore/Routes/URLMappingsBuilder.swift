@@ -39,7 +39,7 @@ public class URLMappingsBuilder {
                 }
 
             } else {
-                preconditionFailure("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
+                flintUsageError("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
             }
         }
         
@@ -75,7 +75,7 @@ public class URLMappingsBuilder {
                     break
                 }
             } else {
-                preconditionFailure("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
+                flintUsageError("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
             }
         }
 

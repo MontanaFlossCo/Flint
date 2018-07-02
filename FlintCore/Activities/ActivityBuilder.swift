@@ -238,18 +238,14 @@ public class ActivityBuilder<T> {
     func applySanityChecks(to activity: NSUserActivity) {
         // Check 1: Check there is a title
         if activity.isEligibleForSearch || activity.isEligibleForHandoff  {
-            guard let _ = activity.title else {
-                preconditionFailure("Activity cannot be indexed for search without a title set")
-            }
+            flintUsageAssert(activity.title != nil, "Activity cannot be indexed for search without a title set")
         }
 
         // Check 2: If there are required userInfo keys, make sure there's a value for every key
         if let foundRequiredKeys = activity.requiredUserInfoKeys, let userInfo = activity.userInfo {
             let infoKeys = Set(userInfo.keys)
             let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
-            guard missingKeys.count == 0 else {
-                fatalError("Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
-            }
+            flintUsageAssert(missingKeys.count == 0, "Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
         }
     }
 }

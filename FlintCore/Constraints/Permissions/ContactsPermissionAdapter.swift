@@ -59,6 +59,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         guard case let .contacts(entityType) = permission else {
             flintBug("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
         }
+        
 #if canImport(Contacts)
         switch entityType {
             case .contacts: self.entityType = .contacts

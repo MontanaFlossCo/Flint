@@ -46,9 +46,7 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSSpeechRecognitionUsageDescription"
 
     init(permission: SystemPermissionConstraint) {
-        guard permission == .speechRecognition else {
-            preconditionFailure("Cannot use SpeechRecognitionPermissionAdapter with: \(permission)")
-        }
+        flintBugPrecondition(permission == .speechRecognition, "Cannot use SpeechRecognitionPermissionAdapter with: \(permission)")
         self.permission = permission
     }
     

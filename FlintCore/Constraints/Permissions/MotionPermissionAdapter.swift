@@ -47,9 +47,8 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
 #endif
 
     init(permission: SystemPermissionConstraint) {
-        guard permission == .motion else {
-            preconditionFailure("Cannot use MotionPermissionAdapter with: \(permission)")
-        }
+        flintBugPrecondition(permission == .motion, "Cannot use MotionPermissionAdapter with: \(permission)")
+
         self.permission = permission
     }
     

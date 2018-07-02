@@ -31,7 +31,7 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
         var urlComponents = URLComponents()
 
         guard let generatedPath = pattern.buildPath(with: parameters) else {
-            preconditionFailure("Unable to generate link, pattern \(pattern) cannot be used to generate a link from \(String(describing: parameters))")
+            flintUsageError("Unable to generate link, pattern \(pattern) cannot be used to generate a link from \(String(describing: parameters))")
         }
         switch scope {
             case let .app(scheme):

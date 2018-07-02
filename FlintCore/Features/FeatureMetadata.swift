@@ -42,7 +42,7 @@ public class FeatureMetadata: Hashable, Equatable {
         for (actionTypeName, mapping) in mappings.mappings {
             let firstFound = actions.first { return $0.typeName == actionTypeName }
             guard let action = firstFound else {
-                preconditionFailure("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
+                flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
             }
             action.add(mapping)
         }

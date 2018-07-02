@@ -104,14 +104,14 @@ public class FeatureDetailViewController: UITableViewController {
 
     public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionType = Section(rawValue: section) else {
-            preconditionFailure("Invalid section")
+            flintBug("Invalid section")
         }
         return sectionType.description
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = Section(rawValue: section) else {
-            preconditionFailure("Invalid section")
+            flintBug("Invalid section")
         }
         switch sectionType {
             case .properties:
@@ -266,7 +266,7 @@ public class FeatureDetailViewController: UITableViewController {
         }
         
         guard let metadata = Flint.metadata(for: featureToDisplay) else {
-            preconditionFailure("Feature not registered correctly with Flint")
+            flintUsageError("Feature not registered correctly with Flint")
         }
         
         actionItems = metadata.actions
@@ -344,7 +344,7 @@ public class FeatureDetailViewController: UITableViewController {
         var hasActions = false
 
         guard let metadata = Flint.metadata(for: featureType) else {
-            preconditionFailure("Flint features have not been initialised correctly, no metadata for \(featureType)")
+            flintUsageError("Flint features have not been initialised correctly, no metadata for \(featureType)")
         }
         hasActions = metadata.actions.count > 0
 

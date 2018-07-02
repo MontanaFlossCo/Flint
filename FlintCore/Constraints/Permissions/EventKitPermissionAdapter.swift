@@ -52,9 +52,8 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     
     required init(permission: SystemPermissionConstraint) {
         // Deal, with this first as on some platforms we can't even import EventKit
-        guard [.calendarEvents, .reminders].contains(permission) else {
-            flintBug("Cannot create a EventKitPermissionAdapter with permission type \(permission)")
-        }
+        flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
+
 #if canImport(EventKit)
         switch permission {
             case .calendarEvents: self.entityType = .event

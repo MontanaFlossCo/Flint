@@ -41,11 +41,11 @@ public class LinkCreator {
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
-            preconditionFailure("No URL mapping exists for: \(actionBinding)")
+            flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }
         guard let mapping = matchedMapping else {
-            preconditionFailure("No app URL mapping found for: \(actionBinding)")
+            flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         return build(mapping: mapping, with: input)
     }
@@ -55,11 +55,11 @@ public class LinkCreator {
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func appLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
-            preconditionFailure("No URL mapping exists for: \(actionBinding)")
+            flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }
         guard let mapping = matchedMapping else {
-            preconditionFailure("No app URL mapping found for: \(actionBinding)")
+            flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         return build(mapping: mapping, with: input)
     }
@@ -69,11 +69,11 @@ public class LinkCreator {
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func universalLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
-            preconditionFailure("No URL mapping exists for: \(actionBinding)")
+            flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isUniversal }
         guard let mapping = matchedMapping else {
-            preconditionFailure("No app URL mapping found for: \(actionBinding)")
+            flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         return build(mapping: mapping, with: input)
     }
@@ -83,11 +83,11 @@ public class LinkCreator {
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func universalLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
-            preconditionFailure("No URL mapping exists for: \(actionBinding)")
+            flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isUniversal }
         guard let mapping = matchedMapping else {
-            preconditionFailure("No app URL mapping found for: \(actionBinding)")
+            flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         return build(mapping: mapping, with: input)
     }
@@ -99,11 +99,11 @@ public class LinkCreator {
     /// constrain on `T.InputType: QueryParametersEncodable` at a call site that is only constrained on `T: Action`.
     func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with encodableState: RouteParametersEncodable?) -> URL {
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
-            preconditionFailure("No URL mapping exists for: \(actionBinding)")
+            flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }
         guard let mapping = matchedMapping else {
-            preconditionFailure("No app URL mapping found for: \(actionBinding)")
+            flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         let encodedState = encodableState?.encodeAsRouteParameters(for: mapping)
         return build(mapping: mapping, with: encodedState)

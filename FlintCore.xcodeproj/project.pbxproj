@@ -157,10 +157,10 @@
 		494F59482098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */; };
 		494F59492098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */; };
 		494F594A2098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */; };
-		495576DB20D589A4008C1C34 /* Advisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* Advisor.swift */; };
-		495576DC20D589A4008C1C34 /* Advisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* Advisor.swift */; };
-		495576DD20D589A4008C1C34 /* Advisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* Advisor.swift */; };
-		495576DE20D589A4008C1C34 /* Advisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* Advisor.swift */; };
+		495576DB20D589A4008C1C34 /* ErrorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* ErrorFunctions.swift */; };
+		495576DC20D589A4008C1C34 /* ErrorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* ErrorFunctions.swift */; };
+		495576DD20D589A4008C1C34 /* ErrorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* ErrorFunctions.swift */; };
+		495576DE20D589A4008C1C34 /* ErrorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495576DA20D589A4008C1C34 /* ErrorFunctions.swift */; };
 		4956D5D420986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */; };
 		4956D5D520986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */; };
 		4956D5D620986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */; };
@@ -767,7 +767,7 @@
 		494F593C2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTogglePreconditionEvaluator.swift; sourceTree = "<group>"; };
 		494F59412098ABC30075E7EE /* ConstraintsEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsEvaluator.swift; sourceTree = "<group>"; };
 		494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFeatureConstraintsEvaluator.swift; sourceTree = "<group>"; };
-		495576DA20D589A4008C1C34 /* Advisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advisor.swift; sourceTree = "<group>"; };
+		495576DA20D589A4008C1C34 /* ErrorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorFunctions.swift; sourceTree = "<group>"; };
 		4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintsBuilder.swift; sourceTree = "<group>"; };
 		4956D5D8209895C2002A2A35 /* UserFeatureTogglesObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeatureTogglesObserver.swift; sourceTree = "<group>"; };
 		495768B5200E629C00CB2E6F /* LinkCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCreator.swift; sourceTree = "<group>"; };
@@ -1257,7 +1257,7 @@
 				49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */,
 				49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */,
 				4921706420D27D14007D6883 /* FlintImage.swift */,
-				495576DA20D589A4008C1C34 /* Advisor.swift */,
+				495576DA20D589A4008C1C34 /* ErrorFunctions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1845,7 +1845,7 @@
 				496F8F4A203EEBA5003AB29B /* ObserverSet.swift in Sources */,
 				496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F54203EEBB1003AB29B /* Timeline.swift in Sources */,
-				495576DC20D589A4008C1C34 /* Advisor.swift in Sources */,
+				495576DC20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEE2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				49DFB7DA20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				496F8FAC203EEBD3003AB29B /* RouteParametersCodable.swift in Sources */,
@@ -2020,7 +2020,7 @@
 				496F8F4D203EEBA6003AB29B /* ObserverSet.swift in Sources */,
 				496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F63203EEBB2003AB29B /* Timeline.swift in Sources */,
-				495576DD20D589A4008C1C34 /* Advisor.swift in Sources */,
+				495576DD20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				49DFB7DB20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				496F8FB4203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
@@ -2195,7 +2195,7 @@
 				49FC460320A46F3000679F97 /* LogEvent.swift in Sources */,
 				496F8FBE203EEBD4003AB29B /* URLMapping.swift in Sources */,
 				4946FAC8208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
-				495576DE20D589A4008C1C34 /* Advisor.swift in Sources */,
+				495576DE20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				496F8FFE203EEBDB003AB29B /* StaticActionBinding.swift in Sources */,
 				49FC45FD20A46F0A00679F97 /* URLRoutingResult.swift in Sources */,
 				49FC460C20A4795F00679F97 /* PerformIncomingURLAction.swift in Sources */,
@@ -2363,7 +2363,7 @@
 				494F591A2098AA380075E7EE /* FeaturePreconditionConstraint.swift in Sources */,
 				49839CED2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				494F59152098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
-				495576DB20D589A4008C1C34 /* Advisor.swift in Sources */,
+				495576DB20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				4956D5D9209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4927FEEE208A3B6F00163576 /* ActivityType.swift in Sources */,
 				49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */,

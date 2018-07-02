@@ -211,13 +211,13 @@ final public class Flint {
         /// !!! TODO: Change this to use metadata stored in ActionActivityMappings.instance
         for feature in features {
             guard let featureMetadata = metadata(for: feature) else {
-                preconditionFailure("We must have metadata for \(feature) by now")
+                flintBug("We must have metadata for \(feature) by now")
             }
             for action in featureMetadata.actions {
                 if action.activityTypes.count > 0 {
                     let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
                     if !declaredActivityTypes.contains(activityID) {
-                        FlintInternal.logger?.warning("🚑 Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
+                        flintAdvisoryNotice("Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
                     }
                 }
             }
@@ -249,7 +249,7 @@ final public class Flint {
                 performOutcome = outcome
             }
             guard let outcome = performOutcome else {
-                preconditionFailure("Perform URL unexpectedly happened asynchronously")
+                flintUsageError("Perform URL unexpectedly happened asynchronously")
             }
             switch outcome {
                 case .success:
@@ -318,9 +318,9 @@ final public class Flint {
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
             }
-            /// !!! TODO: How to get blocking completion?
+            /// !!! TODO: How to ensure blocking completion?
             guard let outcome = performOutcome else {
-                preconditionFailure("Action's perform unexpectedly happened asynchronously")
+                flintUsageError("Action's perform unexpectedly happened asynchronously")
             }
             switch outcome {
                 case .success:
@@ -363,7 +363,7 @@ final public class Flint {
             let mappings = builder.mappings
             metadataAccessQueue.sync {
                 guard let featureMetadata = metadata(for: feature) else {
-                    preconditionFailure("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                    flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
                 }
                 
                 featureMetadata.setActionURLMappings(mappings)
@@ -435,9 +435,7 @@ extension Flint {
     
     static func requiresPrepared(feature: FeatureDefinition.Type) {
         metadataAccessQueue.sync {
-            guard let _ = metadata(for: feature) else {
-                flintUsageAssert("prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
-            }
+            flintUsageAssert( nil != metadata(for: feature), "prepare() has not been called on \(feature). Did you forget to call Flint.register or forget to add it to its parent's subfeatures list?")
         }
     }
     
@@ -454,7 +452,7 @@ extension Flint {
         // Get the existing FeatureMetadata for the feature
         metadataAccessQueue.sync {
             guard let featureMetadata = metadata(for: feature) else {
-                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+                flintBug("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
             }
             
             featureMetadata.bind(action)
@@ -467,7 +465,7 @@ extension Flint {
         metadataAccessQueue.sync {
             // Get the existing FeatureMetadata for the feature
             guard let featureMetadata = metadata(for: feature) else {
-                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+                flintBug("Cannot publish action \(action) to feature \(feature) because the feature has not been prepared")
             }
             
             featureMetadata.publish(action)
@@ -477,7 +475,7 @@ extension Flint {
     static func isDeclared<T>(_ action: T.Type, on feature: FeatureDefinition.Type) -> Bool where T: Action {
         return metadataAccessQueue.sync {
             guard let featureMetadata = metadata(for: feature) else {
-                preconditionFailure("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+                flintBug("Cannot tell if action \(action) is declared on \(feature) because the feature has not been prepared")
             }
             
             return featureMetadata.hasDeclaredAction(action)
