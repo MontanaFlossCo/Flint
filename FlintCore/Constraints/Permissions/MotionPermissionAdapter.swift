@@ -14,8 +14,7 @@ import CoreMotion
 /// Support: iOS 11+, macOS ⛔️, watchOS 4+, tvOS ⛔️
 class MotionPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
-#if canImport(CoreMotion)
-        
+#if canImport(CoreMotion)        
         return CMMotionActivityManager.isActivityAvailable()
 #else
         return false

@@ -25,6 +25,8 @@ import ClassKit
 /// Failure to do so will usually result in a precondition failure in your app.
 final public class Flint {
 
+    public static var contactStore: FlintContactStore?
+    
     // MARK: Dependencies
     
     /// The default link generator to use when creating automatic links to actions for Activities and so on.

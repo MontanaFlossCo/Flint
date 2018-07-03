@@ -16,6 +16,11 @@ public enum ContactsEntity: Hashable {
     case contacts
 }
 
+public protocol FlintContactStore {
+    static func authorizationStatus(for type: CNEntityType) -> CNAuthorizationStatus
+    func requestAccess(for entityType: CNEntityType, completionHandler: @escaping (Bool, Error?) -> Swift.Void)
+}
+
 /// Checks and authorises access to the Contacts on supported platforms
 ///
 /// Support: iOS 9+, macOS 10.11+, watchOS 2+, tvOS ⛔️
@@ -39,14 +44,19 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
 #if canImport(Contacts)
-    lazy var contactStore: CNContactStore = { CNContactStore() }()
+    lazy var contactStore: FlintContactStore = {
+        guard let store = Flint.contactStore else {
+            fatalError()
+        }
+        return store
+    }()
     let entityType: CNEntityType
 #endif
 
     var status: SystemPermissionStatus {
 #if canImport(Contacts)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(CNContactStore.authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(type(of: contactStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
@@ -81,7 +91,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 #endif
 #else
         completion(self, .unsupported)
-#endif
+        #endif
     }
 
 #if canImport(Contacts)
