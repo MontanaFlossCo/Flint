@@ -39,13 +39,12 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
 
+#if canImport(Contacts)
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
-#if canImport(Contacts)
-    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
     let entityType: CNEntityType
-
+    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
     let getAuthorizationStatus: AuthorizationStatusFunc!
     lazy var requestAccess: RequestAccessFunc! = { try! dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completionHandler:", on: contactStore) }()
 #endif

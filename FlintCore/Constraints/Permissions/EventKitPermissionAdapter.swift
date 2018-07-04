@@ -34,14 +34,19 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSEventKitUsageDescription"
 #if canImport(EventKit)
-    lazy var eventStore: EKEventStore = { EKEventStore() }()
+    typealias AuthorizationStatusFunc = (_ entityType: UInt) -> Int
+    typealias RequestAccessFunc = (_ entityType: UInt, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+
     let entityType: EKEntityType
+    let getAuthorizationStatus: AuthorizationStatusFunc!
+    lazy var requestAccess: RequestAccessFunc! = { try! dynamicBindUIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completion:", on: eventStore) }()
+    lazy var eventStore: AnyObject = { try! instantiate(classNamed: "EKEventStore") }()
 #endif
 
     var status: SystemPermissionStatus {
 #if canImport(EventKit)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return authStatusToPermissionStatus(EKEventStore.authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(EKAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
@@ -55,6 +60,8 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
 
 #if canImport(EventKit)
+        getAuthorizationStatus = try! dynamicBindUIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType:", on: "EKEventStore")
+        
         switch permission {
             case .calendarEvents: self.entityType = .event
             case .reminders: self.entityType = .reminder
@@ -72,7 +79,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(EventKit)
-        eventStore.requestAccess(to: entityType) { (_, _) in
+        requestAccess(entityType.rawValue) { (_, _) in
             completion(self, self.status)
         }
 #endif

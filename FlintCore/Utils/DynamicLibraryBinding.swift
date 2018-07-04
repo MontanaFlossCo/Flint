@@ -88,10 +88,32 @@ func dynamicBindIntArgsIntReturn(toStaticMethod methodName: String, on className
     }
 }
 
+func dynamicBindUIntArgsIntReturn(toStaticMethod methodName: String, on className: String) throws -> (UInt) -> Int {
+    let invocation = try DynamicInvocation(className: className, staticMethodName: methodName)
+    return { (arg1: UInt) in
+        typealias FuncType = (AnyObject, Selector, UInt) -> Int
+        return invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
+            let function: FuncType = functionGenerator()
+            return function(instance, selector, arg1)
+        }
+    }
+}
+
 func dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (Int, (Bool, Error?) -> Void) -> Void {
     let invocation = try DynamicInvocation(object: object, methodName: methodName)
     return { (arg1: Int, arg2: (Bool, Error?) -> Void) in
         typealias FuncType = (AnyObject, Selector, Int, (Bool, Error?) -> Void) -> Void
+        invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
+            let function: FuncType = functionGenerator()
+            function(instance, selector, arg1, arg2)
+        }
+    }
+}
+
+func dynamicBindUIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (UInt, (Bool, Error?) -> Void) -> Void {
+    let invocation = try DynamicInvocation(object: object, methodName: methodName)
+    return { (arg1: UInt, arg2: (Bool, Error?) -> Void) in
+        typealias FuncType = (AnyObject, Selector, UInt, (Bool, Error?) -> Void) -> Void
         invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
             let function: FuncType = functionGenerator()
             function(instance, selector, arg1, arg2)
