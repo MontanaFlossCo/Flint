@@ -403,6 +403,10 @@
 		496F8FFE203EEBDB003AB29B /* StaticActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49819EB91FC9C2310013AF55 /* StaticActionBinding.swift */; };
 		496F8FFF203EEBDB003AB29B /* TopicPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */; };
 		496F9000203EEBDB003AB29B /* FlintInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1A230203C31C900F7555C /* FlintInternal.swift */; };
+		497175FE20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
+		497175FF20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
+		4971760020ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
+		4971760120ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
 		4976923B201F3CBE00F97BD5 /* URLMappingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923A201F3CBE00F97BD5 /* URLMappingsBuilder.swift */; };
 		4976923D201F3CEE00F97BD5 /* ActionURLMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923C201F3CEE00F97BD5 /* ActionURLMappings.swift */; };
 		4976923F201F3D5A00F97BD5 /* URLMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923E201F3D5A00F97BD5 /* URLMappings.swift */; };
@@ -809,6 +813,7 @@
 		496F8F3F203EEA23003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496F8F41203EEA23003AB29B /* FlintCore_watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_watchOS.h; sourceTree = "<group>"; };
 		496F8F42203EEA23003AB29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicLibraryBinding.swift; sourceTree = "<group>"; };
 		4976923A201F3CBE00F97BD5 /* URLMappingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingsBuilder.swift; sourceTree = "<group>"; };
 		4976923C201F3CEE00F97BD5 /* ActionURLMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionURLMappings.swift; sourceTree = "<group>"; };
 		4976923E201F3D5A00F97BD5 /* URLMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappings.swift; sourceTree = "<group>"; };
@@ -1249,6 +1254,7 @@
 			isa = PBXGroup;
 			children = (
 				4914EFC62067C4D000FE0F41 /* Formatters.swift */,
+				497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */,
 				498B80852001210300E44C91 /* String+Extensions.swift */,
 				495FD9FB20026A520007A427 /* ObserverSet.swift */,
 				49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */,
@@ -1783,6 +1789,7 @@
 				496F8FCC203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				49DFB7D020A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
+				497175FF20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59432098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
@@ -1958,6 +1965,7 @@
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				49DFB7D120A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
+				4971760020ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				496F8FD7203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59442098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
@@ -2133,6 +2141,7 @@
 				49BC1C5A20867C2400A7FC77 /* ActionStack.swift in Sources */,
 				496F8FFC203EEBDB003AB29B /* NoPresenter.swift in Sources */,
 				4929823A205ED11900267A49 /* FeatureMetadata.swift in Sources */,
+				4971760120ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				49DB92462073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				49935BED206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FF6203EEBDB003AB29B /* FeatureGroup.swift in Sources */,
@@ -2301,6 +2310,7 @@
 				49D447F71FEC6AA800DBB352 /* ConditionalFeature.swift in Sources */,
 				496E26EF203B7506008E4320 /* FocusContextualLoggerTarget.swift in Sources */,
 				495FD9FA20026A180007A427 /* Timeline.swift in Sources */,
+				497175FE20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */,
 				4956D5D420986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
 				494F591F2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,

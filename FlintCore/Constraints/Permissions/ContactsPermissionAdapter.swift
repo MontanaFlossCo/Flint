@@ -38,15 +38,22 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
+
+    typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+
 #if canImport(Contacts)
-    lazy var contactStore: CNContactStore = { CNContactStore() }()
+    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
     let entityType: CNEntityType
+
+    let getAuthorizationStatus: AuthorizationStatusFunc!
+    lazy var requestAccess: RequestAccessFunc! = { try! dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completionHandler:", on: contactStore) }()
 #endif
 
     var status: SystemPermissionStatus {
 #if canImport(Contacts)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(CNContactStore.authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(CNAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
@@ -61,6 +68,8 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(Contacts)
+        getAuthorizationStatus = try! dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType:", on: "CNContactStore")
+        
         switch entityType {
             case .contacts: self.entityType = .contacts
         }
@@ -75,9 +84,9 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(Contacts)
-        contactStore.requestAccess(for: entityType) { (_, _) in
+        requestAccess(entityType.rawValue, { (_, _) in
             completion(self, self.status)
-        }
+        })
 #endif
 #else
         completion(self, .unsupported)
