@@ -11,7 +11,7 @@ import Foundation
 import EventKit
 #endif
 
-@objc protocol EKProxyEventStore {
+@objc protocol ProxyEventStore {
     @objc(authorizationStatusForEntityType:)
     static func authorizationStatus(for entityType: EKEntityType) -> EKAuthorizationStatus
 
@@ -45,7 +45,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
 #if canImport(EventKit)
     let entityType: EKEntityType
     lazy var eventStore: AnyObject = { try! instantiate(classNamed: "EKEventStore") }()
-    lazy var proxyEventStore: EKProxyEventStore = { unsafeBitCast(self.eventStore, to: EKProxyEventStore.self) }()
+    lazy var proxyEventStore: ProxyEventStore = { unsafeBitCast(self.eventStore, to: ProxyEventStore.self) }()
 #endif
 
     var status: SystemPermissionStatus {

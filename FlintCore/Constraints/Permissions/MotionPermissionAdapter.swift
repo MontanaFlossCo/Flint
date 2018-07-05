@@ -14,8 +14,11 @@ import CoreMotion
 typealias CMProxyMotionActivityQueryHandler = ([NSObject]?, Error?) -> Void
 
 @objc protocol ProxyMotionActivityManager {
-    static func authorizationStatus() -> CMAuthorizationStatus
-    static func isActivityAvailable() -> Bool
+    @objc static func authorizationStatus() -> CMAuthorizationStatus
+    
+    @objc static var isActivityAvailable: Bool { get }
+    
+    @objc(queryActivityStartingFromDate:toDate:toQueue:withHandler:)
     func queryActivityStarting(from start: Date, to end: Date, to queue: OperationQueue, withHandler handler: @escaping CMProxyMotionActivityQueryHandler)
 }
 
@@ -28,7 +31,7 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
         if libraryIsLinkedForClass(activityManagerName) {
             if let tempInstance = try? instantiate(classNamed: activityManagerName) {
                 let manager = unsafeBitCast(tempInstance, to: ProxyMotionActivityManager.self)
-                return type(of: manager).isActivityAvailable()
+                return type(of: manager).isActivityAvailable
             }
         }
         return false
@@ -58,20 +61,6 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSMotionUsageDescription"
 
 #if canImport(CoreMotion)
-//    typealias AuthorizationStatusFunc = () -> Int
-//    typealias QueryActivityFunc = (_ from: Date, _ to: Date, _ to: OperationQueue, _ withHandler: CMMotionActivityQueryHandler) -> Void
-
-//    let getAuthorizationStatus: AuthorizationStatusFunc!
-//    lazy var queryActivityStarting: QueryActivityFunc! = {
-//        return {
-//            let binding = try! DynamicInvocation(object: activityManager, methodName: "queryActivityStarting")
-//            typealias FuncType = @convention(c) (NSDate, NSDate, OperationQueue, CMMotionActivityQueryHandler) -> Void
-//            binding.perform { (generator: () -> FuncType, instance: AnyObject, selector: Selector) -> Void in
-//                let function = generator()
-//                function(instance, selector,
-//            }
-//        }
-//    }()
     private lazy var activityManager: AnyObject = { try! instantiate(classNamed: "CMMotionActivityManager") }()
     lazy var proxyMotionActivityManager: ProxyMotionActivityManager = { return unsafeBitCast(self.activityManager, to: ProxyMotionActivityManager.self) }()
 #endif
@@ -79,9 +68,6 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
     init(permission: SystemPermissionConstraint) {
         flintBugPrecondition(permission == .motion, "Cannot use MotionPermissionAdapter with: \(permission)")
 
-//#if canImport(CoreMotion)
-//        getAuthorizationStatus = try! dynamicBindIntReturn(toStaticMethod: "authorizationStatus", on: "CMMotionActivityManager")
-//#endif
         self.permission = permission
     }
     
