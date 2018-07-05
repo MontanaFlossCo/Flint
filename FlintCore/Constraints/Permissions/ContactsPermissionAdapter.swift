@@ -30,7 +30,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 #if !os(tvOS)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
             // Do this in case it is not auto-linked on all supported platforms
-            let isLinked = libraryIsLinkedForClass("XXXContactStore")
+            let isLinked = libraryIsLinkedForClass("CNContactStore")
             return isLinked
         } else {
             return false
@@ -52,7 +52,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     let entityType: CNEntityType
-    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "XXXContactStore") }()
+    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
     lazy var proxyContactStore: ProxyContactStore = { unsafeBitCast(self.contactStore, to: ProxyContactStore.self) }()
 #endif
 
