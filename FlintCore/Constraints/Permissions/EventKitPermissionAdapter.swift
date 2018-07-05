@@ -26,7 +26,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            let isLinked = libraryIsLinkedForClass("EKEventStore")
+            let isLinked = libraryIsLinkedForClass("XXXEventStore")
             return isLinked
         } else {
             return false
@@ -44,7 +44,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSEventKitUsageDescription"
 #if canImport(EventKit)
     let entityType: EKEntityType
-    lazy var eventStore: AnyObject = { try! instantiate(classNamed: "EKEventStore") }()
+    lazy var eventStore: AnyObject = { try! instantiate(classNamed: "XXXEventStore") }()
     lazy var proxyEventStore: ProxyEventStore = { unsafeBitCast(self.eventStore, to: ProxyEventStore.self) }()
 #endif
 
