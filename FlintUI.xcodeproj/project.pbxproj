@@ -39,6 +39,7 @@
 		49D5796B20618AD9006EE0C9 /* ActionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796A20618AD9006EE0C9 /* ActionDetailViewController.swift */; };
 		49D579702063C6E0006EE0C9 /* FeatureBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796F2063C6E0006EE0C9 /* FeatureBrowserViewController.swift */; };
 		49DB9233206FD67C00F758DC /* FocusLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB9230206FD65B00F758DC /* FocusLogViewController.swift */; };
+		49EB9A7720EE35740034D07D /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49EB9A7620EE35730034D07D /* EventKit.framework */; };
 		49F5DA7D2065121F00DA0CD3 /* TimelineEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5DA7C2065121F00DA0CD3 /* TimelineEntryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +112,7 @@
 		49D5796A20618AD9006EE0C9 /* ActionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDetailViewController.swift; sourceTree = "<group>"; };
 		49D5796F2063C6E0006EE0C9 /* FeatureBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBrowserViewController.swift; sourceTree = "<group>"; };
 		49DB9230206FD65B00F758DC /* FocusLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusLogViewController.swift; sourceTree = "<group>"; };
+		49EB9A7620EE35730034D07D /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		49F5DA7C2065121F00DA0CD3 /* TimelineEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEntryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49EB9A7720EE35740034D07D /* EventKit.framework in Frameworks */,
 				4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */,
 				49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */,
 				49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */,
@@ -186,6 +189,7 @@
 		496F8EF9203ED479003AB29B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49EB9A7620EE35730034D07D /* EventKit.framework */,
 				497BFF1F20C7F55300E70157 /* FlintCore.framework */,
 				49089574208F48060022E0A7 /* ZIPFoundation.framework */,
 				49089572208F47C10022E0A7 /* FlintCore.framework */,
@@ -487,6 +491,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
@@ -511,6 +516,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5LUNBYMD4J;
@@ -655,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -683,6 +690,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;

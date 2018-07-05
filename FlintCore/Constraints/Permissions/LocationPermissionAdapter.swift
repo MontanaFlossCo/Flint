@@ -9,13 +9,23 @@
 import Foundation
 import CoreLocation
 
+@objc protocol ProxyLocationManager {
+    @objc static func authorizationStatus() -> CLAuthorizationStatus
+
+    @objc var delegate: CLLocationManagerDelegate? { get set }
+
+    @objc func requestWhenInUseAuthorization()
+    @objc func requestAlwaysAuthorization()
+}
+
 /// Checks and authorises access to the user's location on supported platforms
 ///
 /// Supports: iOS 2+, macOS 10.6+, watchOS 2+, tvOS 9+
 @objc class LocationPermissionAdapter: NSObject, SystemPermissionAdapter, CLLocationManagerDelegate {
     static var isSupported: Bool {
         if #available(iOS 2, macOS 10.6, watchOS 2, tvOS 9, *) {
-            return true
+            let isLinked = libraryIsLinkedForClass("CLLocationManager")
+            return isLinked
         } else {
             return false
         }
@@ -34,15 +44,16 @@ import CoreLocation
         return results
     }
 
-    let locationManager = CLLocationManager()
-    
+    lazy var locationManager: AnyObject = { try! instantiate(classNamed: "CLLocationManager") }()
+    lazy var proxyLocationManager: ProxyLocationManager = { unsafeBitCast(self.locationManager, to: ProxyLocationManager.self) }()
+
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String
     var pendingCompletions: [(_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void] = []
     var statusBeforeRequesting: CLAuthorizationStatus?
 
     var status: SystemPermissionStatus {
-        return authStatusToPermissionStatus(CLLocationManager.authorizationStatus())
+        return authStatusToPermissionStatus(type(of: proxyLocationManager).authorizationStatus())
     }
     
     required init(permission: SystemPermissionConstraint) {
@@ -64,7 +75,7 @@ import CoreLocation
         
         super.init()
         
-        locationManager.delegate = self
+        proxyLocationManager.delegate = self
     }
     
     func requestAuthorisation(completion: @escaping (_ adapter: SystemPermissionAdapter, _ status: SystemPermissionStatus) -> Void) {
@@ -86,11 +97,11 @@ import CoreLocation
             case .location(usage: .always):
                 pendingCompletions.append(completion)
                 FlintInternal.logger?.debug("Location permission adapter requesting 'always' authorization")
-                locationManager.requestAlwaysAuthorization()
+                proxyLocationManager.requestAlwaysAuthorization()
             case .location(usage: .whenInUse):
                 pendingCompletions.append(completion)
                 FlintInternal.logger?.debug("Location permission adapter requesting 'when in use' authorization")
-                locationManager.requestWhenInUseAuthorization()
+                proxyLocationManager.requestWhenInUseAuthorization()
             default:
                 flintBug("Incorrect permission type: \(permission)")
         }

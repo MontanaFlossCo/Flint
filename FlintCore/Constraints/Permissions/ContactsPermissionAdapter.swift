@@ -11,9 +11,15 @@ import Foundation
 import Contacts
 #endif
 
-/// Defines the type of Contacts entity for which Flint will request access
-public enum ContactsEntity: Hashable {
+public enum ContactsEntity {
     case contacts
+}
+
+@objc protocol ProxyContactStore {
+    @objc(authorizationStatusForEntityType:)
+    static func authorizationStatus(for entityType: CNEntityType) -> CNAuthorizationStatus
+    @objc(requestAccessForEntityType:completionHandler:)
+    func requestAccess(for entityType: CNEntityType, completionHandler: @escaping (Bool, Error?) -> Swift.Void)
 }
 
 /// Checks and authorises access to the Contacts on supported platforms
@@ -23,7 +29,9 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return true
+            // Do this in case it is not auto-linked on all supported platforms
+            let isLinked = libraryIsLinkedForClass("CNContactStore")
+            return isLinked
         } else {
             return false
         }
@@ -45,14 +53,13 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 
     let entityType: CNEntityType
     lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
-    let getAuthorizationStatus: AuthorizationStatusFunc!
-    lazy var requestAccess: RequestAccessFunc! = { try! dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completionHandler:", on: contactStore) }()
+    lazy var proxyContactStore: ProxyContactStore = { unsafeBitCast(self.contactStore, to: ProxyContactStore.self) }()
 #endif
 
     var status: SystemPermissionStatus {
 #if canImport(Contacts)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(CNAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
+            return authStatusToPermissionStatus(type(of: proxyContactStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
@@ -67,8 +74,6 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(Contacts)
-        getAuthorizationStatus = try! dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType:", on: "CNContactStore")
-        
         switch entityType {
             case .contacts: self.entityType = .contacts
         }
@@ -83,7 +88,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(Contacts)
-        requestAccess(entityType.rawValue, { (_, _) in
+        proxyContactStore.requestAccess(for: entityType, completionHandler: { (_, _) in
             completion(self, self.status)
         })
 #endif

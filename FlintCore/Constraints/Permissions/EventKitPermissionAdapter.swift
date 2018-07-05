@@ -11,6 +11,14 @@ import Foundation
 import EventKit
 #endif
 
+@objc protocol EKProxyEventStore {
+    @objc(authorizationStatusForEntityType:)
+    static func authorizationStatus(for entityType: EKEntityType) -> EKAuthorizationStatus
+
+    @objc(requestAccessToEntityType:completion:)
+    func requestAccess(to entityType: EKEntityType, completion: @escaping EKEventStoreRequestAccessCompletionHandler)
+}
+
 /// Checks and authorises access to the EventKit on supported platforms
 ///
 /// Support: iOS 6+, macOS 10.9+, watchOS 2+, tvOS ⛔️
@@ -18,7 +26,8 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return true
+            let isLinked = libraryIsLinkedForClass("EKEventStore")
+            return isLinked
         } else {
             return false
         }
@@ -34,19 +43,15 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSEventKitUsageDescription"
 #if canImport(EventKit)
-    typealias AuthorizationStatusFunc = (_ entityType: UInt) -> Int
-    typealias RequestAccessFunc = (_ entityType: UInt, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
-
     let entityType: EKEntityType
-    let getAuthorizationStatus: AuthorizationStatusFunc!
-    lazy var requestAccess: RequestAccessFunc! = { try! dynamicBindUIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completion:", on: eventStore) }()
     lazy var eventStore: AnyObject = { try! instantiate(classNamed: "EKEventStore") }()
+    lazy var proxyEventStore: EKProxyEventStore = { unsafeBitCast(self.eventStore, to: EKProxyEventStore.self) }()
 #endif
 
     var status: SystemPermissionStatus {
 #if canImport(EventKit)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return authStatusToPermissionStatus(EKAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
+            return authStatusToPermissionStatus(type(of: proxyEventStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
@@ -60,8 +65,6 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
 
 #if canImport(EventKit)
-        getAuthorizationStatus = try! dynamicBindUIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType:", on: "EKEventStore")
-        
         switch permission {
             case .calendarEvents: self.entityType = .event
             case .reminders: self.entityType = .reminder
@@ -79,7 +82,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         }
         
 #if canImport(EventKit)
-        requestAccess(entityType.rawValue) { (_, _) in
+        proxyEventStore.requestAccess(to: entityType) { (_, _) in
             completion(self, self.status)
         }
 #endif

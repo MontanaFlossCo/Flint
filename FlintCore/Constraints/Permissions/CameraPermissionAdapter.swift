@@ -9,13 +9,24 @@
 import Foundation
 import AVFoundation
 
+@objc protocol ProxyCaptureDevice {
+    // We don't mark these static as we call them on the class itself.
+    
+    @objc(authorizationStatusForMediaType:)
+    func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
+    @objc(requestAccessForMediaType:completionHandler:)
+    func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
+
+}
+
 /// Checks and authorises access to the Camera on supported platforms
 ///
 /// Supports: iOS 7+, macOS *, watchOS ⛔️, tvOS ⛔️
 class CameraPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if os(iOS) || os(macOS)
-        return true
+        let isLinked = libraryIsLinkedForClass("AVCaptureDevice")
+        return isLinked
 #else
         return false
 #endif
@@ -28,9 +39,12 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSCameraUsageDescription"
 
+    lazy var captureDeviceClass: AnyObject = { NSClassFromString("AVCaptureDevice")! }()
+    lazy var proxyCaptureDeviceClass: ProxyCaptureDevice = { unsafeBitCast(self.captureDeviceClass, to: ProxyCaptureDevice.self) }()
+    
     var status: SystemPermissionStatus {
 #if os(iOS)
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        switch proxyCaptureDeviceClass.authorizationStatus(for: .video) {
             case .authorized: return .authorized
             case .denied: return .denied
             case .notDetermined: return .notDetermined
@@ -55,7 +69,7 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
             return
         }
         
-        AVCaptureDevice.requestAccess(for: AVMediaType.video) { (granted: Bool) in
+        proxyCaptureDeviceClass.requestAccess(for: AVMediaType.video) { (granted: Bool) in
             completion(self, granted ? .authorized : .denied)
         }
 #elseif os(macOS)

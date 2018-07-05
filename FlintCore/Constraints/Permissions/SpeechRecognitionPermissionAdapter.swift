@@ -16,7 +16,8 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if canImport(Speech)
         if #available(iOS 10, *) {
-            return true
+            let isLinked = libraryIsLinkedForClass("SFSpeechRecognizer")
+            return isLinked
         } else {
             return false
         }

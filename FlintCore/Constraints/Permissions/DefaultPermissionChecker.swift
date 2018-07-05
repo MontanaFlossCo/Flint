@@ -67,6 +67,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                 if adapter.isSupported {
                     // We probably need to also verify there is actual camera hardware, e.g. WatchOS
                     add(adapter.createAdapters(for: permission))
+                } else {
+                    FlintInternal.logger?.warning("Permission \(permission) is not supported. Either the target platform does not implement it, or your target is not linking the framework required.")
                 }
             }
 
@@ -90,7 +92,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
     
     public func status(of permission: SystemPermissionConstraint) -> SystemPermissionStatus {
         guard let adapter = getAdapter(for: permission) else {
-            FlintInternal.logger?.warning("Cannot get status \(permission), there is no permission adapter for it")
+            FlintInternal.logger?.warning("Cannot get status for permission \(permission), there is no adapter for it")
             return .unsupported
         }
         return adapter.status
