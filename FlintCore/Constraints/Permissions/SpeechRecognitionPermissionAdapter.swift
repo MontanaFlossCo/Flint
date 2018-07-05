@@ -11,6 +11,16 @@ import Foundation
 import Speech
 #endif
 
+#if canImport(Speech)
+@objc protocol ProxySpeechRecognizer {
+    // These are not static as we call them on the class
+    @objc func authorizationStatus() -> SFSpeechRecognizerAuthorizationStatus
+
+    @objc(requestAuthorization:)
+    func requestAuthorization(_ handler: @escaping (SFSpeechRecognizerAuthorizationStatus) -> Void)
+}
+#endif
+
 /// Support: iOS 10+, macOS ⛔️, watchOS ⛔️, tvOS ⛔️
 class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
@@ -32,10 +42,13 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     
     let permission: SystemPermissionConstraint
     
+    lazy var speechRecognizerClass: AnyObject = { NSClassFromString("SFSpeechRecognizer")! }()
+    lazy var proxySpeechRecognizerClass: ProxySpeechRecognizer = { unsafeBitCast(self.speechRecognizerClass, to: ProxySpeechRecognizer.self) }()
+    
     var status: SystemPermissionStatus {
 #if canImport(Speech)
         if #available(iOS 10, *) {
-            return authStatusToPermissionStatus(SFSpeechRecognizer.authorizationStatus())
+            return authStatusToPermissionStatus(proxySpeechRecognizerClass.authorizationStatus())
         } else {
             return .unsupported
         }
@@ -53,7 +66,7 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     
     func requestAuthorisation(completion: @escaping (SystemPermissionAdapter, SystemPermissionStatus) -> Void) {
 #if canImport(Speech)
-        SFSpeechRecognizer.requestAuthorization() { [weak self] status in
+        proxySpeechRecognizerClass.requestAuthorization() { [weak self] status in
             if let strongSelf = self {
                 completion(strongSelf, strongSelf.status)
             }
