@@ -133,7 +133,7 @@ final public class Flint {
         ActionSession.quickSetupMainSession()
 
         commonSetup()
-        register(group)
+        register(group: group)
     }
     
     /// Call to set up your application features and Flint's internal features.
@@ -142,7 +142,7 @@ final public class Flint {
     public static func setup(_ group: FeatureGroup.Type) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
         commonSetup()
-        register(group)
+        register(group: group)
     }
     
     /// Register the feature with Flint. Call this to register specific features if they are not already
@@ -150,6 +150,10 @@ final public class Flint {
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
     public static func register(_ feature: FeatureDefinition.Type) {
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
+        _register(feature)
+    }
+
+    private static func _register(_ feature: FeatureDefinition.Type) {
         createMetadata(for: feature)
         
         // Evaluate the constraints before calling `prepare` - that may check its own `isAvailable` value.
@@ -169,11 +173,10 @@ final public class Flint {
     
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
     /// Only call this if you have not passed this group to `setup` or `quickSetup`.
-    public static func register(_ group: FeatureGroup.Type) {
+    public static func register(group: FeatureGroup.Type) {
         FlintInternal.logger?.debug("Preparing feature group: \(group)")
-        createMetadata(for: group)
-        _registerUrlMappings(feature: group)
-        
+        _register(group)
+
         // Allow them all to prepare actions
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
