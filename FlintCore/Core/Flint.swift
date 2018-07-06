@@ -190,7 +190,7 @@ final public class Flint {
             
             // Recurse if any of the subfeatures are groups
             if let groupType = subfeature as? FeatureGroup.Type {
-                register(groupType)
+                register(group: groupType)
             } else {
                 register(subfeature)
             }
@@ -412,7 +412,7 @@ extension Flint {
         userFeatureToggles.addObserver(preconditionChangeObserver!)
         _permissionChecker?.delegate = preconditionChangeObserver
         
-        register(FlintFeatures.self)
+        register(group: FlintFeatures.self)
         
         isSetup = true
         
@@ -449,7 +449,7 @@ extension Flint {
     }
     
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
-        FlintInternal.logger?.debug("Binding action \(action) to feature: \(self)")
+        FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
 
         // Get the existing FeatureMetadata for the feature
         metadataAccessQueue.sync {
@@ -462,7 +462,7 @@ extension Flint {
     }
 
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
-        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(self)")
+        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
 
         metadataAccessQueue.sync {
             // Get the existing FeatureMetadata for the feature
