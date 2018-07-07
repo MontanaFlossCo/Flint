@@ -24,7 +24,7 @@ class FlintCoreTests: XCTestCase {
     // MARK: Test artifacts
     
     func testFeatureMetadata() {
-        Flint.register(DummyFeatures.self)
+        Flint.register(group: DummyFeatures.self)
         XCTAssertEqual(Flint.allFeatures.count, 2, "Two features should be registered")
         
         guard let dummyFeatureMetadata = Flint.metadata(for: DummyStaticFeature.self) else {

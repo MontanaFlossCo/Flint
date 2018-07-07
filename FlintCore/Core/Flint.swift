@@ -149,6 +149,7 @@ final public class Flint {
     /// registered by way of being subfeatures of a group.
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
     public static func register(_ feature: FeatureDefinition.Type) {
+        flintUsagePrecondition(!(feature is FeatureGroup), "You must call register(group:) with feature groups")
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
         _register(feature)
     }
