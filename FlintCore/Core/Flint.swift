@@ -133,7 +133,7 @@ final public class Flint {
         ActionSession.quickSetupMainSession()
 
         commonSetup()
-        register(group)
+        register(group: group)
     }
     
     /// Call to set up your application features and Flint's internal features.
@@ -142,14 +142,19 @@ final public class Flint {
     public static func setup(_ group: FeatureGroup.Type) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
         commonSetup()
-        register(group)
+        register(group: group)
     }
     
     /// Register the feature with Flint. Call this to register specific features if they are not already
     /// registered by way of being subfeatures of a group.
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
     public static func register(_ feature: FeatureDefinition.Type) {
+        flintUsagePrecondition(!(feature is FeatureGroup), "You must call register(group:) with feature groups")
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
+        _register(feature)
+    }
+
+    private static func _register(_ feature: FeatureDefinition.Type) {
         createMetadata(for: feature)
         
         // Evaluate the constraints before calling `prepare` - that may check its own `isAvailable` value.
@@ -169,11 +174,10 @@ final public class Flint {
     
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
     /// Only call this if you have not passed this group to `setup` or `quickSetup`.
-    public static func register(_ group: FeatureGroup.Type) {
+    public static func register(group: FeatureGroup.Type) {
         FlintInternal.logger?.debug("Preparing feature group: \(group)")
-        createMetadata(for: group)
-        _registerUrlMappings(feature: group)
-        
+        _register(group)
+
         // Allow them all to prepare actions
         group.subfeatures.forEach { subfeature in
             let existingParent = parent(of: subfeature)
@@ -187,7 +191,7 @@ final public class Flint {
             
             // Recurse if any of the subfeatures are groups
             if let groupType = subfeature as? FeatureGroup.Type {
-                register(groupType)
+                register(group: groupType)
             } else {
                 register(subfeature)
             }
@@ -409,7 +413,7 @@ extension Flint {
         userFeatureToggles.addObserver(preconditionChangeObserver!)
         _permissionChecker?.delegate = preconditionChangeObserver
         
-        register(FlintFeatures.self)
+        register(group: FlintFeatures.self)
         
         isSetup = true
         
@@ -446,7 +450,7 @@ extension Flint {
     }
     
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
-        FlintInternal.logger?.debug("Binding action \(action) to feature: \(self)")
+        FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
 
         // Get the existing FeatureMetadata for the feature
         metadataAccessQueue.sync {
@@ -459,7 +463,7 @@ extension Flint {
     }
 
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
-        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(self)")
+        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
 
         metadataAccessQueue.sync {
             // Get the existing FeatureMetadata for the feature
