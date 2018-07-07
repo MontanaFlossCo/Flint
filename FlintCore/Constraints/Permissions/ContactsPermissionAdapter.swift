@@ -53,7 +53,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSContactsUsageDescription"
+    let usageDescriptionKey: String = "NSXXXContactsUsageDescription"
 
 #if canImport(Contacts)
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
