@@ -7,19 +7,27 @@
 //
 
 import Foundation
-#if canImport(Contacts)
-import Contacts
-#endif
+
+@objc fileprivate enum ProxyEntityType: Int {
+    case contacts
+}
+
+@objc fileprivate enum ProxyAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
 
 public enum ContactsEntity {
     case contacts
 }
 
-@objc protocol ProxyContactStore {
+@objc fileprivate protocol ProxyContactStore {
     @objc(authorizationStatusForEntityType:)
-    static func authorizationStatus(for entityType: CNEntityType) -> CNAuthorizationStatus
+    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
     @objc(requestAccessForEntityType:completionHandler:)
-    func requestAccess(for entityType: CNEntityType, completionHandler: @escaping (Bool, Error?) -> Swift.Void)
+    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Swift.Void)
 }
 
 /// Checks and authorises access to the Contacts on supported platforms
@@ -51,9 +59,9 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
-    let entityType: CNEntityType
-    lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
-    lazy var proxyContactStore: ProxyContactStore = { unsafeBitCast(self.contactStore, to: ProxyContactStore.self) }()
+    private let entityType: ProxyEntityType
+    private lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
+    private lazy var proxyContactStore: ProxyContactStore = { unsafeBitCast(self.contactStore, to: ProxyContactStore.self) }()
 #endif
 
     var status: SystemPermissionStatus {
@@ -99,7 +107,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 
 #if canImport(Contacts)
     @available(iOS 9, macOS 10.11, watchOS 2, *)
-    func authStatusToPermissionStatus(_ authStatus: CNAuthorizationStatus) -> SystemPermissionStatus {
+    fileprivate func authStatusToPermissionStatus(_ authStatus: ProxyAuthorizationStatus) -> SystemPermissionStatus {
 #if os(tvOS)
         return .unsupported
 #else
