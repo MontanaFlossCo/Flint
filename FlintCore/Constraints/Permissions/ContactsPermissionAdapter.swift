@@ -55,25 +55,29 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
 
-#if canImport(Contacts)
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     private let entityType: ProxyEntityType
-    private lazy var contactStore: AnyObject = { try! instantiate(classNamed: "CNContactStore") }()
-    private lazy var proxyContactStore: ProxyContactStore = { unsafeBitCast(self.contactStore, to: ProxyContactStore.self) }()
-#endif
+    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNContactStore") }()
+    private lazy var proxyContactStore: ProxyContactStore? = {
+        guard let contactStore = contactStore else {
+            return nil
+        }
+        return unsafeBitCast(contactStore, to: ProxyContactStore.self)
+    }()
 
     var status: SystemPermissionStatus {
-#if canImport(Contacts)
+        // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
+        guard let proxyContactStore = proxyContactStore else {
+            return .unsupported
+        }
+        
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
             return authStatusToPermissionStatus(type(of: proxyContactStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
-#else
-        return .unsupported
-#endif
     }
     
     required init(permission: SystemPermissionConstraint) {
@@ -81,11 +85,10 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             flintBug("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
         }
         
-#if canImport(Contacts)
         switch entityType {
             case .contacts: self.entityType = .contacts
         }
-#endif
+
         self.permission = permission
     }
     
@@ -95,17 +98,20 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             return
         }
         
-#if canImport(Contacts)
+        // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
+        guard let proxyContactStore = proxyContactStore else {
+            completion(self, .unsupported)
+            return
+        }
+
         proxyContactStore.requestAccess(for: entityType, completionHandler: { (_, _) in
             completion(self, self.status)
         })
-#endif
 #else
         completion(self, .unsupported)
 #endif
     }
 
-#if canImport(Contacts)
     @available(iOS 9, macOS 10.11, watchOS 2, *)
     fileprivate func authStatusToPermissionStatus(_ authStatus: ProxyAuthorizationStatus) -> SystemPermissionStatus {
 #if os(tvOS)
@@ -119,5 +125,4 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
 #endif
     }
-#endif
 }
