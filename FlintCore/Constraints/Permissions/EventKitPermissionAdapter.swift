@@ -35,7 +35,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            let isLinked = libraryIsLinkedForClass("EKEventStore")
+            let isLinked = libraryIsLinkedForClass("EXXXXXKEventStore")
             return isLinked
         } else {
             return false

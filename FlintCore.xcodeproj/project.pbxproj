@@ -218,6 +218,7 @@
 		49647D3B20384077005F9825 /* ActivitiesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3A20384077005F9825 /* ActivitiesFeature.swift */; };
 		49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3C203873C7005F9825 /* FlintFeatures.swift */; };
 		49647D3F203B117D005F9825 /* URLMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3E203B117D005F9825 /* URLMapped.swift */; };
+		49653A3420F26DA400AFDDDB /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
 		496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */; };
 		496E26EF203B7506008E4320 /* FocusContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */; };
 		496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore.framework */; };
@@ -2417,6 +2418,7 @@
 				49966D91200A63EB004C4AA0 /* UserFeatureToggles.swift in Sources */,
 				499FE33D20B9FE7A00552CE9 /* OSLogOutput.swift in Sources */,
 				496136C0209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
+				49653A3420F26DA400AFDDDB /* ContactsPermissionAdapter.swift in Sources */,
 				49819EB01FC9C1500013AF55 /* Action.swift in Sources */,
 				495B6C69202B60A50024CDFB /* FlintAppInfo.swift in Sources */,
 				4929823C205ED12C00267A49 /* ActionMetadata.swift in Sources */,
