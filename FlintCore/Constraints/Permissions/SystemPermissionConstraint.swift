@@ -19,7 +19,7 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
     case location(usage: LocationUsage)
-//    case contacts(entity: ContactsEntity)
+    case contacts(entity: ContactsEntity)
     case calendarEvents
     case reminders
     case motion
@@ -46,10 +46,10 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
                     case .whenInUse: return "Location when in use"
                     case .always: return "Location always"
                 }
-//            case .contacts(let entity):
-//                switch entity {
-//                    case .contacts: return "Contacts"
-//                }
+            case .contacts(let entity):
+                switch entity {
+                    case .contacts: return "Contacts"
+                }
         }
     }
 }
@@ -61,7 +61,7 @@ extension SystemPermissionConstraint: FeatureConstraint {
             case .camera,
                  .calendarEvents,
                  .reminders,
-//                 .contacts,
+                 .contacts,
                  .photos,
                  .speechRecognition,
                  .motion:
