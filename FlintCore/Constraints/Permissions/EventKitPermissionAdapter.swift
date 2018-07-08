@@ -7,16 +7,25 @@
 //
 
 import Foundation
-#if canImport(EventKit)
-import EventKit
-#endif
 
-@objc protocol ProxyEventStore {
+@objc fileprivate enum ProxyEntityType: Int {
+    case event
+    case reminder
+}
+
+@objc fileprivate enum ProxyAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
+
+@objc fileprivate protocol ProxyEventStore {
     @objc(authorizationStatusForEntityType:)
-    static func authorizationStatus(for entityType: EKEntityType) -> EKAuthorizationStatus
+    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
 
     @objc(requestAccessToEntityType:completion:)
-    func requestAccess(to entityType: EKEntityType, completion: @escaping EKEventStoreRequestAccessCompletionHandler)
+    func requestAccess(to entityType: ProxyEntityType, completion: @escaping (Bool, Error?) -> Void)
 }
 
 /// Checks and authorises access to the EventKit on supported platforms
@@ -41,37 +50,40 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSEventKitUsageDescription"
-#if canImport(EventKit)
-    let entityType: EKEntityType
-    lazy var eventStore: AnyObject = { try! instantiate(classNamed: "EKEventStore") }()
-    lazy var proxyEventStore: ProxyEventStore = { unsafeBitCast(self.eventStore, to: ProxyEventStore.self) }()
-#endif
+    let usageDescriptionKey: String = "NSXXXXEventKitUsageDescription"
+
+    fileprivate let entityType: ProxyEntityType
+    lazy var eventStore: AnyObject? = { try? instantiate(classNamed: "EXXXXKEventStore") }()
+    lazy fileprivate var proxyEventStore: ProxyEventStore? = {
+        guard let eventStore = self.eventStore else {
+            return nil
+        }
+        return unsafeBitCast(eventStore, to: ProxyEventStore.self)
+    }()
 
     var status: SystemPermissionStatus {
-#if canImport(EventKit)
+        guard let proxyEventStore = proxyEventStore else {
+            return .unsupported
+        }
+        
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
             return authStatusToPermissionStatus(type(of: proxyEventStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
-#else
-        return .unsupported
-#endif
     }
     
     required init(permission: SystemPermissionConstraint) {
         // Deal, with this first as on some platforms we can't even import EventKit
         flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
 
-#if canImport(EventKit)
         switch permission {
             case .calendarEvents: self.entityType = .event
             case .reminders: self.entityType = .reminder
             default:
                 flintBug("Unsupported EventKit permission type")
         }
-#endif
+
         self.permission = permission
     }
     
@@ -80,20 +92,22 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         guard status == .notDetermined else {
             return
         }
-        
-#if canImport(EventKit)
+    
+        guard let proxyEventStore = proxyEventStore else {
+            completion(self, .unsupported)
+            return
+        }
+
         proxyEventStore.requestAccess(to: entityType) { (_, _) in
             completion(self, self.status)
         }
-#endif
 #else
         completion(self, .unsupported)
 #endif
     }
 
-#if canImport(EventKit)
     @available(iOS 6, macOS 10.9, watchOS 2, *)
-    func authStatusToPermissionStatus(_ authStatus: EKAuthorizationStatus) -> SystemPermissionStatus {
+    fileprivate func authStatusToPermissionStatus(_ authStatus: ProxyAuthorizationStatus) -> SystemPermissionStatus {
 #if os(tvOS)
         return .unsupported
 #else
@@ -105,5 +119,4 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         }
 #endif
     }
-#endif
 }

@@ -39,7 +39,6 @@
 		49D5796B20618AD9006EE0C9 /* ActionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796A20618AD9006EE0C9 /* ActionDetailViewController.swift */; };
 		49D579702063C6E0006EE0C9 /* FeatureBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796F2063C6E0006EE0C9 /* FeatureBrowserViewController.swift */; };
 		49DB9233206FD67C00F758DC /* FocusLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB9230206FD65B00F758DC /* FocusLogViewController.swift */; };
-		49EB9A7720EE35740034D07D /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49EB9A7620EE35730034D07D /* EventKit.framework */; };
 		49F5DA7D2065121F00DA0CD3 /* TimelineEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F5DA7C2065121F00DA0CD3 /* TimelineEntryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,7 +120,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49EB9A7720EE35740034D07D /* EventKit.framework in Frameworks */,
 				4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */,
 				49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */,
 				49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */,

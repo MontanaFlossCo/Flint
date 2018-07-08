@@ -27,7 +27,7 @@ public enum ContactsEntity {
     @objc(authorizationStatusForEntityType:)
     static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
     @objc(requestAccessForEntityType:completionHandler:)
-    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Swift.Void)
+    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Void)
 }
 
 /// Checks and authorises access to the Contacts on supported platforms
@@ -53,13 +53,13 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSContactsUsageDescription"
+    let usageDescriptionKey: String = "NSContactsXXXXUsageDescription"
 
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     private let entityType: ProxyEntityType
-    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNXXContactStore") }()
+    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CXXXNXXContactStore") }()
     private lazy var proxyContactStore: ProxyContactStore? = {
         guard let contactStore = contactStore else {
             return nil

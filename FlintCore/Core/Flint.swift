@@ -11,7 +11,7 @@ import Foundation
 import CoreSpotlight
 #endif
 #if os(iOS) || os(macOS)
-import Intents
+//import Intents
 #endif
 #if canImport(ClassKit)
 import ClassKit
@@ -298,9 +298,9 @@ final public class Flint {
                 default:
 #if os(iOS) || os(macOS)
                     // Check for a Siri intent
-                    if let _ = activity.interaction {
-                        source = .continueActivity(type: .siri)
-                    }
+//                    if let _ = activity.interaction {
+//                        source = .continueActivity(type: .siri)
+//                    }
 #endif
 
 #if canImport(ClassKit)

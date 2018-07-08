@@ -49,8 +49,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = CameraPermissionAdapter.self
                 case .location:
                     adapterType = LocationPermissionAdapter.self
-                case .contacts:
-                    adapterType = ContactsPermissionAdapter.self
+//                case .contacts:
+//                    adapterType = ContactsPermissionAdapter.self
                 case .photos:
                     adapterType = PhotosPermissionAdapter.self
                 case .calendarEvents:
