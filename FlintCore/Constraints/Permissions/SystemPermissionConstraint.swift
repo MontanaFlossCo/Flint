@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ContactsEntity {
+    case contacts
+}
+
 /// Defines a system permission that conditional features can use as a constraint.
 ///
 /// - note: Any associated values for permission variants must use Flint or foundation types because

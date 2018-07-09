@@ -50,7 +50,9 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                 case .location:
                     adapterType = LocationPermissionAdapter.self
                 case .contacts:
-                    adapterType = ContactsPermissionAdapter.self
+//                    adapterType = ContactsPermissionAdapter.self
+                    adapterType = nil
+                    break
                 case .photos:
                     adapterType = PhotosPermissionAdapter.self
                 case .calendarEvents:

@@ -19,10 +19,6 @@ import Foundation
     case authorized
 }
 
-public enum ContactsEntity {
-    case contacts
-}
-
 @objc fileprivate protocol ProxyContactStore {
     @objc(authorizationStatusForEntityType:)
     static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
