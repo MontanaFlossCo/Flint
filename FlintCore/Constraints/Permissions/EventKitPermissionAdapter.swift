@@ -35,7 +35,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            let isLinked = libraryIsLinkedForClass("EXXXXXKEventStore")
+            let isLinked = libraryIsLinkedForClass(EventKitPermissionAdapter.storeClassName)
             return isLinked
         } else {
             return false
@@ -50,24 +50,33 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSXXXXEventKitUsageDescription"
+    let usageDescriptionKey: String
+    
+    typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
-    fileprivate let entityType: ProxyEntityType
-    lazy var eventStore: AnyObject? = { try? instantiate(classNamed: "EXXXXKEventStore") }()
-    lazy fileprivate var proxyEventStore: ProxyEventStore? = {
-        guard let eventStore = self.eventStore else {
+    static private let storeClassName = "EKEventStore"
+    
+    private let entityType: ProxyEntityType
+    private lazy var eventStore: AnyObject? = { try? instantiate(classNamed: EventKitPermissionAdapter.storeClassName) }()
+    private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: EventKitPermissionAdapter.storeClassName)
+    }()
+    private lazy var requestAuthorization: RequestAccessFunc? = {
+        if let store = eventStore {
+            return try? dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessToEntityType:completion:", on: store)
+        } else {
             return nil
         }
-        return unsafeBitCast(eventStore, to: ProxyEventStore.self)
     }()
 
     var status: SystemPermissionStatus {
-        guard let proxyEventStore = proxyEventStore else {
+        guard let getAuthorizationStatus = getAuthorizationStatus else {
             return .unsupported
         }
         
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return authStatusToPermissionStatus(type(of: proxyEventStore).authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(ProxyAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
@@ -78,8 +87,12 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
 
         switch permission {
-            case .calendarEvents: self.entityType = .event
-            case .reminders: self.entityType = .reminder
+            case .calendarEvents:
+                entityType = .event
+                usageDescriptionKey = "NSCalendarsUsageDescription"
+            case .reminders:
+                entityType = .reminder
+                usageDescriptionKey = "NSRemindersUsageDescription"
             default:
                 flintBug("Unsupported EventKit permission type")
         }
@@ -93,14 +106,14 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
             return
         }
     
-        guard let proxyEventStore = proxyEventStore else {
+        guard let requestAuthorization = requestAuthorization else {
             completion(self, .unsupported)
             return
         }
 
-        proxyEventStore.requestAccess(to: entityType) { (_, _) in
+        requestAuthorization(entityType.rawValue, { (_, _) in
             completion(self, self.status)
-        }
+        })
 #else
         completion(self, .unsupported)
 #endif

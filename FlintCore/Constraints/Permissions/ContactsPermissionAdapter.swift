@@ -60,7 +60,6 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
     }()
 
-
     var status: SystemPermissionStatus {
         // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
         guard let getAuthorizationStatus = getAuthorizationStatus else {
