@@ -20,10 +20,10 @@ import Foundation
 }
 
 @objc fileprivate protocol ProxyContactStore {
-    @objc(authorizationStatusForEntityType:)
-    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
-    @objc(requestAccessForEntityType:completionHandler:)
-    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Void)
+//    @objc(authorizationStatusForEntityType:)
+//    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
+//    @objc(requestAccessForEntityType:completionHandler:)
+//    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Void)
 }
 
 /// Checks and authorises access to the Contacts on supported platforms
@@ -70,7 +70,8 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(type(of: proxyContactStore).authorizationStatus(for: entityType))
+            return .unsupported
+//            return authStatusToPermissionStatus(type(of: proxyContactStore).authorizationStatus(for: entityType))
         } else {
             return .unsupported
         }
@@ -100,9 +101,9 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             return
         }
 
-        proxyContactStore.requestAccess(for: entityType, completionHandler: { (_, _) in
-            completion(self, self.status)
-        })
+//        proxyContactStore.requestAccess(for: entityType, completionHandler: { (_, _) in
+//            completion(self, self.status)
+//        })
 #else
         completion(self, .unsupported)
 #endif
