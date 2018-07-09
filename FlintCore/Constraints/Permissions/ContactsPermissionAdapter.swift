@@ -19,17 +19,6 @@ import Foundation
     case authorized
 }
 
-public enum ContactsEntity {
-    case contacts
-}
-
-@objc fileprivate protocol ProxyContactStore {
-    @objc(authorizationStatusForEntityType:)
-    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
-    @objc(requestAccessForEntityType:completionHandler:)
-    func requestAccess(for entityType: ProxyEntityType, completionHandler: @escaping (Bool, Error?) -> Void)
-}
-
 /// Checks and authorises access to the Contacts on supported platforms
 ///
 /// Support: iOS 9+, macOS 10.11+, watchOS 2+, tvOS ⛔️
@@ -38,7 +27,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 #if !os(tvOS)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
             // Do this in case it is not auto-linked on all supported platforms
-            let isLinked = libraryIsLinkedForClass("CNxxxxContactStore")
+            let isLinked = libraryIsLinkedForClass("CNContactStore")
             return isLinked
         } else {
             return false
@@ -53,28 +42,33 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSxxxContactsUsageDescription"
+    let usageDescriptionKey: String = "NSContactsUsageDescription"
 
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
     typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     private let entityType: ProxyEntityType
-    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNxxxxxContactStore") }()
-    private lazy var proxyContactStore: ProxyContactStore? = {
-        guard let contactStore = contactStore else {
+    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNContactStore") }()
+    private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: "CNContactStore")
+    }()
+    private lazy var requestAuthorization: RequestAccessFunc? = {
+        if let store = contactStore {
+            return try? dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completionHandler:", on: store)
+        } else {
             return nil
         }
-        return unsafeBitCast(contactStore, to: ProxyContactStore.self)
     }()
+
 
     var status: SystemPermissionStatus {
         // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
-        guard let proxyContactStore = proxyContactStore else {
+        guard let getAuthorizationStatus = getAuthorizationStatus else {
             return .unsupported
         }
         
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(type(of: proxyContactStore).authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(ProxyAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
@@ -99,12 +93,12 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
         
         // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
-        guard let proxyContactStore = proxyContactStore else {
+        guard let requestAuthorization = requestAuthorization else {
             completion(self, .unsupported)
             return
         }
 
-        proxyContactStore.requestAccess(for: entityType, completionHandler: { (_, _) in
+        requestAuthorization(entityType.rawValue, { (_, _) in
             completion(self, self.status)
         })
 #else

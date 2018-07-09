@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ContactsEntity {
+    case contacts
+}
+
 /// The implementation of the system permission checker.
 ///
 /// This registers and verifies the approprite adapters and uses them to check the status
