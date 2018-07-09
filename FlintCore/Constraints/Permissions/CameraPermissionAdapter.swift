@@ -11,7 +11,6 @@ import AVFoundation
 
 @objc protocol ProxyCaptureDevice {
     // We don't mark these static as we call them on the class itself.
-    
     @objc(authorizationStatusForMediaType:)
     func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
     @objc(requestAccessForMediaType:completionHandler:)
