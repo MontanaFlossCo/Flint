@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .debug, initialProductionLogLevel: .info)
-        Flint.register(FlintUIFeatures.self)
+        Flint.register(group: FlintUIFeatures.self)
         
         // Spit out a fake action every few seconds
         
