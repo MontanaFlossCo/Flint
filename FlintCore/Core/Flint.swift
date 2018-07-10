@@ -10,11 +10,16 @@ import Foundation
 #if canImport(CoreSpotlight)
 import CoreSpotlight
 #endif
-#if os(iOS) || os(macOS)
-import Intents
-#endif
 #if canImport(ClassKit)
 import ClassKit
+#endif
+
+#if os(iOS) || os(macOS)
+/// Temporary workaround for Intents having an implicit dependency on Contacts framework.
+/// Radar #41946218 — "Importing Intents forces app to provide NSContactsUsageDescription"
+@objc fileprivate protocol IntentsNSUserActivityExtension {
+    @objc var interaction: AnyObject? { get }
+}
 #endif
 
 /// This is the Flint class, with entry points for application-level convenience functions and metadata.
@@ -149,7 +154,7 @@ final public class Flint {
     /// registered by way of being subfeatures of a group.
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
     public static func register(_ feature: FeatureDefinition.Type) {
-        flintUsagePrecondition(!(feature is FeatureGroup), "You must call register(group:) with feature groups")
+        flintUsagePrecondition(!(feature is FeatureGroup.Type), "You must call register(group:) with feature groups")
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
         _register(feature)
     }
@@ -298,7 +303,8 @@ final public class Flint {
                 default:
 #if os(iOS) || os(macOS)
                     // Check for a Siri intent
-                    if let _ = activity.interaction {
+                    let interactionActivity = unsafeBitCast(activity, to: IntentsNSUserActivityExtension.self)
+                    if let _ = interactionActivity.interaction {
                         source = .continueActivity(type: .siri)
                     }
 #endif

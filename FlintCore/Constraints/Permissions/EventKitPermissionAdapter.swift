@@ -7,9 +7,26 @@
 //
 
 import Foundation
-#if canImport(EventKit)
-import EventKit
-#endif
+
+@objc fileprivate enum ProxyEntityType: Int {
+    case event
+    case reminder
+}
+
+@objc fileprivate enum ProxyAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
+
+@objc fileprivate protocol ProxyEventStore {
+    @objc(authorizationStatusForEntityType:)
+    static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
+
+    @objc(requestAccessToEntityType:completion:)
+    func requestAccess(to entityType: ProxyEntityType, completion: @escaping (Bool, Error?) -> Void)
+}
 
 /// Checks and authorises access to the EventKit on supported platforms
 ///
@@ -18,7 +35,8 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return true
+            let isLinked = libraryIsLinkedForClass(EventKitPermissionAdapter.storeClassName)
+            return isLinked
         } else {
             return false
         }
@@ -32,36 +50,53 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     }
 
     let permission: SystemPermissionConstraint
-    let usageDescriptionKey: String = "NSEventKitUsageDescription"
-#if canImport(EventKit)
-    lazy var eventStore: EKEventStore = { EKEventStore() }()
-    let entityType: EKEntityType
-#endif
+    let usageDescriptionKey: String
+    
+    typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+
+    static private let storeClassName = "EKEventStore"
+    
+    private let entityType: ProxyEntityType
+    private lazy var eventStore: AnyObject? = { try? instantiate(classNamed: EventKitPermissionAdapter.storeClassName) }()
+    private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: EventKitPermissionAdapter.storeClassName)
+    }()
+    private lazy var requestAuthorization: RequestAccessFunc? = {
+        if let store = eventStore {
+            return try? dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessToEntityType:completion:", on: store)
+        } else {
+            return nil
+        }
+    }()
 
     var status: SystemPermissionStatus {
-#if canImport(EventKit)
+        guard let getAuthorizationStatus = getAuthorizationStatus else {
+            return .unsupported
+        }
+        
         if #available(iOS 6, macOS 10.9, watchOS 2, *) {
-            return authStatusToPermissionStatus(EKEventStore.authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(ProxyAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
-#else
-        return .unsupported
-#endif
     }
     
     required init(permission: SystemPermissionConstraint) {
         // Deal, with this first as on some platforms we can't even import EventKit
         flintBugPrecondition([.calendarEvents, .reminders].contains(permission), "Cannot create a EventKitPermissionAdapter with permission type \(permission)")
 
-#if canImport(EventKit)
         switch permission {
-            case .calendarEvents: self.entityType = .event
-            case .reminders: self.entityType = .reminder
+            case .calendarEvents:
+                entityType = .event
+                usageDescriptionKey = "NSCalendarsUsageDescription"
+            case .reminders:
+                entityType = .reminder
+                usageDescriptionKey = "NSRemindersUsageDescription"
             default:
                 flintBug("Unsupported EventKit permission type")
         }
-#endif
+
         self.permission = permission
     }
     
@@ -70,20 +105,22 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         guard status == .notDetermined else {
             return
         }
-        
-#if canImport(EventKit)
-        eventStore.requestAccess(to: entityType) { (_, _) in
-            completion(self, self.status)
+    
+        guard let requestAuthorization = requestAuthorization else {
+            completion(self, .unsupported)
+            return
         }
-#endif
+
+        requestAuthorization(entityType.rawValue, { (_, _) in
+            completion(self, self.status)
+        })
 #else
         completion(self, .unsupported)
 #endif
     }
 
-#if canImport(EventKit)
     @available(iOS 6, macOS 10.9, watchOS 2, *)
-    func authStatusToPermissionStatus(_ authStatus: EKAuthorizationStatus) -> SystemPermissionStatus {
+    fileprivate func authStatusToPermissionStatus(_ authStatus: ProxyAuthorizationStatus) -> SystemPermissionStatus {
 #if os(tvOS)
         return .unsupported
 #else
@@ -95,5 +132,4 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
         }
 #endif
     }
-#endif
 }

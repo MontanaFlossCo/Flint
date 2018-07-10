@@ -11,6 +11,21 @@ import Foundation
 import Photos
 #endif
 
+ @objc enum ProxyPHAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
+
+@objc protocol ProxyPhotoLibrary {
+    // Don't declare these as static, we call them on the clasws
+    func authorizationStatus() -> ProxyPHAuthorizationStatus
+    
+    @objc(requestAuthorization:)
+    func requestAuthorization(_ handler: @escaping (ProxyPHAuthorizationStatus) -> Void)
+}
+
 /// Checks and authorises access to the Photo library on supported platforms
 ///
 /// Supports: iOS 8+, macOS 10.13+, watchOS ⛔️, tvOS 10+
@@ -20,7 +35,8 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
         return false
 #else
         if #available(iOS 8, macOS 10.13, tvOS 10, *) {
-            return true
+            let isLinked = libraryIsLinkedForClass("PHPhotoLibrary")
+            return isLinked
         } else {
             return false
         }
@@ -34,10 +50,13 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
+    lazy var photoLibrary: AnyObject = { NSClassFromString("PHPhotoLibrary")! }()
+    lazy var proxyPhotoLibrary: ProxyPhotoLibrary = { unsafeBitCast(self.photoLibrary, to: ProxyPhotoLibrary.self) }()
+    
     var status: SystemPermissionStatus {
 #if canImport(Photos)
         if #available(iOS 8, tvOS 10, macOS 10.13, *) {
-            return authStatusToPermissionStatus(PHPhotoLibrary.authorizationStatus())
+            return authStatusToPermissionStatus(proxyPhotoLibrary.authorizationStatus())
         } else {
             return .unsupported
         }
@@ -57,7 +76,7 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
         }
         
         if #available(iOS 8, tvOS 10, macOS 10.13, *) {
-            PHPhotoLibrary.requestAuthorization({status in
+            proxyPhotoLibrary.requestAuthorization({status in
                 completion(self, self.authStatusToPermissionStatus(status))
             })
         } else {
@@ -68,11 +87,11 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 
 #if canImport(Photos)
     @available(iOS 8, tvOS 10, macOS 10.13, *)
-    func authStatusToPermissionStatus(_ authStatus: PHAuthorizationStatus) -> SystemPermissionStatus {
+    func authStatusToPermissionStatus(_ authStatus: ProxyPHAuthorizationStatus) -> SystemPermissionStatus {
 #if os(watchOS)
         return .unsupported
 #else
-        switch PHPhotoLibrary.authorizationStatus() {
+        switch proxyPhotoLibrary.authorizationStatus() {
             case .authorized: return .authorized
             case .denied: return .denied
             case .notDetermined: return .notDetermined

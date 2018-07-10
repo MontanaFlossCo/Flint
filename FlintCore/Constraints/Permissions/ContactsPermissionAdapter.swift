@@ -7,13 +7,16 @@
 //
 
 import Foundation
-#if canImport(Contacts)
-import Contacts
-#endif
 
-/// Defines the type of Contacts entity for which Flint will request access
-public enum ContactsEntity: Hashable {
+@objc fileprivate enum ProxyEntityType: Int {
     case contacts
+}
+
+@objc fileprivate enum ProxyAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
 }
 
 /// Checks and authorises access to the Contacts on supported platforms
@@ -23,7 +26,9 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     static var isSupported: Bool {
 #if !os(tvOS)
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return true
+            // Do this in case it is not auto-linked on all supported platforms
+            let isLinked = libraryIsLinkedForClass("CNContactStore")
+            return isLinked
         } else {
             return false
         }
@@ -38,21 +43,34 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
 
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSContactsUsageDescription"
-#if canImport(Contacts)
-    lazy var contactStore: CNContactStore = { CNContactStore() }()
-    let entityType: CNEntityType
-#endif
+
+    typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+
+    private let entityType: ProxyEntityType
+    private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNContactStore") }()
+    private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: "CNContactStore")
+    }()
+    private lazy var requestAuthorization: RequestAccessFunc? = {
+        if let store = contactStore {
+            return try? dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod: "requestAccessForEntityType:completionHandler:", on: store)
+        } else {
+            return nil
+        }
+    }()
 
     var status: SystemPermissionStatus {
-#if canImport(Contacts)
+        // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
+        guard let getAuthorizationStatus = getAuthorizationStatus else {
+            return .unsupported
+        }
+        
         if #available(iOS 9, macOS 10.11, watchOS 2, *) {
-            return authStatusToPermissionStatus(CNContactStore.authorizationStatus(for: entityType))
+            return authStatusToPermissionStatus(ProxyAuthorizationStatus(rawValue: getAuthorizationStatus(entityType.rawValue))!)
         } else {
             return .unsupported
         }
-#else
-        return .unsupported
-#endif
     }
     
     required init(permission: SystemPermissionConstraint) {
@@ -60,11 +78,10 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             flintBug("Cannot create a ContactsPermissionAdapter with permission type \(permission)")
         }
         
-#if canImport(Contacts)
         switch entityType {
             case .contacts: self.entityType = .contacts
         }
-#endif
+
         self.permission = permission
     }
     
@@ -74,19 +91,22 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
             return
         }
         
-#if canImport(Contacts)
-        contactStore.requestAccess(for: entityType) { (_, _) in
-            completion(self, self.status)
+        // Verify this first, we can't check availability at compile as it adds a libswiftContacts.dylib dependency
+        guard let requestAuthorization = requestAuthorization else {
+            completion(self, .unsupported)
+            return
         }
-#endif
+
+        requestAuthorization(entityType.rawValue, { (_, _) in
+            completion(self, self.status)
+        })
 #else
         completion(self, .unsupported)
 #endif
     }
 
-#if canImport(Contacts)
     @available(iOS 9, macOS 10.11, watchOS 2, *)
-    func authStatusToPermissionStatus(_ authStatus: CNAuthorizationStatus) -> SystemPermissionStatus {
+    fileprivate func authStatusToPermissionStatus(_ authStatus: ProxyAuthorizationStatus) -> SystemPermissionStatus {
 #if os(tvOS)
         return .unsupported
 #else
@@ -98,5 +118,4 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
         }
 #endif
     }
-#endif
 }

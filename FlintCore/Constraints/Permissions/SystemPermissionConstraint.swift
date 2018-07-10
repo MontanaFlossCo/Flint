@@ -27,7 +27,6 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
 
 // The rest of these are "coming soon"
 /*
-    case speechRecognition
     case bluetoothSharing
     case mediaLibrary
     case homeKit
