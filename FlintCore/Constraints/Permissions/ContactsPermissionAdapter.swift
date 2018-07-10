@@ -50,7 +50,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     private let entityType: ProxyEntityType
     private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNContactStore") }()
     private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
-        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: "CNContactStore")
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType:", on: "CNContactStore")
     }()
     private lazy var requestAuthorization: RequestAccessFunc? = {
         if let store = contactStore {
