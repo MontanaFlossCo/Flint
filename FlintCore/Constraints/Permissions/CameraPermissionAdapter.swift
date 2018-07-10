@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 
+#if os(iOS) || os(macOS)
 @objc enum ProxyAVAuthorizationStatus: Int {
     case notDetermined
     case restricted
@@ -24,6 +25,7 @@ import AVFoundation
     func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
 
 }
+#endif
 
 /// Checks and authorises access to the Camera on supported platforms
 ///
@@ -45,9 +47,10 @@ class CameraPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSCameraUsageDescription"
 
+#if os(iOS) || os(macOS)
     lazy var captureDeviceClass: AnyObject = { NSClassFromString("AVCaptureDevice")! }()
     lazy var proxyCaptureDeviceClass: ProxyCaptureDevice = { unsafeBitCast(self.captureDeviceClass, to: ProxyCaptureDevice.self) }()
-    
+#endif
     var status: SystemPermissionStatus {
 #if os(iOS)
         switch proxyCaptureDeviceClass.authorizationStatus(for: .video) {
