@@ -7,8 +7,12 @@
 //
 import Foundation
 
+/// The error type for dynamic binding failures.
 enum DynamicBindError: Error {
+    /// There was no class found for the given name
     case classNotFound
+    
+    /// There was no method found for the selector name specified
     case methodNotFound
 }
 
@@ -17,6 +21,8 @@ func libraryIsLinkedForClass(_ className: String) -> Bool {
     return NSClassFromString(className) != nil
 }
 
+/// Instantiate an Objective-C compatible class using a default no-arg initialiser, by name.
+/// - param className: The name of the class to instantiate
 func instantiate(classNamed className: String) throws -> NSObject {
     guard let targetClass = NSClassFromString(className) as? NSObject.Type else {
         throw DynamicBindError.classNotFound
@@ -24,6 +30,8 @@ func instantiate(classNamed className: String) throws -> NSObject {
     return targetClass.init()
 }
 
+/// A wrapper around the horrific unsafeBitCast stuff we need to do to bind Swift functions to ObjC methods
+/// resolved dynamically at runtime.
 struct DynamicInvocation {
     let instance: AnyObject
     let method: IMP
@@ -64,25 +72,11 @@ struct DynamicInvocation {
     }
 }
 
-//
-//func dynamicBind(toInstance object: AnyObject, selector: Selector) throws -> DynamicInvocation {
-//    guard let method = object.method(for: selector) else {
-//        throw DynamicBindError.methodNotFound
-//    }
-//    return DynamicInvocation(instance: object, method: method, selector: selector)
-//}
-//
-//func dynamicBindIntReturn(toStaticMethod methodName: String, on className: String) throws -> () -> Int {
-//    let invocation = try DynamicInvocation(className: className, staticMethodName: methodName)
-//    return {
-//        typealias FuncType = @convention(c) (AnyObject, Selector) -> Int
-//        return invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
-//            let function: FuncType = functionGenerator()
-//            return function(instance, selector)
-//        }
-//    }
-//}
-//
+/// Returns a function that will call the specified static Objective-C method on the class specified by name, taking an
+/// Int argument and returning an Int result.
+///
+/// - param methodName: The Objective-C method/selector name
+/// - param className: The Objective-C class name e.g. `CNContactStore`
 func dynamicBindIntArgsIntReturn(toStaticMethod methodName: String, on className: String) throws -> (Int) -> Int {
     let invocation = try DynamicInvocation(className: className, staticMethodName: methodName)
     return { (arg1: Int) in
@@ -93,18 +87,12 @@ func dynamicBindIntArgsIntReturn(toStaticMethod methodName: String, on className
         }
     }
 }
-//
-//func dynamicBindUIntArgsIntReturn(toStaticMethod methodName: String, on className: String) throws -> (UInt) -> Int {
-//    let invocation = try DynamicInvocation(className: className, staticMethodName: methodName)
-//    return { (arg1: UInt) in
-//        typealias FuncType = @convention(c) (AnyObject, Selector, UInt) -> Int
-//        return invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
-//            let function: FuncType = functionGenerator()
-//            return function(instance, selector, arg1)
-//        }
-//    }
-//}
-//
+
+/// Returns a function that will call the specified Objective-C instance method on the object specified, taking an
+/// Int argument and a closure argument (taking a Bool and Error?), and returning an Void result.
+///
+/// - param methodName: The Objective-C instance method/selector name
+/// - param object: The Objective-C object instance on which to perform this method
 func dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (Int, (Bool, Error?) -> Void) -> Void {
     let invocation = try DynamicInvocation(object: object, methodName: methodName)
     return { (arg1: Int, arg2: (Bool, Error?) -> Void) in
@@ -115,41 +103,4 @@ func dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod method
         }
     }
 }
-//
-//func dynamicBindUIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (UInt, (Bool, Error?) -> Void) -> Void {
-//    let invocation = try DynamicInvocation(object: object, methodName: methodName)
-//    return { (arg1: UInt, arg2: (Bool, Error?) -> Void) in
-//        typealias FuncType = @convention(c) (AnyObject, Selector, UInt, (Bool, Error?) -> Void) -> Void
-//        invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
-//            let function: FuncType = functionGenerator()
-//            function(instance, selector, arg1, arg2)
-//        }
-//    }
-//}
-//
-///// Support zero-arg instance function.
-///// Input/output func type is: () -> T
-///// Internally we current the instance and selector, and return a func that has these bound
-//func dynamicBindVoidReturn(toInstanceMethod methodName: String, on object: AnyObject) throws -> () -> Void {
-//    let invocation = try DynamicInvocation(object: object, methodName: methodName)
-//    return {
-//        typealias FuncType = @convention(c) (AnyObject, Selector) -> Void
-//        invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
-//            let function: FuncType = functionGenerator()
-//            function(instance, selector)
-//        }
-//    }
-//}
-//
-//func dynamicBindIntReturn(toInstanceMethod methodName: String, on object: AnyObject) throws -> () -> Int {
-//    let selector = NSSelectorFromString(methodName)
-//    guard let method = object.method(for: selector) else {
-//        throw DynamicBindError.methodNotFound
-//    }
-//
-//    typealias funcType = @convention (c) (AnyObject, Selector) -> Int
-//    let dynamicFunction: funcType = unsafeBitCast(method, to: funcType.self)
-//    return {
-//        return dynamicFunction(object, selector)
-//    }
-//}
+
