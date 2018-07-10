@@ -30,7 +30,7 @@ public protocol Action {
     /// are declared as `InputType?` so actions must always be ready to accept nil.
     ///
     /// - see: `NoInput`
-    associatedtype InputType: CustomStringConvertible = NoInput
+    associatedtype InputType: FlintLoggable = NoInput
 
     /// The type to use as the presenter (UI) for the action.
     ///

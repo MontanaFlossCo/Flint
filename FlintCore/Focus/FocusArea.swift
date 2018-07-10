@@ -13,7 +13,7 @@ import Foundation
 /// This is an immutable wrapper used to allow the Focus feature to be used with either TopicPath or Feature.
 ///
 /// - see: `FocusFeature`
-public struct FocusArea: CustomStringConvertible, CustomDebugStringConvertible, Hashable {
+public struct FocusArea: FlintLoggable, CustomStringConvertible, CustomDebugStringConvertible, Hashable {
     public let topicPath: TopicPath
     
     public init(topicPath: TopicPath) {

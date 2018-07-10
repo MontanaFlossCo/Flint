@@ -174,7 +174,7 @@ public class ActionSession: CustomDebugStringConvertible {
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: TopicPath(actionBinding: staticBinding),
-                                   arguments: input.description,
+                                   arguments: input.loggingDescription,
                                    presenter: String(describing: presenter))
         }
         let actionRequest = ActionRequest(uniqueID: nextRequestID(),
@@ -275,7 +275,7 @@ public class ActionSession: CustomDebugStringConvertible {
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: actionBinding.logTopicPath,
-                                   arguments: input.description,
+                                   arguments: input.loggingDescription,
                                    presenter: String(describing: presenter))
         }
         let request: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),

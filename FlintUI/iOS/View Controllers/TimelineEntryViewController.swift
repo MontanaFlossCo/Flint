@@ -160,7 +160,11 @@ class TimelineEntryViewController: UITableViewController {
                 detail = String(reflecting: actionHistoryEntry.feature)
             case .input:
                 text = "Input"
-                detail = actionHistoryEntry.inputDebugDescription ?? "<none>"
+                if let info = actionHistoryEntry.inputInfo {
+                    detail = String(reflecting: info)
+                } else {
+                    detail = "No input"
+                }
             case .outcome:
                 if let outcome = actionHistoryEntry.outcome {
                     text = "Outcome"

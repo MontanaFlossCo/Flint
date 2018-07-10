@@ -9,7 +9,7 @@
 import Foundation
 
 /// A "null" state type for actions that do not require state
-public struct NoInput: RouteParametersCodable, ActivityCodable, CustomStringConvertible, CustomDebugStringConvertible {
+public struct NoInput: RouteParametersCodable, ActivityCodable, FlintLoggable {
     /// Currently we're using this because we cannot typealias action's InputType to be an optional,
     /// as this breaks generic constraints on URL mapping code. Optional (enum) cannot be used as a generic constraint
     public static let none = NoInput()
@@ -32,11 +32,11 @@ public struct NoInput: RouteParametersCodable, ActivityCodable, CustomStringConv
     
     public var requiredUserInfoKeys: Set<String> = []
     
-    public var description: String {
+    public var loggingDescription: String {
         return ""
     }
 
-    public var debugDescription: String {
-        return ""
+    public var loggingInfo: [String : Any]? {
+        return nil
     }
 }
