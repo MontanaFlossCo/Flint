@@ -14,12 +14,15 @@ import CoreMotion
 typealias CMProxyMotionActivityQueryHandler = ([NSObject]?, Error?) -> Void
 
 @objc protocol ProxyMotionActivityManager {
+#if canImport(CoreMotion)
     @objc static func authorizationStatus() -> CMAuthorizationStatus
     
     @objc static var isActivityAvailable: Bool { get }
     
     @objc(queryActivityStartingFromDate:toDate:toQueue:withHandler:)
     func queryActivityStarting(from start: Date, to end: Date, to queue: OperationQueue, withHandler handler: @escaping CMProxyMotionActivityQueryHandler)
+#endif
+
 }
 
 /// Support: iOS 11+, macOS ⛔️, watchOS 4+, tvOS ⛔️

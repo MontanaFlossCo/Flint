@@ -11,12 +11,19 @@ import Foundation
 import Photos
 #endif
 
+ @objc enum ProxyPHAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
+
 @objc protocol ProxyPhotoLibrary {
     // Don't declare these as static, we call them on the clasws
-    func authorizationStatus() -> PHAuthorizationStatus
+    func authorizationStatus() -> ProxyPHAuthorizationStatus
     
     @objc(requestAuthorization:)
-    func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void)
+    func requestAuthorization(_ handler: @escaping (ProxyPHAuthorizationStatus) -> Void)
 }
 
 /// Checks and authorises access to the Photo library on supported platforms
@@ -80,7 +87,7 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
 
 #if canImport(Photos)
     @available(iOS 8, tvOS 10, macOS 10.13, *)
-    func authStatusToPermissionStatus(_ authStatus: PHAuthorizationStatus) -> SystemPermissionStatus {
+    func authStatusToPermissionStatus(_ authStatus: ProxyPHAuthorizationStatus) -> SystemPermissionStatus {
 #if os(watchOS)
         return .unsupported
 #else

@@ -42,9 +42,11 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     
     let permission: SystemPermissionConstraint
     
+#if canImport(Speech)
     lazy var speechRecognizerClass: AnyObject = { NSClassFromString("SFSpeechRecognizer")! }()
     lazy var proxySpeechRecognizerClass: ProxySpeechRecognizer = { unsafeBitCast(self.speechRecognizerClass, to: ProxySpeechRecognizer.self) }()
-    
+#endif
+
     var status: SystemPermissionStatus {
 #if canImport(Speech)
         if #available(iOS 10, *) {

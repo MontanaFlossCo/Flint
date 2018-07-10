@@ -9,10 +9,17 @@
 import Foundation
 import AVFoundation
 
+@objc enum ProxyAVAuthorizationStatus: Int {
+    case notDetermined
+    case restricted
+    case denied
+    case authorized
+}
+
 @objc protocol ProxyCaptureDevice {
     // We don't mark these static as we call them on the class itself.
     @objc(authorizationStatusForMediaType:)
-    func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
+    func authorizationStatus(for mediaType: AVMediaType) -> ProxyAVAuthorizationStatus
     @objc(requestAccessForMediaType:completionHandler:)
     func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
 
