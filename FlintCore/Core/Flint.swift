@@ -131,7 +131,12 @@ final public class Flint {
 
         let defaultScheme = FlintAppInfo.urlSchemes.first
         let defaultDomain = FlintAppInfo.associatedDomains.first
-        linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
+        
+        // Don't create a link creator unless we can do _something_ with it, so that advisories can come out if
+        // the dev actually tries to create links without setting up the app properly
+        if defaultScheme != nil || defaultDomain != nil {
+            linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
+        }
         
         ActionSession.quickSetupMainSession()
 
