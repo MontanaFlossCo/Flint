@@ -30,10 +30,6 @@ final class FakeFeature: ConditionalFeature {
         requirements.permission(.camera)
         requirements.permission(.photos)
         requirements.permission(.contacts(entity: .contacts))
-        requirements.permission(.calendarEvents)
-        requirements.permission(.reminders)
-        requirements.permission(.motion)
-        requirements.permission(.speechRecognition)
     }
 }
 

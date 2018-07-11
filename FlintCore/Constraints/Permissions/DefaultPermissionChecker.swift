@@ -72,7 +72,7 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     // We probably need to also verify there is actual camera hardware, e.g. WatchOS
                     add(adapter.createAdapters(for: permission))
                 } else {
-                    FlintInternal.logger?.warning("Permission \(permission) is not supported. Either the target platform does not implement it, or your target is not linking the framework required.")
+                    FlintInternal.logger?.warning("Permission \"\(permission)\" is not supported. Either the target platform does not implement it, or your target is not linking the framework required.")
                 }
             }
 
