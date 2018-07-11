@@ -14,12 +14,12 @@ class FakeFeatures: FeatureGroup {
     static var subfeatures: [FeatureDefinition.Type] = [FakeFeature.self]
 }
 
-final class FakeFeature: ConditionalFeature {
+final class FakeFeature: ConditionalFeature, URLMapped {
     static var name = "FakeFeature1"
     
     static var description = "A fake feature"
     
-    static let action1: ConditionalActionBinding<FakeFeature, DoSomethingFakeAction> = action(DoSomethingFakeAction.self)
+    static let action1 = action(DoSomethingFakeAction.self)
     
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
@@ -31,10 +31,28 @@ final class FakeFeature: ConditionalFeature {
         requirements.permission(.photos)
         requirements.permission(.contacts(entity: .contacts))
     }
+    
+    static func urlMappings(routes: URLMappingsBuilder) {
+        routes.send("/*", to: action1)
+    }
+}
+
+extension String: RouteParametersCodable {
+    public init?(from routeParameters: RouteParameters?, mapping: URLMapping) {
+        guard let value = routeParameters?["value"] else {
+            return nil
+        }
+        self.init(value)
+    }
+    
+    public func encodeAsRouteParameters(for mapping: URLMapping) -> RouteParameters? {
+        return ["value": self]
+    }
+    
 }
 
 final class DoSomethingFakeAction: Action {
-    typealias InputType = NoInput
+    typealias InputType = String?
     typealias PresenterType = NoPresenter
     
     static var activityTypes: Set<ActivityEligibility> = [.handoff, .prediction]

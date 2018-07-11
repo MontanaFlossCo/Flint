@@ -24,7 +24,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
             }
         }
     }
-
+    
     /// Called internally to register a new `NSUserActivity` for an action request.
     ///
     /// Feature Actions can implement `actionActivity(for:)` to return the basic info required, or nil if no activity at all should
@@ -49,10 +49,33 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         let input = actionRequest.context.input
 
         var appLink: URL? = nil
-        if let encodable = input as? RouteParametersEncodable {
-            appLink = Flint.linkCreator?.appLink(to: actionRequest.actionBinding, with: encodable)
-        }
+        var encodable: RouteParametersEncodable? = nil
 
+        // This is a hideous workaround for the fact we cannot tell if `InputType` is an Optional or not, as
+        // well as test it for `RouteParametersEncodable` conformance.
+        // e.g. for `nil` we always use `[:]` for route args, so we can still create URLs to actions with nil inputs,
+        // but for non-nil we can ask any value wrapped in the optional if it conforms
+        if input is FlintOptionalProtocol {
+            if (input as! FlintOptionalProtocol).isNil {
+                encodable = EmptyRouteParametersEncodable()
+            }
+        }
+        if encodable == nil {
+            if let encodableInput = input as? RouteParametersEncodable {
+                encodable = encodableInput
+            }
+        }
+        
+        if let validEncodable = encodable {
+            if let linkCreator = Flint.linkCreator {
+                appLink = linkCreator.appLink(to: actionRequest.actionBinding, with: validEncodable)
+            } else {
+                if !(input is ActivityCodable) {
+                    flintUsageError("Input type \(type(of: input)) for action \(action.name) is not ActivityCodable, and there is no Flint.linkCreator specified (are you missing a default custom URL scheme?). It will not be possible to continue this activity later.")
+                }
+            }
+        }
+        
         // Create the lazy function that will create the activity on demand
         let prepareActivityWrapper = { () -> NSUserActivity? in
             return actionRequest.actionBinding.activity(for: input, withURL: appLink)
@@ -65,6 +88,12 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         DispatchQueue.main.async {
             publishRequest.perform(using: NoPresenter(), with: publishState, userInitiated: false, source: .application)
         }
+    }
+}
+
+private class EmptyRouteParametersEncodable: RouteParametersEncodable {
+    func encodeAsRouteParameters(for mapping: URLMapping) -> RouteParameters? {
+        return [:]
     }
 }
 
