@@ -27,7 +27,7 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
         }
     }
     
-    public func buildLink(with parameters: RouteParameters?, defaultScheme: String, defaultDomain: String) -> URL {
+    public func buildLink(with parameters: RouteParameters?, defaultPrefix: String) -> URL {
         var urlComponents = URLComponents()
 
         guard let generatedPath = pattern.buildPath(with: parameters) else {
@@ -38,7 +38,7 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
                 urlComponents.scheme = scheme
                 urlComponents.host = generatedPath
             case .appAny:
-                urlComponents.scheme = defaultScheme
+                urlComponents.scheme = defaultPrefix
                 urlComponents.host = generatedPath
             case let .universal(domain):
                 urlComponents.scheme = "https"
@@ -46,7 +46,7 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
                 urlComponents.path = "/\(generatedPath)"
             case .universalAny:
                 urlComponents.scheme = "https"
-                urlComponents.host = defaultDomain
+                urlComponents.host = defaultPrefix
                 urlComponents.path = "/\(generatedPath)"
         }
         if let routeParameters = parameters {

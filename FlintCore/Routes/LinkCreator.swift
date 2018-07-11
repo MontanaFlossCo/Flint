@@ -25,13 +25,13 @@ import Foundation
 /// You can create your own instances to produce links with specific schemes and domains. Links can only be created
 /// for actions that have routes defined in your Feature's `urlMappings`.
 public class LinkCreator {
-    public let defaultScheme: String
-    public let defaultDomain: String
+    public let defaultScheme: String?
+    public let defaultDomain: String?
     
     /// Instantiate a link creator for the given scheme and domain.
     /// Note that you cannot use just any scheme or domain. They must be correctly configured in your app's
     /// `Info.plist` and Associated Domains entitlements.
-    public init(scheme: String, domain: String) {
+    public init(scheme: String?, domain: String?) {
         self.defaultScheme = scheme
         self.defaultDomain = domain
     }
@@ -40,6 +40,9 @@ public class LinkCreator {
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
+        guard let scheme = defaultScheme else {
+            flintUsageError("No app URL scheme available")
+        }
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
@@ -47,13 +50,16 @@ public class LinkCreator {
         guard let mapping = matchedMapping else {
             flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
-        return build(mapping: mapping, with: input)
+        return build(mapping: mapping, defaultPrefix: scheme, with: input)
     }
     
     /// Create an app custom URL scheme link to the specified conditional feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func appLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
+        guard let scheme = defaultScheme else {
+            flintUsageError("No app URL scheme available")
+        }
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
@@ -61,13 +67,16 @@ public class LinkCreator {
         guard let mapping = matchedMapping else {
             flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
-        return build(mapping: mapping, with: input)
+        return build(mapping: mapping, defaultPrefix: scheme, with: input)
     }
     
     /// Create a universal/domain URL linking to the specified static feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func universalLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
+        guard let domain = defaultDomain else {
+            flintUsageError("No associated domain available")
+        }
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
@@ -75,13 +84,16 @@ public class LinkCreator {
         guard let mapping = matchedMapping else {
             flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
-        return build(mapping: mapping, with: input)
+        return build(mapping: mapping, defaultPrefix: domain, with: input)
     }
     
     /// Create a universal/domain URL linking to the specified conditional feature action, passing the input provided.
     ///
     /// - note: the input must conform to `QueryParametersEncodable`, and anything output from that protocol will be user-visible in the URL generated.
     public func universalLink<FeatureType, ActionType>(to actionBinding: ConditionalActionBinding<FeatureType, ActionType>, with input: ActionType.InputType?) -> URL where ActionType.InputType: RouteParametersEncodable {
+        guard let domain = defaultDomain else {
+            flintUsageError("No associated domain available")
+        }
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
@@ -89,7 +101,7 @@ public class LinkCreator {
         guard let mapping = matchedMapping else {
             flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
-        return build(mapping: mapping, with: input)
+        return build(mapping: mapping, defaultPrefix: domain, with: input)
     }
 
     // MARK: Internals
@@ -98,6 +110,9 @@ public class LinkCreator {
     /// state that has already been encoded and of the InputType appropriate for T. This is because we cannot
     /// constrain on `T.InputType: QueryParametersEncodable` at a call site that is only constrained on `T: Action`.
     func appLink<FeatureType, ActionType>(to actionBinding: StaticActionBinding<FeatureType, ActionType>, with encodableState: RouteParametersEncodable?) -> URL {
+        guard let scheme = defaultScheme else {
+            flintUsageError("No app URL scheme available")
+        }
         guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
@@ -106,16 +121,16 @@ public class LinkCreator {
             flintUsageError("No app URL mapping found for: \(actionBinding)")
         }
         let encodedState = encodableState?.encodeAsRouteParameters(for: mapping)
-        return build(mapping: mapping, with: encodedState)
+        return build(mapping: mapping, defaultPrefix: scheme, with: encodedState)
     }
     
-    private func build<T>(mapping: URLMapping, with state: T?) -> URL where T: RouteParametersEncodable {
+    private func build<T>(mapping: URLMapping, defaultPrefix: String, with state: T?) -> URL where T: RouteParametersEncodable {
         let params = state?.encodeAsRouteParameters(for: mapping)
-        return build(mapping: mapping, with: params)
+        return build(mapping: mapping, defaultPrefix: defaultPrefix, with: params)
     }
 
-    private func build(mapping: URLMapping, with encodedState: RouteParameters?) -> URL {
-        return mapping.buildLink(with: encodedState, defaultScheme: defaultScheme, defaultDomain: defaultDomain)
+    private func build(mapping: URLMapping, defaultPrefix: String, with encodedState: RouteParameters?) -> URL {
+        return mapping.buildLink(with: encodedState, defaultPrefix: defaultPrefix)
     }
 
 }

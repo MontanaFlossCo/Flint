@@ -131,9 +131,7 @@ final public class Flint {
 
         let defaultScheme = FlintAppInfo.urlSchemes.first
         let defaultDomain = FlintAppInfo.associatedDomains.first
-        if let scheme = defaultScheme, let domain = defaultDomain {
-            linkCreator = LinkCreator(scheme: scheme, domain: domain)
-        }
+        linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
         
         ActionSession.quickSetupMainSession()
 
