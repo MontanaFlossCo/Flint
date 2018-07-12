@@ -9,18 +9,22 @@
 import Foundation
 
 /// The information required to publish
-struct PublishActivityRequest: CustomStringConvertible, CustomDebugStringConvertible {
+struct PublishActivityRequest: FlintLoggable {
     let actionName: String
     let feature: FeatureDefinition.Type
     let activityCreator: () -> NSUserActivity?
     let appLink: URL?
 
-    var description: String {
+    var loggingDescription: String {
         return "Action: \(actionName)"
     }
     
-    var debugDescription: String {
-        return "PublishActivityRequest for action: \(actionName) of feature \(feature). URL: \(appLink?.description ?? "nil")"
+    var loggingInfo: [String:Any]? {
+        return [
+            "action": actionName,
+            "feature": feature.description,
+            "url": appLink?.description ?? "nil"
+        ]
     }
 }
 

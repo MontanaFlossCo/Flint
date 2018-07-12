@@ -53,20 +53,20 @@ import Foundation
     public let inputDescription: String?
     
     /// The detailed debug description of the input to the action
-    public let inputDebugDescription: String?
+    public let inputInfo: [String:Any]?
 
     /// The outcome of the action. This is nil unless `kind` is `.complete`.
     public let outcome: ActionOutcome?
 
-    convenience init(sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputDebugDescription: String?) {
-        self.init(kind: .begin, sequenceID: sequenceID, userInitiated: userInitiated, source: source, date: date, sessionName: sessionName, feature: feature, actionName: actionName, inputDescription: inputDescription, inputDebugDescription: inputDebugDescription, outcome: nil)
+    convenience init(sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputInfo: [String:String]?) {
+        self.init(kind: .begin, sequenceID: sequenceID, userInitiated: userInitiated, source: source, date: date, sessionName: sessionName, feature: feature, actionName: actionName, inputDescription: inputDescription, inputInfo: inputInfo, outcome: nil)
     }
     
-    convenience init(sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputDebugDescription: String?, outcome: ActionOutcome) {
-        self.init(kind: .complete, sequenceID: sequenceID, userInitiated: userInitiated, source: source, date: date, sessionName: sessionName, feature: feature, actionName: actionName, inputDescription: inputDescription, inputDebugDescription: inputDebugDescription, outcome: outcome)
+    convenience init(sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputInfo: [String:String]?, outcome: ActionOutcome) {
+        self.init(kind: .complete, sequenceID: sequenceID, userInitiated: userInitiated, source: source, date: date, sessionName: sessionName, feature: feature, actionName: actionName, inputDescription: inputDescription, inputInfo: inputInfo, outcome: outcome)
     }
     
-    private init(kind: Kind, sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputDebugDescription: String?, outcome: ActionOutcome?) {
+    private init(kind: Kind, sequenceID: UInt, userInitiated: Bool, source: ActionSource, date: Date, sessionName: String, feature: FeatureDefinition.Type, actionName: String, inputDescription: String?, inputInfo: [String:String]?, outcome: ActionOutcome?) {
         self.userInitiated = userInitiated
         self.source = source
         self.kind = kind
@@ -76,7 +76,7 @@ import Foundation
         self.feature = feature
         self.actionName = actionName
         self.inputDescription = inputDescription
-        self.inputDebugDescription = inputDebugDescription
+        self.inputInfo = inputInfo
         self.outcome = outcome
     }
     

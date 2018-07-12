@@ -12,7 +12,7 @@ import Foundation
 ///
 /// The context can be passed forward, or a new instance derived with new state, so that e.g. a subsystem can be
 /// passed the logger and state information as a single opaque value, without passing forward the entire action request
-public class ActionContext<InputType> where InputType: CustomStringConvertible {
+public class ActionContext<InputType> where InputType: FlintLoggable {
 
     /// Provides access to the context specific loggers for this action invocation
     public class Logs {

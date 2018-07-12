@@ -36,6 +36,7 @@
 		49BC1C552086473E00A7FC77 /* FeatureBrowserFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C542086473E00A7FC77 /* FeatureBrowserFeature.swift */; };
 		49BC1C5C20874F0000A7FC77 /* ActionStackActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C5B20874F0000A7FC77 /* ActionStackActionViewController.swift */; };
 		49BC1C5E2087551500A7FC77 /* ActionStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C5D2087551400A7FC77 /* ActionStackViewController.swift */; };
+		49CF4D3F20F601450009FFF4 /* FakeFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CF4D3E20F601450009FFF4 /* FakeFeatures.swift */; };
 		49D5796B20618AD9006EE0C9 /* ActionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796A20618AD9006EE0C9 /* ActionDetailViewController.swift */; };
 		49D579702063C6E0006EE0C9 /* FeatureBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5796F2063C6E0006EE0C9 /* FeatureBrowserViewController.swift */; };
 		49DB9233206FD67C00F758DC /* FocusLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB9230206FD65B00F758DC /* FocusLogViewController.swift */; };
@@ -108,6 +109,7 @@
 		49BC1C542086473E00A7FC77 /* FeatureBrowserFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBrowserFeature.swift; sourceTree = "<group>"; };
 		49BC1C5B20874F0000A7FC77 /* ActionStackActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStackActionViewController.swift; sourceTree = "<group>"; };
 		49BC1C5D2087551400A7FC77 /* ActionStackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStackViewController.swift; sourceTree = "<group>"; };
+		49CF4D3E20F601450009FFF4 /* FakeFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeatures.swift; sourceTree = "<group>"; };
 		49D5796A20618AD9006EE0C9 /* ActionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDetailViewController.swift; sourceTree = "<group>"; };
 		49D5796F2063C6E0006EE0C9 /* FeatureBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBrowserViewController.swift; sourceTree = "<group>"; };
 		49DB9230206FD65B00F758DC /* FocusLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusLogViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		4904958B2060304B00A57991 /* FlintUISandbox */ = {
 			isa = PBXGroup;
 			children = (
+				49CF4D3D20F601260009FFF4 /* Features */,
 				4908956F208F47910022E0A7 /* Frameworks */,
 				4904958C2060304B00A57991 /* AppDelegate.swift */,
 				4904958E2060304B00A57991 /* ViewController.swift */,
@@ -259,6 +262,14 @@
 				49BC1C542086473E00A7FC77 /* FeatureBrowserFeature.swift */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		49CF4D3D20F601260009FFF4 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				49CF4D3E20F601450009FFF4 /* FakeFeatures.swift */,
+			);
+			name = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -414,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4904958F2060304B00A57991 /* ViewController.swift in Sources */,
+				49CF4D3F20F601450009FFF4 /* FakeFeatures.swift in Sources */,
 				4904958D2060304B00A57991 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

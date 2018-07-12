@@ -61,7 +61,7 @@ extension TimelineEntry {
             "session": sessionName,
             "feature": feature.identifier.description,
             "action": actionName,
-            "input": inputDebugDescription
+            "input": inputInfo
         ]
     }
 }
