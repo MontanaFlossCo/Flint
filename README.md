@@ -91,7 +91,7 @@ When you need to perform an action from a conditional feature, you are forced to
 
 ```swift
 if let request = DocumentSharingFeature.share.request() {
-    request.perform(input: document, presenter: presenter, with: document)
+    request.perform(input: document, presenter: presenter)
 } else {
     showPremiumUpgradeOrPermissionAuthorisations()
 }
