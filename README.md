@@ -91,7 +91,7 @@ When you need to perform an action from a conditional feature, you are forced to
 
 ```swift
 if let request = DocumentSharingFeature.share.request() {
-    request.perform(using: presenter, with: document)
+    request.perform(input: document, presenter: presenter, with: document)
 } else {
     showPremiumUpgradeOrPermissionAuthorisations()
 }
@@ -136,7 +136,7 @@ The action type `ConfirmAccountAction` is not shown here, for brevity. See the [
 Of course you can easily perform this same action from code in your app if required:
 
 ```swift
-UserAccountManagementFeature.confirmAccount.perform(using: presenter, with: confirmationToken)
+UserAccountManagementFeature.confirmAccount.perform(input: confirmationToken, presenter: presenter)
 ```
 
 If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 

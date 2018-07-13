@@ -23,57 +23,60 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
         self.actionBinding = actionBinding
     }
 
-    public func perform(using presenter: ActionType.PresenterType,
-                       with input: ActionType.InputType,
-                       completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: presenter, with: input, completion: completion)
+    public func perform(input: ActionType.InputType,
+                        presenter: ActionType.PresenterType,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, input: input, presenter: presenter, completion: completion)
     }
     
-    public func perform(using presenter: ActionType.PresenterType,
-                       with input: ActionType.InputType,
-                       userInitiated: Bool,
-                       source: ActionSource = .application,
-                       completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: presenter, with: input, userInitiated: userInitiated, source: source, completion: completion)
+    public func perform(input: ActionType.InputType,
+                        presenter: ActionType.PresenterType,
+                        userInitiated: Bool,
+                        source: ActionSource = .application,
+                        completion: ((ActionOutcome) -> ())? = nil) {
+        ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
+/// Overloads for actions with no presenter
 extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter {
-    public func perform(with input: ActionType.InputType,
+    public func perform(input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: NoPresenter(), with: input, completion: completion)
+        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), completion: completion)
     }
 
-    public func perform(with input: ActionType.InputType,
+    public func perform(input: ActionType.InputType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: NoPresenter(), with: input, userInitiated: userInitiated, source: source, completion: completion)
+        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
+/// Overloads for actions with no input
 extension ConditionalActionRequest where ActionType.InputType == NoInput {
-    public func perform(using presenter: ActionType.PresenterType,
+    public func perform(presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: presenter, with: NoInput.none, completion: completion)
+        ActionSession.main.perform(self, input: .none, presenter: presenter, completion: completion)
     }
 
-    public func perform(using presenter: ActionType.PresenterType,
+    public func perform(presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: presenter, with: NoInput.none, userInitiated: userInitiated, source: source, completion: completion)
+        ActionSession.main.perform(self, input: .none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
+/// Overloads for actions with neither input nor presenter
 extension ConditionalActionRequest where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
     public func perform(completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: NoPresenter(), with: NoInput.none, completion: completion)
+        ActionSession.main.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, using: NoPresenter(), with: NoInput.none, userInitiated: userInitiated, source: source, completion: completion)
+        ActionSession.main.perform(self, input: .none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
