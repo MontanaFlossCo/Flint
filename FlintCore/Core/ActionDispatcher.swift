@@ -83,8 +83,9 @@ public class DefaultActionDispatcher: ActionDispatcher {
         let action = request.actionBinding.action
         let smartQueue = SmartDispatchQueue(queue: action.queue, owner: self)
         smartQueue.sync {
-            action.perform(with: request.context,
-                           using: request.presenter, completion: { outcome in
+            action.perform(context: request.context,
+                           presenter: request.presenter,
+                           completion: { outcome in
                 self.complete(request: request, outcome: outcome)
                 callerQueue.sync {
                     completion?(outcome)

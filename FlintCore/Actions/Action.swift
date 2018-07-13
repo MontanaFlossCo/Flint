@@ -69,7 +69,7 @@ public protocol Action {
     /// The `completion` closure must be called when the action has been performed.
     ///
     /// - param context: The action's context, which includes the `input` and
-    static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void)
+    static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void)
 
     // The stuff that follows should be in a separate protocol but requires InputType so it is not possible to do this
     // in Swift 4, as we need the InputType typealias, but then there is no way to constrain the ActionDispatchObserver functions

@@ -103,7 +103,7 @@ class ActionActivityMappings {
             do {
                 let input = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
-                let presentationRouterResult = presentationRouter.presentation(for: binding, with: input)
+                let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
 
                 FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(input)")
                 switch presentationRouterResult {
@@ -144,7 +144,7 @@ class ActionActivityMappings {
             do {
                 let state = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
-                let presentationRouterResult = presentationRouter.presentation(for: binding, with: state)
+                let presentationRouterResult = presentationRouter.presentation(for: binding, input: state)
 
                 FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(state)")
                 switch presentationRouterResult {

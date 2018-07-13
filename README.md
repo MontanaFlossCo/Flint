@@ -49,8 +49,8 @@ final class DocumentOpenAction: Action {
 
     static var description = "Open a document"
     
-    static func perform(with context: ActionContext<DocumentRef>,
-                        using presenter: DocumentPresenter,
+    static func perform(context: ActionContext<DocumentRef>,
+                        presenter: DocumentPresenter,
                         completion: @escaping ((ActionPerformOutcome) -> ())) {
         presenter.openDocument(context.input)
         completion(.success(closeActionStack: false))
@@ -159,7 +159,7 @@ final class DocumentOpenAction: Action {
     // 💥 Just tell Flint what activity types to use
     static var activityTypes: Set<ActivityEligibility> = [.perform, .handoff]
     
-    static func perform(with context: ActionContext<DocumentRef>, using presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
+    static func perform(context: ActionContext<DocumentRef>, presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
         // … do the work
     }
 }
@@ -187,7 +187,7 @@ final class DocumentOpenAction: Action {
     // 💥 Enable analytics with just one property.
     static var analyticsID = "user-open-document"
     
-    static func perform(with context: ActionContext<DocumentRef>, using presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
+    static func perform(context: ActionContext<DocumentRef>, presenter: DocumentPresenter, completion: ((ActionPerformOutcome) -> ())) {
         // … do the work
     }
 }

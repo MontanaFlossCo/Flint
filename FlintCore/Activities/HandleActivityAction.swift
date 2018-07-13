@@ -27,7 +27,7 @@ final class HandleActivityAction: Action {
     
     static let description: String = "Automatic action dispatch for incoming NSUserActivity instances published by Flint"
     
-    static func perform(with context: ActionContext<NSUserActivity>, using presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
         // Do we need to check if activityType == CSSearchableItemActionType for spotlight invocations?
         
         if let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL {

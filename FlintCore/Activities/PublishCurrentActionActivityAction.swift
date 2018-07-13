@@ -33,7 +33,7 @@ final class PublishCurrentActionActivityAction: Action {
         }
     }
 
-    static func perform(with context: ActionContext<InputType>, using presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<InputType>, presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
         if let activity = context.input.activityCreator() {
             var activityDebug: String = ""
             if let _ = context.logs.development?.debug {

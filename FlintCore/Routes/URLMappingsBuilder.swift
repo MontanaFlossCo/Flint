@@ -26,7 +26,7 @@ public class URLMappingsBuilder {
       
             if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
 
-                let presentationRouterResult = presentationRouter.presentation(for: actionBinding, with: input)
+                let presentationRouterResult = presentationRouter.presentation(for: actionBinding, input: input)
 
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with input \(input)")
                 switch presentationRouterResult {
@@ -62,7 +62,7 @@ public class URLMappingsBuilder {
         let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
             if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
-                let result = presentationRouter.presentation(for: actionBinding, with: input)
+                let result = presentationRouter.presentation(for: actionBinding, input: input)
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(result) received for \(actionBinding) with input \(input)")
                 switch result {
                     case .appReady(let presenter):

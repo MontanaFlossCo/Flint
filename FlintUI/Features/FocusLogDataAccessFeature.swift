@@ -39,7 +39,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
         public static var hideFromTimeline: Bool = true
         
-        public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             guard let logs = FocusFeature.dependencies.developmentFocusLogging else {
                 completion(.success(closeActionStack: true))
                 return
@@ -63,7 +63,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
         public static let defaultExtraPageCount = 10
         
-        public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
             guard let focusLogController = presenter.focusLogController else {
                 flintBug("Initial results have not been loaded")
             }

@@ -36,7 +36,7 @@ final public class PerformIncomingURLAction: Action {
     ///
     /// The completion outcome will fail with error `noURLMappingFound` if the URL does not map to anything
     /// that Flint knows about.
-    public static func perform(with context: ActionContext<URL>, using presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<URL>, presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
         guard let urlComponents = URLComponents(url: context.input, resolvingAgainstBaseURL: false) else {
             context.logs.development?.error("Invalid URL supplied")
             return completion(.failure(error: nil, closeActionStack: false))

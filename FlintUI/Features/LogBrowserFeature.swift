@@ -38,7 +38,7 @@ final public class ShowLogBrowserAction: Action {
 
     public static var hideFromTimeline: Bool = true
 
-    public static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
         let focusLogViewController = FocusLogViewController.instantiate()
         if let navigationController = presenter as? UINavigationController {
             context.logs.development?.debug("Presenting Focus Log VC on navigation controller")

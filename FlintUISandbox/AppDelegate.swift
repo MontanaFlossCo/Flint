@@ -12,12 +12,12 @@ import FlintUI
 
 class FakePresentationRouter: PresentationRouter {
     func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
+                                               input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
     
     func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>,
-                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
+                                               input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
 } 
