@@ -16,7 +16,7 @@ We made Flint because we want people to build great apps for Apple platforms tha
 
 🏠 [flint.tools](https://flint.tools) is the official web site, with guide & API docs and blog
 
-🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where author Marc Palmer explains the motivation and ideas behind Flint
+🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where project lead [Marc Palmer](https://twitter.com/marcpalmerdev) explains the motivation and ideas behind Flint
 
 📖 [View the documentation](https://flint.tools/manual) or [help us improve it with a pull request](https://github.com/MontanaFlossCo/Flint-Documentation)
 
