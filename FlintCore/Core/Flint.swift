@@ -156,6 +156,29 @@ final public class Flint {
     /// Register the feature with Flint. Call this to register specific features if they are not already
     /// registered by way of being subfeatures of a group.
     /// Only call this if you have not passed this feature to `setup` or `quickSetup`.
+    ///
+    /// Registration of features at runtime is required because Swift does not provide runtime discovery of types
+    /// conforming to a protocol, without using the Objective-C runtime upon which we do not want to depend, to be future
+    /// proof. We need to know which types are features because:
+    ///
+    /// * We want to be able to show the info about all the features in debug UIs
+    /// * Some apps will want to be able to show info about features in their user-facing UIs
+    /// * We need to process the conventions on the types to know what actions they support
+    /// * We need to process the conventions on the types to know what URL mappings they support, if any
+    /// * We need to know if a feature is enabled currently, and to test for permissions and preconditions
+    ///
+    /// We can switch to lazy registration (processing of conventions etc.) at a later point to reduce
+    /// startup overheads. However we will still need to know the types required to e.g. invoke an action on a feature via a URL,
+    /// or continue an activity, or perform a Siri shortcut.
+    ///
+    /// If users only register some of their feature types, they would have to always remember to register all feature types
+    /// that require URL mappings and/or have actions that support activity continuation. This is very error prone,
+    /// and should be discouraged. It is better to minimize the overheads at the point of calling `register` and defer
+    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluatte
+    /// the conventions in order to know whether or not an Action or Feature is going to be required for URL or activity handling.
+    ///
+    /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
+    /// is a slow process as there are thousands of them.
     public static func register(_ feature: FeatureDefinition.Type) {
         flintUsagePrecondition(!(feature is FeatureGroup.Type), "You must call register(group:) with feature groups")
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
@@ -182,6 +205,29 @@ final public class Flint {
     
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
     /// Only call this if you have not passed this group to `setup` or `quickSetup`.
+    ///
+    /// Registration of features at runtime is required because Swift does not provide runtime discovery of types
+    /// conforming to a protocol, without using the Objective-C runtime upon which we do not want to depend, to be future
+    /// proof. We need to know which types are features because:
+    ///
+    /// * We want to be able to show the info about all the features in debug UIs
+    /// * Some apps will want to be able to show info about features in their user-facing UIs
+    /// * We need to process the conventions on the types to know what actions they support
+    /// * We need to process the conventions on the types to know what URL mappings they support, if any
+    /// * We need to know if a feature is enabled currently, and to test for permissions and preconditions
+    ///
+    /// We can switch to lazy registration (processing of conventions etc.) at a later point to reduce
+    /// startup overheads. However we will still need to know the types required to e.g. invoke an action on a feature via a URL,
+    /// or continue an activity, or perform a Siri shortcut.
+    ///
+    /// If users only register some of their feature types, they would have to always remember to register all feature types
+    /// that require URL mappings and/or have actions that support activity continuation. This is very error prone,
+    /// and should be discouraged. It is better to minimize the overheads at the point of calling `register` and defer
+    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluatte
+    /// the conventions in order to know whether or not an Action or Feature is going to be required for URL or activity handling.
+    ///
+    /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
+    /// is a slow process as there are thousands of them.
     public static func register(group: FeatureGroup.Type) {
         FlintInternal.logger?.debug("Preparing feature group: \(group)")
         _register(group)
