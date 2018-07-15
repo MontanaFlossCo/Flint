@@ -174,7 +174,7 @@ final public class Flint {
     /// If users only register some of their feature types, they would have to always remember to register all feature types
     /// that require URL mappings and/or have actions that support activity continuation. This is very error prone,
     /// and should be discouraged. It is better to minimize the overheads at the point of calling `register` and defer
-    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluatte
+    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluate
     /// the conventions in order to know whether or not an Action or Feature is going to be required for URL or activity handling.
     ///
     /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
@@ -223,7 +223,7 @@ final public class Flint {
     /// If users only register some of their feature types, they would have to always remember to register all feature types
     /// that require URL mappings and/or have actions that support activity continuation. This is very error prone,
     /// and should be discouraged. It is better to minimize the overheads at the point of calling `register` and defer
-    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluatte
+    /// any processing where possible. Even in this case it is unlikely to be very profitable because you need to evaluate
     /// the conventions in order to know whether or not an Action or Feature is going to be required for URL or activity handling.
     ///
     /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
