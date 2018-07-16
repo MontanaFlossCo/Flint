@@ -44,10 +44,10 @@ public protocol PresentationRouter {
     /// Called to obtain the presenter, if possible, for the static action binding provided.
     /// - return: The outcome of the presentation routing.
     /// - see: `PresentationResult<PresenterType>`
-    func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>, with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType>
+    func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>, input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType>
     
     /// Called to obtain the presenter, if possible, for the conditional action binding provided.
     /// - return: The outcome of the presentation routing.
     /// - see: `PresentationResult<PresenterType>`
-    func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType>
+    func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType>
 }

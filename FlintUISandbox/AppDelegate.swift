@@ -12,12 +12,12 @@ import FlintUI
 
 class FakePresentationRouter: PresentationRouter {
     func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
+                                               input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
     
     func presentation<FeatureType, ActionType>(for conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>,
-                                               with state: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
+                                               input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> {
         return .appPerformed
     }
 } 
@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         testTimer?.setEventHandler(handler: {
             print("Performing a fake action, this will show even if not in Focus")
             if let request = FakeFeature.action1.request() {
-                request.perform(with: nil)
+                request.perform(input: nil)
             } else {
                 print("NOT Performing the fake action, permissions were not available")
             }

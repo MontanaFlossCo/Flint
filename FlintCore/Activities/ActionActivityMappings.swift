@@ -101,14 +101,14 @@ class ActionActivityMappings {
             }
       
             do {
-                let state = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
+                let input = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
-                let presentationRouterResult = presentationRouter.presentation(for: binding, with: state)
+                let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
 
-                FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(state)")
+                FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(input)")
                 switch presentationRouterResult {
                     case .appReady(let presenter):
-                        binding.perform(using: presenter, with: state, userInitiated: true, source: source)
+                        binding.perform(input: input, presenter: presenter, userInitiated: true, source: source)
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for activity ID \(activity.activityType) for \(binding) - received .unsupported")
                     case .appCancelled, .userCancelled, .appPerformed:
@@ -144,13 +144,13 @@ class ActionActivityMappings {
             do {
                 let state = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
-                let presentationRouterResult = presentationRouter.presentation(for: binding, with: state)
+                let presentationRouterResult = presentationRouter.presentation(for: binding, input: state)
 
                 FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(state)")
                 switch presentationRouterResult {
                     case .appReady(let presenter):
                         if let request = binding.request() {
-                            request.perform(using: presenter, with: state, userInitiated: true, source: source)
+                            request.perform(input: state, presenter: presenter, userInitiated: true, source: source)
                         }
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for activity ID \(activity.activityType) for \(binding) - received .unsupported")

@@ -86,7 +86,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
                                                 activityCreator: prepareActivityWrapper,
                                                 appLink: appLink)
         DispatchQueue.main.async {
-            publishRequest.perform(using: NoPresenter(), with: publishState, userInitiated: false, source: .application)
+            publishRequest.perform(input: publishState, presenter: NoPresenter(), userInitiated: false, source: .application)
         }
     }
 }

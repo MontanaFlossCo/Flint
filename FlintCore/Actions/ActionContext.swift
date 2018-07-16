@@ -40,21 +40,21 @@ public class ActionContext<InputType> where InputType: FlintLoggable {
     /// Perform the action in the same session as this current action request, passing on the contextual loggers
     /// Use this to perform other actions within action implementations.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                           using presenter: ActionType.PresenterType,
-                           with input: ActionType.InputType,
+                           input: ActionType.InputType,
+                           presenter: ActionType.PresenterType,
                            userInitiated: Bool,
                            completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(actionBinding, using: presenter, with: input, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(actionBinding, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
     
     /// Perform the action in the same session as this current action request, passing on the contextual loggers
     /// Use this to perform other actions within action implementations.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
-                           using presenter: ActionType.PresenterType,
-                           with input: ActionType.InputType,
+                           input: ActionType.InputType,
+                           presenter: ActionType.PresenterType,
                            userInitiated: Bool,
                            completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(conditionalRequest, using: presenter, with: input, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(conditionalRequest, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
     public var debugDescriptionOfInput: String? {

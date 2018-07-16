@@ -33,7 +33,7 @@ final class FakeFeature: ConditionalFeature, URLMapped {
     }
     
     static func urlMappings(routes: URLMappingsBuilder) {
-        routes.send("/*", to: action1)
+        routes.send("/test", to: action1)
     }
 }
 
@@ -64,7 +64,7 @@ final class DoSomethingFakeAction: Action {
         activity.userInfo["fake"] = true
     }
 
-    static func perform(with context: ActionContext<InputType>, using presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
         context.logs.development?.info("Testing logs from fake feature")
         completion(.success(closeActionStack: true))
     }

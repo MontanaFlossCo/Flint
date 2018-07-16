@@ -17,7 +17,7 @@ class ViewController: UITableViewController {
 
         // Trigger some fake data
         if let request = FakeFeature.action1.request() {
-            request.perform(with: .none, completion: { (outcome: ActionOutcome) in
+            request.perform(input: .none, completion: { (outcome: ActionOutcome) in
                 switch outcome {
                     case .success:
                        assert(true)
@@ -25,7 +25,7 @@ class ViewController: UITableViewController {
                        assert(false)
                 }
             })
-            request.perform(with: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
+            request.perform(input: .none, userInitiated: false, source: .application, completion: { (outcome: ActionOutcome) in
                 switch outcome {
                     case .success:
                        assert(true)
@@ -50,22 +50,22 @@ class ViewController: UITableViewController {
                 guard let request = FeatureBrowserFeature.request(FeatureBrowserFeature.show) else {
                     preconditionFailure("Feature browser is not enabled")
                 }
-                request.perform(using: navigationController)
+                request.perform(presenter: navigationController)
             case 1:
                 guard let request = TimelineBrowserFeature.request(TimelineBrowserFeature.show) else {
                     preconditionFailure("Timeline is not enabled")
                 }
-                request.perform(using: navigationController)
+                request.perform(presenter: navigationController)
             case 2:
                 guard let request = ActionStackBrowserFeature.request(ActionStackBrowserFeature.show) else {
                     preconditionFailure("Action Stack is not enabled")
                 }
-                request.perform(using: navigationController)
+                request.perform(presenter: navigationController)
             case 3:
                 guard let request = LogBrowserFeature.request(LogBrowserFeature.show) else {
                     preconditionFailure("Log Browser is not enabled")
                 }
-                request.perform(using: navigationController)
+                request.perform(presenter: navigationController)
             default: preconditionFailure()
         }
         

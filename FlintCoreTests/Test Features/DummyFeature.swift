@@ -26,7 +26,7 @@ final class DummyAction: Action {
     typealias InputType = NoInput
     typealias PresenterType = NoPresenter
     
-    static func perform(with context: ActionContext<DummyAction.InputType>, using presenter: DummyAction.PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<DummyAction.InputType>, presenter: DummyAction.PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
         completion(.success(closeActionStack: true))
     }
 }

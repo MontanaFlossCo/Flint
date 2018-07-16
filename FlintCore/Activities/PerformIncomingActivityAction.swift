@@ -22,7 +22,7 @@ final public class PerformIncomingActivityAction: Action {
     ///
     /// The completion outcome will fail with error `noURLMappingFound` if the URL does not map to anything
     /// that Flint knows about.
-    public static func perform(with context: ActionContext<NSUserActivity>, using presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
         context.logs.development?.debug("Finding action executor for activity: \(context.input.activityType), userInfo \(String(describing: context.input.userInfo))")
         
         if let executor = ActionActivityMappings.instance.actionExecutor(for: context.input.activityType) {

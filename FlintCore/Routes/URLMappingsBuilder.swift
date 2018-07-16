@@ -24,14 +24,14 @@ public class URLMappingsBuilder {
         let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
       
-            if let state = ActionType.InputType.init(from: queryParams, mapping: mapping) {
+            if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
 
-                let presentationRouterResult = presentationRouter.presentation(for: actionBinding, with: state)
+                let presentationRouterResult = presentationRouter.presentation(for: actionBinding, input: input)
 
-                FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with state \(state)")
+                FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with input \(input)")
                 switch presentationRouterResult {
                     case .appReady(let presenter):
-                        actionBinding.perform(using: presenter, with: state, userInitiated: true, source: source)
+                        actionBinding.perform(input: input, presenter: presenter, userInitiated: true, source: source)
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
                     case .appCancelled, .userCancelled, .appPerformed:
@@ -61,13 +61,13 @@ public class URLMappingsBuilder {
 
         let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
-            if let state = ActionType.InputType.init(from: queryParams, mapping: mapping) {
-                let result = presentationRouter.presentation(for: actionBinding, with: state)
-                FlintInternal.urlMappingLogger?.debug("URL executor presentation \(result) received for \(actionBinding) with state \(state)")
+            if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
+                let result = presentationRouter.presentation(for: actionBinding, input: input)
+                FlintInternal.urlMappingLogger?.debug("URL executor presentation \(result) received for \(actionBinding) with input \(input)")
                 switch result {
                     case .appReady(let presenter):
                         if let request = actionBinding.request() {
-                            request.perform(using: presenter, with: state, userInitiated: true, source: source)
+                            request.perform(input: input, presenter: presenter, userInitiated: true, source: source)
                         }
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
