@@ -22,6 +22,33 @@ class FakePresentationRouter: PresentationRouter {
     }
 } 
 
+class FakePermissionCoordinator: PermissionAuthorisationCoordinator {
+    func willBeginPermissionAuthorisation(for permissions: Set<SystemPermissionConstraint>, completionRequirement: BeginCompletion) -> BeginCompletion.Status {
+        print("willBeginPermissionAuthorisation")
+        return completionRequirement.completion(Array(permissions))
+    }
+    
+    func willRequestPermission(for permission: SystemPermissionConstraint, completionRequirement: WillRequestCompletion) -> WillRequestCompletion.Status {
+        print("willRequestPermission")
+        let deferredStatus = completionRequirement.asyncCompletion()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            deferredStatus.completionHandler(.request)
+        }
+        return deferredStatus
+    }
+    
+    func didRequestPermission(for permission: SystemPermissionConstraint, status: SystemPermissionStatus, completionRequirement: DidRequestCompletion) -> DidRequestCompletion.Status {
+        print("didRequestPermission")
+        return completionRequirement.completion(.requestNext)
+    }
+    
+    func didCompletePermissionAuthorisation(cancelled: Bool, outstandingPermissions: [SystemPermissionConstraint]?) {
+        print("didCompletePermissionAuthorisation")
+    }
+    
+
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -66,7 +93,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("parametersDescription: \(result.constraint.parametersDescription)")
         }
         
-        controller = FakeFeature.permissionAuthorisationController(using: nil)
+        let coordinator = FakePermissionCoordinator()
+        controller = FakeFeature.permissionAuthorisationController(using: coordinator)
         controller?.begin(retryHandler: nil)
         return true
     }

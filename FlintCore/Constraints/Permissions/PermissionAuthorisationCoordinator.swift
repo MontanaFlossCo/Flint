@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum PermissionAuthorisationCoordinatorVeto {
+    case requestNext
+    case cancel
+}
+
 /// The interface to the coordinator that apps must implement if they want to hook
 /// in to the permission authorisation controller flow.
 ///
@@ -21,6 +26,10 @@ import Foundation
 /// - see `ConditionalFeature.permissionAuthorisationController(using:)` and `AuthorisationController`
 public protocol PermissionAuthorisationCoordinator {
 
+    typealias BeginCompletion = CompletionRequirement<[SystemPermissionConstraint]>
+    typealias WillRequestCompletion = CompletionRequirement<SystemPermissionRequestAction>
+    typealias DidRequestCompletion = CompletionRequirement<PermissionAuthorisationCoordinatorVeto>
+
     /// Called once when the authorisation controller flow begins.
     /// You can prepare the UI to tell the user that soon they will be asked for system permissions.
     /// You must indicate the desired sort order of the permission requests by supplying an ordered Array of permissions.
@@ -29,7 +38,7 @@ public protocol PermissionAuthorisationCoordinator {
     /// - param completion: The closure you must call to continue the authorisation flow, passing in the sorted array of
     /// permissions to actually request from the user. If you have non-modal UI shown by this function, you would only
     /// call `completion` when the user indicates they are ready to start
-    func willBeginPermissionAuthorisation(for permissions: Set<SystemPermissionConstraint>, completion: (_ permissionsToRequest: [SystemPermissionConstraint]) -> ())
+    func willBeginPermissionAuthorisation(for permissions: Set<SystemPermissionConstraint>, completionRequirement: BeginCompletion) -> BeginCompletion.Status
     
     /// Called before each individual permission is about to be requested. Your coordinator implementation
     /// can show custom UI and if desired veto individual permissions, for example with a "Not now" and "OK" button in the
@@ -39,7 +48,7 @@ public protocol PermissionAuthorisationCoordinator {
     ///
     /// - param permission: The permission that will be requested from the user when you call `completion(.request)`
     /// - param completion: The closure you must call to move the flow forward by either skipping, requesting or cancelling.
-    func willRequestPermission(for permission: SystemPermissionConstraint, completion: (_ action: SystemPermissionRequestAction) -> ())
+    func willRequestPermission(for permission: SystemPermissionConstraint, completionRequirement: WillRequestCompletion) -> WillRequestCompletion.Status
     
     /// Called after the user has been prompted for the permission, passing the status that results from that.
     /// This is your chance to update your onboarding UI to indicate the outcome of what the user has done.
@@ -52,7 +61,7 @@ public protocol PermissionAuthorisationCoordinator {
     /// - param permission: The permission that the user just authorised
     /// - param status: The permission's authorisation status after the authorisation. This will usually be `.denied` or `.authorised`
     /// - param completion: You must call this closure to continue the flow. If you want the flow to cancel immediately, pass `true`
-    func didRequestPermission(for permission: SystemPermissionConstraint, status: SystemPermissionStatus, completion: (_ shouldCancel: Bool) -> ())
+    func didRequestPermission(for permission: SystemPermissionConstraint, status: SystemPermissionStatus, completionRequirement: DidRequestCompletion) -> DidRequestCompletion.Status
     
     /// Called when the entire flow has finished. Clean up any onboardig UI and perhaps show the user
     /// information about how to resolve any issues if there are still permissions outstanding.

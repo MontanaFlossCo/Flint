@@ -35,11 +35,15 @@ class DefaultAuthorisationController: AuthorisationController {
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
             FlintInternal.logger?.debug("Authorisation controller notifying coordinator that it will begin")
-            coordinator.willBeginPermissionAuthorisation(for: permissions) { permissionsToRequest in
-                if permissions.count > 0 {
-                    sortedPermissionsToAuthorize = permissionsToRequest
-                    next()
+            let completion = PermissionAuthorisationCoordinator.BeginCompletion(completionHandler: { permissionsToRequest in
+                if self.permissions.count > 0 {
+                    self.sortedPermissionsToAuthorize = permissionsToRequest
+                    self.next()
                 }
+            })
+            let result = coordinator.willBeginPermissionAuthorisation(for: permissions, completionRequirement: completion)
+            if !completion.verify(result) {
+                flintUsageError("Invalid willBeginPermissionAuthorisation completion status. You must return the result of completion.completed() or completion.deferCompletion()")
             }
         } else {
             sortedPermissionsToAuthorize = Array(permissions)
@@ -71,13 +75,16 @@ class DefaultAuthorisationController: AuthorisationController {
                         strongSelf.permissionsNotAuthorized.append(permission)
                     }
                     if let coordinator = strongSelf.coordinator {
-                        coordinator.didRequestPermission(for: permission, status: status, completion: { shouldCancel in
-                            if !shouldCancel {
-                                strongSelf.next()
-                            } else {
-                                strongSelf.cancel()
+                        let completion = PermissionAuthorisationCoordinator.DidRequestCompletion(completionHandler: { action in
+                            switch action {
+                                case .requestNext: strongSelf.next()
+                                case .cancel: strongSelf.cancel()
                             }
                         })
+                        let result = coordinator.didRequestPermission(for: permission, status: status, completionRequirement: completion)
+                        if !completion.verify(result) {
+                            flintUsageError("Invalid didRequestPermission completion status. You must return the result of completion.completed() or completion.deferCompletion()")
+                        }
                     } else {
                         // Assume if there is no coordinator that we'll just carry on to the next
                         strongSelf.next()
@@ -87,21 +94,25 @@ class DefaultAuthorisationController: AuthorisationController {
 
             if let coordinator = coordinator {
                 FlintInternal.logger?.debug("Authorisation controller calling willRequestPermission for: \(permission)")
-                coordinator.willRequestPermission(for: permission) { action in
+                let completion = PermissionAuthorisationCoordinator.WillRequestCompletion(completionHandler: { action in
                     switch action {
                         case .request:
                             FlintInternal.logger?.debug("Authorisation controller was told to continue requesting authorization for: \(permission)")
                             _requestPermission()
                         case .skip:
                             FlintInternal.logger?.debug("Authorisation controller was told to skip: \(permission)")
-                            permissionsNotAuthorized.append(permission)
-                            next()
+                            self.permissionsNotAuthorized.append(permission)
+                            self.next()
                         case .cancelAll:
                             FlintInternal.logger?.debug("Authorisation controller was told to cancel while handling: \(permission)")
-                            permissionsNotAuthorized.append(contentsOf: sortedPermissionsToAuthorize)
-                            sortedPermissionsToAuthorize.removeAll()
-                            cancel()
+                            self.permissionsNotAuthorized.append(contentsOf: self.sortedPermissionsToAuthorize)
+                            self.sortedPermissionsToAuthorize.removeAll()
+                            self.cancel()
                     }
+                })
+                let result = coordinator.willRequestPermission(for: permission, completionRequirement: completion)
+                if !completion.verify(result) {
+                    flintUsageError("Invalid willRequestPermission completion status. You must return the result of completion.completed() or completion.deferCompletion()")
                 }
             } else {
                 _requestPermission()

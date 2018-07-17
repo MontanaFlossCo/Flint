@@ -114,7 +114,7 @@ public extension ConditionalFeature {
     public static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
         func _extractPurchaseRequirements(_ preconditions: [FeaturePreconditionConstraint]) -> Set<PurchaseRequirement> {
-            let requirements: [PurchaseRequirement] = preconditions.flatMap {
+            let requirements: [PurchaseRequirement] = preconditions.compactMap {
                 if case let .purchase(requirement) = $0 {
                     return requirement
                 } else {
