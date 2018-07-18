@@ -12,8 +12,8 @@ import Foundation
 /// that reduce the risks of callers forgetting to call the completion handler.
 ///
 /// To use, define a typealias for this type, with T the type of the completion function's arguments.
-/// Make a function that requires completion pass in an instance of this type, and make the function
-/// expect a return value of the nested `Status` type:
+/// Then make a function that requires completion pass in an instance of this type instead of the closure type, and make
+/// the function expect a return value of the nested `Status` type:
 ///
 /// ```
 /// protocol MyCoordinator {
@@ -37,7 +37,8 @@ import Foundation
 /// precondition(completion.verify(status))
 /// ```
 ///
-/// When handling such a function requiring completion:
+/// When implemention such a function requiring completion, you return one of two statuses returned by either
+/// the `CompletionRequirement.completion(_ arg: T)` or `CompletionRequirement.asyncCompletion(_ arg: T)`.
 ///
 /// ```
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
@@ -49,7 +50,7 @@ import Foundation
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
 ///     let result = completionRequirement.asyncCompletion()
 ///     DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-///         result.completionHandler(.request)
+///         result.completionHandler(false)
 ///     }
 ///     return result
 /// }
