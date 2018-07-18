@@ -1,5 +1,5 @@
 //
-//  QueryParametersCodable.swift
+//  RouteParametersCodable.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 29/01/2018.
