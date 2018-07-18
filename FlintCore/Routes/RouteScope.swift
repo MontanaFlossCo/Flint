@@ -13,11 +13,19 @@ import Foundation
 /// URL scopes can be for application custom schemes e.g. x-hobson://something, or universal linking / associated domains,
 /// of the form https://hobsonapp.com/something. The scope is just the "context" part, e.g. "x-hobson" or "hobsonapp.com"
 public enum RouteScope: Hashable, Equatable, CustomDebugStringConvertible {
+    /// Indicates the route applies to any and all custom URL schemes the app has declared in Info.plist
     case appAny
+
+    /// Indicates the route applies to a specific custom scheme declared in Info.plist
     case app(scheme: String)
+
+    /// Indicates the route applies to any and all universal domains declared on your app
     case universalAny
+
+    /// Indicates the route applies to a specific universal domains declared on your app
     case universal(domain: String)
     
+    /// - return: `true` if this route scope is for any kind of universal domain link
     public var isUniversal: Bool {
         if case .universal = self {
             return true
@@ -26,6 +34,7 @@ public enum RouteScope: Hashable, Equatable, CustomDebugStringConvertible {
         }
     }
     
+    /// - return: `true` if this route scope is for any kind of custom URL scheme
     public var isApp: Bool {
         if case .app = self {
             return true
