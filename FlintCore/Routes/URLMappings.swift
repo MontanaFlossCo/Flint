@@ -11,8 +11,7 @@ import Foundation
 /// A simple representation of the supported `URLMapping`(s) for actions.
 /// This is produced by the `URLMappingsBuilder`.
 public class URLMappings {
-    /// !!! TODO: This supports only one mapping per type - FIX THIS!
-    public private (set) var mappings = [(String, URLMapping)]()
+    private (set) var mappings = [(String, URLMapping)]()
 
     init() {
     
