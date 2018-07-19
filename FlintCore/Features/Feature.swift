@@ -56,4 +56,27 @@ public extension Feature {
         return StaticActionBinding(feature: self, action: action)
     }
 
+    /// Create a new context-specific logger with this feature as the context (topic path).
+    /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
+    /// - return: A logger if running in a development build, else nil. You must store the result of this call to avoid
+    /// re-creating the loggers every time this function is called.
+    public static func developmentLogger(for activity: String) -> ContextSpecificLogger? {
+        if let factory = Logging.development {
+            return factory.contextualLogger(with: activity, topicPath: self.identifier)
+        } else {
+            return nil
+        }
+    }
+
+    /// Create a new context-specific logger with this feature as the context (topic path).
+    /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
+    /// - return: A logger if running in a production build, else nil. You must store the result of this call to avoid
+    /// re-creating the loggers every time this function is called.
+    public static func productionLogger(for activity: String) -> ContextSpecificLogger? {
+        if let factory = Logging.production {
+            return factory.contextualLogger(with: activity, topicPath: self.identifier)
+        } else {
+            return nil
+        }
+    }
 }
