@@ -23,7 +23,8 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
 
     /// Lazy log creator so it is only created when we need it
     let logContextCreator: ((_ sessionID: String, _ activitySequenceID: String) -> LogEventContext)
-
+    private var loggingSessionDetailsCreator: (() -> (sessionID: String, activitySequenceID: String))?
+    
     /// The initialiser is internal access only to prevent creation of requests outside of this framework, which could short
     /// circuit some of the safety checks around availability of features
     init(uniqueID: UInt, userInitiated: Bool, source: ActionSource, session: ActionSession, actionBinding: StaticActionBinding<FeatureType, ActionType>,
@@ -35,16 +36,25 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
         self.userInitiated = userInitiated
         self.sessionName = session.name
         self.actionBinding = actionBinding
-        self.context = ActionContext<ActionType.InputType>(input: input, session: session, source: source)
         self.presenter = presenter
         self.logContextCreator = logContextCreator
+        self.context = ActionContext<ActionType.InputType>(input: input, session: session, source: source)
+        self.context.logSetup = buildLoggers
     }
     
     /// Use the lazy logger preparation function to set up the loggers
-    func prepareLogger(sessionID: String, activitySequenceID: String) {
+    func setLoggingSessionDetailsCreator(_ creator: @escaping () -> (sessionID: String, activitySequenceID: String)) {
+        loggingSessionDetailsCreator = creator
+    }
+    
+    func buildLoggers(logs: Logs) {
+        guard let loggingSessionDetailsCreator = loggingSessionDetailsCreator else {
+            flintBug("loggingSessionDetailsCreator has to be set before loggers can be built")
+        }
+        let (sessionID, activitySequenceID) = loggingSessionDetailsCreator()
         let loggingContext = logContextCreator(sessionID, activitySequenceID)
-        context.logs.development = Logging.development?.contextualLogger(with: loggingContext)
-        context.logs.production = Logging.production?.contextualLogger(with: loggingContext)
+        logs.development = Logging.development?.contextualLogger(with: loggingContext)
+        logs.production = Logging.production?.contextualLogger(with: loggingContext)
     }
     
     public var debugDescription: String {

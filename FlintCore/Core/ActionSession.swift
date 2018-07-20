@@ -315,13 +315,19 @@ public class ActionSession: CustomDebugStringConvertible {
         
         // Work out if we have a sequence for the request's feature, create a new one if not
         let actionStack = actionStackTracker.findOrCreateActionStack(for: request.actionBinding.feature,
-                                                                                 in: self,
-                                                                                 userInitiated: request.userInitiated)
+                                                                     in: self,
+                                                                     userInitiated: request.userInitiated)
 
-        let firstEntry = actionStack.entries.first?.debugDescription ?? request.actionBinding.action.name
-        let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
-        let activityID = "Stack #\(actionStack.id) \(aDescription)"
-        request.prepareLogger(sessionID: name, activitySequenceID: activityID)
+        // Set up the lazy creator for the log details, so no work is done unless the details are needed
+        request.setLoggingSessionDetailsCreator { [weak self] in
+            guard let strongSelf = self else {
+                return (sessionID: "_session gone away_", activitySequenceID: "_session gone away_")
+            }
+            let firstEntry = actionStack.entries.first?.debugDescription ?? request.actionBinding.action.name
+            let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
+            let activityID = "Stack #\(actionStack.id) \(aDescription)"
+            return (sessionID: strongSelf.name, activitySequenceID: activityID)
+        }
         
         // Create the entry and add it to the sequence
         let entry = ActionStackEntry(request, sessionName: name)
