@@ -418,6 +418,7 @@
 		4978E07520408C3B001D125D /* ActionStackTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4978E07320408C3B001D125D /* ActionStackTracker.swift */; };
 		4978E07620408C3B001D125D /* ActionStackTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4978E07320408C3B001D125D /* ActionStackTracker.swift */; };
 		4978E07720408C3B001D125D /* ActionStackTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4978E07320408C3B001D125D /* ActionStackTracker.swift */; };
+		4978F0C7210399BC00C3B259 /* ContextualLoggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4978F0C6210399BC00C3B259 /* ContextualLoggers.swift */; };
 		4980004C20B32CF100D68321 /* URLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980004B20B32CF100D68321 /* URLPattern.swift */; };
 		4980004D20B32CF100D68321 /* URLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980004B20B32CF100D68321 /* URLPattern.swift */; };
 		4980004E20B32CF100D68321 /* URLPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980004B20B32CF100D68321 /* URLPattern.swift */; };
@@ -831,6 +832,7 @@
 		4977DC7B205AECB500DAA0C8 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = FlintCore/Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		4977DC7D205AFFCD00DAA0C8 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4978E07320408C3B001D125D /* ActionStackTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackTracker.swift; sourceTree = "<group>"; };
+		4978F0C6210399BC00C3B259 /* ContextualLoggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualLoggers.swift; sourceTree = "<group>"; };
 		4980004B20B32CF100D68321 /* URLPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPattern.swift; sourceTree = "<group>"; };
 		4980005520B3621200D68321 /* URLExecutionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExecutionContext.swift; sourceTree = "<group>"; };
 		49819EAF1FC9C1500013AF55 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -1408,6 +1410,7 @@
 		49CCF0C71F8BB20F00F7020E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */,
 				49CCF0CA1F8BB23600F7020E /* ActionDispatcher.swift */,
 				49BC1C5620867C2400A7FC77 /* ActionStack.swift */,
 				49CCF0C81F8BB23600F7020E /* ActionSession.swift */,
@@ -1430,7 +1433,6 @@
 				49A99A011FF9067600A64E8C /* LoggerOutput.swift */,
 				49A999FD1FF9061D00A64E8C /* LoggerLevel.swift */,
 				4921AC0820371B15003465E5 /* ContextSpecificLogger.swift */,
-				499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */,
 				49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */,
 				496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */,
 				49A999FF1FF9065400A64E8C /* ContextualLoggerFactory.swift */,
@@ -1442,6 +1444,7 @@
 				49935BC9206AA80A00CB2B5D /* LogEvent.swift */,
 				49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */,
 				499FE33C20B9FE7A00552CE9 /* OSLogOutput.swift */,
+				4978F0C6210399BC00C3B259 /* ContextualLoggers.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -2390,6 +2393,7 @@
 				49839CED2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				494F59152098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				495576DB20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
+				4978F0C7210399BC00C3B259 /* ContextualLoggers.swift in Sources */,
 				4956D5D9209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4927FEEE208A3B6F00163576 /* ActivityType.swift in Sources */,
 				49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */,

@@ -8,13 +8,6 @@
 
 import Foundation
 
-
-/// Provides access to the context specific loggers for this action invocation
-public class Logs {
-    public internal(set) var development: ContextSpecificLogger?
-    public internal(set) var production: ContextSpecificLogger?
-}
-
 /// The context in which an action executes. Contains the initial state and contextual logger.
 ///
 /// The context can be passed forward, or a new instance derived with new state, so that e.g. a subsystem can be
@@ -25,8 +18,8 @@ public class ActionContext<InputType> where InputType: FlintLoggable {
 
     /// The contextual logs for the action
     private let logsMutex = DispatchSemaphore(value: 1)
-    private var _logs: Logs?
-    public var logs: Logs {
+    private var _logs: ContextualLoggers?
+    public var logs: ContextualLoggers {
         defer {
             logsMutex.signal()
         }
@@ -38,8 +31,7 @@ public class ActionContext<InputType> where InputType: FlintLoggable {
         guard let logSetup = self.logSetup else {
             flintBug("Log setup callback was not set on ActionContext before logs were accessed")
         }
-        let result = Logs.init()
-        logSetup(result)
+        let result = logSetup()
         _logs = result
         return result
     }
@@ -48,7 +40,9 @@ public class ActionContext<InputType> where InputType: FlintLoggable {
     public let source: ActionSource
     
     private let session: ActionSession
-    var logSetup: ((_ logs: Logs) -> Void)?
+    
+    /// Set internally once during two-phase creation of the context
+    var logSetup: (() -> ContextualLoggers)?
     
     init(input: InputType, session: ActionSession, source: ActionSource) {
         self.input = input

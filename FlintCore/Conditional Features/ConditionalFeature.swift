@@ -66,29 +66,26 @@ public extension ConditionalFeature {
         return ConditionalActionRequest(actionBinding: actionBinding)
     }
 
-
-    /// Create a new context-specific logger with this feature as the context (topic path).
+    /// Returns a set of new context-specific loggers with this feature as the context (topic path).
+    ///
     /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
-    /// - return: A logger if running in a development build, else nil. You must store the result of this call to avoid
-    /// re-creating the loggers every time this function is called.
-    public static func developmentLogger(for activity: String) -> ContextSpecificLogger? {
+    /// - return: A `Logs` value which contains development and production loggers as appropriate at runtime.
+    public static func logs(for activity: String) -> ContextualLoggers {
+        let development: ContextSpecificLogger?
         if let factory = Logging.development {
-            return factory.contextualLogger(with: activity, topicPath: self.identifier)
+            development = factory.contextualLogger(with: activity, topicPath: self.identifier)
         } else {
-            return nil
+            development = nil
         }
-    }
 
-    /// Create a new context-specific logger with this feature as the context (topic path).
-    /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
-    /// - return: A logger if running in a production build, else nil. You must store the result of this call to avoid
-    /// re-creating the loggers every time this function is called.
-    public static func productionLogger(for activity: String) -> ContextSpecificLogger? {
-        if let factory = Logging.production {
-            return factory.contextualLogger(with: activity, topicPath: self.identifier)
+        let production: ContextSpecificLogger?
+        if let factory = Logging.development {
+            production = factory.contextualLogger(with: activity, topicPath: self.identifier)
         } else {
-            return nil
+            production = nil
         }
+
+        return ContextualLoggers(development: development, production: production)
     }
     
     /// Access information about the permissions required by this feature

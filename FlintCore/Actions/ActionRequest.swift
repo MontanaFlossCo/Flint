@@ -39,7 +39,7 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
         self.presenter = presenter
         self.logContextCreator = logContextCreator
         self.context = ActionContext<ActionType.InputType>(input: input, session: session, source: source)
-        self.context.logSetup = buildLoggers
+        self.context.logSetup = prepareLogs
     }
     
     /// Use the lazy logger preparation function to set up the loggers
@@ -47,14 +47,15 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
         loggingSessionDetailsCreator = creator
     }
     
-    func buildLoggers(logs: Logs) {
+    func prepareLogs() -> ContextualLoggers {
         guard let loggingSessionDetailsCreator = loggingSessionDetailsCreator else {
             flintBug("loggingSessionDetailsCreator has to be set before loggers can be built")
         }
         let (sessionID, activitySequenceID) = loggingSessionDetailsCreator()
         let loggingContext = logContextCreator(sessionID, activitySequenceID)
-        logs.development = Logging.development?.contextualLogger(with: loggingContext)
-        logs.production = Logging.production?.contextualLogger(with: loggingContext)
+        let logs = ContextualLoggers(development: Logging.development?.contextualLogger(with: loggingContext),
+                        production: Logging.production?.contextualLogger(with: loggingContext))
+        return logs
     }
     
     public var debugDescription: String {

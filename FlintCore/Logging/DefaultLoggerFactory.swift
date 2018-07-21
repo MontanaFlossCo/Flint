@@ -16,7 +16,7 @@ import Foundation
 ///
 /// This means you can run all your subsystems at `info` level but turn your app loggic to `debug` for example.
 public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
-    public static let noSessionName = "_no-session_"
+    public static let noSessionName = "N/A"
     
     public var level: LoggerLevel {
         get {
