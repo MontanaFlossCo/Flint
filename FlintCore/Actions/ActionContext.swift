@@ -13,23 +13,36 @@ import Foundation
 /// The context can be passed forward, or a new instance derived with new state, so that e.g. a subsystem can be
 /// passed the logger and state information as a single opaque value, without passing forward the entire action request
 public class ActionContext<InputType> where InputType: FlintLoggable {
-
-    /// Provides access to the context specific loggers for this action invocation
-    public class Logs {
-        public internal(set) var development: ContextSpecificLogger?
-        public internal(set) var production: ContextSpecificLogger?
-    }
-    
     /// The input to the action
     public let input: InputType
 
     /// The contextual logs for the action
-    public let logs: Logs = .init()
+    private let logsMutex = DispatchSemaphore(value: 1)
+    private var _logs: ContextualLoggers?
+    public var logs: ContextualLoggers {
+        defer {
+            logsMutex.signal()
+        }
+        logsMutex.wait()
+        if let _logs = _logs {
+            return _logs
+        }
+        
+        guard let logSetup = self.logSetup else {
+            flintBug("Log setup callback was not set on ActionContext before logs were accessed")
+        }
+        let result = logSetup()
+        _logs = result
+        return result
+    }
     
     /// The source of the action, used to tell if it came from the application itself or e.g. Siri.
     public let source: ActionSource
     
     private let session: ActionSession
+    
+    /// Set internally once during two-phase creation of the context
+    var logSetup: (() -> ContextualLoggers)?
     
     init(input: InputType, session: ActionSession, source: ActionSource) {
         self.input = input

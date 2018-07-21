@@ -35,18 +35,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Spit out a fake action every few seconds
         
-        let logger = Logging.development?.contextualLogger(with: "Testing", topicPath: TopicPath(feature: FakeFeatures.self))
+        let bgLogs = FakeFeature.logs(for: "BG Timer")
 
         testTimer = DispatchSource.makeTimerSource(flags: [], queue: .main)
         testTimer?.schedule(deadline: DispatchTime.now(), repeating: 10.0)
         testTimer?.setEventHandler(handler: {
-            print("Performing a fake action, this will show even if not in Focus")
+            bgLogs.development?.debug("Performing a fake action, this will show even if not in Focus")
             if let request = FakeFeature.action1.request() {
                 request.perform(input: nil)
             } else {
-                print("NOT Performing the fake action, permissions were not available")
+                bgLogs.development?.debug("NOT Performing the fake action, permissions were not available")
             }
-            logger?.debug("Test output from logger")
+            bgLogs.development?.debug("Test output from logger")
         })
         testTimer?.resume()
         
