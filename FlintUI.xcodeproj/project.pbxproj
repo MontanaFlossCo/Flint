@@ -21,6 +21,7 @@
 		4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4947302620435D6A00E483D1 /* ActionStackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947302520435D6A00E483D1 /* ActionStackListViewController.swift */; };
 		496F8EFF203EE85A003AB29B /* FeatureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */; };
+		4978F0CF2104EDE500C3B259 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4978F0CE2104EDE500C3B259 /* AppDelegate.swift */; };
 		497BFF2020C7F55300E70157 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BFF1F20C7F55300E70157 /* FlintCore.framework */; };
 		498CB41B203ECDCB0072E544 /* FlintUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 498CB40D203ECDCB0072E544 /* FlintUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		498CB438203ED1D40072E544 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498CB437203ED1D40072E544 /* TimelineViewController.swift */; };
@@ -82,6 +83,7 @@
 		49089579208F48CA0022E0A7 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4947302520435D6A00E483D1 /* ActionStackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackListViewController.swift; sourceTree = "<group>"; };
 		496F8EFE203EE85A003AB29B /* FeatureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDetailViewController.swift; sourceTree = "<group>"; };
+		4978F0CE2104EDE500C3B259 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../FlintDemo/FlintDemo/AppDelegate.swift; sourceTree = "<group>"; };
 		497BFF1F20C7F55300E70157 /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40A203ECDCB0072E544 /* FlintUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498CB40D203ECDCB0072E544 /* FlintUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintUI.h; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		49CF4D3D20F601260009FFF4 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				4978F0CE2104EDE500C3B259 /* AppDelegate.swift */,
 				49CF4D3E20F601450009FFF4 /* FakeFeatures.swift */,
 			);
 			name = Features;
@@ -365,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4978F0CF2104EDE500C3B259 /* AppDelegate.swift in Sources */,
 				4904958F2060304B00A57991 /* ViewController.swift in Sources */,
 				49CF4D3F20F601450009FFF4 /* FakeFeatures.swift in Sources */,
 				4904958D2060304B00A57991 /* AppDelegate.swift in Sources */,

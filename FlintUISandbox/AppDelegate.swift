@@ -25,12 +25,12 @@ class FakePresentationRouter: PresentationRouter {
 class FakePermissionCoordinator: PermissionAuthorisationCoordinator {
     func willBeginPermissionAuthorisation(for permissions: Set<SystemPermissionConstraint>, completionRequirement: BeginCompletion) -> BeginCompletion.Status {
         print("willBeginPermissionAuthorisation")
-        return completionRequirement.completion(Array(permissions))
+        return completionRequirement.completed(Array(permissions))
     }
     
     func willRequestPermission(for permission: SystemPermissionConstraint, completionRequirement: WillRequestCompletion) -> WillRequestCompletion.Status {
         print("willRequestPermission")
-        let deferredStatus = completionRequirement.asyncCompletion()
+        let deferredStatus = completionRequirement.willCompleteAsync()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             deferredStatus.completionHandler(.request)
         }
@@ -39,7 +39,7 @@ class FakePermissionCoordinator: PermissionAuthorisationCoordinator {
     
     func didRequestPermission(for permission: SystemPermissionConstraint, status: SystemPermissionStatus, completionRequirement: DidRequestCompletion) -> DidRequestCompletion.Status {
         print("didRequestPermission")
-        return completionRequirement.completion(.requestNext)
+        return completionRequirement.completed(.requestNext)
     }
     
     func didCompletePermissionAuthorisation(cancelled: Bool, outstandingPermissions: [SystemPermissionConstraint]?) {

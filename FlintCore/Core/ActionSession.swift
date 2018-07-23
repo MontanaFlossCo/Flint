@@ -300,6 +300,15 @@ public class ActionSession: CustomDebugStringConvertible {
     /// Execute the action of the request, appending it to the action sequence for the relevant feature
     /// - note: This is the heart of the Features implementation.
     private func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completion: ((ActionOutcome) -> ())?) {
+        let completionRequirement = Action.Completion() { outcome in
+            completion?(outcome.simplifiedOutcome)
+        }
+        
+        // For these kinds of invocations we care not about the sync/async status
+        let _ = perform(request, completionRequirement: completionRequirement)
+    }
+    
+    func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completionRequirement: Action.Completion) -> Action.Completion.Status {
         if !smartCallerQueue.isCurrentQueue {
             let message = "Called ActionSession \"\(self.name)\" from a queue that is not \(self.callerQueue). Failing fast because this implies your completion will execute on a different queue to the one you expect"
             FlintInternal.logger?.error(message)
@@ -338,11 +347,10 @@ public class ActionSession: CustomDebugStringConvertible {
 
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
-        let _ = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: { outcome in
-            /// !!! TODO: What is the contract re: actions calling completion on a given queue?
-
+        var completionStatus: Action.Completion.Status?
+        let proxyCompletion = Action.Completion(completionHandler: { outcome in
             // Report outcome to the caller, minus our internals about action stacks
-            completion?(outcome.simplifiedOutcome)
+            completionStatus = completionRequirement.completedSync(outcome)
 
             // Terminate the current stack if required
             switch outcome {
@@ -353,5 +361,20 @@ public class ActionSession: CustomDebugStringConvertible {
                     break
             }
         })
+
+        // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
+        // match the queue we are currently on, so the completion is all threadsafe.
+        let result = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: proxyCompletion)
+
+        if result.isCompletingAsync {
+            // If it was async, proxy that result onto the original completion
+            return completionRequirement.willCompleteAsync()
+        } else {
+            // If it was sync, return the actual completion we captured
+            guard let status = completionStatus else {
+                flintBug("Failed to proxy sync completion status")
+            }
+            return status
+        }
     }
 }

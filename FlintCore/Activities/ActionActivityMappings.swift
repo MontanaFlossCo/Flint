@@ -8,8 +8,18 @@
 
 import Foundation
 
-/// Callback function used to invoke an action for an activity
-typealias ActivityExecutor = (_ activity: NSUserActivity, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: (ActionPerformOutcome) -> Void) -> ()
+/// Callback function used to invoke an action for an activity.
+///
+/// - note: These executors must always be called on the main thread, and they will complete synchronously.
+/// This is why they return the outcome and don't have `completion`.
+typealias ActivityExecutor = (_ activity: NSUserActivity, _ PresentationRouter: PresentationRouter, _ source: ActionSource) -> ActionPerformOutcome
+
+public enum ActivityExecutionError: Error {
+    case noPresenter
+    case appCancelled
+    case userCancelled
+    case appAlreadyPerformed
+}
 
 /// A class that creates and stores the mappings from NSUserActivity activity type IDs to actions and the code
 /// to perform them when the activity is received.
@@ -53,6 +63,7 @@ class ActionActivityMappings {
         return createActivity(for: actionBinding.action, of: actionBinding.feature, with: input, appLink: appLink)
     }
     
+    /// Interfnal function to create the activity.
     static func createActivity<ActionType>(for action: ActionType.Type, of feature: FeatureDefinition.Type,
                                            with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
         let activityTypes = action.activityTypes
@@ -94,7 +105,7 @@ class ActionActivityMappings {
 
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
 
-        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
                 flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
@@ -104,15 +115,14 @@ class ActionActivityMappings {
                 let input = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
-
-                FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(input)")
-                switch presentationRouterResult {
-                    case .appReady(let presenter):
-                        binding.perform(input: input, presenter: presenter, userInitiated: true, source: source)
-                    case .unsupported:
-                        FlintInternal.urlMappingLogger?.error("No presentation for activity ID \(activity.activityType) for \(binding) - received .unsupported")
-                    case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                if case let .appReady(presenter) = presentationRouterResult {
+                    let completion = Action.Completion(completionHandler: { _ in } )
+                    let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
+                    flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
+                    flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
+                    return result.value
+                } else {
+                    return ActionActivityMappings.failedPresentationResultToActionPerformOutcome(presentationRouterResult)
                 }
             } catch ActivityCodableError.missingKeys(let keys) {
                 flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self).self, userInfo values are missing for keys: \(keys)")
@@ -135,27 +145,24 @@ class ActionActivityMappings {
         
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
 
-        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
                 flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
             }
 
             do {
-                let state = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
+                let input = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
-                let presentationRouterResult = presentationRouter.presentation(for: binding, input: state)
-
-                FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(presentationRouterResult) received for \(binding) with state \(state)")
-                switch presentationRouterResult {
-                    case .appReady(let presenter):
-                        if let request = binding.request() {
-                            request.perform(input: state, presenter: presenter, userInitiated: true, source: source)
-                        }
-                    case .unsupported:
-                        FlintInternal.urlMappingLogger?.error("No presentation for activity ID \(activity.activityType) for \(binding) - received .unsupported")
-                    case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
+                if case let .appReady(presenter) = presentationRouterResult {
+                    let completion = Action.Completion(completionHandler: { _ in } )
+                    let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
+                    flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
+                    flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
+                    return result.value
+                } else {
+                    return ActionActivityMappings.failedPresentationResultToActionPerformOutcome(presentationRouterResult)
                 }
             } catch ActivityCodableError.missingKeys(let keys) {
                 flintUsageError("Unable to create input for action \(ActionType.self) input type \(ActionType.InputType.self), userInfo values are missing for keys: \(keys)")
@@ -168,6 +175,24 @@ class ActionActivityMappings {
 
         addMapping(for: activityID, to: binding.action.name, executor: executor)
     }
+
+    static func failedPresentationResultToActionPerformOutcome<T>(_ result: PresentationResult<T>) -> ActionPerformOutcome {
+        FlintInternal.urlMappingLogger?.debug("Activity executor presentation \(result) received")
+        switch result {
+            case .unsupported:
+                FlintInternal.urlMappingLogger?.error("No presentation for activity - received .unsupported")
+            case .appCancelled:
+                return .failure(error: ActivityExecutionError.appCancelled, closeActionStack: true)
+            case .userCancelled:
+                return .failure(error: ActivityExecutionError.userCancelled, closeActionStack: true)
+            case .appPerformed:
+                return .failure(error: ActivityExecutionError.appAlreadyPerformed, closeActionStack: true)
+            case .appReady:
+                flintBug("App is ready to present UI, this state is not supported")
+            break
+        }
+    }
+
     /// Retrieves the action executor block, if any, for the given URL path in the specified Route scope.
     /// The executor captures the original generic Action so that it can be stored here and executed later even though
     /// `Action` has associated types.

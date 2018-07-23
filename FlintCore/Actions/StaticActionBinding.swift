@@ -86,6 +86,13 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
         ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
+    func perform(input: ActionType.InputType, presenter: ActionType.PresenterType,
+                        userInitiated: Bool,
+                        source: ActionSource,
+                        completion: Action.Completion) -> Action.Completion.Status {
+        return ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
+    }
+
     /// Convenience function for creating an activity for this action with a given input.
     /// - param url: If specified, will be assumed to be a URL from a URLMapped feature that maps to invoke the action.
     /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will

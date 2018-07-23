@@ -33,24 +33,24 @@ import Foundation
 ///
 /// let status = coordinator.doSomething(input: x, completionRequirement: completion)
 /// // Make sure one of the valid statuses was returned.
-/// // If result was not asyncCompletion, the completion callback will have already been called by now.
+/// // If result did not return try for `isCompletingAsync`, the completion callback will have already been called by now.
 /// precondition(completion.verify(status))
 /// ```
 ///
 /// When implemention such a function requiring completion, you return one of two statuses returned by either
-/// the `CompletionRequirement.completion(_ arg: T)` or `CompletionRequirement.asyncCompletion(_ arg: T)`.
+/// the `CompletionRequirement.completed(_ arg: T)` or `CompletionRequirement.willCompleteAsync()`.
 ///
 /// ```
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
-///    return completionRequirement.completion(false)
+///    return completionRequirement.completed(false)
 /// }
 ///
 /// // or for async completion
 ///
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
-///     let result = completionRequirement.asyncCompletion()
+///     let result = completionRequirement.willCompleteAsync()
 ///     DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-///         result.completionHandler(false)
+///         result.completed(false)
 ///     }
 ///     return result
 /// }
@@ -74,18 +74,23 @@ public class CompletionRequirement<T> {
         init(result: T) {
             _value = result
         }
+        
+        public var isCompletingAsync: Bool { return false }
     }
 
+    // The type for a status indicating completion will occur later
     public class DeferredStatus: Status {
-        public let completionHandler: (T) -> Void
+        public let completed: (T) -> Void
 
         init(completionHandler: @escaping (T) -> Void) {
-            self.completionHandler = completionHandler
+            self.completed = completionHandler
             super.init()
         }
+
+        override public var isCompletingAsync: Bool { return true }
     }
 
-    private var completionHandler: ((T) -> Void)!
+    private var completionHandler: ((T) -> Void)?
     private var deferredCompletionStatus: DeferredStatus?
     private var completedStatus: Status!
 
@@ -97,7 +102,7 @@ public class CompletionRequirement<T> {
         return status === completedStatus || status === deferredCompletionStatus
     }
     
-    public func asyncCompletion() -> DeferredStatus {
+    public func willCompleteAsync() -> DeferredStatus {
         guard let completion = completionHandler else {
             flintUsageError("willCompleteLater() can only be called once per completion")
         }
@@ -113,7 +118,10 @@ public class CompletionRequirement<T> {
         return status
     }
 
-    public func completion(_ result: T) -> Status {
+    public func completedSync(_ result: T) -> Status {
+        guard let completionHandler = completionHandler else {
+            flintUsageError("Cannot call completed() if willCompleteAsync() has been called - you must call completed() on the status returned from that call")
+        }
         completedStatus = Status(result: result)
         completionHandler(result)
         return completedStatus
