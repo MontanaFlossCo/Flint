@@ -561,6 +561,9 @@
 		49BC1C5920867C2400A7FC77 /* ActionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C5620867C2400A7FC77 /* ActionStack.swift */; };
 		49BC1C5A20867C2400A7FC77 /* ActionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C5620867C2400A7FC77 /* ActionStack.swift */; };
 		49C9C37A1FFD317800E4D500 /* TopicPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */; };
+		49CC662B21232FFC0042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
+		49CC662C21232FFD0042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
+		49CC662E212330000042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
 		49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */; };
 		49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */; };
 		49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -898,6 +901,7 @@
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
 		49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicPath+Extensions.swift"; sourceTree = "<group>"; };
+		49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthorisationTests.swift; sourceTree = "<group>"; };
 		49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CCF0AD1F8BB1B200F7020E /* FlintCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore.h; sourceTree = "<group>"; };
 		49CCF0AE1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1338,6 +1342,14 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		49CC662621232F960042489F /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
 		49CCF0A01F8BB1B200F7020E = {
 			isa = PBXGroup;
 			children = (
@@ -1398,6 +1410,7 @@
 		49CCF0B71F8BB1B200F7020E /* FlintCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				49CC662621232F960042489F /* Permissions */,
 				491533692093B6F700B1E4D2 /* Mocks and Helpers */,
 				49298227205D677F00267A49 /* Test Features */,
 				491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */,
@@ -1959,6 +1972,7 @@
 				491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B6020B308F600649BB4 /* URLMappingTests.swift in Sources */,
 				496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
+				49CC662C21232FFD0042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2138,6 +2152,7 @@
 				491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */,
 				496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
+				49CC662E212330000042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2489,6 +2504,7 @@
 				4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B5F20B308F500649BB4 /* URLMappingTests.swift in Sources */,
 				496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
+				49CC662B21232FFC0042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
