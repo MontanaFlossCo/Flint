@@ -18,7 +18,10 @@ class PermissionAuthorisationTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-    
+
+    /// Verify that checking authorisation status works. This can fail if using dynamic lookups and selectors are wrong.
+    ///
+    /// - note: This requires the test host app to link against EventKit
     func testEventKitAuthorisationSelector() {
         let adapter = EventKitPermissionAdapter(permission: .calendarEvents)
         let _ = adapter.status

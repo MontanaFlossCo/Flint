@@ -564,6 +564,7 @@
 		49CC662B21232FFC0042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
 		49CC662C21232FFD0042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
 		49CC662E212330000042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
+		49CC6630212332820042489F /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CC662F212332810042489F /* EventKit.framework */; };
 		49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */; };
 		49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */; };
 		49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -902,6 +903,7 @@
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
 		49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicPath+Extensions.swift"; sourceTree = "<group>"; };
 		49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthorisationTests.swift; sourceTree = "<group>"; };
+		49CC662F212332810042489F /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CCF0AD1F8BB1B200F7020E /* FlintCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore.h; sourceTree = "<group>"; };
 		49CCF0AE1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -993,6 +995,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49CC6630212332820042489F /* EventKit.framework in Frameworks */,
 				49891ED4209715DA00B9BCBF /* FlintCore.framework in Frameworks */,
 				49891ED8209715DA00B9BCBF /* ZIPFoundation.framework in Frameworks */,
 			);
@@ -1193,6 +1196,7 @@
 		4977DC7A205AECB400DAA0C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49CC662F212332810042489F /* EventKit.framework */,
 				49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */,
 				49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */,
 				49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */,
