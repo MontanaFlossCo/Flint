@@ -75,33 +75,36 @@ public class DefaultActionDispatcher: ActionDispatcher {
         let action = request.actionBinding.action
         let smartQueue = SmartDispatchQueue(queue: action.queue, owner: self)
         var performStatus: Action.Completion.Status?
-        var actualCompletionStatus: Action.Completion.Status?
+        var syncCompletionStatus: Action.Completion.Status?
         
         // Here we sycnhronously call the action on the queue it has requested, and we pass a completion object in
         // that will tell us if it performed synchronously or not. The caller does not care so much, but we do
         // for safety purposes and tracking in future.
         smartQueue.sync {
             // Proxy the completion so we can ensure it is called on the correct queue
-            let dispatcherCompletion = Action.Completion(completionHandler: { outcome in
+            let dispatcherCompletion = Action.Completion(completionHandler: { outcome, completedAsync in
                 // Track completion
                 self.complete(request: request, outcome: outcome)
 
                 // Tell the caller about completion
-                callerQueue.sync {
-                    actualCompletionStatus = completion.completedSync(outcome)
+                if !completedAsync {
+                    callerQueue.sync {
+                        syncCompletionStatus = completion.completedSync(outcome)
+                    }
                 }
             })
 
             // Perform the action and get the immediate status of it
-            performStatus = action.perform(context: request.context,
+            let status = action.perform(context: request.context,
                                         presenter: request.presenter,
                                         completion: dispatcherCompletion)
+            performStatus = status
+            flintUsagePrecondition(dispatcherCompletion.verify(status), "Action returned an invalid completion status")
         }
 
         guard let status = performStatus else {
-            flintBug("We must always have the completion status by now")
+            flintBug("We must always have a valid perform status")
         }
-        
         if status.isCompletingAsync {
             // If it was async, we'll log this for now. In future in dev mode maybe we'll add a timer of say 10s
             // and then log another warning if we didn't hear back from the action.
@@ -112,7 +115,7 @@ public class DefaultActionDispatcher: ActionDispatcher {
             return completion.willCompleteAsync()
         } else {
             // We need to return the original completion, as the caller relies on identity tests
-            guard let result = actualCompletionStatus else {
+            guard let result = syncCompletionStatus else {
                 flintBug("Synchronous action perform result was not captured correctly")
             }
             return result

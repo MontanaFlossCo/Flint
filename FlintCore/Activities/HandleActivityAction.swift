@@ -33,8 +33,8 @@ final class HandleActivityAction: Action {
         if let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL {
             context.logs.development?.debug("Auto URL found: \(autoURL)")
             if let request = RoutesFeature.request(RoutesFeature.performIncomingURL) {
-                var result: ActionPerformOutcome = .failure(error: nil, closeActionStack: true)
-                request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source) { outcome in
+                var result: ActionPerformOutcome
+                let proxyCompletion = Action.Completion(proxying: completion) { outcome in
                     context.logs.development?.debug("Auto URL perform completed: \(outcome)")
                     if case .success = outcome {
                         result = .success(closeActionStack: true)
@@ -42,15 +42,20 @@ final class HandleActivityAction: Action {
                         result = .failure(error: error, closeActionStack: true)
                     }
                 }
-                completion(result)
+                let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
+                flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
+                if completionStatus.isCompletingAsync {
+                    return completion.willCompleteAsync()
+                } else {
+                    return completion.completedSync(completionStatus)
+                }
             } else {
                 context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
-                completion(.failure(error: nil, closeActionStack: true))
+                return completion.completedSync(.failure(error: nil, closeActionStack: true))
             }
         } else {
             if let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) {
-                var result: ActionPerformOutcome = .failure(error: nil, closeActionStack: true)
-                request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source) { outcome in
+                let result = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion) { outcome in
                     context.logs.development?.debug("userInfo perform completed: \(outcome)")
                     if case .success = outcome {
                         result = .success(closeActionStack: true)
@@ -58,10 +63,10 @@ final class HandleActivityAction: Action {
                         result = .failure(error: error, closeActionStack: true)
                     }
                 }
-                completion(result)
+                return result
             } else {
                 context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
-                completion(.failure(error: nil, closeActionStack: true))
+                return completion.completedSync(.failure(error: nil, closeActionStack: true))
             }
         }
     }

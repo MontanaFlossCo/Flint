@@ -80,9 +80,9 @@ public class CompletionRequirement<T> {
 
     // The type for a status indicating completion will occur later
     public class DeferredStatus: Status {
-        public let completed: (T) -> Void
+        public let completed: (T, _ completedAsync: Bool) -> Void
 
-        init(completionHandler: @escaping (T) -> Void) {
+        init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
             self.completed = completionHandler
             super.init()
         }
@@ -90,11 +90,11 @@ public class CompletionRequirement<T> {
         override public var isCompletingAsync: Bool { return true }
     }
 
-    private var completionHandler: ((T) -> Void)?
+    private var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
     private var deferredCompletionStatus: DeferredStatus?
     private var completedStatus: Status!
 
-    init(completionHandler: @escaping (T) -> Void) {
+    init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
         self.completionHandler = completionHandler
     }
 
@@ -123,8 +123,26 @@ public class CompletionRequirement<T> {
             flintUsageError("Cannot call completed() if willCompleteAsync() has been called - you must call completed() on the status returned from that call")
         }
         completedStatus = Status(result: result)
-        completionHandler(result)
+        completionHandler(result, false)
         return completedStatus
     }
 }
 
+/// Allows you to pass this requirement, add some custom completion logic, and then return the correct
+/// results using the original requirement instead.
+///
+/// Very much turtles all the way down.
+class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
+    let proxiedCompletion: CompletionRequirement<T>
+    
+    public init(proxying originalCompletion: CompletionRequirement<T>, completionHandler: @escaping (T, Bool) -> Void) {
+        self.proxiedCompletion = originalCompletion
+        super.init(completionHandler: completionHandler)
+    }
+    
+    override func willCompleteAsync() -> DeferredStatus {
+        return proxiedCompletion.willCompleteAsync()
+    }
+    
+    
+}
