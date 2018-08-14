@@ -60,7 +60,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     private let entityType: ProxyEntityType
     private lazy var eventStore: AnyObject? = { try? instantiate(classNamed: EventKitPermissionAdapter.storeClassName) }()
     private lazy var getAuthorizationStatus: AuthorizationStatusFunc? = {
-        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatus", on: EventKitPermissionAdapter.storeClassName)
+        return try? dynamicBindIntArgsIntReturn(toStaticMethod: "authorizationStatusForEntityType", on: EventKitPermissionAdapter.storeClassName)
     }()
     private lazy var requestAuthorization: RequestAccessFunc? = {
         if let store = eventStore {
