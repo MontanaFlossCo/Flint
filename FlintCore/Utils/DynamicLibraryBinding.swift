@@ -93,10 +93,10 @@ func dynamicBindIntArgsIntReturn(toStaticMethod methodName: String, on className
 ///
 /// - param methodName: The Objective-C instance method/selector name
 /// - param object: The Objective-C object instance on which to perform this method
-func dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (Int, (Bool, Error?) -> Void) -> Void {
+func dynamicBindIntAndBoolErrorOptionalClosureReturnVoid(toInstanceMethod methodName: String, on object: AnyObject) throws -> (Int, @escaping (Bool, Error?) -> Void) -> Void {
     let invocation = try DynamicInvocation(object: object, methodName: methodName)
-    return { (arg1: Int, arg2: (Bool, Error?) -> Void) in
-        typealias FuncType = @convention(c) (AnyObject, Selector, Int, (Bool, Error?) -> Void) -> Void
+    return { (arg1: Int, arg2: @escaping (Bool, Error?) -> Void) in
+        typealias FuncType = @convention(c) (AnyObject, Selector, Int, @escaping (Bool, Error?) -> Void) -> Void
         invocation.perform { (functionGenerator: () -> FuncType, instance, selector) in
             let function: FuncType = functionGenerator()
             function(instance, selector, arg1, arg2)

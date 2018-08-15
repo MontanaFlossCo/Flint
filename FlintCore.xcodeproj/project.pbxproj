@@ -22,6 +22,7 @@
 		4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */; };
 		491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */; };
 		491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */; };
+		492037522124D609005DDA29 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492037512124D609005DDA29 /* Photos.framework */; };
 		4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
 		4921705520D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
 		4921705620D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
@@ -746,6 +747,7 @@
 		491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAvailabilityCheckerTests.swift; sourceTree = "<group>"; };
 		4915336A2093B7A800B1E4D2 /* MockUserToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserToggles.swift; sourceTree = "<group>"; };
 		4915336E2093B83300B1E4D2 /* MockPurchaseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPurchaseValidator.swift; sourceTree = "<group>"; };
+		492037512124D609005DDA29 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		4921705320D13B31007D6883 /* ActivityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuilder.swift; sourceTree = "<group>"; };
 		4921705A20D25625007D6883 /* ActivityCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCodable.swift; sourceTree = "<group>"; };
 		4921706420D27D14007D6883 /* FlintImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintImage.swift; sourceTree = "<group>"; };
@@ -980,6 +982,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				492037522124D609005DDA29 /* Photos.framework in Frameworks */,
 				496F8F2C203EEA06003AB29B /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1196,6 +1199,7 @@
 		4977DC7A205AECB400DAA0C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				492037512124D609005DDA29 /* Photos.framework */,
 				49CC662F212332810042489F /* EventKit.framework */,
 				49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */,
 				49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */,
@@ -1672,7 +1676,8 @@
 		49CCF0A11F8BB1B200F7020E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Montana Floss Co. Ltd.";
 				TargetAttributes = {
@@ -1726,13 +1731,13 @@
 			projectRoot = "";
 			targets = (
 				49CCF0A91F8BB1B200F7020E /* FlintCore-iOS */,
+				49891EBF209714B600B9BCBF /* FlintTestHost */,
 				49CCF0B21F8BB1B200F7020E /* FlintCore-iOS-Tests */,
 				496F8F06203EE9E9003AB29B /* FlintCore-tvOS */,
 				496F8F0E203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F22203EEA05003AB29B /* FlintCore-macOS */,
 				496F8F2A203EEA06003AB29B /* FlintCore-macOSTests */,
 				496F8F3E203EEA23003AB29B /* FlintCore-watchOS */,
-				49891EBF209714B600B9BCBF /* FlintTestHost */,
 			);
 		};
 /* End PBXProject section */
