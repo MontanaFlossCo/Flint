@@ -53,7 +53,7 @@ class EventKitPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String
     
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
-    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     static private let storeClassName = "EKEventStore"
     

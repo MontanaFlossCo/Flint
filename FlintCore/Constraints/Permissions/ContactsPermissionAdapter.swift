@@ -45,7 +45,7 @@ class ContactsPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSContactsUsageDescription"
 
     typealias AuthorizationStatusFunc = (_ entityType: Int) -> Int
-    typealias RequestAccessFunc = (_ entityType: Int, _ completion: (_ granted: Bool, _ error: Error?) -> Void) -> Void
+    typealias RequestAccessFunc = (_ entityType: Int, _ completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) -> Void
 
     private let entityType: ProxyEntityType
     private lazy var contactStore: AnyObject? = { try? instantiate(classNamed: "CNContactStore") }()
