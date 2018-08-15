@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		490A21D7205B034F003E1D00 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4977DC7B205AECB500DAA0C8 /* ZIPFoundation.framework */; };
+		490BE46A2124616D00B6AC91 /* FlintCore_iOS_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BE4692124616D00B6AC91 /* FlintCore_iOS_UITests.swift */; };
 		49137FF320CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
 		49137FF420CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
 		49137FF520CF29C500C696F4 /* Action+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49137FF220CF29C500C696F4 /* Action+Extensions.swift */; };
@@ -688,6 +689,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		490BE46C2124616D00B6AC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49CCF0A11F8BB1B200F7020E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49891EBF209714B600B9BCBF;
+			remoteInfo = FlintTestHost;
+		};
 		496F8F11203EE9EA003AB29B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 49CCF0A11F8BB1B200F7020E /* Project object */;
@@ -741,6 +749,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		490BE4672124616C00B6AC91 /* FlintCore-iOS-UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-iOS-UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		490BE4692124616D00B6AC91 /* FlintCore_iOS_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_iOS_UITests.swift; sourceTree = "<group>"; };
+		490BE46B2124616D00B6AC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49137FF220CF29C500C696F4 /* Action+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Action+Extensions.swift"; sourceTree = "<group>"; };
 		4914EFC62067C4D000FE0F41 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAvailabilityCheckerTests.swift; sourceTree = "<group>"; };
@@ -950,6 +961,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		490BE4642124616C00B6AC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		496F8F03203EE9E9003AB29B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1022,6 +1040,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		490BE4682124616D00B6AC91 /* FlintCore-iOS-UITests */ = {
+			isa = PBXGroup;
+			children = (
+				490BE4692124616D00B6AC91 /* FlintCore_iOS_UITests.swift */,
+				490BE46B2124616D00B6AC91 /* Info.plist */,
+			);
+			path = "FlintCore-iOS-UITests";
+			sourceTree = "<group>";
+		};
 		491533692093B6F700B1E4D2 /* Mocks and Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1361,6 +1388,7 @@
 				496267B31F8BC14D002C83F2 /* README.md */,
 				49CCF0AC1F8BB1B200F7020E /* FlintCore */,
 				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,
+				490BE4682124616D00B6AC91 /* FlintCore-iOS-UITests */,
 				496F8F08203EE9EA003AB29B /* FlintCore-tvOS */,
 				496F8F13203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F24203EEA06003AB29B /* FlintCore-macOS */,
@@ -1384,6 +1412,7 @@
 				496F8F2B203EEA06003AB29B /* FlintCore-macOSTests.xctest */,
 				496F8F3F203EEA23003AB29B /* FlintCore.framework */,
 				49891EC0209714B600B9BCBF /* FlintTestHost.app */,
+				490BE4672124616C00B6AC91 /* FlintCore-iOS-UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1520,6 +1549,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		490BE4662124616C00B6AC91 /* FlintCore-iOS-UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 490BE46E2124616D00B6AC91 /* Build configuration list for PBXNativeTarget "FlintCore-iOS-UITests" */;
+			buildPhases = (
+				490BE4632124616C00B6AC91 /* Sources */,
+				490BE4642124616C00B6AC91 /* Frameworks */,
+				490BE4652124616C00B6AC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				490BE46D2124616D00B6AC91 /* PBXTargetDependency */,
+			);
+			name = "FlintCore-iOS-UITests";
+			productName = "FlintCore-iOS-UITests";
+			productReference = 490BE4672124616C00B6AC91 /* FlintCore-iOS-UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		496F8F06203EE9E9003AB29B /* FlintCore-tvOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 496F8F18203EE9EA003AB29B /* Build configuration list for PBXNativeTarget "FlintCore-tvOS" */;
@@ -1672,10 +1719,16 @@
 		49CCF0A11F8BB1B200F7020E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Montana Floss Co. Ltd.";
 				TargetAttributes = {
+					490BE4662124616C00B6AC91 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 49891EBF209714B600B9BCBF;
+					};
 					496F8F06203EE9E9003AB29B = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
@@ -1726,18 +1779,26 @@
 			projectRoot = "";
 			targets = (
 				49CCF0A91F8BB1B200F7020E /* FlintCore-iOS */,
+				49891EBF209714B600B9BCBF /* FlintTestHost */,
 				49CCF0B21F8BB1B200F7020E /* FlintCore-iOS-Tests */,
+				490BE4662124616C00B6AC91 /* FlintCore-iOS-UITests */,
 				496F8F06203EE9E9003AB29B /* FlintCore-tvOS */,
 				496F8F0E203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F22203EEA05003AB29B /* FlintCore-macOS */,
 				496F8F2A203EEA06003AB29B /* FlintCore-macOSTests */,
 				496F8F3E203EEA23003AB29B /* FlintCore-watchOS */,
-				49891EBF209714B600B9BCBF /* FlintTestHost */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		490BE4652124616C00B6AC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		496F8F05203EE9E9003AB29B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1800,6 +1861,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		490BE4632124616C00B6AC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				490BE46A2124616D00B6AC91 /* FlintCore_iOS_UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		496F8F02203EE9E9003AB29B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2515,6 +2584,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		490BE46D2124616D00B6AC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49891EBF209714B600B9BCBF /* FlintTestHost */;
+			targetProxy = 490BE46C2124616D00B6AC91 /* PBXContainerItemProxy */;
+		};
 		496F8F12203EE9EA003AB29B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 496F8F06203EE9E9003AB29B /* FlintCore-tvOS */;
@@ -2562,6 +2636,49 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		490BE46F2124616D00B6AC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "FlintCore-iOS-UITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOS-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlintTestHost;
+			};
+			name = Debug;
+		};
+		490BE4702124616D00B6AC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5LUNBYMD4J;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "FlintCore-iOS-UITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOS-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlintTestHost;
+			};
+			name = Release;
+		};
 		496F8F19203EE9EA003AB29B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3089,6 +3206,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		490BE46E2124616D00B6AC91 /* Build configuration list for PBXNativeTarget "FlintCore-iOS-UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				490BE46F2124616D00B6AC91 /* Debug */,
+				490BE4702124616D00B6AC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		496F8F18203EE9EA003AB29B /* Build configuration list for PBXNativeTarget "FlintCore-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

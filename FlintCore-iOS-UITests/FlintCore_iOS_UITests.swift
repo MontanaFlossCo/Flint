@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import FlintCore
 
 class FlintCore_iOS_UITests: XCTestCase {
         
@@ -20,7 +21,10 @@ class FlintCore_iOS_UITests: XCTestCase {
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         XCUIApplication().launch()
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        let _ = addUIInterruptionMonitor(withDescription: "Permission alert silencing") { (alert) in
+            alert.buttons["OK"].tap()
+            return true // The interruption has been handled
+        }
     }
     
     override func tearDown() {
@@ -28,9 +32,40 @@ class FlintCore_iOS_UITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testEventKitAuthorisationRequest() {
+        let eventsAdapter = EventKitPermissionAdapter(permission: .calendarEvents)
+
+        let eventsExpectation = expectation(description: "Callback triggered")
+        eventsAdapter.requestAuthorisation { adapter, status in
+            eventsExpectation.fulfill()
+        }
+        
+        let remindersExpectation = expectation(description: "Callback triggered")
+        let remindersAdapter = EventKitPermissionAdapter(permission: .reminders)
+        remindersAdapter.requestAuthorisation { adapter, status in
+            remindersExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10)
     }
-    
+
+    func testContactsAuthorisationRequest() {
+        let adapter = ContactsPermissionAdapter(permission: .contacts(entity: .contacts))
+        let contactsExpectation = expectation(description: "Callback triggered")
+
+        adapter.requestAuthorisation { adapter, status in
+            contactsExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testPhotosAuthorisationRequest() {
+        let adapter = PhotosPermissionAdapter(permission: .photos)
+        let photosExpectation = expectation(description: "Callback triggered")
+        adapter.requestAuthorisation { adapter, status in
+            photosExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
 }

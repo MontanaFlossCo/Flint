@@ -10,7 +10,6 @@ import XCTest
 @testable import FlintCore
 
 class PermissionAuthorisationTests: XCTestCase {
-    
     override func setUp() {
         super.setUp()
     }
@@ -29,24 +28,9 @@ class PermissionAuthorisationTests: XCTestCase {
         let _ = remindersAdapter.status
     }
 
-    func testEventKitAuthorisationRequest() {
-        let eventsAdapter = EventKitPermissionAdapter(permission: .calendarEvents)
-        eventsAdapter.requestAuthorisation { adapter, status in
-        }
-        let remindersAdapter = EventKitPermissionAdapter(permission: .reminders)
-        remindersAdapter.requestAuthorisation { adapter, status in
-        }
-    }
-
     func testContactsAuthorisationStatus() {
         let adapter = ContactsPermissionAdapter(permission: .contacts(entity: .contacts))
         let _ = adapter.status
-    }
-
-    func testContactsAuthorisationRequest() {
-        let adapter = ContactsPermissionAdapter(permission: .contacts(entity: .contacts))
-        adapter.requestAuthorisation { adapter, status in
-        }
     }
 
     func testPhotosAuthorisationStatus() {
@@ -54,9 +38,4 @@ class PermissionAuthorisationTests: XCTestCase {
         let _ = adapter.status
     }
 
-    func testPhotosAuthorisationRequest() {
-        let adapter = PhotosPermissionAdapter(permission: .photos)
-        adapter.requestAuthorisation { adapter, status in
-        }
-    }
 }

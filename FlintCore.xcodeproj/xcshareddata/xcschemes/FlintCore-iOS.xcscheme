@@ -34,6 +34,20 @@
                ReferencedContainer = "container:FlintCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "490BE4662124616C00B6AC91"
+               BuildableName = "FlintCore-iOS-UITests.xctest"
+               BlueprintName = "FlintCore-iOS-UITests"
+               ReferencedContainer = "container:FlintCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
