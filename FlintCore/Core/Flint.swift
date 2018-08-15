@@ -17,14 +17,6 @@ import ClassKit
 import Intents
 #endif
 
-//#if os(iOS) || os(macOS)
-///// Temporary workaround for Intents having an implicit dependency on Contacts framework.
-///// Radar #41946218 — "Importing Intents forces app to provide NSContactsUsageDescription"
-//@objc fileprivate protocol IntentsNSUserActivityExtension {
-//    @objc var interaction: AnyObject? { get }
-//}
-//#endif
-
 /// This is the Flint class, with entry points for application-level convenience functions and metadata.
 ///
 /// Your application must call `Flint.quickSetup` or `Flint.setup` at startup to bootstrap the Feature & Action declarations,
@@ -355,7 +347,6 @@ final public class Flint {
                 default:
 #if os(iOS) || os(macOS)
                     // Check for a Siri intent
-//                    let interactionActivity = unsafeBitCast(activity, to: IntentsNSUserActivityExtension.self)
 #if canImport(Intents)
                     if let _ = activity.interaction {
                         source = .continueActivity(type: .siri)
