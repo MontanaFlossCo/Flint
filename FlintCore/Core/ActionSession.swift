@@ -300,7 +300,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// Execute the action of the request, appending it to the action sequence for the relevant feature
     /// - note: This is the heart of the Features implementation.
     private func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completion: ((ActionOutcome) -> ())?) {
-        let completionRequirement = Action.Completion() { outcome in
+        let completionRequirement = Action.Completion() { outcome, completedAsync in
             completion?(outcome.simplifiedOutcome)
         }
         
@@ -348,7 +348,7 @@ public class ActionSession: CustomDebugStringConvertible {
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
         var completionStatus: Action.Completion.Status?
-        let proxyCompletion = Action.Completion(completionHandler: { outcome in
+        let proxyCompletion = Action.Completion(completionHandler: { outcome, completedAsync in
             // Report outcome to the caller, minus our internals about action stacks
             completionStatus = completionRequirement.completedSync(outcome)
 

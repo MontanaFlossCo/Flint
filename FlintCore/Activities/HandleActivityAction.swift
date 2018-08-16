@@ -34,11 +34,11 @@ final class HandleActivityAction: Action {
             context.logs.development?.debug("Auto URL found: \(autoURL)")
             if let request = RoutesFeature.request(RoutesFeature.performIncomingURL) {
                 var result: ActionPerformOutcome
-                let proxyCompletion = Action.Completion(proxying: completion) { outcome in
+                let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, completedAsync in
                     context.logs.development?.debug("Auto URL perform completed: \(outcome)")
                     if case .success = outcome {
                         result = .success(closeActionStack: true)
-                    } else if case .failure(let error) = outcome {
+                    } else if case .failure(let error, _) = outcome {
                         result = .failure(error: error, closeActionStack: true)
                     }
                 }
@@ -58,9 +58,9 @@ final class HandleActivityAction: Action {
                 let result = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion) { outcome in
                     context.logs.development?.debug("userInfo perform completed: \(outcome)")
                     if case .success = outcome {
-                        result = .success(closeActionStack: true)
-                    } else if case .failure(let error) = outcome {
-                        result = .failure(error: error, closeActionStack: true)
+                        return .success(closeActionStack: true)
+                    } else if case .failure(let error, _) = outcome {
+                        return .failure(error: error, closeActionStack: true)
                     }
                 }
                 return result

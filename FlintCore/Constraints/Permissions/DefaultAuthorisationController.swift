@@ -35,7 +35,7 @@ class DefaultAuthorisationController: AuthorisationController {
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
             FlintInternal.logger?.debug("Authorisation controller notifying coordinator that it will begin")
-            let completion = PermissionAuthorisationCoordinator.BeginCompletion(completionHandler: { permissionsToRequest in
+            let completion = PermissionAuthorisationCoordinator.BeginCompletion(completionHandler: { permissionsToRequest, completedAsync in
                 if self.permissions.count > 0 {
                     self.sortedPermissionsToAuthorize = permissionsToRequest
                     self.next()
@@ -75,7 +75,7 @@ class DefaultAuthorisationController: AuthorisationController {
                         strongSelf.permissionsNotAuthorized.append(permission)
                     }
                     if let coordinator = strongSelf.coordinator {
-                        let completion = PermissionAuthorisationCoordinator.DidRequestCompletion(completionHandler: { action in
+                        let completion = PermissionAuthorisationCoordinator.DidRequestCompletion(completionHandler: { action, completedAsync in
                             switch action {
                                 case .requestNext: strongSelf.next()
                                 case .cancel: strongSelf.cancel()
@@ -94,7 +94,7 @@ class DefaultAuthorisationController: AuthorisationController {
 
             if let coordinator = coordinator {
                 FlintInternal.logger?.debug("Authorisation controller calling willRequestPermission for: \(permission)")
-                let completion = PermissionAuthorisationCoordinator.WillRequestCompletion(completionHandler: { action in
+                let completion = PermissionAuthorisationCoordinator.WillRequestCompletion(completionHandler: { action, completedAsync in
                     switch action {
                         case .request:
                             FlintInternal.logger?.debug("Authorisation controller was told to continue requesting authorization for: \(permission)")

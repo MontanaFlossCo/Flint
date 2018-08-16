@@ -19,6 +19,7 @@ public enum ActivityExecutionError: Error {
     case appCancelled
     case userCancelled
     case appAlreadyPerformed
+    case featureNotAvailable
 }
 
 /// A class that creates and stores the mappings from NSUserActivity activity type IDs to actions and the code
@@ -116,7 +117,7 @@ class ActionActivityMappings {
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
                 if case let .appReady(presenter) = presentationRouterResult {
-                    let completion = Action.Completion(completionHandler: { _ in } )
+                    let completion = Action.Completion(completionHandler: { _, _ in } )
                     let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
                     flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
                     flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
@@ -156,11 +157,16 @@ class ActionActivityMappings {
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
                 if case let .appReady(presenter) = presentationRouterResult {
-                    let completion = Action.Completion(completionHandler: { _ in } )
-                    let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
-                    flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
-                    flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
-                    return result.value
+                    
+                    if let request = binding.request() {
+                        let completion = Action.Completion(completionHandler: { _, _ in } )
+                        let result = request.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
+                        flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
+                        flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
+                        return result.value
+                    } else {
+                        return ActionPerformOutcome.failure(error: ActivityExecutionError.featureNotAvailable, closeActionStack: true)
+                    }
                 } else {
                     return ActionActivityMappings.failedPresentationResultToActionPerformOutcome(presentationRouterResult)
                 }

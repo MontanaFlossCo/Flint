@@ -36,10 +36,10 @@ final public class PerformIncomingURLAction: Action {
     ///
     /// The completion outcome will fail with error `noURLMappingFound` if the URL does not map to anything
     /// that Flint knows about.
-    public static func perform(context: ActionContext<URL>, presenter: PresentationRouter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<URL>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
         guard let urlComponents = URLComponents(url: context.input, resolvingAgainstBaseURL: false) else {
             context.logs.development?.error("Invalid URL supplied")
-            return completion(.failure(error: nil, closeActionStack: false))
+            return completion.completedSync(.failure(error: nil, closeActionStack: false))
         }
         
         // Find a matching mapping.
@@ -51,7 +51,7 @@ final public class PerformIncomingURLAction: Action {
                 context.logs.development?.debug("URL is for app scheme: \(scheme)")
                 if let _ = supportedSchemes.index(of: scheme) {
                     guard let host = urlComponents.host else {
-                        return completion(.failure(error: nil, closeActionStack: false))
+                        return completion.completedSync(.failure(error: nil, closeActionStack: false))
                     }
                     var compoundPath = host
                     if urlComponents.path.count > 0 {
@@ -73,7 +73,7 @@ final public class PerformIncomingURLAction: Action {
 
         guard let foundScope = scope, let foundPath = path else {
             context.logs.development?.error("Couldn't map URL: \(context.input)")
-            return completion(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
+            return completion.completedSync(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
         }
 
         context.logs.development?.debug("Finding action executor for scope: \(foundScope), path \(foundPath)")
@@ -99,12 +99,15 @@ final public class PerformIncomingURLAction: Action {
 
             context.logs.development?.debug("Executing action with query params: \(String(describing: params))")
 
+            var result: Action.Completion.Status!
             executionContext.executor(params, presenter, context.source) { outcome in
-                return completion(outcome)
+                result = completion.completedSync(outcome)
             }
+            flintUsagePrecondition(result != nil, "Currently actions performed by URL must complete synchronously")
+            return result
         } else {
             context.logs.development?.error("Couldn't get executor for URL: \(context.input) for scope \(foundScope) and path \(foundPath)")
-            return completion(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
+            return completion.completedSync(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
         }
         
     }
