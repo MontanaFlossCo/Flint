@@ -117,11 +117,18 @@ class ActionActivityMappings {
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
                 if case let .appReady(presenter) = presentationRouterResult {
-                    let completion = Action.Completion(completionHandler: { _, _ in } )
+                    var outcome: ActionPerformOutcome?
+                    
+                    let completion = Action.Completion(completionHandler: { performOutcome, completedAsync in
+                        outcome = performOutcome
+                    })
                     let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
                     flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
                     flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
-                    return result.value
+                    guard let performOutcome = outcome else {
+                        flintBug("Action outcome was not captured")
+                    }
+                    return performOutcome
                 } else {
                     return ActionActivityMappings.failedPresentationResultToActionPerformOutcome(presentationRouterResult)
                 }
@@ -157,13 +164,20 @@ class ActionActivityMappings {
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
                 if case let .appReady(presenter) = presentationRouterResult {
-                    
                     if let request = binding.request() {
-                        let completion = Action.Completion(completionHandler: { _, _ in } )
+                        var outcome: ActionPerformOutcome?
+                        
+                        let completion = Action.Completion(completionHandler: { performOutcome, completedAsync in
+                            outcome = performOutcome
+                        })
+    
                         let result = request.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
                         flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
                         flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
-                        return result.value
+                        guard let performOutcome = outcome else {
+                            flintBug("Action outcome was not captured")
+                        }
+                        return performOutcome
                     } else {
                         return ActionPerformOutcome.failure(error: ActivityExecutionError.featureNotAvailable, closeActionStack: true)
                     }
@@ -187,6 +201,7 @@ class ActionActivityMappings {
         switch result {
             case .unsupported:
                 FlintInternal.urlMappingLogger?.error("No presentation for activity - received .unsupported")
+                return .failure(error: ActivityExecutionError.noPresenter, closeActionStack: true)
             case .appCancelled:
                 return .failure(error: ActivityExecutionError.appCancelled, closeActionStack: true)
             case .userCancelled:
@@ -195,7 +210,6 @@ class ActionActivityMappings {
                 return .failure(error: ActivityExecutionError.appAlreadyPerformed, closeActionStack: true)
             case .appReady:
                 flintBug("App is ready to present UI, this state is not supported")
-            break
         }
     }
 

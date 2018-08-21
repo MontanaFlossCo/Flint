@@ -183,8 +183,44 @@ public class ActionSession: CustomDebugStringConvertible {
                                           logContextCreator: logContextCreator)
         perform(actionRequest, completion: completion)
     }
-    
 
+    /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
+    ///
+    /// This is how you execute actions that are not always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
+    /// - param source: Indicates where the request came from
+    /// - param completionRequirement: The completion object to use.
+    /// - return: The completion status, indicating whether it was synchronously completed or not, and the result if so.
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+                                                 input: ActionType.InputType,
+                                                 presenter: ActionType.PresenterType,
+                                                 userInitiated: Bool,
+                                                 source: ActionSource,
+                                                 completionRequirement: Action.Completion) -> Action.Completion.Status {
+        let staticBinding = StaticActionBinding(feature: conditionalRequest.actionBinding.feature, action: conditionalRequest.actionBinding.action)
+        let logContextCreator = { (sessionID, activitySequenceID) in
+            return LogEventContext(session: sessionID,
+                                   activity: activitySequenceID,
+                                   topicPath: TopicPath(actionBinding: staticBinding),
+                                   arguments: input.loggingDescription,
+                                   presenter: String(describing: presenter))
+        }
+        let actionRequest = ActionRequest(uniqueID: nextRequestID(),
+                                          userInitiated: userInitiated,
+                                          source: source,
+                                          session: self,
+                                          actionBinding: staticBinding,
+                                          input: input,
+                                          presenter: presenter,
+                                          logContextCreator: logContextCreator)
+        return perform(actionRequest, completionRequirement: completionRequirement)
+    }
+    
     /// Perform an action associated with an unconditional `Feature`.
     ///
     /// This is how you execute actions that are always available.
@@ -284,6 +320,42 @@ public class ActionSession: CustomDebugStringConvertible {
         perform(request, completion: completion)
     }
     
+    /// Perform an action associated with an unconditional `Feature`, returning completion status.
+    ///
+    /// This is how you execute actions that are always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
+    /// - param source: Indicates where the request came from
+    /// - param completionRequirement: The completion requirement to use.
+    /// - return: The completion status, indicating whether or not completion is being called synchronously, and including completion results.
+    public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                 input: ActionType.InputType,
+                                                 presenter: ActionType.PresenterType,
+                                                 userInitiated: Bool,
+                                                 source: ActionSource,
+                                                 completionRequirement: Action.Completion) -> Action.Completion.Status {
+        let logContextCreator = { (sessionID, activitySequenceID) in
+            return LogEventContext(session: sessionID,
+                                   activity: activitySequenceID,
+                                   topicPath: actionBinding.logTopicPath,
+                                   arguments: input.loggingDescription,
+                                   presenter: String(describing: presenter))
+        }
+        let request: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),
+                                                      userInitiated: userInitiated,
+                                                      source: source,
+                                                      session: self,
+                                                      actionBinding: actionBinding,
+                                                      input: input,
+                                                      presenter: presenter,
+                                                      logContextCreator: logContextCreator)
+        return perform(request, completionRequirement: completionRequirement)
+    }
+    
     // MARK: Debug helpers
     
     public var debugDescription: String {
@@ -347,11 +419,7 @@ public class ActionSession: CustomDebugStringConvertible {
 
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
-        var completionStatus: Action.Completion.Status?
-        let proxyCompletion = Action.Completion(completionHandler: { outcome, completedAsync in
-            // Report outcome to the caller, minus our internals about action stacks
-            completionStatus = completionRequirement.completedSync(outcome)
-
+        let proxyCompletion = ProxyCompletionRequirement(proxying: completionRequirement, proxyCompletionHandler: { outcome, completesAsync in
             // Terminate the current stack if required
             switch outcome {
                 case .success(closeActionStack: true),
@@ -360,21 +428,12 @@ public class ActionSession: CustomDebugStringConvertible {
                 default:
                     break
             }
+            return outcome
         })
 
         // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
         // match the queue we are currently on, so the completion is all threadsafe.
-        let result = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: proxyCompletion)
-
-        if result.isCompletingAsync {
-            // If it was async, proxy that result onto the original completion
-            return completionRequirement.willCompleteAsync()
-        } else {
-            // If it was sync, return the actual completion we captured
-            guard let status = completionStatus else {
-                flintBug("Failed to proxy sync completion status")
-            }
-            return status
-        }
+        let completionStatus = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: proxyCompletion)
+        return completionStatus
     }
 }

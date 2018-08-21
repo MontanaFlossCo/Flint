@@ -36,6 +36,14 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
                         completion: ((ActionOutcome) -> ())? = nil) {
         ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
+
+    public func perform(input: ActionType.InputType,
+                        presenter: ActionType.PresenterType,
+                        userInitiated: Bool,
+                        source: ActionSource = .application,
+                        completion: Action.Completion) -> Action.Completion.Status {
+        return ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
+    }
 }
 
 /// Overloads for actions with no presenter

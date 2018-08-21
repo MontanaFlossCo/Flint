@@ -86,6 +86,16 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
         ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
+    /// A convenience function to perform the action in the main `ActionSession`, while returning information about the completion status
+    /// so the caller can tell if the completion will be called asynchronously or not.
+    ///
+    /// The completion handler is called on main queue because the action is performed in the main `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
+    /// - param source: Indicates where the request came from
+    /// - param completion: The completion request to use.
     func perform(input: ActionType.InputType, presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,

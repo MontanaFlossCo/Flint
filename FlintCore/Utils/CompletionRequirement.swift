@@ -11,8 +11,10 @@ import Foundation
 /// A type that handles completion callbacks with safety checks and semantics
 /// that reduce the risks of callers forgetting to call the completion handler.
 ///
-/// To use, define a typealias for this type, with T the type of the completion function's arguments.
-/// Then make a function that requires completion pass in an instance of this type instead of the closure type, and make
+/// To use, define a typealias for this type, with T the type of the completion function's argument (use a tuple if
+/// your completion requires multiple arguments).
+///
+/// Then make your function that requires a completion handler take an instance of this type instead of the closure type, and make
 /// the function expect a return value of the nested `Status` type:
 ///
 /// ```
@@ -23,26 +25,39 @@ import Foundation
 /// }
 /// ```
 ///
-/// Now, when calling this function on the protocol, you construct the requirement and verify the result:
+/// Now, when calling this function on the protocol, you construct the requirement instance, pass it and verify the result:
 ///
 /// ```
 /// let coordinator: MyCoordinator = ...
-/// let completion = MyCoordinator.DoSomethingCompletion( { shouldCancel in
+/// let completion = MyCoordinator.DoSomethingCompletion( { (shouldCancel: Bool, completedAsync: Bool) in
 ///    print("Cancel? \(shouldCancel)")
 /// })
 ///
+/// The block takes one argument of type `T`, in this case a boolean, and a second `Bool` argument that indicates
+/// if the completion block has been called asynchronously.
+///
+/// // Call the function that requires completion
 /// let status = coordinator.doSomething(input: x, completionRequirement: completion)
+///
 /// // Make sure one of the valid statuses was returned.
-/// // If result did not return try for `isCompletingAsync`, the completion callback will have already been called by now.
+/// // This safety test ensures that the completion from the correct completion requirement instance was returned.
 /// precondition(completion.verify(status))
+///
+/// // If the result does not return true for `isCompletingAsync`, the completion callback will have already been called by now.
+/// if !status.isCompletingAsync {
+///     print("Completed synchronously: \(status.value)")
+/// } else {
+///     print("Completing asynchronously... see you later")
+/// }
 /// ```
 ///
-/// When implemention such a function requiring completion, you return one of two statuses returned by either
+/// When implementing such a function requiring a completion handler, you return one of two statuses returned by either
 /// the `CompletionRequirement.completed(_ arg: T)` or `CompletionRequirement.willCompleteAsync()`.
+/// The `CompletionRequirement` will take care of calling the completion block as appropriate.
 ///
 /// ```
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
-///    return completionRequirement.completed(false)
+///     return completionRequirement.completedSync(false)
 /// }
 ///
 /// // or for async completion
@@ -57,8 +72,8 @@ import Foundation
 /// ```
 public class CompletionRequirement<T> {
     public class Status {
-        let _value: T?
-        var value: T {
+        fileprivate let _value: T?
+        fileprivate var value: T {
             get {
                 guard let result = _value else {
                     flintBug("CompletionRequirement status value is nil")
@@ -80,69 +95,115 @@ public class CompletionRequirement<T> {
 
     // The type for a status indicating completion will occur later
     public class DeferredStatus: Status {
-        public let completed: (T, _ completedAsync: Bool) -> Void
-
-        init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
-            self.completed = completionHandler
+        var owner: CompletionRequirement<T>?
+        
+        init(owner: CompletionRequirement<T>) {
+            self.owner = owner
             super.init()
         }
 
-        override public var isCompletingAsync: Bool { return true }
+        override public var isCompletingAsync: Bool {
+            return true
+        }
+        
+        public func completed(_ result: T) {
+            guard let owner = owner else {
+                return
+            }
+            owner.completionHandler(result, true)
+        }
     }
 
-    private var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
-    private var deferredCompletionStatus: DeferredStatus?
-    private var completedStatus: Status!
+    fileprivate var completionStatus: Status?
+    var completionHandler: ((T, _ completedAsync: Bool) -> Void)!
 
-    init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
+    public init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
         self.completionHandler = completionHandler
     }
 
+    /// Internal initialiser for proxy subclass, which will set the completion after
+    fileprivate init() {
+    }
+
+    /// Call to verify that the result belongs to this completion instance and there hasn't been a mistake
     public func verify(_ status: Status) -> Bool {
-        return status === completedStatus || status === deferredCompletionStatus
+        return status === completionStatus
     }
     
+    /// Call to indicate that completion will be called later, asynchronously by code that has a reference
+    /// to the deferred status.
     public func willCompleteAsync() -> DeferredStatus {
-        guard let completion = completionHandler else {
-            flintUsageError("willCompleteLater() can only be called once per completion")
+        guard completionStatus == nil else {
+            flintUsageError("Only one of completedSync() or willCompleteLater() can be called")
         }
         
         // Set "async" execution
-        let status = DeferredStatus(completionHandler: completion)
-        deferredCompletionStatus = status
-        
-        // Prevent accidental multiple-invocation
-        completionHandler = nil
+        let status = DeferredStatus(owner: self)
+        completionStatus = status
         
         // Return a status to inform the caller
         return status
     }
 
+    /// Call to indicate that completion is to be called immediately, synchronously
     public func completedSync(_ result: T) -> Status {
-        guard let completionHandler = completionHandler else {
-            flintUsageError("Cannot call completed() if willCompleteAsync() has been called - you must call completed() on the status returned from that call")
+        guard self.completionStatus == nil else {
+            flintUsageError("Only one of completedSync() or willCompleteLater() can be called")
         }
-        completedStatus = Status(result: result)
+        
+        let completionStatus = Status(result: result)
         completionHandler(result, false)
-        return completedStatus
+        self.completionStatus = completionStatus
+        return completionStatus
     }
 }
 
-/// Allows you to pass this requirement, add some custom completion logic, and then return the correct
-/// results using the original requirement instead.
+/// Allows you to fulfill a completion requirement that adds some custom completion logic to an existing completion instance,
+/// and then return a possibly modified result to the original requirement.
 ///
 /// Very much turtles all the way down.
-class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
-    let proxiedCompletion: CompletionRequirement<T>
+public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
+    var proxiedCompletion: CompletionRequirement<T>
     
-    public init(proxying originalCompletion: CompletionRequirement<T>, completionHandler: @escaping (T, Bool) -> Void) {
+    public init(proxying originalCompletion: CompletionRequirement<T>, proxyCompletionHandler: @escaping (T, _ completedAsync: Bool) -> T) {
         self.proxiedCompletion = originalCompletion
-        super.init(completionHandler: completionHandler)
+        
+        // Wrap the original completion handler, calling it with the result of possibly mutating it by our proxy completion handler
+        super.init()
+        
+        self.completionHandler = { [weak self] result, completedAsync in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            // Get the actual (perhaps modified) result we're going to pass to the proxied completion handler
+            let proxyResult = proxyCompletionHandler(result, completedAsync)
+    
+            if completedAsync {
+                guard let proxiedDeferredStatus = strongSelf.proxiedCompletion.completionStatus as? DeferredStatus else {
+                    flintBug("Proxy completion was completed async, but original completion did not have `willCompleteAsync` called")
+                }
+                proxiedDeferredStatus.completed(proxyResult)
+            } else {
+                let _ = strongSelf.proxiedCompletion.completedSync(proxyResult)
+            }
+        }
+    }
+
+    public override func willCompleteAsync() -> CompletionRequirement<T>.DeferredStatus {
+        let _ = proxiedCompletion.willCompleteAsync()
+        return super.willCompleteAsync()
     }
     
-    override func willCompleteAsync() -> DeferredStatus {
-        return proxiedCompletion.willCompleteAsync()
+    override public func completedSync(_ result: T) -> CompletionRequirement<T>.Status {
+        let _ = super.completedSync(result)
+        guard let proxiedStatus = proxiedCompletion.completionStatus else {
+            flintBug("Sync completion on proxied completion requirement did not store the proxied status")
+        }
+        return proxiedStatus
     }
     
-    
+    public override func verify(_ status: CompletionRequirement<T>.Status) -> Bool {
+        return status === proxiedCompletion.completionStatus || status === completionStatus
+    }
 }
