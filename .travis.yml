@@ -18,6 +18,12 @@ matrix:
     - os: osx
       osx_image: xcode9.3
       language: objective-c
+      script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintUI-iOS CODE_SIGNING_REQUIRED=NO
+      env:
+        - _NAME=iOS UI
+    - os: osx
+      osx_image: xcode9.3
+      language: objective-c
       script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
       env:
         - _NAME=tvOS
