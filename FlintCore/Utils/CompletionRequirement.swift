@@ -158,10 +158,10 @@ public class CompletionRequirement<T> {
     }
 }
 
-/// Allows you to fulfill a completion requirement that adds some custom completion logic to an existing completion instance,
-/// and then return a possibly modified result to the original requirement.
+/// A `ProxyCompletionRequirement` allows you to provide a completion requirement that adds some custom completion logic
+/// to an existing completion instance, and then return a possibly modified result value to the original requirement.
 ///
-/// Very much turtles all the way down.
+/// Very much turtles all the way down, and a bit nasty in the nuance of the implementation.
 public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
     var proxiedCompletion: CompletionRequirement<T>
     
@@ -190,20 +190,21 @@ public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
         }
     }
 
-    public override func willCompleteAsync() -> CompletionRequirement<T>.DeferredStatus {
+    /// The proxy must indicate that the original completion will complete async, but we return our
+    /// own proxy async status object because we need to inject our own completion handling logic to possibly
+    /// mutate the value.
+    override public func willCompleteAsync() -> CompletionRequirement<T>.DeferredStatus {
         let _ = proxiedCompletion.willCompleteAsync()
         return super.willCompleteAsync()
     }
     
+    /// The proxy calls its own `completedAsync` in order to execute the custom value modification logic,
+    /// and that will in fact call the original completion's `completedSync`.
     override public func completedSync(_ result: T) -> CompletionRequirement<T>.Status {
-        let _ = super.completedSync(result)
-        guard let proxiedStatus = proxiedCompletion.completionStatus else {
+        let result = super.completedSync(result)
+        guard let proxiedStatus = proxiedCompletion.completionStatus, !proxiedStatus.isCompletingAsync else {
             flintBug("Sync completion on proxied completion requirement did not store the proxied status")
         }
-        return proxiedStatus
-    }
-    
-    public override func verify(_ status: CompletionRequirement<T>.Status) -> Bool {
-        return status === proxiedCompletion.completionStatus || status === completionStatus
+        return result
     }
 }
