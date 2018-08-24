@@ -610,6 +610,9 @@
 		49DB926120757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926220757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926320757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
+		49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
+		49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
+		49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
 		49DFB7C520A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
 		49DFB7C620A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
 		49DFB7C720A2DF8500D3AE68 /* AuthorisationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */; };
@@ -937,6 +940,7 @@
 		49DB92422073C67900F758DC /* PurchaseRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRequirement.swift; sourceTree = "<group>"; };
 		49DB924C2075114C00F758DC /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		49DB925F20757D9500F758DC /* AnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsProvider.swift; sourceTree = "<group>"; };
+		49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDispatchTests.swift; sourceTree = "<group>"; };
 		49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorisationController.swift; sourceTree = "<group>"; };
 		49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAuthorisationController.swift; sourceTree = "<group>"; };
 		49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthorisationCoordinator.swift; sourceTree = "<group>"; };
@@ -1440,6 +1444,7 @@
 				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
 				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 				490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */,
+				49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -1987,6 +1992,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533672093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */,
@@ -2169,6 +2175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533682093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				496F8F31203EEA06003AB29B /* FlintCore_macOSTests.swift in Sources */,
@@ -2524,6 +2531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533662093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */,

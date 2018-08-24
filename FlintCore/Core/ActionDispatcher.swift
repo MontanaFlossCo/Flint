@@ -77,7 +77,7 @@ public class DefaultActionDispatcher: ActionDispatcher {
         var performStatus: Action.Completion.Status?
         var syncCompletionStatus: Action.Completion.Status?
         
-        // Here we sycnhronously call the action on the queue it has requested, and we pass a completion object in
+        // Here we synchronously call the action on the queue it has requested, and we pass a completion object in
         // that will tell us if it performed synchronously or not. The caller does not care so much, but we do
         // for safety purposes and tracking in future.
         smartQueue.sync {
