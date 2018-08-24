@@ -33,14 +33,16 @@ final public class ShowActionStackBrowserAction: Action {
 
     public static var hideFromTimeline: Bool = true
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>,
+                               presenter: PresenterType,
+                               completion: Completion) -> Completion.Status {
         let actionStacksViewController = ActionStackListViewController.instantiate()
         if let navigationController = presenter as? UINavigationController {
             navigationController.pushViewController(actionStacksViewController, animated: true)
         } else {
             presenter.present(actionStacksViewController, animated: true)
         }
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 

@@ -40,7 +40,7 @@ final public class ShowTimelineBrowserAction: Action {
 
     public static var hideFromTimeline: Bool = true
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
         let timelineViewController = TimelineViewController.instantiate()
         if let navigationController = presenter as? UINavigationController {
             context.logs.development?.debug("Presenting timeline VC on navigation controller")
@@ -49,7 +49,7 @@ final public class ShowTimelineBrowserAction: Action {
             context.logs.development?.debug("Presenting timeline VC modally")
             presenter.present(timelineViewController, animated: true)
         }
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 
@@ -57,8 +57,8 @@ public protocol TerminatingAction: Action {
 }
 
 extension TerminatingAction {
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
-        completion(.success(closeActionStack: true))
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 

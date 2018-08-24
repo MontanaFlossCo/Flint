@@ -34,13 +34,13 @@ final public class ShowFeatureBrowserAction: Action {
 
     public static var hideFromTimeline: Bool = true
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
         let featuresViewController = FeatureBrowserViewController.instantiate()
         if let navigationController = presenter as? UINavigationController {
             navigationController.pushViewController(featuresViewController, animated: true)
         } else {
             presenter.present(featuresViewController, animated: true)
         }
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }

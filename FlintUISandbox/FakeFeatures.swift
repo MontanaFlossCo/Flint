@@ -64,8 +64,8 @@ final class DoSomethingFakeAction: Action {
         activity.userInfo["fake"] = true
     }
 
-    static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
         context.logs.development?.info("Testing logs from fake feature")
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
