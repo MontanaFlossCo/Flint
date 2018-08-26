@@ -35,4 +35,12 @@ public struct LogEventContext {
     /// Optional name of a presenter, indicating what UI component is being used to present the activity related to this
     /// log entry.
     public let presenter: String?
+    
+    init(session: String, activity: String, topicPath: TopicPath, arguments: CustomStringConvertible?, presenter: String?) {
+        self.session = session
+        self.activity = activity
+        self.topicPath = topicPath
+        self.arguments = arguments
+        self.presenter = presenter
+    }
 }

@@ -75,23 +75,17 @@ public class DefaultActionDispatcher: ActionDispatcher {
         let action = request.actionBinding.action
         let smartQueue = SmartDispatchQueue(queue: action.queue, owner: self)
         var performStatus: Action.Completion.Status?
-        var syncCompletionStatus: Action.Completion.Status?
         
         // Here we synchronously call the action on the queue it has requested, and we pass a completion object in
         // that will tell us if it performed synchronously or not. The caller does not care so much, but we do
         // for safety purposes and tracking in future.
         smartQueue.sync {
             // Proxy the completion so we can ensure it is called on the correct queue
-            let dispatcherCompletion = Action.Completion(completionHandler: { outcome, completedAsync in
+            /// !!! TODO: ProxyCompletion needs to take the queue on which original completion must be called
+            let dispatcherCompletion = ProxyCompletionRequirement(proxying: completion, proxyCompletionHandler: { outcome, completedAsync -> ActionPerformOutcome in
                 // Track completion
                 self.complete(request: request, outcome: outcome)
-
-                // Tell the caller about completion
-                if !completedAsync {
-                    callerQueue.sync {
-                        syncCompletionStatus = completion.completedSync(outcome)
-                    }
-                }
+                return outcome
             })
 
             // Perform the action and get the immediate status of it
@@ -109,17 +103,8 @@ public class DefaultActionDispatcher: ActionDispatcher {
             // If it was async, we'll log this for now. In future in dev mode maybe we'll add a timer of say 10s
             // and then log another warning if we didn't hear back from the action.
             request.context.logs.development?.debug("Action indicated it will call completion asynchronously")
-            
-            // We need to flag the original completion as completing async and return that, as the caller relies
-            // on identity tests
-            return completion.willCompleteAsync()
-        } else {
-            // We need to return the original completion, as the caller relies on identity tests
-            guard let result = syncCompletionStatus else {
-                flintBug("Synchronous action perform result was not captured correctly")
-            }
-            return result
         }
+        return status
     }
 
     func begin<FeatureType, ActionType>(request: ActionRequest<FeatureType, ActionType>) {
