@@ -115,12 +115,19 @@ public class CompletionRequirement<T> {
             guard let owner = owner else {
                 return
             }
-            owner.completionHandler(result, true)
+            owner.callCompletion(result, callingAsync: true)
         }
     }
 
-    fileprivate var completionStatus: Status?
-    var completionHandler: ((T, _ completedAsync: Bool) -> Void)!
+    /// The status of this completion. This can be set only once.
+    fileprivate var completionStatus: Status? {
+        willSet {
+            flintBugPrecondition(completionStatus == nil, "Completion status is being set more than once")
+        }
+    }
+    
+    /// The completion handler to call.
+    fileprivate var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
 
     /// Instantiate a new completion requirement that calls the supplied completion handler, either
     /// synchronously or asynchronously.
@@ -159,9 +166,16 @@ public class CompletionRequirement<T> {
         }
         
         let completionStatus = SyncCompletionStatus()
-        completionHandler(result, false)
+        callCompletion(result, callingAsync: false)
         self.completionStatus = completionStatus
         return completionStatus
+    }
+
+    private func callCompletion(_ result: T, callingAsync: Bool) {
+        guard let completion = completionHandler else {
+            flintBug("There is no completion handler closure set")
+        }
+        completion(result, callingAsync)
     }
 }
 
