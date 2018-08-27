@@ -8,10 +8,6 @@
 
 import Foundation
 
-public enum ActionPerformError: Error {
-    case requiredFeatureNotAvailable(_ feature: ConditionalFeatureDefinition.Type)
-}
-
 /// This is the internal action that receives an `NSUserActivity` for continuation, and if it supports Flint automatic continue,
 /// will obtain an appropriate presenter and input, and perform the action.
 ///
@@ -43,7 +39,7 @@ final class HandleActivityAction: Action {
         context.logs.development?.debug("Auto URL found: \(autoURL)")
         guard let request = RoutesFeature.request(RoutesFeature.performIncomingURL) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
-            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(RoutesFeature.self), closeActionStack: true))
+            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(feature: RoutesFeature.self), closeActionStack: true))
         }
 
         var result: ActionPerformOutcome?
@@ -76,7 +72,7 @@ final class HandleActivityAction: Action {
         // Check for Flint Activities support and use performIncomingActivity instead
         guard let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
-            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(ActivitiesFeature.self), closeActionStack: true))
+            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(feature: ActivitiesFeature.self), closeActionStack: true))
         }
         
         var result: ActionPerformOutcome?
@@ -104,7 +100,7 @@ final class HandleActivityAction: Action {
     }
 }
 
-extension ActionPerformOutcome {
+fileprivate extension ActionPerformOutcome {
     func outcomeByOverridingCloseActionStack(_ shouldClose: Bool) -> ActionPerformOutcome {
         switch self {
             case .success:

@@ -73,18 +73,22 @@ public class DefaultActionDispatcher: ActionDispatcher {
         // The action does *not* have to complete synchronously. We watch out for the cases where it doesn't and
         // log this for now. In future we will have a new outcome value indicating `completingAsynchronously`.
         let action = request.actionBinding.action
-        let smartQueue = SmartDispatchQueue(queue: action.queue, owner: self)
+        let smartActionQueue = SmartDispatchQueue(queue: action.queue, owner: self)
         var performStatus: Action.Completion.Status?
         
         // Here we synchronously call the action on the queue it has requested, and we pass a completion object in
         // that will tell us if it performed synchronously or not. The caller does not care so much, but we do
         // for safety purposes and tracking in future.
-        smartQueue.sync {
+        smartActionQueue.sync {
             // Proxy the completion so we can ensure it is called on the correct queue
             /// !!! TODO: ProxyCompletion needs to take the queue on which original completion must be called
-            let dispatcherCompletion = ProxyCompletionRequirement(proxying: completion, proxyCompletionHandler: { outcome, completedAsync -> ActionPerformOutcome in
+            let dispatcherCompletion = ProxyCompletionRequirement(proxying: completion, proxyCompletionHandler: { [weak self] outcome, completedAsync -> ActionPerformOutcome in
+                guard let strongSelf = self else {
+                    return outcome
+                }
+                
                 // Track completion
-                self.complete(request: request, outcome: outcome)
+                strongSelf.complete(request: request, outcome: outcome)
                 return outcome
             })
 

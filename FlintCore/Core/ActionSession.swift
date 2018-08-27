@@ -424,7 +424,8 @@ public class ActionSession: CustomDebugStringConvertible {
             switch outcome {
                 case .success(closeActionStack: true),
                      .failure(error: _, closeActionStack: true):
-                   self.actionStackTracker.terminate(actionStack, actionRequest: request)
+                    // This is threadsafe so we don't care what we're calling on
+                    self.actionStackTracker.terminate(actionStack, actionRequest: request)
                 default:
                     break
             }
