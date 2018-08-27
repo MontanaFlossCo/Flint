@@ -60,44 +60,49 @@ import Foundation
 ///     return completionRequirement.completedSync(false)
 /// }
 ///
-/// // or for async completion
+/// // or for async completion, you retain the result and later call `completed(value)`
 ///
 /// func doSomething(input: Any, completionRequirement: DoSomethingCompletion) -> DoSomethingCompletion.Status {
+///     // Capture the async status
 ///     let result = completionRequirement.willCompleteAsync()
 ///     DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+///         // Use the retained status to indicate completion later
 ///         result.completed(false)
 ///     }
 ///     return result
 /// }
 /// ```
 public class CompletionRequirement<T> {
+
+    /// An "abstract" base for the status result type.
+    /// By design it must not be possible to instantiate this type in apps, so we can trust
+    /// the instance handed back to the app matches our semantics.
     public class Status {
-        fileprivate let _value: T?
-        fileprivate var value: T {
-            get {
-                guard let result = _value else {
-                    flintBug("CompletionRequirement status value is nil")
-                }
-                return result
-            }
-        }
-        
-        init() {
-            _value = nil
+        /// This initialiser *must not* be publicly accessible because it prevents maverick devs
+        /// misunderstanding the API and instantiating a status themselves, defeating the completion mechanism.
+        fileprivate init() {
         }
 
-        init(result: T) {
-            _value = result
+        public var isCompletingAsync: Bool {
+            flintBug("This base must not be instantiated")
         }
-        
-        public var isCompletingAsync: Bool { return false }
     }
 
-    // The type for a status indicating completion will occur later
+    /// The status that indicates completion occurred synchronously.
+    public class SyncCompletionStatus: Status {
+        override public var isCompletingAsync: Bool {
+            return false
+        }
+    }
+
+    /// The type for a status indicating completion will occur later.
+    /// The caller must retain this and call `completed` at a later point.
     public class DeferredStatus: Status {
         var owner: CompletionRequirement<T>?
         
-        init(owner: CompletionRequirement<T>) {
+        /// This initialiser *must not* be publicly accessible because it prevents maverick devs
+        /// misunderstanding the API and instantiating a status themselves, defeating the completion mechanism.
+        fileprivate init(owner: CompletionRequirement<T>) {
             self.owner = owner
             super.init()
         }
@@ -117,6 +122,8 @@ public class CompletionRequirement<T> {
     fileprivate var completionStatus: Status?
     var completionHandler: ((T, _ completedAsync: Bool) -> Void)!
 
+    /// Instantiate a new completion requirement that calls the supplied completion handler, either
+    /// synchronously or asynchronously.
     public init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
         self.completionHandler = completionHandler
     }
@@ -146,12 +153,12 @@ public class CompletionRequirement<T> {
     }
 
     /// Call to indicate that completion is to be called immediately, synchronously
-    public func completedSync(_ result: T) -> Status {
+    public func completedSync(_ result: T) -> SyncCompletionStatus {
         guard self.completionStatus == nil else {
             flintUsageError("Only one of completedSync() or willCompleteLater() can be called")
         }
         
-        let completionStatus = Status(result: result)
+        let completionStatus = SyncCompletionStatus()
         completionHandler(result, false)
         self.completionStatus = completionStatus
         return completionStatus
@@ -193,14 +200,14 @@ public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
     /// The proxy must indicate that the original completion will complete async, but we return our
     /// own proxy async status object because we need to inject our own completion handling logic to possibly
     /// mutate the value.
-    override public func willCompleteAsync() -> CompletionRequirement<T>.DeferredStatus {
+    override public func willCompleteAsync() -> DeferredStatus {
         let _ = proxiedCompletion.willCompleteAsync()
         return super.willCompleteAsync()
     }
     
     /// The proxy calls its own `completedAsync` in order to execute the custom value modification logic,
     /// and that will in fact call the original completion's `completedSync`.
-    override public func completedSync(_ result: T) -> CompletionRequirement<T>.Status {
+    override public func completedSync(_ result: T) -> SyncCompletionStatus {
         let result = super.completedSync(result)
         guard let proxiedStatus = proxiedCompletion.completionStatus, !proxiedStatus.isCompletingAsync else {
             flintBug("Sync completion on proxied completion requirement did not store the proxied status")

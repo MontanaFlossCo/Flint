@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ActionPerformError: Error {
+    case requiredFeatureNotAvailable(_ feature: ConditionalFeatureDefinition.Type)
+}
+
 /// This is the internal action that receives an `NSUserActivity` for continuation, and if it supports Flint automatic continue,
 /// will obtain an appropriate presenter and input, and perform the action.
 ///
@@ -29,65 +33,74 @@ final class HandleActivityAction: Action {
         // Do we need to check if activityType == CSSearchableItemActionType for spotlight invocations?
         
         // Check for Flint autoURL handling, and if so dispatch as a performIncomingURL action
-        if let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL {
-            context.logs.development?.debug("Auto URL found: \(autoURL)")
-            if let request = RoutesFeature.request(RoutesFeature.performIncomingURL) {
-                var result: ActionPerformOutcome?
-                
-                // We need to proxy the completion, because for *this* action we need to indicate the action stack should close
-                let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, asyncCompletionStatus in
-                    context.logs.development?.debug("Auto URL perform completed: \(outcome)")
-
-                    let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
-                    result = resultWithForcedStackClose
-                    return resultWithForcedStackClose
-                }
-
-                let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
-
-                flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
-                if completionStatus.isCompletingAsync {
-                    return completion.willCompleteAsync()
-                } else {
-                    guard let result = result else {
-                        flintBug("Proxied completion completed async but has no result")
-                    }
-                    // Complete with the actual result from the proxy
-                    return completion.completedSync(result)
-                }
-            } else {
-                context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
-                return completion.completedSync(.failure(error: nil, closeActionStack: true))
-            }
-        } else {
-            // Check for Flint Activities support and use performIncomingActivity instead
-            if let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) {
-                var result: ActionPerformOutcome?
-                
-                let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, completedAsync in
-                    context.logs.development?.debug("userInfo perform completed: \(outcome)")
-
-                    let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
-                    result = resultWithForcedStackClose
-                    return resultWithForcedStackClose
-                }
-
-                let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
-                flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
-                if completionStatus.isCompletingAsync {
-                    return completion.willCompleteAsync()
-                } else {
-                    guard let result = result else {
-                        flintBug("Proxied completion completed async but has no result")
-                    }
-                    // Complete with the actual result from the proxy
-                    return completion.completedSync(result)
-                }
-            } else {
-                context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
-                return completion.completedSync(.failure(error: nil, closeActionStack: true))
-            }
+        guard let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL else {
+            return performActivity(context: context, presenter: presenter, completion: completion)
         }
+        return performAutoURL(autoURL, context: context, presenter: presenter, completion: completion)
+    }
+    
+    private static func performAutoURL(_ autoURL: URL, context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
+        context.logs.development?.debug("Auto URL found: \(autoURL)")
+        guard let request = RoutesFeature.request(RoutesFeature.performIncomingURL) else {
+            context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
+            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(RoutesFeature.self), closeActionStack: true))
+        }
+
+        var result: ActionPerformOutcome?
+        
+        // We need to proxy the completion, because for *this* action we need to indicate the action stack should close
+        let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, asyncCompletionStatus in
+            context.logs.development?.debug("Auto URL perform completed: \(outcome)")
+
+            let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
+            result = resultWithForcedStackClose
+            return resultWithForcedStackClose
+        }
+
+        let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
+        flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
+        
+        guard !completionStatus.isCompletingAsync else {
+            return completion.willCompleteAsync()
+        }
+
+        guard let foundResult = result else {
+            flintBug("Proxied completion completed async but has no result")
+        }
+
+        // Complete with the actual result from the proxy
+        return completion.completedSync(foundResult)
+    }
+
+    private static func performActivity(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
+        // Check for Flint Activities support and use performIncomingActivity instead
+        guard let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) else {
+            context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
+            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(ActivitiesFeature.self), closeActionStack: true))
+        }
+        
+        var result: ActionPerformOutcome?
+        
+        let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, completedAsync in
+            context.logs.development?.debug("userInfo perform completed: \(outcome)")
+
+            let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
+            result = resultWithForcedStackClose
+            return resultWithForcedStackClose
+        }
+
+        let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
+        flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
+        
+        guard !completionStatus.isCompletingAsync else {
+            return completion.willCompleteAsync()
+        }
+        
+        guard let foundResult = result else {
+            flintBug("Proxied completion completed async but has no result")
+        }
+        // Complete with the actual result from the proxy
+        return completion.completedSync(foundResult)
     }
 }
 

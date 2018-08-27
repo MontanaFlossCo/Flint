@@ -65,7 +65,8 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
-    public func perform(input: ActionType.InputType, presenter: ActionType.PresenterType,
+    public func perform(input: ActionType.InputType,
+                        presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         ActionSession.main.perform(self, input: input, presenter: presenter, completion: completion)
     }
@@ -79,7 +80,8 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion handler to call.
-    public func perform(input: ActionType.InputType, presenter: ActionType.PresenterType,
+    public func perform(input: ActionType.InputType,
+                        presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
@@ -96,10 +98,11 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion request to use.
-    func perform(input: ActionType.InputType, presenter: ActionType.PresenterType,
-                        userInitiated: Bool,
-                        source: ActionSource,
-                        completion: Action.Completion) -> Action.Completion.Status {
+    func perform(input: ActionType.InputType,
+                 presenter: ActionType.PresenterType,
+                 userInitiated: Bool,
+                 source: ActionSource,
+                 completion: Action.Completion) -> Action.Completion.Status {
         return ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
     }
 
