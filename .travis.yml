@@ -33,15 +33,15 @@ matrix:
       name: macOS (Xcode 9.3)
     - language: objective-c
       osx_image: xcode9.4
-      script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.4' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
       name: iOS (Xcode 9.4)
     - language: objective-c
       osx_image: xcode9.4
-      script: xcodebuild clean build -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintUI-iOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean build -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.4' -workspace Flint.xcworkspace -scheme FlintUI-iOS CODE_SIGNING_REQUIRED=NO
       name: iOS UI (Xcode 9.4)
     - language: objective-c
       osx_image: xcode9.4
-      script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=11.4' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
       name: tvOS (Xcode 9.4)
     - language: objective-c
       osx_image: xcode9.4
@@ -53,19 +53,19 @@ matrix:
       name: macOS (Xcode 9.4)
     - language: objective-c
       osx_image: xcode10
-      script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=12.0' -workspace Flint.xcworkspace -scheme FlintCore-iOS CODE_SIGNING_REQUIRED=NO
       name: iOS (Xcode 10)
     - language: objective-c
       osx_image: xcode10
-      script: xcodebuild clean build -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=11.3' -workspace Flint.xcworkspace -scheme FlintUI-iOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean build -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=12.0' -workspace Flint.xcworkspace -scheme FlintUI-iOS CODE_SIGNING_REQUIRED=NO
       name: iOS UI (Xcode 10)
     - language: objective-c
       osx_image: xcode10
-      script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=11.3' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean test -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV,OS=12.0' -workspace Flint.xcworkspace -scheme FlintCore-tvOS CODE_SIGNING_REQUIRED=NO
       name: tvOS (Xcode 10)
     - language: objective-c
       osx_image: xcode10
-      script: xcodebuild clean build -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 42mm,OS=4.3' -workspace Flint.xcworkspace -scheme FlintCore-watchOS CODE_SIGNING_REQUIRED=NO
+      script: xcodebuild clean build -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 42mm,OS=5.0' -workspace Flint.xcworkspace -scheme FlintCore-watchOS CODE_SIGNING_REQUIRED=NO
       name: watchOS (Xcode 10)
     - language: objective-c
       osx_image: xcode10
