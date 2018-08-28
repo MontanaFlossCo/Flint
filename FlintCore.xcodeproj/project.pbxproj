@@ -618,6 +618,9 @@
 		49DB926120757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926220757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
 		49DB926320757D9500F758DC /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB925F20757D9500F758DC /* AnalyticsProvider.swift */; };
+		49DDD70C2135605600FC8ECC /* ActionPerformError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998079E213419ED00DACFAA /* ActionPerformError.swift */; };
+		49DDD70D2135605800FC8ECC /* ActionPerformError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998079E213419ED00DACFAA /* ActionPerformError.swift */; };
+		49DDD70E2135605900FC8ECC /* ActionPerformError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998079E213419ED00DACFAA /* ActionPerformError.swift */; };
 		49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
 		49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
 		49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */; };
@@ -1927,6 +1930,7 @@
 				495576DC20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEE2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				49DFB7DA20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
+				49DDD70C2135605600FC8ECC /* ActionPerformError.swift in Sources */,
 				496F8FAC203EEBD3003AB29B /* RouteParametersCodable.swift in Sources */,
 				4927FF01208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F47203EEB0D003AB29B /* String+Extensions.swift in Sources */,
@@ -2112,6 +2116,7 @@
 				495576DD20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				49DFB7DB20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
+				49DDD70D2135605800FC8ECC /* ActionPerformError.swift in Sources */,
 				496F8FB4203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
 				4927FF02208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F48203EEB0E003AB29B /* String+Extensions.swift in Sources */,
@@ -2297,6 +2302,7 @@
 				495576DE20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				496F8FFE203EEBDB003AB29B /* StaticActionBinding.swift in Sources */,
 				49FC45FD20A46F0A00679F97 /* URLRoutingResult.swift in Sources */,
+				49DDD70E2135605900FC8ECC /* ActionPerformError.swift in Sources */,
 				49FC460C20A4795F00679F97 /* PerformIncomingURLAction.swift in Sources */,
 				49FC460620A4792700679F97 /* Formatters.swift in Sources */,
 				494F59132098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
