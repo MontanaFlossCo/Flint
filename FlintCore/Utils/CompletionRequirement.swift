@@ -11,6 +11,9 @@ import Foundation
 /// A type that handles completion callbacks with safety checks and semantics
 /// that reduce the risks of callers forgetting to call the completion handler.
 ///
+/// The type is not concurrency safe (see notes in Threading) and it will always call the `completion` handler
+/// synchronously, using the supplied `completionQueue` if available, or inline on whatever the current queue thread is.
+///
 /// To use, define a typealias for this type, with T the type of the completion function's argument (use a tuple if
 /// your completion requires multiple arguments).
 ///
@@ -71,6 +74,12 @@ import Foundation
 ///     }
 ///     return result
 /// }
+///
+/// ## Threading
+///
+/// A `CompletionRequirement` is not concurrency safe. You must not change any properties or call any methods
+/// after calling `completedSync` or `willCompleteAsync`. State of the object will not change asynchronously once
+/// you have called either of these.
 /// ```
 public class CompletionRequirement<T> {
 
@@ -128,7 +137,12 @@ public class CompletionRequirement<T> {
     
     /// The completion handler to call.
     fileprivate var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
-
+    public var completionQueue: SmartDispatchQueue? {
+        willSet {
+            flintUsagePrecondition(completionQueue == nil, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
+        }
+    }
+    
     /// Instantiate a new completion requirement that calls the supplied completion handler, either
     /// synchronously or asynchronously.
     public init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
@@ -190,7 +204,16 @@ public class CompletionRequirement<T> {
         guard let completion = completionHandler else {
             flintBug("There is no completion handler closure set")
         }
-        completion(result, callingAsync)
+
+        let actuallyCallCompletion = {
+            completion(result, callingAsync)
+        }
+        
+        if let completionQueue = completionQueue {
+            completionQueue.sync(execute: actuallyCallCompletion)
+        } else {
+            actuallyCallCompletion()
+        }
     }
 }
 

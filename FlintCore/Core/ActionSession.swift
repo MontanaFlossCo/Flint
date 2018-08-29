@@ -23,12 +23,21 @@ import Foundation
 /// The lifetime of an ActionStack can be tracked in logging and analytics and tied to a specific activity session,
 /// and is demarcated by the first use of an action from a feature, and the action that indicates termination of the current "feature".
 ///
-/// A session can only be used from a single thread or queue, the queue set when creating the session. This is usually
-/// the same as the `callerQueue`. The dispatcher will ensure that the actions are called on the `callerQueue`, without excessive queue hops
-/// so that if the caller is already on the correct thread, there is no async dispatch required.
+/// ## Threading
 ///
-/// The completion of the action is also called on this `callerQueue` so that the caller never needs to queue hop
-/// through uncertainty about the queue/thread they are called on.
+/// A session can only be used from a single thread or queue, the queue set when creating the session. This is known as the
+/// `callerQueue`.
+///
+/// Actions can select which queue they will be called to `perform` on, via their `queue` property. This is *always*
+/// the queue they will execute on, and may be entirely different from the session's queue.
+///
+/// This mechanism guarantees that code calling into an `ActionSession` does not need to care about the queue an Action expects,
+/// and Actions do not need to care about the queue they are called on, thus eliminating excessive thread hops (AKA "mmm, just DispatchQueue.async it").
+/// This reduces "slushiness" and lag in UIs, and makes it easier to reason about the code.
+///
+/// The dispatcher will ensure that the Actions are called synchronously on their desired queue, even if that is the same as the current queue.
+/// It will also make sure that they call their completion handler on the session's `callerQueue`, without excessive queue hops
+/// so that if the caller is already on the correct thread, there is no async dispatch required.
 ///
 /// !!! TODO: Extract protocol for easier testing
 public class ActionSession: CustomDebugStringConvertible {
@@ -439,9 +448,12 @@ public class ActionSession: CustomDebugStringConvertible {
             return outcome
         }
 
+        // Make sure completion happens on the right queue
+        completionRequirement.completionQueue = smartCallerQueue
+        
         // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
         // match the queue we are currently on, so the completion is all threadsafe.
-        let completionStatus = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: completionRequirement)
+        let completionStatus = dispatcher.perform(request: request, completion: completionRequirement)
         return completionStatus
     }
 }

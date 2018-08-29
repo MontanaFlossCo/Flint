@@ -31,7 +31,7 @@ public protocol ActionDispatcher {
     func add(observer: ActionDispatchObserver)
 
     /// Perform an implementation of a feature
-    func perform<FeatureType, ActionType>(request: ActionRequest<FeatureType, ActionType>, callerQueue: SmartDispatchQueue,
+    func perform<FeatureType, ActionType>(request: ActionRequest<FeatureType, ActionType>,
                                           completion: Action.Completion) -> Action.Completion.Status
 }
 
@@ -66,7 +66,7 @@ public class DefaultActionDispatcher: ActionDispatcher {
     /// Perform the action, and track whether or not it was already completed by the time it returns,
     /// so whether sync or async, we know if `completion` should be called at some future point, so we can
     /// warn about this and maybe have a timeout in debug to catch occasions where this does not happen.
-    public func perform<FeatureType, ActionType>(request: ActionRequest<FeatureType, ActionType>, callerQueue: SmartDispatchQueue,
+    public func perform<FeatureType, ActionType>(request: ActionRequest<FeatureType, ActionType>, 
                                                  completion: Action.Completion) -> Action.Completion.Status {
         begin(request: request)
 
@@ -80,8 +80,8 @@ public class DefaultActionDispatcher: ActionDispatcher {
         // that will tell us if it performed synchronously or not. The caller does not care so much, but we do
         // for safety purposes and tracking in future.
         smartActionQueue.sync {
-            // Proxy the completion so we can ensure it is called on the correct queue
-            /// !!! TODO: ProxyCompletion needs to take the queue on which original completion must be called
+            // Proxy the completion so we know when it is finally called.
+            // Note that the completion is called on the expected caller queue automatically by the CompletionRequirement
             completion.addProxyCompletionHandler { [weak self] outcome, completedAsync -> ActionPerformOutcome in
                 guard let strongSelf = self else {
                     return outcome
