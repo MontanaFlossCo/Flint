@@ -17,10 +17,6 @@ class FlintCoreTests: XCTestCase {
         Flint.resetForTesting()
     }
     
-    override func tearDown() {
-        super.tearDown()
-    }
-    
     // MARK: Test artifacts
     
     func testFeatureMetadata() {

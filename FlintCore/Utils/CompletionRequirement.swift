@@ -171,6 +171,21 @@ public class CompletionRequirement<T> {
         return completionStatus
     }
 
+    public func addProxyCompletionHandler(_ proxyCompletion: @escaping (_ result: T, _ callingAsync: Bool) -> T) {
+        // This should go away - make completion non-optional if ProxyCR not needed
+        guard let currentCompletionHandler = completionHandler else {
+            flintBug("Cannot add a proxy completion handler when there is no completion handler set")
+        }
+        
+        /// Create a new completion closure that calls the proxy, and then calls the old one with the new result.
+        /// Very much turtles all the way down. Each new proxy means 2 extra closures called but who's counting?
+        /// This is cleaner solution than having a ProxyCompletion subclass
+        self.completionHandler = { (result: T, callingAsync: Bool) in
+            let proxyResult = proxyCompletion(result, callingAsync)
+            currentCompletionHandler(proxyResult, callingAsync)
+        }
+    }
+    
     private func callCompletion(_ result: T, callingAsync: Bool) {
         guard let completion = completionHandler else {
             flintBug("There is no completion handler closure set")
@@ -182,7 +197,11 @@ public class CompletionRequirement<T> {
 /// A `ProxyCompletionRequirement` allows you to provide a completion requirement that adds some custom completion logic
 /// to an existing completion instance, and then return a possibly modified result value to the original requirement.
 ///
-/// Very much turtles all the way down, and a bit nasty in the nuance of the implementation.
+/// This mechanism allows your code to "not care" whether the completion you are proxying is called synchronously or not.
+/// Normally you need to know if completion you are wrapping would be called async or not, as you would need to
+/// capture the async completion status before defining your completion block so it can call `completed` on the async result.
+///
+/// This is a bit nasty in the nuance of the implementation. We may remove this if `addProxyCompletionHandler`
 public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
     var proxiedCompletion: CompletionRequirement<T>
     

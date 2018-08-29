@@ -18,14 +18,6 @@ class FeatureConstraintsBuilderTests: XCTestCase {
  
     var checker: AvailabilityChecker!
     
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-
     // MARK: Helpers
     
     func evaluate(constraints: (FeatureConstraintsBuilder) -> Void) -> DeclaredFeatureConstraints {

@@ -510,6 +510,9 @@
 		49966D95200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */; };
 		49966D97200A648A004C4AA0 /* DefaultAvailabilityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */; };
 		4998079F213419ED00DACFAA /* ActionPerformError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998079E213419ED00DACFAA /* ActionPerformError.swift */; };
+		4999B6A92136AD1A00C06445 /* ActionSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */; };
+		4999B6AA2136AD1A00C06445 /* ActionSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */; };
+		4999B6AB2136AD1A00C06445 /* ActionSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */; };
 		499F94EF1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */; };
 		499FE33D20B9FE7A00552CE9 /* OSLogOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499FE33C20B9FE7A00552CE9 /* OSLogOutput.swift */; };
 		499FE33E20B9FE7A00552CE9 /* OSLogOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499FE33C20B9FE7A00552CE9 /* OSLogOutput.swift */; };
@@ -557,7 +560,6 @@
 		49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */; };
 		49AA5A682133497B00E65533 /* ActionRequest+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */; };
 		49AA5A692133497B00E65533 /* ActionRequest+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */; };
-		49AA5A6A2133519200E65533 /* LogEventContext+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */; };
 		49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */; };
 		49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
 		49B4DCBF20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
@@ -904,6 +906,7 @@
 		49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsFeatureToggles.swift; sourceTree = "<group>"; };
 		49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAvailabilityChecker.swift; sourceTree = "<group>"; };
 		4998079E213419ED00DACFAA /* ActionPerformError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPerformError.swift; sourceTree = "<group>"; };
+		4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSessionTests.swift; sourceTree = "<group>"; };
 		499F94EE1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionLoggingDispatchObserver.swift; sourceTree = "<group>"; };
 		499FE33C20B9FE7A00552CE9 /* OSLogOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSLogOutput.swift; sourceTree = "<group>"; };
 		499FE34120BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFeatureConstraintEvaluationResults.swift; sourceTree = "<group>"; };
@@ -1459,9 +1462,10 @@
 				49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */,
 				49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */,
 				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
-				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 				490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */,
 				49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */,
+				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
+				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -2010,6 +2014,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533672093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				4999B6AA2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA5A682133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
@@ -2196,6 +2201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533682093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				4999B6AB2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA5A692133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
@@ -2539,7 +2545,6 @@
 				4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				494F59382098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
 				499F94EF1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift in Sources */,
-				49AA5A6A2133519200E65533 /* LogEventContext+Mocking.swift in Sources */,
 				49935BD1206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				49298232205ED0D900267A49 /* FeatureActionsBuilder.swift in Sources */,
 				4921AC0F203729BB003465E5 /* DefaultContextSpecificLogger.swift in Sources */,
@@ -2557,6 +2562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533662093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				4999B6A92136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,

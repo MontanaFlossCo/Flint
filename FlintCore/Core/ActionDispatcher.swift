@@ -82,7 +82,7 @@ public class DefaultActionDispatcher: ActionDispatcher {
         smartActionQueue.sync {
             // Proxy the completion so we can ensure it is called on the correct queue
             /// !!! TODO: ProxyCompletion needs to take the queue on which original completion must be called
-            let dispatcherCompletion = ProxyCompletionRequirement(proxying: completion, proxyCompletionHandler: { [weak self] outcome, completedAsync -> ActionPerformOutcome in
+            completion.addProxyCompletionHandler { [weak self] outcome, completedAsync -> ActionPerformOutcome in
                 guard let strongSelf = self else {
                     return outcome
                 }
@@ -90,14 +90,14 @@ public class DefaultActionDispatcher: ActionDispatcher {
                 // Track completion
                 strongSelf.complete(request: request, outcome: outcome)
                 return outcome
-            })
+            }
 
             // Perform the action and get the immediate status of it
             let status = action.perform(context: request.context,
                                         presenter: request.presenter,
-                                        completion: dispatcherCompletion)
+                                        completion: completion)
             performStatus = status
-            flintUsagePrecondition(dispatcherCompletion.verify(status), "Action returned an invalid completion status")
+            flintUsagePrecondition(completion.verify(status), "Action returned an invalid completion status")
         }
 
         guard let status = performStatus else {

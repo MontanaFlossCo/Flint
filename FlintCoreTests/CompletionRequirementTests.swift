@@ -12,12 +12,6 @@ import FlintCore
 /// Test the `CompletionRequirement` type
 class CompletionRequirementTests: XCTestCase {
 
-    override func setUp() {
-    }
-
-    override func tearDown() {
-    }
-
     func testSynchronousCompletion() {
         typealias Completion = CompletionRequirement<String>
         
@@ -217,15 +211,15 @@ class CompletionRequirementTests: XCTestCase {
         })
         
         // We'll proxy the real title completion, to add a prefix
-        let proxyCompletion = ProxyCompletionRequirement<String>(proxying: completion) { title, wasAsync -> String in
+        completion.addProxyCompletionHandler() { title, wasAsync -> String in
             return "Title: \(title)"
         }
         
-        let result = _findAwesomeAlbumTitle(completion: proxyCompletion)
+        let result = _findAwesomeAlbumTitle(completion: completion)
         
         waitForExpectations(timeout: 5.0)
         
-        XCTAssertTrue(proxyCompletion.verify(result), "Status must be from the proxy completion instance we created")
+        XCTAssertTrue(completion.verify(result), "Status must be from the proxy completion instance we created")
         XCTAssertTrue(result.isCompletingAsync, "Status must be for async execution")
     }
 

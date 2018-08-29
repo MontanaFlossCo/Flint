@@ -11,12 +11,6 @@ import XCTest
 
 class ActionDispatchTests: XCTestCase {
 
-    override func setUp() {
-    }
-
-    override func tearDown() {
-    }
-
     func testAsyncCompletingAction() {
         let dispatcher = DefaultActionDispatcher()
         let presenter = MockAsyncTestPresenter()
@@ -49,13 +43,14 @@ class ActionDispatchTests: XCTestCase {
 
         waitForExpectations(timeout: 5, handler: nil)
     }
+
 }
 
-protocol AsyncTestPresenter {
+fileprivate protocol AsyncTestPresenter {
     func asyncActionWasCalled()
 }
 
-private final class AsyncTestAction: Action {
+fileprivate final class AsyncTestAction: Action {
     typealias PresenterType = AsyncTestPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: AsyncTestPresenter, completion: Completion) -> Completion.Status {
@@ -67,7 +62,7 @@ private final class AsyncTestAction: Action {
     }
 }
 
-private final class AsyncTestFeature: Feature {
+fileprivate final class AsyncTestFeature: Feature {
     static var description: String = "Testing"
     
     static let asyncTest = action(AsyncTestAction.self)
@@ -76,7 +71,7 @@ private final class AsyncTestFeature: Feature {
     }
 }
 
-class MockAsyncTestPresenter: AsyncTestPresenter {
+fileprivate class MockAsyncTestPresenter: AsyncTestPresenter {
     var called = false
     
     func asyncActionWasCalled() {

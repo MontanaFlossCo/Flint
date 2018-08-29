@@ -16,10 +16,6 @@ class URLMappingTests: XCTestCase {
         Flint.resetForTesting()
     }
     
-    override func tearDown() {
-        super.tearDown()
-    }
-    
     func testURLPatterns() {
         let fixtures: [(pattern: String, incomingURLPath: String, expectedParams: [String:String]?)] = [
             (pattern: "/hello/", incomingURLPath: "/hello", expectedParams: nil),

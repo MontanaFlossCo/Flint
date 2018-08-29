@@ -45,7 +45,7 @@ final class HandleActivityAction: Action {
         var result: ActionPerformOutcome?
         
         // We need to proxy the completion, because for *this* action we need to indicate the action stack should close
-        let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, asyncCompletionStatus in
+        completion.addProxyCompletionHandler { outcome, asyncCompletionStatus in
             context.logs.development?.debug("Auto URL perform completed: \(outcome)")
 
             let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
@@ -53,8 +53,8 @@ final class HandleActivityAction: Action {
             return resultWithForcedStackClose
         }
 
-        let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
-        flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
+        let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
+        flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
         guard !completionStatus.isCompletingAsync else {
             return completion.willCompleteAsync()

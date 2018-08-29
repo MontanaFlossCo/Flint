@@ -544,7 +544,7 @@ extension Flint {
 }
 
 public extension Flint {
-    public static func resetForTesting() {
+    static func resetForTesting() {
         metadataAccessQueue.sync {
             allFeatures = []
             featureParents = [:]

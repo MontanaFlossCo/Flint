@@ -23,8 +23,13 @@ import Foundation
 /// The lifetime of an ActionStack can be tracked in logging and analytics and tied to a specific activity session,
 /// and is demarcated by the first use of an action from a feature, and the action that indicates termination of the current "feature".
 ///
-/// - note: A session can only be used from a single thread or queue, the queue set when creating the session.
-/// The dispatcher will ensure that the actions are called on the queues they expect, without excessive queue hops.
+/// A session can only be used from a single thread or queue, the queue set when creating the session. This is usually
+/// the same as the `callerQueue`. The dispatcher will ensure that the actions are called on the `callerQueue`, without excessive queue hops
+/// so that if the caller is already on the correct thread, there is no async dispatch required.
+///
+/// The completion of the action is also called on this `callerQueue` so that the caller never needs to queue hop
+/// through uncertainty about the queue/thread they are called on.
+///
 /// !!! TODO: Extract protocol for easier testing
 public class ActionSession: CustomDebugStringConvertible {
     
@@ -56,6 +61,8 @@ public class ActionSession: CustomDebugStringConvertible {
     public var currentActionStackEntry: ActionStackEntry?
 
     /// The queue on which `perform` should always be called – failure to do so will result in an error.
+    /// The completion callbacks will always be called on this queue, either synchronously or asynchronously depending
+    /// on how the Action calls completion.
     public let callerQueue: DispatchQueue
     lazy var smartCallerQueue: SmartDispatchQueue = {
         return SmartDispatchQueue(queue: callerQueue, owner: self)
@@ -419,7 +426,7 @@ public class ActionSession: CustomDebugStringConvertible {
 
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
-        let proxyCompletion = ProxyCompletionRequirement(proxying: completionRequirement, proxyCompletionHandler: { outcome, completesAsync in
+        completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
             // Terminate the current stack if required
             switch outcome {
                 case .success(closeActionStack: true),
@@ -430,11 +437,11 @@ public class ActionSession: CustomDebugStringConvertible {
                     break
             }
             return outcome
-        })
+        }
 
         // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
         // match the queue we are currently on, so the completion is all threadsafe.
-        let completionStatus = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: proxyCompletion)
+        let completionStatus = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: completionRequirement)
         return completionStatus
     }
 }
