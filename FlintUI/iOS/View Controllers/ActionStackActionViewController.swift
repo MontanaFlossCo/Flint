@@ -51,10 +51,6 @@ class ActionStackActionViewController: UITableViewController {
     }
     
     var actionDetails: ActionDetails!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
     // MARK: - Table view data source
 

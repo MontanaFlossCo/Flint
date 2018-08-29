@@ -134,13 +134,13 @@ public class ActionStackViewController: UITableViewController {
                 selectedEntry = nil
                 return nil
             case .entries:
-                selectedEntry = actionStack.withEntries { return $0.entries[indexPath.row] }
+                selectedEntry = entries[indexPath.row]
                 return indexPath
         }
     }
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedEntry = actionStack.withEntries { return $0.entries[indexPath.row] }
+        let selectedEntry = entries[indexPath.row]
         let nextViewController: UIViewController
         switch selectedEntry.details {
             case .substack(let stack):
@@ -165,7 +165,7 @@ public class ActionStackViewController: UITableViewController {
     // MARK: Data stuff
 
     func update() {
-        entries = actionStack.withEntries { return $0.entries }
+        entries = actionStack.withEntries { return $0 }
         tableView.reloadData()
         
         navigationItem.title = "Trail: \(actionStack.id)"
