@@ -420,7 +420,7 @@ public class ActionSession: CustomDebugStringConvertible {
             guard let strongSelf = self else {
                 return (sessionID: "_session gone away_", activitySequenceID: "_session gone away_")
             }
-            let firstEntry = actionStack.entries.first?.debugDescription ?? request.actionBinding.action.name
+            let firstEntry = actionStack.first?.debugDescription ?? request.actionBinding.action.name
             let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
             let activityID = "Stack #\(actionStack.id) \(aDescription)"
             return (sessionID: strongSelf.name, activitySequenceID: activityID)

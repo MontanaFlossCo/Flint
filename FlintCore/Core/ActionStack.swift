@@ -35,8 +35,13 @@ public class ActionStack: CustomDebugStringConvertible {
     public var timeIntervalToLastEntry: TimeInterval { return entries.last?.startDate.timeIntervalSince(startDate) ?? 0 }
     public let userInitiated: Bool
     
+    /// Threadsafe access to the first entry, if any
+    public var first: ActionStackEntry? {
+        return propertyAccessQueue.sync { entries.first }
+    }
+
     /// - note: Only safe to access from within a `withProperties` block
-    public private (set) var entries = [ActionStackEntry]()
+    private var entries = [ActionStackEntry]()
     
     /// Queue used for threadsafe access to the properties, as the entries are mutable
     private let propertyAccessQueue = DispatchQueue(label: "flint.tools.action-stack")
@@ -49,6 +54,7 @@ public class ActionStack: CustomDebugStringConvertible {
         self.userInitiated = userInitiated
     }
     
+    /// Add a new entry to the end of the action stack
     func add(entry: ActionStackEntry) {
         withEntries { _ in
             entries.append(entry)
@@ -56,10 +62,11 @@ public class ActionStack: CustomDebugStringConvertible {
     }
 
     /// Use this to access the entries of this stack. Not doing so is not threadsafe.
-    public func withEntries<T>(_ block: (ActionStack) -> T) -> T {
-        return propertyAccessQueue.sync {
-            block(self)
+    public func withEntries<T>(_ block: ([ActionStackEntry]) -> T) -> T {
+        let entries = propertyAccessQueue.sync {
+            return self.entries
         }
+        return block(entries)
     }
     
     public var debugDescription: String {
