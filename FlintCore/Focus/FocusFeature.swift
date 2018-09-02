@@ -84,10 +84,10 @@ final public class FocusAction: Action {
     public typealias InputType = FocusArea
     public typealias PresenterType = NoPresenter
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.focus(context.input.topicPath)
         
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 
@@ -95,10 +95,10 @@ final public class DefocusAction: Action {
     public typealias InputType = FocusArea
     public typealias PresenterType = NoPresenter
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.defocus(context.input.topicPath)
 
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 
@@ -106,9 +106,9 @@ final public class ResetFocusAction: Action {
     public typealias InputType = NoInput
     public typealias PresenterType = NoPresenter
 
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.reset()
 
-        completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }

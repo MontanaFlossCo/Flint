@@ -41,10 +41,6 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         evaluateConventions(of: ConditionalFeatureWithPhotosAndLocationPermissionRequirements.self)
     }
     
-    override func tearDown() {
-        super.tearDown()
-    }
-    
     /// Do the work that Flint would do to set up the constraints etc. for our custom checker here,
     /// as we are not testing the full Flint stack, just the availability checker parts.
     func evaluateConventions(of feature: FeatureDefinition.Type) {

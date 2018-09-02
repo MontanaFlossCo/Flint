@@ -39,17 +39,16 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
         public static var hideFromTimeline: Bool = true
         
-        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
             guard let logs = FocusFeature.dependencies.developmentFocusLogging else {
-                completion(.success(closeActionStack: true))
-                return
+                return completion.completedSync(.success(closeActionStack: true))
             }
 
             let focusLogController = TimeOrderedResultsController(dataSource: logs.history, delegate: presenter, delegateQueue: .main)
             presenter.focusLogController = focusLogController
             focusLogController.loadMore(count: context.input)
 
-            completion(.success(closeActionStack: false))
+            return completion.completedSync(.success(closeActionStack: false))
         }
     }
 
@@ -63,12 +62,12 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
         public static let defaultExtraPageCount = 10
         
-        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
             guard let focusLogController = presenter.focusLogController else {
                 flintBug("Initial results have not been loaded")
             }
             focusLogController.loadMore(count: context.input)
-            completion(.success(closeActionStack: false))
+            return completion.completedSync(.success(closeActionStack: false))
         }
     }
 

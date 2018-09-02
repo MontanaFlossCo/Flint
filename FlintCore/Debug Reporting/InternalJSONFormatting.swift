@@ -15,7 +15,9 @@ import Foundation
 extension ActionStack {
     var jsonRepresentation: [String:Any?] {
         return withEntries { _ in
-            let jsonEntries: [[String:Any?]] = entries.map { $0.jsonRepresentation }
+            let jsonEntries: [[String:Any?]] = withEntries { entries in
+                return entries.map { $0.jsonRepresentation }
+            }
             return [
                 "start": Formatters.jsonDate(from: startDate),
                 "active_time": timeIntervalToLastEntry,

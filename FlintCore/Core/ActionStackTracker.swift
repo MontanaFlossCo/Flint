@@ -89,10 +89,12 @@ public class ActionStackTracker: DebugReportable {
     /// Debug function to output the state of the active stacks
     public func dumpActionStacks() -> String {
         func _renderStack(_ stack: ActionStack, _ prefix: String = "") -> String {
-            let entryDescriptions: [String] = stack.entries.map {
-                switch $0.details {
-                    case .action(let name, let source, let input): return "Action \(name) via \(source) with input: (\(input ?? ""))"
-                    case .substack(let stack): return "Sub-stack \(stack.id)"
+            let entryDescriptions: [String] = stack.withEntries { entries in
+                return entries.map {
+                    switch $0.details {
+                        case .action(let name, let source, let input): return "Action \(name) via \(source) with input: (\(input ?? ""))"
+                        case .substack(let stack): return "Sub-stack \(stack.id)"
+                    }
                 }
             }
             let entryText = entryDescriptions.joined(separator: "\n")

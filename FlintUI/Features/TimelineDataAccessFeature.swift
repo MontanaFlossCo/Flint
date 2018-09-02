@@ -39,12 +39,12 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
 
         public static var hideFromTimeline: Bool = true
 
-        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
             let timeline = Timeline.instance
             let timelineController = TimeOrderedResultsController(dataSource: timeline.entries, delegate: presenter, delegateQueue: .main)
             presenter.timelineController = timelineController
             timelineController.loadMore(count: context.input)
-            completion(.success(closeActionStack: false))
+            return completion.completedSync(.success(closeActionStack: false))
         }
     }
 
@@ -58,12 +58,12 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
 
         public static let defaultExtraPageCount = 10
         
-        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: @escaping (ActionPerformOutcome) -> Void) {
+        public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
             guard let timelineController = presenter.timelineController else {
                 flintBug("Initial results have not been loaded")
             }
             timelineController.loadMore(count: context.input)
-            completion(.success(closeActionStack: false))
+            return completion.completedSync(.success(closeActionStack: false))
         }
     }
 }

@@ -16,10 +16,6 @@ class DebugReportingTests: XCTestCase {
         Flint.resetForTesting()
     }
     
-    override func tearDown() {
-        super.tearDown()
-    }
-    
     func testGatheringEmptyZipReport() {
         let zipUrl = DebugReporting.gatherReportZip()
         XCTAssert(FileManager.default.fileExists(atPath: zipUrl.path))

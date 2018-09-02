@@ -21,7 +21,7 @@ final public class FlintAppInfo {
         guard let urlTypes = Bundle.main.infoDictionary?["CFBundleURLTypes"] as? [[String:Any]] else {
             return []
         }
-        let schemeLists: [[String]] = urlTypes.flatMap { dict in
+        let schemeLists: [[String]] = urlTypes.compactMap { dict in
             if let list = dict["CFBundleURLSchemes"] as? [String] {
                 return list
             } else {

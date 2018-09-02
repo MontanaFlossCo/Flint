@@ -23,8 +23,22 @@ import Foundation
 /// The lifetime of an ActionStack can be tracked in logging and analytics and tied to a specific activity session,
 /// and is demarcated by the first use of an action from a feature, and the action that indicates termination of the current "feature".
 ///
-/// - note: A session can only be used from a single thread or queue, the queue set when creating the session.
-/// The dispatcher will ensure that the actions are called on the queues they expect, without excessive queue hops.
+/// ## Threading
+///
+/// A session can only be used from a single thread or queue, the queue set when creating the session. This is known as the
+/// `callerQueue`.
+///
+/// Actions can select which queue they will be called to `perform` on, via their `queue` property. This is *always*
+/// the queue they will execute on, and may be entirely different from the session's queue.
+///
+/// This mechanism guarantees that code calling into an `ActionSession` does not need to care about the queue an Action expects,
+/// and Actions do not need to care about the queue they are called on, thus eliminating excessive thread hops (AKA "mmm, just DispatchQueue.async it").
+/// This reduces "slushiness" and lag in UIs, and makes it easier to reason about the code.
+///
+/// The dispatcher will ensure that the Actions are called synchronously on their desired queue, even if that is the same as the current queue.
+/// It will also make sure that they call their completion handler on the session's `callerQueue`, without excessive queue hops
+/// so that if the caller is already on the correct thread, there is no async dispatch required.
+///
 /// !!! TODO: Extract protocol for easier testing
 public class ActionSession: CustomDebugStringConvertible {
     
@@ -56,6 +70,8 @@ public class ActionSession: CustomDebugStringConvertible {
     public var currentActionStackEntry: ActionStackEntry?
 
     /// The queue on which `perform` should always be called – failure to do so will result in an error.
+    /// The completion callbacks will always be called on this queue, either synchronously or asynchronously depending
+    /// on how the Action calls completion.
     public let callerQueue: DispatchQueue
     lazy var smartCallerQueue: SmartDispatchQueue = {
         return SmartDispatchQueue(queue: callerQueue, owner: self)
@@ -183,8 +199,44 @@ public class ActionSession: CustomDebugStringConvertible {
                                           logContextCreator: logContextCreator)
         perform(actionRequest, completion: completion)
     }
-    
 
+    /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
+    ///
+    /// This is how you execute actions that are not always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
+    /// - param source: Indicates where the request came from
+    /// - param completionRequirement: The completion object to use.
+    /// - return: The completion status, indicating whether it was synchronously completed or not, and the result if so.
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+                                                 input: ActionType.InputType,
+                                                 presenter: ActionType.PresenterType,
+                                                 userInitiated: Bool,
+                                                 source: ActionSource,
+                                                 completionRequirement: Action.Completion) -> Action.Completion.Status {
+        let staticBinding = StaticActionBinding(feature: conditionalRequest.actionBinding.feature, action: conditionalRequest.actionBinding.action)
+        let logContextCreator = { (sessionID, activitySequenceID) in
+            return LogEventContext(session: sessionID,
+                                   activity: activitySequenceID,
+                                   topicPath: TopicPath(actionBinding: staticBinding),
+                                   arguments: input.loggingDescription,
+                                   presenter: String(describing: presenter))
+        }
+        let actionRequest = ActionRequest(uniqueID: nextRequestID(),
+                                          userInitiated: userInitiated,
+                                          source: source,
+                                          session: self,
+                                          actionBinding: staticBinding,
+                                          input: input,
+                                          presenter: presenter,
+                                          logContextCreator: logContextCreator)
+        return perform(actionRequest, completionRequirement: completionRequirement)
+    }
+    
     /// Perform an action associated with an unconditional `Feature`.
     ///
     /// This is how you execute actions that are always available.
@@ -284,6 +336,42 @@ public class ActionSession: CustomDebugStringConvertible {
         perform(request, completion: completion)
     }
     
+    /// Perform an action associated with an unconditional `Feature`, returning completion status.
+    ///
+    /// This is how you execute actions that are always available.
+    ///
+    /// The completion handler is called on `callerQueue` of this `ActionSession`
+    ///
+    /// - param presenter: The object presenting the outcome of the action
+    /// - param input: The value to pass as the input of the action
+    /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
+    /// - param source: Indicates where the request came from
+    /// - param completionRequirement: The completion requirement to use.
+    /// - return: The completion status, indicating whether or not completion is being called synchronously, and including completion results.
+    public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                 input: ActionType.InputType,
+                                                 presenter: ActionType.PresenterType,
+                                                 userInitiated: Bool,
+                                                 source: ActionSource,
+                                                 completionRequirement: Action.Completion) -> Action.Completion.Status {
+        let logContextCreator = { (sessionID, activitySequenceID) in
+            return LogEventContext(session: sessionID,
+                                   activity: activitySequenceID,
+                                   topicPath: actionBinding.logTopicPath,
+                                   arguments: input.loggingDescription,
+                                   presenter: String(describing: presenter))
+        }
+        let request: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),
+                                                      userInitiated: userInitiated,
+                                                      source: source,
+                                                      session: self,
+                                                      actionBinding: actionBinding,
+                                                      input: input,
+                                                      presenter: presenter,
+                                                      logContextCreator: logContextCreator)
+        return perform(request, completionRequirement: completionRequirement)
+    }
+    
     // MARK: Debug helpers
     
     public var debugDescription: String {
@@ -300,6 +388,15 @@ public class ActionSession: CustomDebugStringConvertible {
     /// Execute the action of the request, appending it to the action sequence for the relevant feature
     /// - note: This is the heart of the Features implementation.
     private func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completion: ((ActionOutcome) -> ())?) {
+        let completionRequirement = Action.Completion() { outcome, completedAsync in
+            completion?(outcome.simplifiedOutcome)
+        }
+        
+        // For these kinds of invocations we care not about the sync/async status
+        let _ = perform(request, completionRequirement: completionRequirement)
+    }
+    
+    func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completionRequirement: Action.Completion) -> Action.Completion.Status {
         if !smartCallerQueue.isCurrentQueue {
             let message = "Called ActionSession \"\(self.name)\" from a queue that is not \(self.callerQueue). Failing fast because this implies your completion will execute on a different queue to the one you expect"
             FlintInternal.logger?.error(message)
@@ -323,7 +420,7 @@ public class ActionSession: CustomDebugStringConvertible {
             guard let strongSelf = self else {
                 return (sessionID: "_session gone away_", activitySequenceID: "_session gone away_")
             }
-            let firstEntry = actionStack.entries.first?.debugDescription ?? request.actionBinding.action.name
+            let firstEntry = actionStack.first?.debugDescription ?? request.actionBinding.action.name
             let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
             let activityID = "Stack #\(actionStack.id) \(aDescription)"
             return (sessionID: strongSelf.name, activitySequenceID: activityID)
@@ -338,20 +435,25 @@ public class ActionSession: CustomDebugStringConvertible {
 
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
-        let _ = dispatcher.perform(request: request, callerQueue: smartCallerQueue, completion: { outcome in
-            /// !!! TODO: What is the contract re: actions calling completion on a given queue?
-
-            // Report outcome to the caller, minus our internals about action stacks
-            completion?(outcome.simplifiedOutcome)
-
+        completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
             // Terminate the current stack if required
             switch outcome {
                 case .success(closeActionStack: true),
                      .failure(error: _, closeActionStack: true):
-                   self.actionStackTracker.terminate(actionStack, actionRequest: request)
+                    // This is threadsafe so we don't care what we're calling on
+                    self.actionStackTracker.terminate(actionStack, actionRequest: request)
                 default:
                     break
             }
-        })
+            return outcome
+        }
+
+        // Make sure completion happens on the right queue
+        completionRequirement.completionQueue = smartCallerQueue
+        
+        // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
+        // match the queue we are currently on, so the completion is all threadsafe.
+        let completionStatus = dispatcher.perform(request: request, completion: completionRequirement)
+        return completionStatus
     }
 }

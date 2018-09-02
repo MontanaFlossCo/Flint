@@ -45,7 +45,7 @@ public class ActionStackListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Stack", for: indexPath)
         let stack = actionStacks[indexPath.row]
 
-        let entryCount = stack.withEntries { return $0.entries.count }
+        let entryCount = stack.withEntries { return $0.count }
         let userInitiatedIndicator = stack.userInitiated ? " 👤" : ""
         let date = Formatters.relativeDate(from: stack.startDate)
         

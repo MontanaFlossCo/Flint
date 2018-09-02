@@ -33,7 +33,7 @@ final class PublishCurrentActionActivityAction: Action {
         }
     }
 
-    static func perform(context: ActionContext<InputType>, presenter: NoPresenter, completion: @escaping (ActionPerformOutcome) -> Void) {
+    static func perform(context: ActionContext<InputType>, presenter: NoPresenter, completion: Action.Completion) -> Action.Completion.Status {
         if let activity = context.input.activityCreator() {
             var activityDebug: String = ""
             if let _ = context.logs.development?.debug {
@@ -46,7 +46,7 @@ final class PublishCurrentActionActivityAction: Action {
             currentActivity = activity
         }
         
-        return completion(.success(closeActionStack: true))
+        return completion.completedSync(.success(closeActionStack: true))
     }
 }
 
