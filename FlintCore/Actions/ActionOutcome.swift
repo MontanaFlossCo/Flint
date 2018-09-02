@@ -11,5 +11,5 @@ import Foundation
 /// The type that indicates the outcome of performing an action
 public enum ActionOutcome {
     case success
-    case failure(error: Error?)
+    case failure(error: Error)
 }

@@ -46,7 +46,7 @@ final class PublishCurrentActionActivityAction: Action {
             currentActivity = activity
         }
         
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 

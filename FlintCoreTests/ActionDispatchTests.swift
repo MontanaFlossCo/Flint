@@ -59,7 +59,7 @@ fileprivate final class AsyncTestAction: Action {
     static func perform(context: ActionContext<NoInput>, presenter: AsyncTestPresenter, completion: Completion) -> Completion.Status {
         let asyncStatus = completion.willCompleteAsync()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            asyncStatus.completed(.success(closeActionStack: true))
+            asyncStatus.completed(.successWithFeatureTermination)
         })
         return asyncStatus
     }

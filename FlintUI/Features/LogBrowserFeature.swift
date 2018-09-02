@@ -47,7 +47,7 @@ final public class ShowLogBrowserAction: Action {
             context.logs.development?.debug("Presenting Focus Log VC modally")
             presenter.present(focusLogViewController, animated: true)
         }
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 

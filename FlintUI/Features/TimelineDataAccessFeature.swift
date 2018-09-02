@@ -44,7 +44,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
             let timelineController = TimeOrderedResultsController(dataSource: timeline.entries, delegate: presenter, delegateQueue: .main)
             presenter.timelineController = timelineController
             timelineController.loadMore(count: context.input)
-            return completion.completedSync(.success(closeActionStack: false))
+            return completion.completedSync(.success)
         }
     }
 
@@ -63,7 +63,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
                 flintBug("Initial results have not been loaded")
             }
             timelineController.loadMore(count: context.input)
-            return completion.completedSync(.success(closeActionStack: false))
+            return completion.completedSync(.success)
         }
     }
 }

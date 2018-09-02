@@ -18,7 +18,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
     }
 
     public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
-        if case .success(_) = outcome {
+        if outcome.isSuccess {
             if request.actionBinding.action.activityTypes.count > 0 {
                 registerUserActivity(for: request)
             }

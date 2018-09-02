@@ -41,14 +41,14 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
         
         public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
             guard let logs = FocusFeature.dependencies.developmentFocusLogging else {
-                return completion.completedSync(.success(closeActionStack: true))
+                return completion.completedSync(.successWithFeatureTermination)
             }
 
             let focusLogController = TimeOrderedResultsController(dataSource: logs.history, delegate: presenter, delegateQueue: .main)
             presenter.focusLogController = focusLogController
             focusLogController.loadMore(count: context.input)
 
-            return completion.completedSync(.success(closeActionStack: false))
+            return completion.completedSync(.success)
         }
     }
 
@@ -67,7 +67,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
                 flintBug("Initial results have not been loaded")
             }
             focusLogController.loadMore(count: context.input)
-            return completion.completedSync(.success(closeActionStack: false))
+            return completion.completedSync(.success)
         }
     }
 

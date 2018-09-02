@@ -42,7 +42,7 @@ final public class ShowActionStackBrowserAction: Action {
         } else {
             presenter.present(actionStacksViewController, animated: true)
         }
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 

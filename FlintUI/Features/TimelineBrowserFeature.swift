@@ -49,7 +49,7 @@ final public class ShowTimelineBrowserAction: Action {
             context.logs.development?.debug("Presenting timeline VC modally")
             presenter.present(timelineViewController, animated: true)
         }
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 
@@ -58,7 +58,7 @@ public protocol TerminatingAction: Action {
 
 extension TerminatingAction {
     public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 

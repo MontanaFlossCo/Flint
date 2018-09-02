@@ -22,6 +22,7 @@ final public class PerformIncomingURLAction: Action {
 
     public enum URLActionError: Error {
         case noURLMappingFound
+        case invalidURL
     }
     
     static private var supportedSchemes: [String] = {
@@ -39,7 +40,7 @@ final public class PerformIncomingURLAction: Action {
     public static func perform(context: ActionContext<URL>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
         guard let urlComponents = URLComponents(url: context.input, resolvingAgainstBaseURL: false) else {
             context.logs.development?.error("Invalid URL supplied")
-            return completion.completedSync(.failure(error: nil, closeActionStack: false))
+            return completion.completedSync(.failure(error: URLActionError.invalidURL))
         }
         
         // Find a matching mapping.
@@ -51,7 +52,7 @@ final public class PerformIncomingURLAction: Action {
                 context.logs.development?.debug("URL is for app scheme: \(scheme)")
                 if let _ = supportedSchemes.index(of: scheme) {
                     guard let host = urlComponents.host else {
-                        return completion.completedSync(.failure(error: nil, closeActionStack: false))
+                        return completion.completedSync(.failure(error: URLActionError.invalidURL))
                     }
                     var compoundPath = host
                     if urlComponents.path.count > 0 {
@@ -73,7 +74,7 @@ final public class PerformIncomingURLAction: Action {
 
         guard let foundScope = scope, let foundPath = path else {
             context.logs.development?.error("Couldn't map URL: \(context.input)")
-            return completion.completedSync(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
+            return completion.completedSync(.failureWithFeatureTermination(error: URLActionError.noURLMappingFound))
         }
 
         context.logs.development?.debug("Finding action executor for scope: \(foundScope), path \(foundPath)")
@@ -107,7 +108,7 @@ final public class PerformIncomingURLAction: Action {
             return result
         } else {
             context.logs.development?.error("Couldn't get executor for URL: \(context.input) for scope \(foundScope) and path \(foundPath)")
-            return completion.completedSync(.failure(error: URLActionError.noURLMappingFound, closeActionStack: true))
+            return completion.completedSync(.failureWithFeatureTermination(error: URLActionError.noURLMappingFound))
         }
         
     }

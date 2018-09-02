@@ -308,7 +308,7 @@ final public class Flint {
                     return .success
                 case .failure(let error):
                     switch error {
-                        case .some(PerformIncomingURLAction.URLActionError.noURLMappingFound):
+                        case PerformIncomingURLAction.URLActionError.noURLMappingFound:
                             return .noMappingFound
                         default:
                             return .failure(error: error)
@@ -381,7 +381,7 @@ final public class Flint {
                     return .success
                 case .failure(let error):
                     switch error {
-                        case .some(PerformIncomingURLAction.URLActionError.noURLMappingFound):
+                        case PerformIncomingURLAction.URLActionError.noURLMappingFound:
                             return .noMappingFound
                         default:
                             return .failure(error: error)
