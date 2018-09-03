@@ -31,7 +31,7 @@ final public class PerformIncomingActivityAction: Action {
             return completion.completedSync(result)
         } else {
             context.logs.development?.error("Couldn't get executor for activity: \(context.input.activityType)")
-            return completion.completedSync(.failure(error: ActivityTypeError.noActivityTypeMappingFound, closeActionStack: true))
+            return completion.completedSync(.failureWithFeatureTermination(error: ActivityTypeError.noActivityTypeMappingFound))
         }
         
     }

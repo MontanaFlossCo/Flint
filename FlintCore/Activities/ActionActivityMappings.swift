@@ -179,7 +179,7 @@ class ActionActivityMappings {
                         }
                         return performOutcome
                     } else {
-                        return ActionPerformOutcome.failure(error: ActivityExecutionError.featureNotAvailable, closeActionStack: true)
+                        return ActionPerformOutcome.failureWithFeatureTermination(error: ActivityExecutionError.featureNotAvailable)
                     }
                 } else {
                     return ActionActivityMappings.failedPresentationResultToActionPerformOutcome(presentationRouterResult)
@@ -201,13 +201,13 @@ class ActionActivityMappings {
         switch result {
             case .unsupported:
                 FlintInternal.urlMappingLogger?.error("No presentation for activity - received .unsupported")
-                return .failure(error: ActivityExecutionError.noPresenter, closeActionStack: true)
+                return .failureWithFeatureTermination(error: ActivityExecutionError.noPresenter)
             case .appCancelled:
-                return .failure(error: ActivityExecutionError.appCancelled, closeActionStack: true)
+                return .failureWithFeatureTermination(error: ActivityExecutionError.appCancelled)
             case .userCancelled:
-                return .failure(error: ActivityExecutionError.userCancelled, closeActionStack: true)
+                return .failureWithFeatureTermination(error: ActivityExecutionError.userCancelled)
             case .appPerformed:
-                return .failure(error: ActivityExecutionError.appAlreadyPerformed, closeActionStack: true)
+                return .failureWithFeatureTermination(error: ActivityExecutionError.appAlreadyPerformed)
             case .appReady:
                 flintBug("App is ready to present UI, this state is not supported")
         }

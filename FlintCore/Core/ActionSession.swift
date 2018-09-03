@@ -438,8 +438,8 @@ public class ActionSession: CustomDebugStringConvertible {
         completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
             // Terminate the current stack if required
             switch outcome {
-                case .success(closeActionStack: true),
-                     .failure(error: _, closeActionStack: true):
+                case .successWithFeatureTermination,
+                     .failureWithFeatureTermination(let _):
                     // This is threadsafe so we don't care what we're calling on
                     self.actionStackTracker.terminate(actionStack, actionRequest: request)
                 default:

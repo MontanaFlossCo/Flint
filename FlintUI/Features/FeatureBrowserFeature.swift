@@ -41,6 +41,6 @@ final public class ShowFeatureBrowserAction: Action {
         } else {
             presenter.present(featuresViewController, animated: true)
         }
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }

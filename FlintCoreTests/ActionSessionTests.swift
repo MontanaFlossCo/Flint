@@ -62,8 +62,8 @@ fileprivate final class TestAction1: Action {
         }
         
         switch outcome {
-            case .failure(let error): return completion.completedSync(.failure(error: error, closeActionStack: true))
-            case .success: return completion.completedSync(.success(closeActionStack: true))
+            case .failure(let error): return completion.completedSync(.failureWithFeatureTermination(error: error))
+            case .success: return completion.completedSync(.successWithFeatureTermination)
         }
     }
 }
@@ -73,7 +73,7 @@ fileprivate final class TestAction2: Action {
 
     static func perform(context: ActionContext<NoInput>, presenter: Action2Presenter, completion: Completion) -> Completion.Status {
         presenter.action2WasCalled()
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 

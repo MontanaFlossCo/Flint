@@ -39,7 +39,7 @@ final class HandleActivityAction: Action {
         context.logs.development?.debug("Auto URL found: \(autoURL)")
         guard let request = RoutesFeature.request(RoutesFeature.performIncomingURL) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
-            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(feature: RoutesFeature.self), closeActionStack: true))
+            return completion.completedSync(.failureWithFeatureTermination(error: ActionPerformError.requiredFeatureNotAvailable(feature: RoutesFeature.self)))
         }
 
         var result: ActionPerformOutcome?
@@ -72,7 +72,7 @@ final class HandleActivityAction: Action {
         // Check for Flint Activities support and use performIncomingActivity instead
         guard let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
-            return completion.completedSync(.failure(error: ActionPerformError.requiredFeatureNotAvailable(feature: ActivitiesFeature.self), closeActionStack: true))
+            return completion.completedSync(.failureWithFeatureTermination(error: ActionPerformError.requiredFeatureNotAvailable(feature: ActivitiesFeature.self)))
         }
         
         var result: ActionPerformOutcome?
@@ -103,10 +103,25 @@ final class HandleActivityAction: Action {
 fileprivate extension ActionPerformOutcome {
     func outcomeByOverridingCloseActionStack(_ shouldClose: Bool) -> ActionPerformOutcome {
         switch self {
-            case .success:
-                return .success(closeActionStack: shouldClose)
-            case .failure(let error, _):
-                return .failure(error: error, closeActionStack: shouldClose)
+            case .success,
+                 .successWithFeatureTermination:
+                if shouldClose {
+                    return .successWithFeatureTermination
+                } else {
+                    return .success
+                }
+            case .failure(let error):
+                if shouldClose {
+                    return .failureWithFeatureTermination(error: error)
+                } else {
+                    return .failure(error: error)
+                }
+            case .failureWithFeatureTermination(let error):
+                if shouldClose {
+                    return .failureWithFeatureTermination(error: error)
+                } else {
+                    return .failure(error: error)
+                }
         }
     }
 }

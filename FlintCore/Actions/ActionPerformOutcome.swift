@@ -13,29 +13,62 @@ import Foundation
 /// Actions use this result type to indicate whether or not the current action stack should be closed, indicating the
 /// end of a sequence of action usage for a given feature.
 public enum ActionPerformOutcome: CustomStringConvertible {
-    /// The action completed successfully. Pass `true` for `closeActionStack` if this action should
-    /// result in the current action stack being closed, so no more actions are added to it.
-    /// Usually this will be `false` but pass `true` when the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature"
-    case success(closeActionStack: Bool)
 
-    /// The action encountered an error. Pass `true` for `closeActionStack` if this action should
-    /// result in the current action stack being closed, so no more actions are added to it.
-    /// Usually this will be `false` but pass `true` when the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature"
-    case failure(error: Error?, closeActionStack: Bool)
+    /// The action completed successfully, but does not indicate that the feature is now "done".
+    /// Usually this will be the outcome you use but when the action clearly indicates the user is no longer using
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `successClosingActionStack`
+    case success
+
+    /// The action completed successfully, and indicates that the feature is now "done".
+    /// Usually this will not be the outcome you use for success. Unless the action clearly indicates the user is no longer using
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `successWithoutClosingActionStack`
+    case successWithFeatureTermination
     
-    var simplifiedOutcome: ActionOutcome {
+    /// The action failed to complete, but does not indicate that the feature is now "done".
+    /// Usually this will be the outcome you use but when the action clearly indicates the user is no longer using
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `successClosingActionStack`
+    case failure(error: Error)
+
+    /// The action failed to complete, and indicates that the feature is now "done".
+    /// Usually this will not be the outcome you use for an error. Unless the action clearly indicates the user is no longer using
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `successWithoutClosingActionStack`
+    case failureWithFeatureTermination(error: Error)
+
+    /// Returns `true` if the value is any one of the possible success cases
+    var isSuccess: Bool {
         switch self {
-            case .success(_): return .success
-            case .failure(let error, _): return .failure(error: error)
+            case .success,
+                 .successWithFeatureTermination:
+                return true
+            default:
+                return false
         }
     }
     
+    /// Returns an `ActionOutcome` value equivalent to the current value, minus the action stack internals.
+    var simplifiedOutcome: ActionOutcome {
+        switch self {
+            case .success,
+                 .successWithFeatureTermination:
+                return .success
+            case .failure(let error):
+                return .failure(error: error)
+            case .failureWithFeatureTermination(let error):
+                return .failure(error: error)
+        }
+    }
+    
+    /// Human-readable description of the cases
     public var description: String {
         switch self {
-            case .success(let terminates): return "success (closeActionStack: \(terminates))"
-            case .failure(let error, let terminates): return "failure (closeActionStack: \(terminates), error: \(String(describing: error)))"
+            case .success:
+                return "success (not closing action stack)"
+            case .successWithFeatureTermination:
+                return "success (not closing action stack)"
+            case .failure(let error):
+                return "failure (not closing action stack) with error: \(String(describing: error)))"
+            case .failureWithFeatureTermination(let error):
+                return "failure (closing action stack) with error: \(String(describing: error)))"
         }
     }
 }

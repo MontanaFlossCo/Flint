@@ -87,7 +87,7 @@ final public class FocusAction: Action {
     public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.focus(context.input.topicPath)
         
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 
@@ -98,7 +98,7 @@ final public class DefocusAction: Action {
     public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.defocus(context.input.topicPath)
 
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
 
@@ -109,6 +109,7 @@ final public class ResetFocusAction: Action {
     public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         FocusFeature.dependencies.focusSelection?.reset()
 
-        return completion.completedSync(.success(closeActionStack: true))
+        return completion.completedSync(.successWithFeatureTermination)
     }
 }
+
