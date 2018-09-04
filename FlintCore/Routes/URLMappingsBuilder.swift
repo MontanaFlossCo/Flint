@@ -38,7 +38,8 @@ public class URLMappingsBuilder {
     /// Any trailing query parameters on the URL following the optional "?" will be extracted first as route parameters.
     /// Any named path parameters in the route pattern will supercede these. You can have as many named parameters as you require.
     ///
-    /// - param pattern: A URL matching pattern that will match the path only (ignoring query parameters)
+    /// - param pattern: A URL matching pattern that will match the path only (ignoring query parameters).
+    /// A leading `/` is optional, and implied
     /// - param actionBinding: The action binding to use when performing the action for the URL
     /// - param scopes: A set of scopes to which the route applies. You can supply as many as you require. The default is `[.appAny, .universalAny]`
     /// - param name: An optional value that if supplied will allow your `RouteParametersDecodable` action input type
@@ -48,21 +49,30 @@ public class URLMappingsBuilder {
             where ActionType.InputType: RouteParametersDecodable {
         FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(actionBinding) with name: \(name ?? "<none>")")
         for scope in scopes {
-            let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(pattern)"))
+            let mapping = createURLMapping(named: name, for: pattern, in: scope)
             add(mapping: mapping, to: actionBinding)
         }
     }
 
     /// Define a new URL route from the specified pattern to the action binding of a `ConditionalFeature`.
     ///
+    /// - param pattern: The URL pattern to match. A leading `/` is optional, and implied
+    /// - param conditionalActionBinding: The action binding the URL should perform
+    ///
     /// - see: `send` for static action bindings.
     public func send<FeatureType, ActionType>(_ pattern: String, to conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny], name: String? = nil)
             where ActionType.InputType: RouteParametersDecodable {
         FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
         for scope in scopes {
-            let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(pattern)"))
+            let mapping = createURLMapping(named: name, for: pattern, in: scope)
             add(mapping: mapping, to: conditionalActionBinding)
         }
+    }
+
+    private func createURLMapping(named name: String?, for pattern: String, in scope: RouteScope) -> URLMapping {
+        let trimmedPattern = pattern.starts(with: "/") ? String(pattern.dropFirst()) : pattern
+        let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(trimmedPattern)"))
+        return mapping
     }
 
     /// Create the mapping and register with the global mappings table
