@@ -61,6 +61,18 @@ public extension ConditionalFeature {
 
         /// The action is possible only if this feature is currently available
         guard let available = isAvailable, available == true else {
+            let requiredPermissions = permissions.allNotAuthorized
+            let requiredPurchases = purchases.requiredToUnlock
+            var reason = ""
+            if requiredPermissions.count > 0 {
+                let permissionNames = requiredPermissions.map({ $0.name }).joined(separator: ", ")
+                reason.append(" Requires permissions: \(permissionNames).")
+            }
+            if requiredPurchases.count > 0 {
+                let purchaseNames = requiredPurchases.map({ $0.description }).joined(separator: ", ")
+                reason.append(" Requires purchases: \(purchaseNames).")
+            }
+            flintAdvisoryNotice("Request to use action '\(actionBinding.action.name)' on feature '\(actionBinding.feature.name)' denied.\(reason)")
             return nil
         }
         return ConditionalActionRequest(actionBinding: actionBinding)
