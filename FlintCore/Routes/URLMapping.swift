@@ -65,6 +65,6 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        return "/\(pattern) in \(scope) with name \(name ?? "<none>")"
+        return "\(pattern.urlPattern) in \(scope) with name \(name ?? "<none>")"
     }
 }

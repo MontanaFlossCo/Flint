@@ -115,7 +115,8 @@ class ActionDetailViewController: UITableViewController {
                 cell.detailTextLabel?.text = detail
             case .urlMappings:
                 cell = tableView.dequeueReusableCell(withIdentifier: "URLMapping", for: indexPath)
-                cell.textLabel?.text = action.urlMappings[indexPath.item]
+                let mapping = action.urlMappings[indexPath.item]
+                cell.textLabel?.text = mapping
         }
 
         // Configure the cell...
