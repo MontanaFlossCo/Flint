@@ -72,6 +72,7 @@ public extension ConditionalFeature {
                 let purchaseNames = requiredPurchases.map({ $0.description }).joined(separator: ", ")
                 reason.append(" Requires purchases: \(purchaseNames).")
             }
+            /// TODO: Add info about preconditions
             flintAdvisoryNotice("Request to use action '\(actionBinding.action.name)' on feature '\(actionBinding.feature.name)' denied.\(reason)")
             return nil
         }
