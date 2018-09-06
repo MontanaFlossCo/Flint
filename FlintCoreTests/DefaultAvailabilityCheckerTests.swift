@@ -27,7 +27,7 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
         // We should never actually be hitting Flint...
         Flint.resetForTesting()
 
-        DefaultLoggerFactory.setup(initialDebugLogLevel: .debug, initialProductionLogLevel: .debug, briefLogging: true)
+        DefaultLoggerFactory.setup(initialDebugLogLevel: .none, initialProductionLogLevel: .none, briefLogging: true)
         Logging.development?.level = .debug
 
         evaluator = MockFeatureConstraintsEvaluator()

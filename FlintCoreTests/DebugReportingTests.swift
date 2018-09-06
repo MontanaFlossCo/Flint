@@ -22,7 +22,7 @@ class DebugReportingTests: XCTestCase {
     }
 
     func testGatheringZipReport() {
-        Flint.quickSetup(DummyFeatures.self)
+        Flint.quickSetup(DummyFeatures.self, domains: [], initialDebugLogLevel: .none, initialProductionLogLevel: .none)
         DummyStaticFeature.action1.perform()
         let zipUrl = DebugReporting.gatherReportZip()
         XCTAssert(FileManager.default.fileExists(atPath: zipUrl.path))
