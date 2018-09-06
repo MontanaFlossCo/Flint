@@ -7,18 +7,26 @@
 //
 
 import Foundation
+
 #if canImport(CoreSpotlight)
 import CoreSpotlight
 #endif
+
 #if canImport(UIKit)
 import UIKit
 #endif
+
 #if os(macOS)
 import CoreServices
 import Cocoa
 #else
 import MobileCoreServices
 #endif
+
+#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
+import Intents
+#endif
+
 
 /// A builder used to set required properties
 public class ActivityBuilder<ActionType> where ActionType: Action {
@@ -84,8 +92,10 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     /// continuing later.
     public var userInfo: [AnyHashable:Any] = [:]
     
-/// !!! TODO: Add a wrapper for these so actions on watchOS and tvOS don't have to adapt to the platform
-// Note we can't use canImport(CoreSpotlight) as this exists on tvOS and watchOS but the attribute set does not
+    /// !!! TODO: Add a wrapper for these so actions on watchOS and tvOS don't have to adapt to the platform,
+    /// as currently this `searchAttributes` property will not exist and cause compile errors on actions that
+    /// try to call use this when building activities.
+    /// Note we can't use just `canImport(CoreSpotlight)` as this exists on tvOS and watchOS but the attribute set does not
 #if canImport(CoreSpotlight)
 #if os(iOS) || os(macOS)
     private var _searchAttributes: CSSearchableItemAttributeSet?
@@ -102,7 +112,8 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
 #endif
 #endif
 
-#if canImport(Network) && (os(iOS) || os(watchOS))
+    /// Use Network + Platforms to detect support for Siri Shortcuts
+#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
     @available(iOS 12, watchOS 5, *)
     public var suggestedInvocationPhrase: String? {
         get {
@@ -127,8 +138,8 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
         activity.isEligibleForHandoff = action.activityTypes.contains(.handoff)
         activity.isEligibleForPublicIndexing = action.activityTypes.contains(.publicIndexing)
 
-// This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
-// require raising the language level to Swift 4.2 in the target.
+        // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+        // require raising the language level to Swift 4.2 in the target.
 #if canImport(Network) && (os(iOS) || os(watchOS))
         if #available(iOS 12, watchOS 5, *) {
             activity.isEligibleForPrediction = action.activityTypes.contains(.prediction)
