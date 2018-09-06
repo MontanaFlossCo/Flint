@@ -22,7 +22,7 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
     
     let output: AggregatingLoggerOutput
     private var logLevelsByTopic: [TopicPath:LoggerLevel] = [:]
-    private let queue = DispatchQueue(label: "tools.flint.contextual-logger-target")
+    private let queue = DispatchQueue(label: "tools.flint.contextual-logger-target", qos: .background)
     private var sequenceID: UInt = 0
     
     init(output: AggregatingLoggerOutput) {
@@ -49,7 +49,7 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
             //
             // We fake the threshold as "debug" if items are in the current focus, and anything not focused becomes threshold `.none`
             let effectiveThreshold: LoggerLevel
-            if let focusSelection = FocusFeature.dependencies.focusSelection, focusSelection.active {
+            if let focusSelection = FocusFeature.dependencies.focusSelection, focusSelection.isActive {
                 effectiveThreshold = focusSelection.isFocused(context.topicPath) ? .debug : .none
             } else {
                 effectiveThreshold = strongSelf.topicLevel(for: context.topicPath) ?? strongSelf.level

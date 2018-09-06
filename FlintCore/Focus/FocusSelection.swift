@@ -23,7 +23,7 @@ public protocol FocusSelection {
 
     /// This is set to `true` if there is currently a non-empty focus selection, i.e. focus is being used.
     /// When `false` this means all debug output should be included
-    var active: Bool { get }
+    var isActive: Bool { get }
     
     /// Test if something should be suppressed from output. This exists so that we can easily write:
     ///
