@@ -439,7 +439,7 @@ public class ActionSession: CustomDebugStringConvertible {
             // Terminate the current stack if required
             switch outcome {
                 case .successWithFeatureTermination,
-                     .failureWithFeatureTermination(let _):
+                     .failureWithFeatureTermination:
                     // This is threadsafe so we don't care what we're calling on
                     self.actionStackTracker.terminate(actionStack, actionRequest: request)
                 default:

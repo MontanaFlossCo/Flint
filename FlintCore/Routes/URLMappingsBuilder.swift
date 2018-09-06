@@ -47,7 +47,7 @@ public class URLMappingsBuilder {
     /// URL used. For example you might set an `isFromPublicLink = true` property on the input if the route name was "public-web-profile"
     public func send<FeatureType, ActionType>(_ pattern: String, to actionBinding: StaticActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny], name: String? = nil)
             where ActionType.InputType: RouteParametersDecodable {
-        FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(actionBinding) with name: \(name ?? "<none>")")
+        FlintInternal.urlMappingLogger?.debug("Routing '\(pattern)' in scopes \(scopes) ➡️ \(actionBinding) with name: \(name ?? "<none>")")
         for scope in scopes {
             let mapping = createURLMapping(named: name, for: pattern, in: scope)
             add(mapping: mapping, to: actionBinding)
@@ -62,7 +62,7 @@ public class URLMappingsBuilder {
     /// - see: `send` for static action bindings.
     public func send<FeatureType, ActionType>(_ pattern: String, to conditionalActionBinding: ConditionalActionBinding<FeatureType, ActionType>, in scopes: Set<RouteScope> = [.appAny, .universalAny], name: String? = nil)
             where ActionType.InputType: RouteParametersDecodable {
-        FlintInternal.urlMappingLogger?.debug("Routing '/\(pattern)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
+        FlintInternal.urlMappingLogger?.debug("Routing '\(pattern)' in scopes \(scopes) ➡️ \(conditionalActionBinding)")
         for scope in scopes {
             let mapping = createURLMapping(named: name, for: pattern, in: scope)
             add(mapping: mapping, to: conditionalActionBinding)

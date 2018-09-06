@@ -109,7 +109,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
                 case .unsupported,
                      .restricted,
                      .denied:
-                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) cannot not have permission '\(permission)', status is: \(permissionStatus)")
+                    FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) must have permission '\(permission)', status is: \(permissionStatus)")
                     status = .notSatisfied
                 case .authorized:
                     FlintInternal.logger?.debug("Constraints evaluator on \(featureIdentifier) has permission: \(permission)")

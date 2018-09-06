@@ -18,7 +18,7 @@ public struct FeaturePermissionRequirements {
 
     /// The set of all as-yet-not-authorised-or-denied permissions the feature requires.
     /// This will *not* include permissions that are unsupported, denied or restricted
-    public var notDetermined: Set<SystemPermissionConstraint>
+    public let notDetermined: Set<SystemPermissionConstraint>
 
     /// The set of all denied permissions that the feature requires.
     /// This will only include permissions that the user has been offered to authorise and they
@@ -29,4 +29,10 @@ public struct FeaturePermissionRequirements {
     /// This will only include permissions that the user is not able to access because of parental control or
     /// device profile restrictions
     public let restricted: Set<SystemPermissionConstraint>
+    
+    /// Return the set of all permissions that are not authorized for whatever reason
+    public var allNotAuthorized: Set<SystemPermissionConstraint> {
+        let resultC = notDetermined.union(denied).union(restricted)
+        return resultC
+    }
 }
