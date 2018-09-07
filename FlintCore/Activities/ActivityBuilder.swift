@@ -173,7 +173,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     }
     
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
-    func build(_ block: (_ builder: ActivityBuilder<T>) -> Void) -> NSUserActivity? {
+    func build(_ block: (_ builder: ActivityBuilder<ActionType>) -> Void) -> NSUserActivity? {
         canAutoContinueActivity = true
         
         // Check for inputs that describe themselves by conforming to MetadataRepresentable
