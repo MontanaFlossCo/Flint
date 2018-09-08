@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ZIPFoundation
 
 /// A class for managing the debug reporting options of Flint.
 ///
