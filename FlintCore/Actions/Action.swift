@@ -90,7 +90,7 @@ public protocol Action {
     // MARK: User Activity - optional
     
     /// The activity types the action supports. This must contain at least one eligibility value for the
-    /// activity to be registered with the system, and the `ActivitiesFeature` must be available.
+    /// activity to be` registered with the system, and the `ActivitiesFeature` must be available.
     ///
     /// Eligiblity values control whether the action is also exposed for e.g. Spotlight or Handoff. If you just want Siri
     /// proactive suggestions, use `[.perform]`.
@@ -107,6 +107,10 @@ public protocol Action {
     /// Call `cancel` on the builder to veto publishing the activity at all.
     ///
     /// - see: `ActivityBuilder`
-    static func prepareActivity(_ activity: ActivityBuilder<InputType>)
+    static func prepareActivity(_ activity: ActivityBuilder<Self>)
 
+    // MARK: Siri and Intents
+
+    /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut
+    static var suggestedInvocationPhrase: String? { get }
 }

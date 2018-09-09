@@ -568,6 +568,7 @@
 		49A62C8920D2FF3B00264606 /* ActionActivityMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */; };
 		49A62C8A20D2FF3B00264606 /* ActionActivityMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */; };
 		49A62C8B20D2FF3B00264606 /* ActionActivityMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */; };
+		49A65E5220E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A65E5120E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift */; };
 		49A999FA1FF7FA6700A64E8C /* AnalyticsReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A999F91FF7FA6700A64E8C /* AnalyticsReporting.swift */; };
 		49A999FC1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A999FB1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift */; };
 		49A999FE1FF9061D00A64E8C /* LoggerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A999FD1FF9061D00A64E8C /* LoggerLevel.swift */; };
@@ -940,6 +941,7 @@
 		499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintStatus.swift; sourceTree = "<group>"; };
 		49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformIncomingActivityAction.swift; sourceTree = "<group>"; };
 		49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionActivityMappings.swift; sourceTree = "<group>"; };
+		49A65E5120E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StaticActionBinding+iOS+Extensions.swift"; sourceTree = "<group>"; };
 		49A999F91FF7FA6700A64E8C /* AnalyticsReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsReporting.swift; sourceTree = "<group>"; };
 		49A999FB1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleAnalyticsProvider.swift; sourceTree = "<group>"; };
 		49A999FD1FF9061D00A64E8C /* LoggerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerLevel.swift; sourceTree = "<group>"; };
@@ -1330,6 +1332,7 @@
 				49F2CF251FF7EB78004F16EF /* NoInput.swift */,
 				49F2CF211FF7B56B004F16EF /* NoPresenter.swift */,
 				49819EB91FC9C2310013AF55 /* StaticActionBinding.swift */,
+				49A65E5120E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift */,
 				49CF4D3820F5281C0009FFF4 /* FlintLoggable.swift */,
 			);
 			path = Actions;
@@ -2564,6 +2567,7 @@
 				49BC1C5720867C2400A7FC77 /* ActionStack.swift in Sources */,
 				49935BEF206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				49A62C8820D2FF3B00264606 /* ActionActivityMappings.swift in Sources */,
+				49A65E5220E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift in Sources */,
 				49966D8F200A63D1004C4AA0 /* AvailabilityChecker.swift in Sources */,
 				493267612142FA6B00CC88CB /* Data+Compression.swift in Sources */,
 				4932675C2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,

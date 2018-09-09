@@ -77,7 +77,7 @@ final class HandleActivityAction: Action {
         
         var result: ActionPerformOutcome?
         
-        let proxyCompletion = ProxyCompletionRequirement(proxying: completion) { outcome, completedAsync in
+        completion.addProxyCompletionHandler { outcome, asyncCompletionStatus in
             context.logs.development?.debug("userInfo perform completed: \(outcome)")
 
             let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
@@ -85,8 +85,8 @@ final class HandleActivityAction: Action {
             return resultWithForcedStackClose
         }
 
-        let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: proxyCompletion)
-        flintUsagePrecondition(proxyCompletion.verify(completionStatus), "Action returned an invalid completion status")
+        let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
+        flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
         guard !completionStatus.isCompletingAsync else {
             return completion.willCompleteAsync()
