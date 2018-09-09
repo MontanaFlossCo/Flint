@@ -16,7 +16,7 @@ import Foundation
 ///
 /// - note: This is not safe to use when using Dispatch Queues that use a `target` queue. The block will execute on
 /// the target queue, and `getSpecific` will not return the correct value
-public class SmartDispatchQueue {
+public class SmartDispatchQueue: Equatable {
     public let queue: DispatchQueue
     public let queueKey: DispatchSpecificKey<ObjectIdentifier>
     private let ownerIdentifier: ObjectIdentifier
@@ -57,5 +57,11 @@ public class SmartDispatchQueue {
         } else {
             queue.async(execute: block)
         }
+    }
+    
+    // MARK: Equatable
+    
+    public static func ==(lhs: SmartDispatchQueue, rhs: SmartDispatchQueue) -> Bool {
+        return lhs.isCurrentQueue && rhs.isCurrentQueue
     }
 }
