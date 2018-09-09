@@ -139,7 +139,10 @@ public class CompletionRequirement<T> {
     fileprivate var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
     public var completionQueue: SmartDispatchQueue? {
         willSet {
-            flintUsagePrecondition(completionQueue == nil, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
+            guard newValue != nil && completionQueue != nil else {
+                return
+            }
+            flintUsagePrecondition(completionQueue != newValue, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
         }
     }
     
