@@ -57,7 +57,7 @@ final class DoSomethingFakeAction: Action {
     
     static var activityTypes: Set<ActivityEligibility> = [.handoff, .prediction]
 
-    static func prepareActivity(_ activity: ActivityBuilder<InputType>) {
+    static func prepareActivity(_ activity: ActivityBuilder<DoSomethingFakeAction>) {
         activity.title = "Do a fake thing"
         activity.subtitle = "This will show up in Siri shortcuts on iOS 12"
         activity.requiredUserInfoKeys = ["fake"]
