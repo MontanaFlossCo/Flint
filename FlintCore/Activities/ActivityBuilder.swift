@@ -140,7 +140,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
 
         // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
         // require raising the language level to Swift 4.2 in the target.
-#if canImport(Network) && (os(iOS) || os(watchOS))
+#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
         if #available(iOS 12, watchOS 5, *) {
             activity.isEligibleForPrediction = action.activityTypes.contains(.prediction)
             // Force search eligibility as this is required for prediction too
