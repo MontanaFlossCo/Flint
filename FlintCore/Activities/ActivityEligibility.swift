@@ -27,5 +27,6 @@ public enum ActivityEligibility {
     case publicIndexing
     
     /// Allow the activity to qualify for Siri prediction
+    /// - note: If running on an operating system that does not support Siri predictions, this will have no effect.
     case prediction
 }
