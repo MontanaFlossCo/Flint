@@ -9,41 +9,45 @@
 import Foundation
 
 /// This is an warning that something needs to be addressed before shipping.
-public func flintAdvisoryNotice(_ message: String) {
-    FlintInternal.logger?.warning("🚑 \(message)")
+/// !!! TODO: This should be disabled in production builds
+public func flintAdvisoryNotice(_ message: String, file: StaticString = #file, line: UInt32 = #line) {
+    FlintInternal.logger?.warning("🚑 \(message). See \(file) line \(line)")
 }
 
 /// This is an warning that something is definitely broken and needs to be addressed. AKA Footgun prevention.
-public func flintAdvisoryPrecondition(_ expression: @autoclosure () -> Bool, _ message: String) {
+/// !!! TODO: This should be disabled in production builds
+public func flintAdvisoryPrecondition(_ expression: @autoclosure () -> Bool, _ message: String, file: StaticString = #file, line: UInt32 = #line) {
     if !expression() {
-        fatalError("🚑 \(message)")
+        fatalError("🚑 \(message). See \(file) line \(line)")
     }
 }
 
 /// AKA You are holding it wrong
-public func flintUsagePrecondition(_ expression: @autoclosure () -> Bool, _ message: String) {
+/// !!! TODO: This should be disabled in production builds
+public func flintUsagePrecondition(_ expression: @autoclosure () -> Bool, _ message: String, file: StaticString = #file, line: UInt32 = #line) {
     if !expression() {
-        fatalError("⚠️  \(message)")
+        fatalError("⚠️  \(message). See \(file) line \(line)")
     }
 }
 
-public func flintUsageError(_ message: String) -> Never {
-    fatalError("⚠️  \(message)")
+public func flintUsageError(_ message: String, file: StaticString = #file, line: UInt32 = #line) -> Never {
+    fatalError("⚠️  \(message). See \(file) line \(line)")
 }
 
 /// This is an internal bug, AKA "This should never happen"
-public func flintBugPrecondition(_ expression: @autoclosure () -> Bool, _ message: String) {
+/// !!! TODO: This should be disabled in production builds
+public func flintBugPrecondition(_ expression: @autoclosure () -> Bool, _ message: String, file: StaticString = #file, line: UInt32 = #line) {
     if !expression() {
-        fatalError("💣  \(message)")
+        fatalError("💣  \(message). See \(file) line \(line)")
     }
 }
 
 /// This is an internal bug, AKA "This should never happen"
-public func flintBug(_ message: String) -> Never {
-    fatalError("💣  \(message)")
+public func flintBug(_ message: String, file: StaticString = #file, line: UInt32 = #line) -> Never {
+    fatalError("💣  \(message). See \(file) line \(line)")
 }
 
-public func flintNotImplemented(_ message: String)  -> Never {
-    fatalError("🚧 Not implemented: \(message)")
+public func flintNotImplemented(_ message: String, file: StaticString = #file, line: UInt32 = #line)  -> Never {
+    fatalError("🚧 Not implemented: \(message). See \(file) line \(line)")
 }
 
