@@ -56,16 +56,7 @@ final class HandleActivityAction: Action {
         let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
         flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
-        guard !completionStatus.isCompletingAsync else {
-            return completion.willCompleteAsync()
-        }
-
-        guard let foundResult = result else {
-            flintBug("Proxied completion completed async but has no result")
-        }
-
-        // Complete with the actual result from the proxy
-        return completion.completedSync(foundResult)
+        return completionStatus
     }
 
     private static func performActivity(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
@@ -88,15 +79,7 @@ final class HandleActivityAction: Action {
         let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
         flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
-        guard !completionStatus.isCompletingAsync else {
-            return completion.willCompleteAsync()
-        }
-        
-        guard let foundResult = result else {
-            flintBug("Proxied completion completed async but has no result")
-        }
-        // Complete with the actual result from the proxy
-        return completion.completedSync(foundResult)
+        return completionStatus
     }
 }
 
