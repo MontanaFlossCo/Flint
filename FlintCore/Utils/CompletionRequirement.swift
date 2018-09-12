@@ -142,7 +142,7 @@ public class CompletionRequirement<T> {
             guard newValue != nil && completionQueue != nil else {
                 return
             }
-            flintUsagePrecondition(completionQueue != newValue, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
+            flintUsagePrecondition(completionQueue == newValue, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
         }
     }
     
