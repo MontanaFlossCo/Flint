@@ -8,7 +8,7 @@
 import Foundation
 
 /// Performs the action associated with the activityID and userInfo of an `NSUserActivity`
-final public class PerformIncomingActivityAction: Action {
+final public class PerformIncomingActivityAction: UIAction {
     public typealias InputType = NSUserActivity
     public typealias PresenterType = PresentationRouter
     

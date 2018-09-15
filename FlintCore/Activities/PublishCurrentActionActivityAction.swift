@@ -17,7 +17,7 @@ import CoreSpotlight
 /// when the activity is passed back to the application.
 ///
 /// Actions can customise how their activity is created by implementing the `prepare` function.
-final class PublishCurrentActionActivityAction: Action {
+final class PublishCurrentActionActivityAction: UIAction {
     typealias InputType = PublishActivityRequest
     typealias PresenterType = NoPresenter
     

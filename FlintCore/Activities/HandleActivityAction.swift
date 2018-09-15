@@ -19,7 +19,7 @@ import Foundation
 ///
 /// Approach #1 is recommended for when you don't also need a URL mapping for an action, or you are implementing
 /// a special activity such as a Siri Intent.
-final class HandleActivityAction: Action {
+final class HandleActivityAction: UIAction {
     typealias InputType = NSUserActivity
     typealias PresenterType = PresentationRouter
     
@@ -42,14 +42,11 @@ final class HandleActivityAction: Action {
             return completion.completedSync(.failureWithFeatureTermination(error: ActionPerformError.requiredFeatureNotAvailable(feature: RoutesFeature.self)))
         }
 
-        var result: ActionPerformOutcome?
-        
         // We need to proxy the completion, because for *this* action we need to indicate the action stack should close
         completion.addProxyCompletionHandler { outcome, asyncCompletionStatus in
             context.logs.development?.debug("Auto URL perform completed: \(outcome)")
 
             let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
-            result = resultWithForcedStackClose
             return resultWithForcedStackClose
         }
 
@@ -66,13 +63,10 @@ final class HandleActivityAction: Action {
             return completion.completedSync(.failureWithFeatureTermination(error: ActionPerformError.requiredFeatureNotAvailable(feature: ActivitiesFeature.self)))
         }
         
-        var result: ActionPerformOutcome?
-        
         completion.addProxyCompletionHandler { outcome, asyncCompletionStatus in
             context.logs.development?.debug("userInfo perform completed: \(outcome)")
 
             let resultWithForcedStackClose = outcome.outcomeByOverridingCloseActionStack(true)
-            result = resultWithForcedStackClose
             return resultWithForcedStackClose
         }
 

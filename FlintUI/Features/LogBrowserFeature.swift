@@ -30,7 +30,7 @@ final public class LogBrowserFeature: ConditionalFeature {
     }
 }
 
-final public class ShowLogBrowserAction: Action {
+final public class ShowLogBrowserAction: UIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     

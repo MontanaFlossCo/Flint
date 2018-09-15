@@ -60,6 +60,10 @@ public protocol Action {
     /// on the queue. Concurrency would break this.
     static var queue: DispatchQueue { get }
 
+    /// The session to use when calling `perform` on the action binding, to avoid having to be explicit.
+    /// Most actions only make sense in the context of a single session e.g. the UI or "background".
+    static var defaultSession: ActionSession? { get }
+
     /// If `true` this action will never be reported to the Timeline.
     /// This is useful for internal actions that are not explicitly triggered by the user.
     /// There is a default implementation provided that returns `false`.

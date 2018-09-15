@@ -80,7 +80,7 @@ final public class FocusFeature: ConditionalFeature {
     }
 }
 
-final public class FocusAction: Action {
+final public class FocusAction: UIAction {
     public typealias InputType = FocusArea
     public typealias PresenterType = NoPresenter
 
@@ -91,7 +91,7 @@ final public class FocusAction: Action {
     }
 }
 
-final public class DefocusAction: Action {
+final public class DefocusAction: UIAction {
     public typealias InputType = FocusArea
     public typealias PresenterType = NoPresenter
 
@@ -102,7 +102,7 @@ final public class DefocusAction: Action {
     }
 }
 
-final public class ResetFocusAction: Action {
+final public class ResetFocusAction: UIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = NoPresenter
 
