@@ -43,6 +43,13 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// The `TopicPath` to use when outputting logging for this action
     public var logTopicPath: TopicPath { return _logTopicPath! }
 
+    private var session: ActionSession {
+        guard let result = action.defaultSession else {
+            flintUsageError("You cannot call perform on action bindings directly unless the Action defines a value for defaultSession. Perhaps you mean your action to conform to UIAction, which uses the main session?")
+        }
+        return result
+    }
+    
     /// This initialiser is `internal` and must remain so to prevent misuse where static bindings could be created
     /// and directly performed even if they are only meant to be conditionally available.
     init(feature: FeatureType.Type, action: ActionType.Type) {
@@ -68,7 +75,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     public func perform(input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: presenter, completion: completion)
+        session.perform(self, input: input, presenter: presenter, completion: completion)
     }
 
     /// A convenience function to perform the action in the main `ActionSession`
@@ -85,7 +92,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
     /// A convenience function to perform the action in the main `ActionSession`, while returning information about the completion status
@@ -103,7 +110,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
                  userInitiated: Bool,
                  source: ActionSource,
                  completion: Action.Completion) -> Action.Completion.Status {
-        return ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
+        return session.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
     }
 
     /// Convenience function for creating an activity for this action with a given input.
@@ -119,14 +126,14 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
 extension StaticActionBinding where ActionType.PresenterType == NoPresenter {
     public func perform(input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), completion: completion)
+        session.perform(self, input: input, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(input: ActionType.InputType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: input, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
@@ -134,26 +141,26 @@ extension StaticActionBinding where ActionType.PresenterType == NoPresenter {
 extension StaticActionBinding where ActionType.InputType == NoInput {
     public func perform(presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: NoInput.none, presenter: presenter, completion: completion)
+        session.perform(self, input: NoInput.none, presenter: presenter, completion: completion)
     }
 
     public func perform(presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: NoInput.none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: NoInput.none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
 /// Overloads for the case where there is neither a presenter nor an input
 extension StaticActionBinding where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
     public func perform(completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
+        session.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: NoInput.none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: NoInput.none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
