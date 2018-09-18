@@ -41,7 +41,7 @@ public extension SiriIntentAction {
 
         let interaction = INInteraction(intent: intentToUse, response: nil)
         interaction.donate { error in
-            print("Donation error: \(String(describing: error))")
+            FlintInternal.logger?.error("Donation error: \(String(describing: error))")
         }
     }
 #endif

@@ -71,7 +71,9 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
                 appLink = linkCreator.appLink(to: actionRequest.actionBinding, with: validEncodable)
             } else {
                 if !(input is ActivityCodable) {
-                    flintUsageError("Input type \(type(of: input)) for action \(action.name) is not ActivityCodable, and there is no Flint.linkCreator specified (are you missing a default custom URL scheme?). It will not be possible to continue this activity later.")
+                    flintUsageError("Input type \(type(of: input)) for action \(action.name) is not ActivityCodable, and " +
+                        "there is no Flint.linkCreator specified (are you missing a default custom URL scheme?). " +
+                        "It will not be possible to continue this activity later.")
                 }
             }
         }
