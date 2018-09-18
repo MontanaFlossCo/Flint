@@ -51,7 +51,7 @@ extension String: RouteParametersCodable {
     
 }
 
-final class DoSomethingFakeAction: Action {
+final class DoSomethingFakeAction: UIAction {
     typealias InputType = String?
     typealias PresenterType = NoPresenter
     

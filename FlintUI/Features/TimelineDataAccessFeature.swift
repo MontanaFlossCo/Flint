@@ -31,7 +31,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
 
     // MARK: Actions
         
-    final public class LoadInitialResultsAction: Action {
+    final public class LoadInitialResultsAction: UIAction {
         public typealias InputType = Int
         public typealias PresenterType = TimelinePresenter
         
@@ -48,7 +48,7 @@ final public class TimelineDataAccessFeature: ConditionalFeature {
         }
     }
 
-    final public class LoadMoreResultsAction: Action {
+    final public class LoadMoreResultsAction: UIAction {
         public typealias InputType = Int
         public typealias PresenterType = TimelinePresenter
         

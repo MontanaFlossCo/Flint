@@ -31,7 +31,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
 
     // MARK: Actions
     
-    final public class LoadInitialResultsAction: Action {
+    final public class LoadInitialResultsAction: UIAction {
         public typealias InputType = Int
         public typealias PresenterType = FocusLogPresenter
         
@@ -52,7 +52,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
         }
     }
 
-    final public class LoadMoreResultsAction: Action {
+    final public class LoadMoreResultsAction: UIAction {
         public typealias InputType = Int
         public typealias PresenterType = FocusLogPresenter
         

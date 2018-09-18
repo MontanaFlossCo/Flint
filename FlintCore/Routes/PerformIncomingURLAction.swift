@@ -14,7 +14,7 @@ import Foundation
 /// Expected presenter type: PresentationRouter
 ///
 /// This will attempt to resolve the URL against the known URL routes defined on `URLMapped` features of the app.
-final public class PerformIncomingURLAction: Action {
+final public class PerformIncomingURLAction: UIAction {
     public typealias InputType = URL
     public typealias PresenterType = PresentationRouter
     
