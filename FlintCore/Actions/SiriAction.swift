@@ -15,26 +15,26 @@ import Intents
 public let intentsQueue = DispatchQueue(label: "intents-actions")
 public let intentActionSession = ActionSession(named: "Intents", userInitiatedActions: true, callerQueue: intentsQueue)
 
-protocol SiriResultPresenter {
+public protocol SiriResultPresenter {
     associatedtype ResponseType: INIntentResponse
     func showResult(response: ResponseType)
 }
 
-protocol SiriIntentAction: Action {
+public protocol SiriIntentAction: Action {
 #if canImport(Intents)
     @available(iOS 12, *)
     static func intent(for input: InputType) -> INIntent
 #endif
 }
 
-extension SiriIntentAction {
+public extension SiriIntentAction {
     static var queue: DispatchQueue { return intentsQueue }
     static var defaultSession: ActionSession? { return intentActionSession }
 }
 
-extension SiriIntentAction {
+public extension SiriIntentAction {
 #if canImport(Intents)
-    @available(iOS 12, *) 
+    @available(iOS 12, *)
     static func donateToSiri(input: InputType) {
         let intentToUse = intent(for: input)
         intentToUse.suggestedInvocationPhrase = suggestedInvocationPhrase
