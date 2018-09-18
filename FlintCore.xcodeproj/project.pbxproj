@@ -95,6 +95,8 @@
 		492B2A4420FE9A2400F4EAB0 /* CompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B2A4220FE9A1B00F4EAB0 /* CompletionRequirement.swift */; };
 		492B2A4520FE9A2500F4EAB0 /* CompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B2A4220FE9A1B00F4EAB0 /* CompletionRequirement.swift */; };
 		492B2A4620FE9A2600F4EAB0 /* CompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B2A4220FE9A1B00F4EAB0 /* CompletionRequirement.swift */; };
+		4930281E215138660042DA96 /* SiriAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* SiriAction.swift */; };
+		4930281F215138660042DA96 /* SiriAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* SiriAction.swift */; };
 		493267482142F7F200CC88CB /* FileManager+ZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493267472142F7F200CC88CB /* FileManager+ZIP.swift */; };
 		493267492142F7F200CC88CB /* FileManager+ZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493267472142F7F200CC88CB /* FileManager+ZIP.swift */; };
 		4932674A2142F7F200CC88CB /* FileManager+ZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493267472142F7F200CC88CB /* FileManager+ZIP.swift */; };
@@ -814,6 +816,7 @@
 		4929823B205ED12C00267A49 /* ActionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMetadata.swift; sourceTree = "<group>"; };
 		49298240205FCC6000267A49 /* ActionOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionOutcome.swift; sourceTree = "<group>"; };
 		492B2A4220FE9A1B00F4EAB0 /* CompletionRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirement.swift; sourceTree = "<group>"; };
+		4930281D215138660042DA96 /* SiriAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriAction.swift; sourceTree = "<group>"; };
 		493267472142F7F200CC88CB /* FileManager+ZIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+ZIP.swift"; sourceTree = "<group>"; };
 		4932674C2142F87C00CC88CB /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		493267512142FA0E00CC88CB /* Archive+Writing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Archive+Writing.swift"; sourceTree = "<group>"; };
@@ -1337,6 +1340,7 @@
 				49819EB91FC9C2310013AF55 /* StaticActionBinding.swift */,
 				49A65E5120E1026E00A9F951 /* StaticActionBinding+iOS+Extensions.swift */,
 				49CF4D3820F5281C0009FFF4 /* FlintLoggable.swift */,
+				4930281D215138660042DA96 /* SiriAction.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -2434,6 +2438,7 @@
 				496F8FBA203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
 				4978E07720408C3B001D125D /* ActionStackTracker.swift in Sources */,
 				496F8FF4203EEBDB003AB29B /* Action.swift in Sources */,
+				4930281F215138660042DA96 /* SiriAction.swift in Sources */,
 				496F8FF5203EEBDB003AB29B /* FeatureAvailability.swift in Sources */,
 				4956D5D720986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
 				4927FEF1208A3B7C00163576 /* ActivityType.swift in Sources */,
@@ -2526,6 +2531,7 @@
 				4927FEEA208A364500163576 /* PerformIncomingURLAction.swift in Sources */,
 				4921705B20D25625007D6883 /* ActivityCodable.swift in Sources */,
 				49DB923E2073B4F500F758DC /* Product.swift in Sources */,
+				4930281E215138660042DA96 /* SiriAction.swift in Sources */,
 				494F59472098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				49819EC01FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift in Sources */,
 				49966D97200A648A004C4AA0 /* DefaultAvailabilityChecker.swift in Sources */,
