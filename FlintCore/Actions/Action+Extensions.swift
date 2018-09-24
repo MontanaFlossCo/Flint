@@ -8,33 +8,6 @@
 
 import Foundation
 
-/// The protocol to which most application Action(s) should conform.
-///
-/// `Action` implementations conforming to this protocol will automatically specify that
-/// they should only be dispatched in the main `ActionSession` and that all these actions must always
-/// be called on the main queue, so they do not need to check they are on the main queue or use async dispatch.
-public protocol UIAction: Action {
-}
-
-public extension UIAction {
-    /// By default the dispatch queue that all actions are called on is `main`.
-    /// They will be called synchronously if the caller is already on the same queue, and asynchronously
-    /// only if the caller is not already on the same queue.
-    ///
-    /// - see: `ActionSession.callerQueue` because that determines which queue the action can be performed from,
-    /// and the session will prevent calls from other queues. This does not have to be the same as the Action's queue.
-    static var queue: DispatchQueue {
-        return .main
-    }
-
-    /// Set the default session to "main".
-    /// You can override this in your conforming types if you want them to use a different namespace for logging and
-    /// timelines.
-    static var defaultSession: ActionSession? {
-        return ActionSession.main
-    }
-}
-
 /// Default implementation of the action requirements, to ease the out-of-box experience.
 public extension Action {
 
