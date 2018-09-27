@@ -338,61 +338,75 @@ final public class Flint {
     /// - return: The routing result indicating whether or not an action was found and performed
     public static func continueActivity(activity: NSUserActivity, with presentationRouter: PresentationRouter) -> URLRoutingResult {
         requiresSetup()
-        if let request = ActivitiesFeature.handleActivity.request() {
-            /// We know this will block on this main thread so we can "wait" for the outcome
-            var performOutcome: ActionOutcome?
-            
-            var source: ActionSource = .continueActivity(type: .other)
-            switch activity.activityType {
-                case NSUserActivityTypeBrowsingWeb: source = .continueActivity(type: .browsingWeb)
+        var performOutcome: ActionOutcome?
+
+        // Work out what kind of activity it is and use the appropriate kind of action.
+        
+        var wrappedIntent: FlintSiriIntentWrapper?
+        var source: ActionSource = .continueActivity(type: .other)
+        
+        switch activity.activityType {
+            case NSUserActivityTypeBrowsingWeb:
+                source = .continueActivity(type: .browsingWeb)
 #if os(iOS) || os(macOS)
-                case CSQueryContinuationActionType: source = .continueActivity(type: .search)
+            case CSQueryContinuationActionType:
+                source = .continueActivity(type: .search)
 #endif
-                default:
+            default:
 #if os(iOS) || os(macOS)
-                    // Check for a Siri intent
+                // Check for a Siri intent
 #if canImport(Intents)
-                    if let _ = activity.interaction {
-                        source = .continueActivity(type: .siri)
-                    }
+                if let interaction = activity.interaction {
+                    source = .continueActivity(type: .siri)
+                    wrappedIntent = FlintSiriIntentWrapper(intent: interaction.intent)
+                }
 #endif
 #endif
 
 #if canImport(ClassKit)
-                    if #available(iOS 11.4, *) {
-                        // This may not be linked in targets if the ClassKit framework is not linked,
-                        // so we have to manually check
-                        if activity.responds(to: #selector(getter: NSUserActivity.isClassKitDeepLink)) {
-                            // Check for a ClassKit activity
-                            if activity.isClassKitDeepLink {
-                                source = .continueActivity(type: .classKit)
-                            }
+                if #available(iOS 11.4, *) {
+                    // This may not be linked in targets if the ClassKit framework is not linked,
+                    // so we have to manually check
+                    if activity.responds(to: #selector(getter: NSUserActivity.isClassKitDeepLink)) {
+                        // Check for a ClassKit activity
+                        if activity.isClassKitDeepLink {
+                            source = .continueActivity(type: .classKit)
                         }
                     }
+                }
 #endif
+      
+      }
+        if let intent = wrappedIntent {
+            if let intentActionRequest = SiriIntentsFeature.handleIntent.request() {
+                intentActionRequest.perform(input: intent, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
+                    FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
+                    performOutcome = outcome
+                }
             }
-            
+        } else if let request = ActivitiesFeature.handleActivity.request() {
             request.perform(input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
             }
-            /// !!! TODO: How to ensure blocking completion?
-            guard let outcome = performOutcome else {
-                flintUsageError("Action's perform unexpectedly happened asynchronously")
-            }
-            switch outcome {
-                case .success:
-                    return .success
-                case .failure(let error):
-                    switch error {
-                        case PerformIncomingURLAction.URLActionError.noURLMappingFound:
-                            return .noMappingFound
-                        default:
-                            return .failure(error: error)
-                    }
-            }
         } else {
             return .featureDisabled
+        }
+
+        /// !!! TODO: How to ensure blocking completion?
+        guard let outcome = performOutcome else {
+            flintUsageError("Action's perform unexpectedly happened asynchronously")
+        }
+        switch outcome {
+            case .success:
+                return .success
+            case .failure(let error):
+                switch error {
+                    case PerformIncomingURLAction.URLActionError.noURLMappingFound:
+                        return .noMappingFound
+                    default:
+                        return .failure(error: error)
+                }
         }
     }
 
