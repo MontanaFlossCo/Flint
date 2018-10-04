@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Intents)
+import Intents
+#endif
 
 /// Actions that can be performed conform to this protocol to define their inputs, presenter and logic.
 ///
@@ -120,4 +123,9 @@ public protocol Action {
     ///
     /// - note: This value is only used if your `activityTypes` include `.prediction`.
     static var suggestedInvocationPhrase: String? { get }
+
+#if canImport(Intents)
+    @available(iOS 12, *)
+    static func intent(for input: InputType) -> INIntent?
+#endif
 }

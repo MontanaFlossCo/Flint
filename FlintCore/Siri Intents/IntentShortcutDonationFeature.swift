@@ -43,18 +43,28 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
 /// This needs to detect actions performed that match shortcut donation conventions and donate them
 class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) where FeatureType : FeatureDefinition, ActionType : Action {
-        
     }
     
     func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) where FeatureType : FeatureDefinition, ActionType : Action {
-    
+        if #available(iOS 12.0, *) {
+            guard let intent = request.actionBinding.action.intent(for: request.context.input) else {
+                return
+            }
+            if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
+                actionRequest.perform(input: FlintIntentWrapper(intent: intent))
+            }
+        }
     }
 }
 
 final class DonateShortcutIntentAction: UIAction {
+    typealias InputType = FlintIntentWrapper
     let description = "Donate a shortcut for the specified action, if desired"
     
-    static func perform(context: ActionContext<NoInput>, presenter: Void, completion: Completion) -> Completion.Status {
+    static func perform(context: ActionContext<FlintIntentWrapper>, presenter: Void, completion: Completion) -> Completion.Status {
+        if #available(iOS 12.0, *) {
+            donateToSiri(intent: context.input.intent)
+        }
         return completion.completedSync(.success)
     }
 }

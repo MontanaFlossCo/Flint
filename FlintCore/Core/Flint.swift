@@ -342,7 +342,7 @@ final public class Flint {
 
         // Work out what kind of activity it is and use the appropriate kind of action.
         
-        var wrappedIntent: FlintSiriIntentWrapper?
+        var wrappedIntent: FlintIntentWrapper?
         var source: ActionSource = .continueActivity(type: .other)
         
         switch activity.activityType {
@@ -358,7 +358,7 @@ final public class Flint {
 #if canImport(Intents)
                 if let interaction = activity.interaction {
                     source = .continueActivity(type: .siri)
-                    wrappedIntent = FlintSiriIntentWrapper(intent: interaction.intent)
+                    wrappedIntent = FlintIntentWrapper(intent: interaction.intent)
                 }
 #endif
 #endif
@@ -376,7 +376,8 @@ final public class Flint {
                 }
 #endif
       
-      }
+        }
+        /*
         if let intent = wrappedIntent {
             if let intentActionRequest = SiriIntentsFeature.handleIntent.request() {
                 intentActionRequest.perform(input: intent, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
@@ -384,7 +385,9 @@ final public class Flint {
                     performOutcome = outcome
                 }
             }
-        } else if let request = ActivitiesFeature.handleActivity.request() {
+        } else
+        */
+        if let request = ActivitiesFeature.handleActivity.request() {
             request.perform(input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
@@ -439,6 +442,25 @@ final public class Flint {
                 }
                 
                 featureMetadata.setActionURLMappings(mappings)
+            }
+        }
+    }
+
+    private static func _registerIntentMappings(feature: FeatureDefinition.Type) {
+        if let urlMappedSelf = feature as? IntentMapped.Type {
+            FlintInternal.logger?.debug("Registering URL mappings for: \(feature)")
+
+            let builder = DefaultIntentMappingsBuilder()
+            /// Force the static urlMappings to be evaluated
+            urlMappedSelf.intentMappings(intents: builder)
+
+            let mappings = builder.mappings
+            metadataAccessQueue.sync {
+                guard let featureMetadata = metadata(for: feature) else {
+                    flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                }
+                // !!! TODO
+//                featureMetadata.setIntentMappings(mappings)
             }
         }
     }

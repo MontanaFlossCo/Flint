@@ -7,8 +7,11 @@
 //
 
 import Foundation
+#if canImport(Intents)
+import Intents
+#endif
 
-/// Default implementation of the action requirements, to ease the out-of-box experience.
+/// Default implementation of the standard action requirements, to ease the out-of-box experience.
 public extension Action {
 
     /// The default naming algorithm is to use the action type's name tokenized on CamelCaseBoundaries and with `Action`
@@ -32,9 +35,10 @@ public extension Action {
     static var hideFromTimeline: Bool {
         return false
     }
+}
 
-    // MARK: Analytics
-
+/// Default implementation of the analytics requirements, to ease the out-of-box experience.
+public extension Action {
     /// Default is to supply no analytics ID and no analytics event will be emitted for these actions
     static var analyticsID: String? {
         return nil
@@ -44,9 +48,10 @@ public extension Action {
     static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]? {
         return nil
     }
+}
 
-    // MARK: Activities (automatic NSUserActivity)
-    
+/// Default implementation of the activities requirements, to ease the out-of-box experience.
+public extension Action {
     /// By default there are no activity types, so no `NSUserActivity` will be emitted.
     static var activityTypes: Set<ActivityEligibility> {
         return []
@@ -57,10 +62,40 @@ public extension Action {
     /// Provide your own implementation if you need to customize the `NSUserActivity` for an Action.
     static func prepareActivity(_ activity: ActivityBuilder<Self>) {        
     }
+}
 
-    // MARK: Siri integrations
-    
+/// Default implementation of the Siri and Intents requirements, to ease the out-of-box experience.
+public extension Action {
     static var suggestedInvocationPhrase: String? {
         return nil
     }
+
+#if canImport(Intents)
+    @available(iOS 12, *)
+    static func intent(for input: InputType) -> INIntent?
+    {
+        return nil
+    }
+
+    /// Donate a a Siri Intent interaction to the shortcuts subsystem, for the given input to the action.
+    @available(iOS 12, *)
+    static func donateToSiri(input: InputType) {
+        guard let intentToUse = intent(for: input) else {
+            return
+        }
+        donateToSiri(intent: intentToUse)
+    }
+        
+    @available(iOS 12, *)
+    static func donateToSiri(intent: INIntent) {
+        if intent.suggestedInvocationPhrase == nil {
+            intent.suggestedInvocationPhrase = suggestedInvocationPhrase
+        }
+        
+        let interaction = INInteraction(intent: intent, response: nil)
+        interaction.donate { error in
+            FlintInternal.logger?.error("Donation error: \(String(describing: error))")
+        }
+    }
+#endif
 }
