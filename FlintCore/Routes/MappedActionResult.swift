@@ -1,5 +1,5 @@
 //
-//  URLRoutingResult.swift
+//  ActionRoutingResult.swift
 //  FlintCore-iOS
 //
 //  Created by Marc Palmer on 20/04/2018.
@@ -8,21 +8,24 @@
 
 import Foundation
 
-/// Result type for functions that attempt to perform actions via URLs.
-public enum URLRoutingResult: Equatable {
-    /// The URL routing was resolved and the action performed, reporting success
+/// Result type for functions that attempt to perform actions that are mapped either from URLs or activitys or Intents.
+public enum MappedActionResult: Equatable {
+    /// The mapping was resolved and the action performed, reporting success
     case success
 
-    /// The URL routing was resolved and the action failed
+    /// The mapping was resolved and the action is being performed asynchronously
+    case completingAsync
+
+    /// The mapping was resolved but the action failed
     case failure(error: Error?)
     
-    /// The URL routing failed, and did not resolve to a declared route
+    /// The mapping failed, and did not resolve to an action
     case noMappingFound
     
     /// The Routes feature is disabled so the routing was not performed
     case featureDisabled
     
-    public static func ==(lhs: URLRoutingResult, rhs: URLRoutingResult) -> Bool {
+    public static func ==(lhs: MappedActionResult, rhs: MappedActionResult) -> Bool {
         switch (lhs, rhs) {
             case (.success, .success),
                  (.noMappingFound, .noMappingFound),

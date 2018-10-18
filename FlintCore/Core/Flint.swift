@@ -296,7 +296,7 @@ final public class Flint {
     /// - param url: The URL that may point to an action in the app.
     /// - param presentationRouter: The object that will return the correct presenter for the router
     /// - return: The routing result indicating whether or not an action was found and performed
-    public static func open(url: URL, with presentationRouter: PresentationRouter) -> URLRoutingResult {
+    public static func open(url: URL, with presentationRouter: PresentationRouter) -> MappedActionResult {
         requiresSetup()
         if let request = RoutesFeature.performIncomingURL.request() {
             var performOutcome: ActionOutcome?
@@ -304,6 +304,7 @@ final public class Flint {
                 FlintInternal.logger?.debug("Activity auto URL result: \(outcome)")
                 performOutcome = outcome
             }
+            /// !!! TODO: Replace this with CompletionStatus checks
             guard let outcome = performOutcome else {
                 flintUsageError("Perform URL unexpectedly happened asynchronously")
             }
@@ -336,13 +337,12 @@ final public class Flint {
     /// - param activity: The activity pass to the application
     /// - param presentationRouter: The object that will return the correct presenter for the router
     /// - return: The routing result indicating whether or not an action was found and performed
-    public static func continueActivity(activity: NSUserActivity, with presentationRouter: PresentationRouter) -> URLRoutingResult {
+    public static func continueActivity(activity: NSUserActivity, with presentationRouter: PresentationRouter) -> MappedActionResult {
         requiresSetup()
         var performOutcome: ActionOutcome?
 
         // Work out what kind of activity it is and use the appropriate kind of action.
         
-        var wrappedIntent: FlintIntentWrapper?
         var source: ActionSource = .continueActivity(type: .other)
         
         switch activity.activityType {
@@ -357,8 +357,7 @@ final public class Flint {
                 // Check for a Siri intent
 #if canImport(Intents)
                 if let interaction = activity.interaction {
-                    source = .continueActivity(type: .siri)
-                    wrappedIntent = FlintIntentWrapper(intent: interaction.intent)
+                    source = .continueActivity(type: .siri(interaction: interaction))
                 }
 #endif
 #endif
@@ -375,18 +374,8 @@ final public class Flint {
                     }
                 }
 #endif
-      
         }
-        /*
-        if let intent = wrappedIntent {
-            if let intentActionRequest = SiriIntentsFeature.handleIntent.request() {
-                intentActionRequest.perform(input: intent, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
-                    FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
-                    performOutcome = outcome
-                }
-            }
-        } else
-        */
+
         if let request = ActivitiesFeature.handleActivity.request() {
             request.perform(input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
@@ -396,7 +385,7 @@ final public class Flint {
             return .featureDisabled
         }
 
-        /// !!! TODO: How to ensure blocking completion?
+        /// !!! TODO: This is unsafe, change to CompletionStatus and assert sync completion
         guard let outcome = performOutcome else {
             flintUsageError("Action's perform unexpectedly happened asynchronously")
         }
@@ -404,6 +393,43 @@ final public class Flint {
             case .success:
                 return .success
             case .failure(let error):
+                switch error {
+                    case PerformIncomingURLAction.URLActionError.noURLMappingFound:
+                        return .noMappingFound
+                    default:
+                        return .failure(error: error)
+                }
+        }
+    }
+    
+    public static func performIntentAction(intent: INIntent, presenter: IntentResultPresenter) -> MappedActionResult {
+        guard let request = SiriIntentsFeature.handleIntent.request() else {
+            return .featureDisabled
+        }
+        /// !!! TODO: Do we need to force that this is a synchronous perform? Probably not so we need
+        /// a result that indicates it is pending - intents actions might process asynchronously
+        let intentWrapper = FlintIntentWrapper(intent: intent)
+        
+        var syncOutcome: ActionPerformOutcome?
+        let completion = Action.Completion { (outcome, wasAsync) in
+            FlintInternal.logger?.debug("Intent perform outcome: \(outcome) wasAsync: \(wasAsync)");
+            syncOutcome = outcome
+        }
+        let status: Action.Completion.Status = request.perform(input: intentWrapper, presenter: presenter, userInitiated: true, source: .intent, completion: completion)
+        if status.isCompletingAsync {
+            return .completingAsync
+        }
+        
+        guard let outcome = syncOutcome else {
+            flintBug("We should have a sync outcome by now");
+        }
+        
+        switch outcome {
+            case .success,
+                 .successWithFeatureTermination:
+                return .success
+            case .failure(let error),
+                 .failureWithFeatureTermination(let error):
                 switch error {
                     case PerformIncomingURLAction.URLActionError.noURLMappingFound:
                         return .noMappingFound
@@ -447,14 +473,12 @@ final public class Flint {
     }
 
     private static func _registerIntentMappings(feature: FeatureDefinition.Type) {
-        if let urlMappedSelf = feature as? IntentMapped.Type {
+        if let intentMappedSelf = feature as? IntentMapped.Type {
             FlintInternal.logger?.debug("Registering URL mappings for: \(feature)")
 
-            let builder = DefaultIntentMappingsBuilder()
-            /// Force the static urlMappings to be evaluated
-            urlMappedSelf.intentMappings(intents: builder)
+            /// Force the static intentMappings to be evaluated
+            let mappings = intentMappedSelf.collectIntentMappings()
 
-            let mappings = builder.mappings
             metadataAccessQueue.sync {
                 guard let featureMetadata = metadata(for: feature) else {
                     flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")

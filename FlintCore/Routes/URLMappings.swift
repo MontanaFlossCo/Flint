@@ -9,7 +9,7 @@
 import Foundation
 
 /// A simple representation of the supported `URLMapping`(s) for actions.
-/// This is produced by the `URLMappingsBuilder`.
+/// This is produced by the `URLMappingsBuilder`, and used to collect all the mappings for the app.
 public class URLMappings {
     private (set) var mappings = [(String, URLMapping)]()
 
