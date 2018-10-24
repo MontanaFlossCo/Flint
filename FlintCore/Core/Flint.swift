@@ -483,8 +483,7 @@ final public class Flint {
                 guard let featureMetadata = metadata(for: feature) else {
                     flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
                 }
-                // !!! TODO
-//                featureMetadata.setIntentMappings(mappings)
+                featureMetadata.setIntentMappings(mappings)
             }
         }
     }

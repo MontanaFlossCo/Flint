@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49095409218078B6009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
+		4909540A218078BC009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
 		490A21D7205B034F003E1D00 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4977DC7B205AECB500DAA0C8 /* ZIPFoundation.framework */; };
 		490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
@@ -1987,6 +1989,7 @@
 				49FC45FE20A46F1900679F97 /* ActionContext.swift in Sources */,
 				496F8F5A203EEBB1003AB29B /* DefaultLoggerFactory.swift in Sources */,
 				496F8F56203EEBB1003AB29B /* AggregatingLoggerOutput.swift in Sources */,
+				49095409218078B6009A88D9 /* IntentAction.swift in Sources */,
 				4980004D20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC74205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FD5203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
@@ -2183,6 +2186,7 @@
 				49FC45FF20A46F1A00679F97 /* ActionContext.swift in Sources */,
 				496F8F69203EEBB2003AB29B /* DefaultLoggerFactory.swift in Sources */,
 				496F8F65203EEBB2003AB29B /* AggregatingLoggerOutput.swift in Sources */,
+				4909540A218078BC009A88D9 /* IntentAction.swift in Sources */,
 				4980004E20B32CF100D68321 /* URLPattern.swift in Sources */,
 				4977DC75205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				496F8FEA203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,

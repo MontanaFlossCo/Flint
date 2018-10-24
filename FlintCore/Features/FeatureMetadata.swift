@@ -44,18 +44,18 @@ public class FeatureMetadata: Hashable, Equatable {
             guard let action = firstFound else {
                 flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
             }
-            action.add(mapping)
+            action.add(urlMapping: mapping)
         }
     }
     
     func setIntentMappings(_ mappings: IntentMappings) {
-//        for (actionTypeName, mapping) in mappings.mappings {
-//            let firstFound = actions.first { return $0.typeName == actionTypeName }
-//            guard let action = firstFound else {
-//                flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
-//            }
-//            action.add(mapping)
-//        }
+        for (actionTypeName, mapping) in mappings.mappings {
+            let firstFound = actions.first { return $0.typeName == actionTypeName }
+            guard let action = firstFound else {
+                flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
+            }
+            action.add(intentMapping: mapping)
+        }
     }
     
     func _bind<T>(_ action: T.Type, publish: Bool) where T: Action {

@@ -22,6 +22,7 @@ public class ActionMetadata {
     public let analyticsID: String?
     public let activityTypes: Set<ActivityEligibility>
     public private(set) var urlMappings = [String]()
+    public private(set) var intentMappings = [String]()
 
     init<T>(_ action: T.Type) where T: Action {
         typeName = String(reflecting: action)
@@ -33,7 +34,11 @@ public class ActionMetadata {
         activityTypes = action.activityTypes
     }
     
-    func add(_ urlMapping: URLMapping) {
+    func add(urlMapping: URLMapping) {
         urlMappings.append(urlMapping.debugDescription)
+    }
+
+    func add(intentMapping: IntentMapping) {
+        intentMappings.append(String(describing: intentMapping.intentType))
     }
 }

@@ -11,7 +11,15 @@ import Foundation
 import Intents
 #endif
 
-extension INIntent: FlintLoggable {
+#if canImport(Intents)
+public typealias FlintIntent = INIntent
+#else
+public class FalseIntent {
+}
+public typealias FlintIntent = FalseIntent
+#endif
+
+extension FlintIntent: FlintLoggable {
 
 }
 
@@ -19,35 +27,37 @@ public protocol IntentMappingsBuilder {
     associatedtype FeatureType: FeatureDefinition
     
     // Declare that incoming continued intents of this type must be forward to this action
-    func forward<ActionType>(intentType: INIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: INIntent, ActionType.PresenterType: IntentResultPresenter
+    func forward<ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter
 }
 
 public class DefaultIntentMappingsBuilder<FeatureType>: IntentMappingsBuilder where FeatureType: FeatureDefinition {
     var mappings = IntentMappings()
     
-    public func forward<ActionType>(intentType: INIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: INIntent, ActionType.PresenterType: IntentResultPresenter {
+    public func forward<ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter {
         mappings.forward(intentType, to: actionBinding)
     }
 }
 
-public protocol IntentMapped where Self: FeatureDefinition {
+public protocol IntentMapped : FeatureDefinition {
     static func intentMappings<BuilderType>(intents: BuilderType) where BuilderType: IntentMappingsBuilder, BuilderType.FeatureType == Self
 }
 
-public typealias LoggableIntent = INIntent & FlintLoggable
+public typealias LoggableIntent = FlintIntent & FlintLoggable
 
-public typealias IntentActionExecutor = (_ input: INIntent, _ presenter: IntentResultPresenter, _ completion: Action.Completion) -> Action.Completion.Status
+public typealias IntentActionExecutor = (_ input: FlintIntent, _ presenter: IntentResultPresenter, _ completion: Action.Completion) -> Action.Completion.Status
 
-struct IntentActionMapping {
-    let executorProxy: (_ intent: INIntent, _ presenter: IntentResultPresenter, _ completion: Action.Completion) -> Action.Completion.Status
+struct IntentMapping {
+    let intentType: FlintIntent.Type
+    let executorProxy: (_ intent: FlintIntent, _ presenter: IntentResultPresenter, _ completion: Action.Completion) -> Action.Completion.Status
     
-    init(executor: @escaping IntentActionExecutor) {
-        executorProxy = { (input: INIntent, presenter: IntentResultPresenter, completion: Action.Completion) -> Action.Completion.Status in
+    init(intentType: FlintIntent.Type, executor: @escaping IntentActionExecutor) {
+        self.intentType = intentType
+        executorProxy = { (input: FlintIntent, presenter: IntentResultPresenter, completion: Action.Completion) -> Action.Completion.Status in
             executor(input, presenter, completion)
         }
     }
 
-    func performAction(for intent: INIntent, presenter: IntentResultPresenter, completion: Action.Completion) -> Action.Completion.Status {
+    func performAction(for intent: FlintIntent, presenter: IntentResultPresenter, completion: Action.Completion) -> Action.Completion.Status {
         return executorProxy(intent, presenter, completion)
     }
 }
@@ -55,9 +65,9 @@ struct IntentActionMapping {
 class IntentMappings {
     static let instance = IntentMappings()
     
-    var mappings: [ObjectIdentifier:IntentActionMapping] = [:]
+    var mappings: [String:IntentMapping] = [:]
     
-    func forward<FeatureType, ActionType>(_ intentType: INIntent.Type, to binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: LoggableIntent, ActionType.PresenterType: IntentResultPresenter {
+    func forward<FeatureType, ActionType>(_ intentType: FlintIntent.Type, to binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: LoggableIntent, ActionType.PresenterType: IntentResultPresenter {
         let executor: IntentActionExecutor = { input, presenter, completion in
             guard let intentInput = input as? ActionType.InputType else {
                 flintBug("Input passed to intent executor is not the expected type \(ActionType.InputType.self), it was \(type(of: input))")
@@ -71,11 +81,11 @@ class IntentMappings {
                                    source: .intent,
                                    completion: completion)
         }
-        mappings[ObjectIdentifier(intentType)] = IntentActionMapping(executor: executor)
+        mappings[String(describing: intentType)] = IntentMapping(intentType: intentType, executor: executor)
     }
     
-    func mapping(for intentType: INIntent.Type) -> IntentActionMapping? {
-        return mappings[ObjectIdentifier(intentType)]
+    func mapping(for intentType: FlintIntent.Type) -> IntentMapping? {
+        return mappings[String(describing: intentType)]
     }
 }
 
