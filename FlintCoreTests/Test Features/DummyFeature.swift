@@ -22,7 +22,7 @@ final class DummyStaticFeature: Feature {
     }
 }
 
-final class DummyAction: Action {
+final class DummyAction: UIAction {
     typealias InputType = NoInput
     typealias PresenterType = NoPresenter
     

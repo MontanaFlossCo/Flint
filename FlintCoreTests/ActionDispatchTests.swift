@@ -53,7 +53,7 @@ fileprivate protocol AsyncTestPresenter {
     func asyncActionWasCalled()
 }
 
-fileprivate final class AsyncTestAction: Action {
+fileprivate final class AsyncTestAction: UIAction {
     typealias PresenterType = AsyncTestPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: AsyncTestPresenter, completion: Completion) -> Completion.Status {

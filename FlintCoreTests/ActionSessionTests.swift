@@ -41,7 +41,7 @@ fileprivate protocol Action1Presenter: Action2Presenter {
     func action1WasCalled()
 }
 
-fileprivate final class TestAction1: Action {
+fileprivate final class TestAction1: UIAction {
     typealias PresenterType = Action1Presenter
 
     static func perform(context: ActionContext<NoInput>, presenter: Action1Presenter, completion: Completion) -> Completion.Status {
@@ -68,7 +68,7 @@ fileprivate final class TestAction1: Action {
     }
 }
 
-fileprivate final class TestAction2: Action {
+fileprivate final class TestAction2: UIAction {
     typealias PresenterType = Action2Presenter
 
     static func perform(context: ActionContext<NoInput>, presenter: Action2Presenter, completion: Completion) -> Completion.Status {
