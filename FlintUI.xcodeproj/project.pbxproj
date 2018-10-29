@@ -14,9 +14,6 @@
 		490495972060304B00A57991 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 490495952060304B00A57991 /* LaunchScreen.storyboard */; };
 		49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; };
 		49089568208F471C0022E0A7 /* FlintUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 498CB40A203ECDCB0072E544 /* FlintUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089574208F48060022E0A7 /* ZIPFoundation.framework */; };
-		49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; };
-		49089578208F48B20022E0A7 /* ZIPFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089576208F48B10022E0A7 /* ZIPFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; };
 		4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49089579208F48CA0022E0A7 /* FlintCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4947302620435D6A00E483D1 /* ActionStackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947302520435D6A00E483D1 /* ActionStackListViewController.swift */; };
@@ -60,7 +57,6 @@
 			files = (
 				4908957B208F48CA0022E0A7 /* FlintCore.framework in Embed Frameworks */,
 				49089568208F471C0022E0A7 /* FlintUI.framework in Embed Frameworks */,
-				49089578208F48B20022E0A7 /* ZIPFoundation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,7 +109,6 @@
 			files = (
 				4908957A208F48CA0022E0A7 /* FlintCore.framework in Frameworks */,
 				49089567208F471C0022E0A7 /* FlintUI.framework in Frameworks */,
-				49089577208F48B20022E0A7 /* ZIPFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +117,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				497BFF2020C7F55300E70157 /* FlintCore.framework in Frameworks */,
-				49089575208F48060022E0A7 /* ZIPFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
