@@ -29,7 +29,7 @@ public protocol IntentResultPresenter {
     func showResult(response: FlintIntentResponse)
 }
 
-/// Actions that can be represented as a Siri Intent must conform to this protocol.
+/// Actions that implement a Siri Intent must conform to this protocol.
 public protocol IntentAction: Action {
 }
 

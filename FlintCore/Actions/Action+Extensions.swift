@@ -85,9 +85,9 @@ public extension Action {
         }
         donateToSiri(intent: intentToUse)
     }
-        
+    
     @available(iOS 12, *)
-    public static func donateToSiri(intent: INIntent) {
+    internal static func donateToSiri(intent: INIntent) {
         if intent.suggestedInvocationPhrase == nil {
             intent.suggestedInvocationPhrase = suggestedInvocationPhrase
         }

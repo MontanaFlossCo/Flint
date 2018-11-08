@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Intents)
+import Intents
+#endif
 
 /// Actions that are performed in the main session and on the main dispatch queue should conform to this 
 public protocol UIAction: Action {
