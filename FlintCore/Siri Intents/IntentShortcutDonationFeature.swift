@@ -11,6 +11,9 @@ import Foundation
 import Intents
 #endif
 
+/// The IntentShortcutDonation feature will automatically register shortcuts for actions
+/// that support intents. Any action that returns a non-nil intent for a given input
+/// will be automatically registered.
 public final class IntentShortcutDonationFeature: ConditionalFeature {
     public static var description: String = "Automatic donation of Siri Intents when actions are performed"
 
@@ -22,7 +25,7 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
     }
     
     /// Set this to `false` to disable automatic intent donation
-#if os(iOS) || os(watchOS) || os(macOS)
+#if os(iOS) || os(watchOS)
     public static var isEnabled: Bool? = true
 #else
     public static var isEnabled: Bool? = false

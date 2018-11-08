@@ -66,20 +66,20 @@ public extension Action {
 
 /// Default implementation of the Siri and Intents requirements, to ease the out-of-box experience.
 public extension Action {
-    static var suggestedInvocationPhrase: String? {
+    public static var suggestedInvocationPhrase: String? {
         return nil
     }
 
 #if canImport(Intents)
     @available(iOS 12, *)
-    static func intent(for input: InputType) -> INIntent?
+    public static func intent(for input: InputType) -> INIntent?
     {
         return nil
     }
 
     /// Donate a a Siri Intent interaction to the shortcuts subsystem, for the given input to the action.
     @available(iOS 12, *)
-    static func donateToSiri(input: InputType) {
+    public static func donateToSiri(input: InputType) {
         guard let intentToUse = intent(for: input) else {
             return
         }
@@ -87,7 +87,7 @@ public extension Action {
     }
         
     @available(iOS 12, *)
-    static func donateToSiri(intent: INIntent) {
+    public static func donateToSiri(intent: INIntent) {
         if intent.suggestedInvocationPhrase == nil {
             intent.suggestedInvocationPhrase = suggestedInvocationPhrase
         }
