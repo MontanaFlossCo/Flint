@@ -28,7 +28,7 @@ import Intents
 #endif
 
 
-/// A builder used to set required properties
+/// A builder used to set required properties on an `NSUserActivity`
 public class ActivityBuilder<ActionType> where ActionType: Action {
     /// This provides access to the input value for this activity
     public let input: ActionType.InputType

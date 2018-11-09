@@ -606,6 +606,7 @@
 		49CC662C21232FFD0042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
 		49CC662E212330000042489F /* PermissionAuthorisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */; };
 		49CC6630212332820042489F /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CC662F212332810042489F /* EventKit.framework */; };
+		49CCC96A2195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCC9692195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift */; };
 		49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */; };
 		49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */; };
 		49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -962,6 +963,7 @@
 		49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicPath+Extensions.swift"; sourceTree = "<group>"; };
 		49CC662721232FAD0042489F /* PermissionAuthorisationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAuthorisationTests.swift; sourceTree = "<group>"; };
 		49CC662F212332810042489F /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		49CCC9692195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConditionalActionRequest+iOS+Extensions.swift"; sourceTree = "<group>"; };
 		49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CCF0AD1F8BB1B200F7020E /* FlintCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore.h; sourceTree = "<group>"; };
 		49CCF0AE1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1261,6 +1263,7 @@
 				49935BCB206B901800CB2B5D /* ConditionalActionRequest.swift */,
 				4956D5D8209895C2002A2A35 /* UserFeatureTogglesObserver.swift */,
 				4998079E213419ED00DACFAA /* ActionPerformError.swift */,
+				49CCC9692195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift */,
 			);
 			path = "Conditional Features";
 			sourceTree = "<group>";
@@ -2533,6 +2536,7 @@
 				49839CED2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				494F59152098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				495576DB20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
+				49CCC96A2195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift in Sources */,
 				4978F0C7210399BC00C3B259 /* ContextualLoggers.swift in Sources */,
 				4956D5D9209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4927FEEE208A3B6F00163576 /* ActivityType.swift in Sources */,

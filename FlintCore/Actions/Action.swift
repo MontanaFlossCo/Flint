@@ -115,6 +115,9 @@ public protocol Action {
 
     // MARK: Siri and Intents
 
-    /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut
+    /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut or registering an `NSUserActivity` for
+    /// this action.
+    ///
+    /// - note: This value is only used if your `activityTypes` include `.prediction`.
     static var suggestedInvocationPhrase: String? { get }
 }

@@ -18,18 +18,26 @@ import IntentsUI
 #if canImport(Network) && os(iOS)
 extension StaticActionBinding {
 
+    /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the action represented.
+    /// by this action binding.
+    ///
+    /// - note: Currently only actions that support NSUserActivity by opting in with `activityEligibility` are supported.
+    ///
+    /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
+    /// - param presenter: The `UIViewController` to use to present the view controller
     @available(iOS 12, *)
     public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
         guard let activity = ActionActivityMappings.createActivity(for: self, with: input, appLink: nil) else {
-            fatalError("No NSUserActivity was created for \(self)")
+            flintUsageError("The action \(self.action) on feature \(self.feature) did not return an activity for the input \(input)")
         }
         let shortcut = INShortcut(userActivity: activity)
         AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
     }
 }
 
+/// Internal type to handle delegation of the Add Voice Shortcut UI.
 @available(iOS 12, *)
-@objc private class AddVoiceShortcutCoordinator: NSObject, INUIAddVoiceShortcutViewControllerDelegate {
+@objc internal class AddVoiceShortcutCoordinator: NSObject, INUIAddVoiceShortcutViewControllerDelegate {
     static let shared = AddVoiceShortcutCoordinator()
     
     var addVoiceShortcutViewController: INUIAddVoiceShortcutViewController?
