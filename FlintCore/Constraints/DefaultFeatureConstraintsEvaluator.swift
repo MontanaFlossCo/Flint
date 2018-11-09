@@ -18,7 +18,7 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     var userToggleEvaluator: FeaturePreconditionConstraintEvaluator?
     let permissionChecker: SystemPermissionChecker
     lazy var accessQueue = {
-        return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.DefaultFeatureConstraintsEvaluator"), owner: self)
+        return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.DefaultFeatureConstraintsEvaluator"))
     }()
     
     public init(permissionChecker: SystemPermissionChecker, purchaseTracker: PurchaseTracker?, userToggles: UserFeatureToggles?) {

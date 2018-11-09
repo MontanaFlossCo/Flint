@@ -18,25 +18,25 @@ import Foundation
 /// the target queue, and `getSpecific` will not return the correct value
 public class SmartDispatchQueue: Equatable {
     public let queue: DispatchQueue
-    public let queueKey: DispatchSpecificKey<ObjectIdentifier>
-    private let ownerIdentifier: ObjectIdentifier
+    private let queueKey: DispatchSpecificKey<KeyType>
+
+    private struct KeyType { }
     
-    /// Initialise with the given queue and an object that is classed as the "owner" of this smart queue.
-    /// The "owner" is used to create a unique key when storing information in the queue.
-    public init(queue: DispatchQueue, owner: AnyObject) {
-        queueKey = DispatchSpecificKey()
+    /// Initialise with the given queue, with the ability to test if we are on this queue later.
+    public init(queue: DispatchQueue) {
+        queueKey = DispatchSpecificKey<KeyType>()
         self.queue = queue
-        self.ownerIdentifier = ObjectIdentifier(owner)
-        let currentOwner = DispatchQueue.getSpecific(key: queueKey)
-        // Don't set owner if the queue already has an owner
-        if currentOwner == nil {
-            queue.setSpecific(key: queueKey, value: ownerIdentifier)
-        }
+        queue.setSpecific(key: queueKey, value: KeyType())
     }
 
+    deinit {
+        // Clear the value for the key, for what it's worth
+        queue.setSpecific(key: queueKey, value: nil)
+    }
+    
     /// - return: `true` if called on the same queue as this smart queue was initialised
     public var isCurrentQueue: Bool {
-        return ownerIdentifier == DispatchQueue.getSpecific(key: queueKey)
+        return DispatchQueue.getSpecific(key: queueKey) != nil
     }
     
     /// Perform a block synchronously, without crashing if called on the same queue as this smart queue

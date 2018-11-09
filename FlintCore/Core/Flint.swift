@@ -98,7 +98,7 @@ final public class Flint {
     fileprivate static var featureParents: [ObjectIdentifier:FeatureGroup.Type] = [:]
 
     private static var metadataAccessQueue: SmartDispatchQueue = {
-        return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.Flint.metadata"), owner: Flint.self)
+        return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.Flint.metadata"))
     }()
 
     /// Get the metadata for the specified feature

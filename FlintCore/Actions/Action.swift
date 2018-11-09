@@ -89,7 +89,7 @@ public protocol Action {
 
     /// Implement this function to marshal the information about the action invocation into a dictionary for your analytics system.
     /// If you don't use analytics, you don't need to implement this.
-    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]? where F: FeatureDefinition
+    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]?
 
     // MARK: User Activity - optional
     

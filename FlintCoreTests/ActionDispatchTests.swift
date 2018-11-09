@@ -31,7 +31,7 @@ class ActionDispatchTests: XCTestCase {
         request.setLoggingSessionDetailsCreator { () -> (sessionID: String, activitySequenceID: String) in
             return ("test-session-id", "test-activity")
         }
-        let completionQueue = SmartDispatchQueue(queue: DispatchQueue.global(), owner: "testqueue" as AnyObject)
+        let completionQueue = SmartDispatchQueue(queue: DispatchQueue.global())
         
         let completionExpectation = expectation(description: "Async completion called")
         let completion = Action.Completion(completionHandler: { outcome, callAsync in

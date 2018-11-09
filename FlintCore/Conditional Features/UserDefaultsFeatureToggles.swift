@@ -15,7 +15,7 @@ public class UserDefaultsFeatureToggles: UserFeatureToggles {
     private var observers = ObserverSet<UserFeatureTogglesObserver>()
 
     public func addObserver(_ observer: UserFeatureTogglesObserver) {
-        let queue = SmartDispatchQueue(queue: .main, owner: self)
+        let queue = SmartDispatchQueue(queue: .main)
         observers.add(observer, using: queue)
     }
     
