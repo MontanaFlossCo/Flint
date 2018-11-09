@@ -12,6 +12,9 @@ import Foundation
 /// `ActionSession` only has functions to perform actions using `ConditionalActionRequest` and not
 /// a `perform()` using a `ConditionalActionBinding`.
 ///
+/// This makes it impossible to directly perform an action of a conditional feature without first requesting access to it,
+/// as these request instances are only created by the framework and must be used to perform such actions.
+///
 /// The protocol extensions on `ConditionalFeature` only supports
 /// `request` and not `perform`, forcing the caller to test if the feature is available first and at least
 /// explicitly ignore the "feature not available" path, but hopefully provide a code path for that.

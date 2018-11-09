@@ -16,7 +16,7 @@ class MockPurchaseValidator: PurchaseTracker {
     var fakePurchases: [String:Bool] = [:]
     
     func addObserver(_ observer: PurchaseTrackerObserver) {
-        observers.add(observer, using: SmartDispatchQueue(queue: .main, owner: self))
+        observers.add(observer, using: SmartDispatchQueue(queue: .main))
     }
     
     func removeObserver(_ observer: PurchaseTrackerObserver) {

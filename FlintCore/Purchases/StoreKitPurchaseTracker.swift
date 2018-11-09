@@ -22,7 +22,7 @@ public class StoreKitPurchaseTracker: PurchaseTracker {
     private var observers = ObserverSet<PurchaseTrackerObserver>()
 
     public func addObserver(_ observer: PurchaseTrackerObserver) {
-        let queue = SmartDispatchQueue(queue: .main, owner: self)
+        let queue = SmartDispatchQueue(queue: .main)
         observers.add(observer, using: queue)
     }
     

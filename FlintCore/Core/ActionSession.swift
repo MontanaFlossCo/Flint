@@ -74,7 +74,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// on how the Action calls completion.
     public let callerQueue: DispatchQueue
     lazy var smartCallerQueue: SmartDispatchQueue = {
-        return SmartDispatchQueue(queue: callerQueue, owner: self)
+        return SmartDispatchQueue(queue: callerQueue)
     }()
 
     /// An internal counter for the request IDs

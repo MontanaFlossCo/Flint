@@ -44,8 +44,8 @@ public protocol ActionDispatcher {
 /// the `main` queue, that no queue or async thread hops occur. This prevents a "slushy" UI that is always updating
 /// asynchronously, and means the caller does not have to worry about the queue they are on, and nor does the `Action`.
 ///
-/// However, it is important to not that this mechanism (using setSpecific/getSpecific) will not currently work if the Action's
-/// queue uses a `target` queue. Trivia: the `SmartDispatchQueue`
+/// However, it is important to note that this mechanism (using setSpecific/getSpecific) will not currently work if the Action's
+/// queue uses a `target` queue.
 public class DefaultActionDispatcher: ActionDispatcher {
     /// The list of observers. We cannot use ObserverSet currently because of the use of generics in the protocol
     /// and the @objc requiredment of https://bugs.swift.org/browse/SR-55
@@ -73,7 +73,9 @@ public class DefaultActionDispatcher: ActionDispatcher {
         // The action does *not* have to complete synchronously. We watch out for the cases where it doesn't and
         // log this for now. In future we will have a new outcome value indicating `completingAsynchronously`.
         let action = request.actionBinding.action
-        let smartActionQueue = SmartDispatchQueue(queue: action.queue, owner: self)
+        
+        // !!! TODO: This has to execute on the queue it is trying to capture. Is this a catch-22?
+        let smartActionQueue = SmartDispatchQueue(queue: action.queue)
         var performStatus: Action.Completion.Status?
         
         // Here we synchronously call the action on the queue it has requested, and we pass a completion object in

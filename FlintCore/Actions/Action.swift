@@ -89,7 +89,7 @@ public protocol Action {
 
     /// Implement this function to marshal the information about the action invocation into a dictionary for your analytics system.
     /// If you don't use analytics, you don't need to implement this.
-    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]? where F: FeatureDefinition
+    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]?
 
     // MARK: User Activity - optional
     
@@ -115,6 +115,9 @@ public protocol Action {
 
     // MARK: Siri and Intents
 
-    /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut
+    /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut or registering an `NSUserActivity` for
+    /// this action.
+    ///
+    /// - note: This value is only used if your `activityTypes` include `.prediction`.
     static var suggestedInvocationPhrase: String? { get }
 }

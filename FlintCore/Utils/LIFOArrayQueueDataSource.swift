@@ -36,7 +36,7 @@ public class LIFOArrayQueueDataSource<T>: TimeOrderedResultsControllerDataSource
     }
     
     public func add(observer: TimeOrderedResultsControllerDataSourceObserver, using queue: DispatchQueue) {
-        accessQueue.sync { observers.add(observer, using: SmartDispatchQueue(queue: queue, owner: self)) }
+        accessQueue.sync { observers.add(observer, using: SmartDispatchQueue(queue: queue)) }
     }
     
     public func remove(observer: TimeOrderedResultsControllerDataSourceObserver) {
