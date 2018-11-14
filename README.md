@@ -29,6 +29,8 @@ We made Flint because we want people to build great apps for Apple platforms tha
 **Features** in Flint conform to the `Feature` protocol:
 
 ```swift
+import FlintCore
+
 class DocumentManagementFeature: Feature {
     static let description = "Create, Open and Save documents"
 
@@ -43,6 +45,8 @@ class DocumentManagementFeature: Feature {
 **Actions** are high level tasks the user can perform with your app, like "Open a document", "Close a document", "Share a document". Actions are types conforming to `Action` that are declared on features as in the above example, taking an `input` and a `presenter` that are types you define:
 
 ```swift
+import FlintCore
+
 final class DocumentOpenAction: Action {
     typealias InputType = DocumentRef
     typealias PresenterType = DocumentPresenter
@@ -65,6 +69,8 @@ However, because Flint also knows how to **invoke your actions** for a given inp
 What about features that require in-app purchases or certain system permissions? **Conditional Features** support constraints. These can include platforms, OS versions, system permissions, in-app purchases and more. Thanks to Swift your code can’t perform actions of conditional features unless you also handle the case where the feature is not currently available.
 
 ```swift
+import FlintCore
+
 let premiumSubscription = Product(name: "💎 Premium Subscription",
                                   description: "Unlock the Selfietron!",
                                   productID: "SUB0001")
@@ -108,6 +114,8 @@ To handle incoming URLs all you need to do is define an action – a type that 
 Consider the common case of handling a user sign-up confirmation link sent by e-mail. The URL will contain a token and the app should open when it is tapped, verify the token and then show the "You signed in!" screen.
 
 ```swift
+import FlintCore
+
 class UserAccountManagementFeature: Feature, URLMapped {
     static var description = "User sign-up, sign in and sign out"
 
@@ -150,6 +158,8 @@ Apple's `NSUserActivity` is used extensively for telling the system what the use
 Flint can do this automatically for you, with zero effort if your Action also supports URL routes.
 
 ```swift
+import FlintCore
+
 final class DocumentOpenAction: Action {
     typealias InputType = DocumentRef
     typealias PresenterType = DocumentPresenter
@@ -178,6 +188,8 @@ Most apps end up having to do some kind of analytics reporting to get an idea of
 So when your marketing people say they want their analytics reporting system to show them when people open documents, you simply set the `analyticsID` property on the action, and Flint's `AnalyticsReporting` component will automatically pick it up whenever that action is performed, passing it to your analytics provider.
 
 ```swift
+import FlintCore
+
 final class DocumentOpenAction: Action {
     typealias InputType = DocumentRef
     typealias PresenterType = DocumentPresenter
