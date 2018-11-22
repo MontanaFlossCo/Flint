@@ -243,12 +243,13 @@ There is of course much left to do! Here is a high level roadmap  of planned wor
 * ✅ Action Stacks feature
 * ✅ Exportable debug reports
 * ✅ Set up CI
-* 👨‍💻 Early-access public API review 
+* ⏳ Early-access public API review 
+* ⏳ Siri Intents support
 * 👨‍💻 Implement IAP / Subscription validation
-* 👨‍💻 Implement core unit tests
 * 👨‍💻 Implement Built-in persistent file logger
 * 👨‍💻 Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
-* 👨‍💻 Examples of Mixpanel, Hockey and Fabric integrations
+* 👨‍💻 Implement core unit tests
+* 👨‍💻 Examples of Mixpanel, Sentry and Firebase integrations
 * 👨‍💻 1.0 Release
 
 ## Philosophy
