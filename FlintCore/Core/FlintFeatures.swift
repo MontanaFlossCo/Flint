@@ -19,6 +19,7 @@ public final class FlintFeatures: FeatureGroup {
         RoutesFeature.self,
         ActivitiesFeature.self,
         TimelineFeature.self,
-        FocusFeature.self
+        FocusFeature.self,
+        SiriIntentsFeature.self
     ]
 }
