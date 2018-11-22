@@ -45,16 +45,26 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
 
 /// This needs to detect actions performed that match shortcut donation conventions and donate them
 class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
+    let loggers: ContextualLoggers
+    
+    init() {
+        loggers = SiriIntentsFeature.logs(for: "Intent Dispatch")
+    }
+    
     func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) where FeatureType : FeatureDefinition, ActionType : Action {
     }
     
     func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) where FeatureType : FeatureDefinition, ActionType : Action {
         if #available(iOS 12.0, *) {
             guard let intent = request.actionBinding.action.intent(for: request.context.input) else {
+                loggers.development?.info("Action completed but did not return an intent to donate: \(request)")
                 return
             }
             if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
+                loggers.development?.info("Action completed and returned an intent to donate: \(actionRequest)")
                 actionRequest.perform(input: FlintIntentWrapper(intent: intent))
+            } else {
+                loggers.development?.info("Action completed and has an intent to donate but donation feature is not enabled: \(request)")
             }
         }
     }
