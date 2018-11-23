@@ -62,9 +62,9 @@ final class DocumentOpenAction: Action {
 }
 ```
 
-Once you define actions, Flint can observe when your code performs any high level tasks. This unlocks many [behaviours](link) like automatic `NSUserActivity` and Siri integration. When you perform these actions, the framework observes what is happening, and magical things can happen, including automatic `NSUserActivity` support for Handoff, Spotlight and Siri Suggestions, analytics tracking and improved debug logging.
+Once you define actions, Flint can observe when your code performs any high level tasks. This unlocks many [behaviours](link) like automatic `NSUserActivity` and Siri integration, analytics tracking and improved debug logging.
 
-However, because Flint also knows how to **invoke your actions** for a given input, it can handle all the different app entry points for you too, including app or deep-linking URLs and continued activities including Handoff, Spotlight, Siri Suggestions. [Read more in the Features & Actions guide](https://flint.tools/manual/guides/features_and_actions).
+However, because Flint can also knowshow to **invoke your actions** for a given input, it can handle all the different app entry points for you too, including app or deep-linking URLs and continued activities including Handoff, Spotlight, Siri Suggestions. [Read more in the Features & Actions guide](https://flint.tools/manual/guides/features_and_actions).
 
 What about features that require in-app purchases or certain system permissions? **Conditional Features** support constraints. These can include platforms, OS versions, system permissions, in-app purchases and more. Thanks to Swift your code can’t perform actions of conditional features unless you also handle the case where the feature is not currently available.
 
