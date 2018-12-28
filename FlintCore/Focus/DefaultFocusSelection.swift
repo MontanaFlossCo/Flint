@@ -23,8 +23,7 @@ class DefaultFocusSelection: FocusSelection, CustomDebugStringConvertible {
 
     var isActive: Bool {
         return updateQueue.sync {
-            //let haveTopics = (focusedTopics?.count ?? 0) > 0
-            let haveTopics = false
+            let haveTopics = (focusedTopics?.count ?? 0) > 0
             return haveTopics
         }
     }
