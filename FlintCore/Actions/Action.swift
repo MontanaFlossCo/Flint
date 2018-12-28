@@ -133,7 +133,7 @@ public protocol Action {
     @available(iOS 12, *)
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
-    static func intent(for input: InputType) -> INIntent?
+    static func intent(for input: InputType) -> FlintIntent?
 #endif
 
 }

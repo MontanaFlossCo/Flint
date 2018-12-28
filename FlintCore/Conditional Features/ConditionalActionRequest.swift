@@ -21,6 +21,13 @@ import Foundation
 public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureType: ConditionalFeature, ActionType: Action {
     public let actionBinding: ConditionalActionBinding<FeatureType, ActionType>
     
+    private var session: ActionSession {
+        guard let result = ActionType.defaultSession else {
+            flintUsageError("You cannot call `perform` on action bindings directly unless the Action defines a value for `defaultSession`. Perhaps you mean your action to conform to UIAction, which uses the main session?")
+        }
+        return result
+    }
+    
     /// Force this to be internal, so that callers cannot just create a request to bypass conditional testing
     internal init(actionBinding: ConditionalActionBinding<FeatureType, ActionType>) {
         self.actionBinding = actionBinding
@@ -29,7 +36,7 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
     public func perform(input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: presenter, completion: completion)
+        session.perform(self, input: input, presenter: presenter, completion: completion)
     }
     
     public func perform(input: ActionType.InputType,
@@ -37,7 +44,7 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
                         userInitiated: Bool,
                         source: ActionSource = .application,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
     public func perform(input: ActionType.InputType,
@@ -45,7 +52,7 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
                         userInitiated: Bool,
                         source: ActionSource = .application,
                         completion: Action.Completion) -> Action.Completion.Status {
-        return ActionSession.main.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
+        return session.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completionRequirement: completion)
     }
 }
 
@@ -53,14 +60,14 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
 extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter {
     public func perform(input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), completion: completion)
+        session.perform(self, input: input, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(input: ActionType.InputType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: input, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: input, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
@@ -68,26 +75,26 @@ extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter
 extension ConditionalActionRequest where ActionType.InputType == NoInput {
     public func perform(presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: .none, presenter: presenter, completion: completion)
+        session.perform(self, input: .none, presenter: presenter, completion: completion)
     }
 
     public func perform(presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: .none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: .none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
 /// Overloads for actions with neither input nor presenter
 extension ConditionalActionRequest where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
     public func perform(completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
+        session.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        ActionSession.main.perform(self, input: .none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: .none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
