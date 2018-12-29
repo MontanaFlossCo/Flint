@@ -80,6 +80,8 @@ public class ActionSession: CustomDebugStringConvertible {
     /// An internal counter for the request IDs
     private var currentRequestID: UInt = 0
     
+    private lazy var propertyAccessQueue: DispatchQueue = { DispatchQueue(label: "tools.flint.ActionSession-state") }()
+    
     /// Initialise a session
     /// - param name: The name of the session, e.g. "main" or "bgtasks" or "document-3"
     /// - param userInitiatedActions: Set to `true` if by default the actions for this session are always initiated by the user.
@@ -397,12 +399,6 @@ public class ActionSession: CustomDebugStringConvertible {
     }
     
     func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completionRequirement: Action.Completion) -> Action.Completion.Status {
-        if !smartCallerQueue.isCurrentQueue {
-            let message = "Called ActionSession \"\(self.name)\" from a queue that is not \(self.callerQueue). Failing fast because this implies your completion will execute on a different queue to the one you expect"
-            FlintInternal.logger?.error(message)
-            flintUsageError(message)
-        }
-
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: request.actionBinding.feature)
@@ -428,11 +424,14 @@ public class ActionSession: CustomDebugStringConvertible {
         
         // Create the entry and add it to the sequence
         let entry = ActionStackEntry(request, sessionName: name)
+        // Action stack is concurrency safe
         actionStack.add(entry: entry)
         
-        // Each session can be used by only one thread, and as such we can remember the "most recent" action request
-        currentActionStackEntry = entry
-
+        withPropertyAccess {
+            // Each session can be used by only one thread, and as such we can remember the "most recent" action request
+            currentActionStackEntry = entry
+        }
+        
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
         completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
@@ -455,5 +454,11 @@ public class ActionSession: CustomDebugStringConvertible {
         // match the queue we are currently on, so the completion is all threadsafe.
         let completionStatus = dispatcher.perform(request: request, completion: completionRequirement)
         return completionStatus
+    }
+    
+    // MARK - Internals
+    
+    private func withPropertyAccess(_ block: () -> Void) {
+        propertyAccessQueue.sync(execute: block)
     }
 }
