@@ -35,7 +35,7 @@ class DefaultAuthorisationController: AuthorisationController {
         self.retryHandler = retryHandler
         if let coordinator = coordinator {
             FlintInternal.logger?.debug("Authorisation controller notifying coordinator that it will begin")
-            let completion = PermissionAuthorisationCoordinator.BeginCompletion(completionHandler: { permissionsToRequest, completedAsync in
+            let completion = PermissionAuthorisationCoordinator.BeginCompletion(queue: nil, completionHandler: { permissionsToRequest, completedAsync in
                 if self.permissions.count > 0 {
                     self.sortedPermissionsToAuthorize = permissionsToRequest
                     self.next()
@@ -81,7 +81,7 @@ class DefaultAuthorisationController: AuthorisationController {
                         return
                     }
 
-                    let completion = PermissionAuthorisationCoordinator.DidRequestCompletion(completionHandler: { [weak strongSelf] action, completedAsync in
+                    let completion = PermissionAuthorisationCoordinator.DidRequestCompletion(queue: nil, completionHandler: { [weak strongSelf] action, completedAsync in
                         guard let strongSelf = strongSelf else {
                             return
                         }
@@ -103,7 +103,7 @@ class DefaultAuthorisationController: AuthorisationController {
             }
             
             FlintInternal.logger?.debug("Authorisation controller calling willRequestPermission for: \(permission)")
-            let completion = PermissionAuthorisationCoordinator.WillRequestCompletion(completionHandler: { action, completedAsync in
+            let completion = PermissionAuthorisationCoordinator.WillRequestCompletion(queue: nil, completionHandler: { action, completedAsync in
                 switch action {
                     case .request:
                         FlintInternal.logger?.debug("Authorisation controller was told to continue requesting authorization for: \(permission)")

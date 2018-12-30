@@ -22,11 +22,11 @@ class CompletionRequirementTests: XCTestCase {
             return completion.completedSync("Voices")
         }
         
-        let completion = Completion(completionHandler: { item, completedAsync in
+        let completion = Completion(queue: nil) { item, completedAsync in
             completionExpectation.fulfill()
             
             XCTAssertFalse(completedAsync, "Sync completion should have completedAsync == false")
-        })
+        }
         
         let result = _findAwesomeAlbumTitle(completion: completion)
         
@@ -50,11 +50,11 @@ class CompletionRequirementTests: XCTestCase {
             return result
         }
         
-        let completion = Completion(completionHandler: { item, completedAsync in
+        let completion = Completion(queue: nil) { item, completedAsync in
             completionExpectation.fulfill()
             
             XCTAssertTrue(completedAsync, "Acync completion should have completedAsync == true")
-        })
+        }
         
         let result = _findAwesomeArtist(completion: completion)
         
@@ -81,10 +81,10 @@ class CompletionRequirementTests: XCTestCase {
         func _findAwesomeAlbumTitle(completion: TitleCompletion) -> TitleCompletion.Status {
             var title: String!
             
-            let albumCompletion = AlbumCompletion(completionHandler: { (album, completedAsync) in
+            let albumCompletion = AlbumCompletion(queue: nil) { (album, completedAsync) in
                 XCTAssertEqual(album["title"], "Voices", "Album title is incorrect")
                 title = album["title"]
-            })
+            }
             let albumResult = _findAlbum(completion: albumCompletion)
             XCTAssertTrue(albumCompletion.verify(albumResult), "Status must be from the album completion instance we created")
             XCTAssertFalse(albumResult.isCompletingAsync, "Status must be for sync execution")
@@ -92,12 +92,12 @@ class CompletionRequirementTests: XCTestCase {
             return completion.completedSync(title)
         }
         
-        let completion = TitleCompletion(completionHandler: { title, completedAsync in
+        let completion = TitleCompletion(queue: nil) { title, completedAsync in
             completionExpectation.fulfill()
             
             XCTAssertFalse(completedAsync, "Sync completion should have completedAsync == false")
             XCTAssertEqual("Voices", title, "Title is incorrect")
-        })
+        }
         
         let result = _findAwesomeAlbumTitle(completion: completion)
         
@@ -136,10 +136,10 @@ class CompletionRequirementTests: XCTestCase {
 
             // Do an async fetch of this info
             DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1, execute: {
-                let albumCompletion = AlbumCompletion(completionHandler: { (album, completedAsync) in
+                let albumCompletion = AlbumCompletion(queue: nil) { (album, completedAsync) in
                     let title = album["title"]!
                     albumTitleResult.completed(title)
-                })
+                }
 
                 let albumResult = _findAlbum(completion: albumCompletion)
                 XCTAssertTrue(albumCompletion.verify(albumResult), "Status must be from the album completion instance we created")
@@ -151,11 +151,11 @@ class CompletionRequirementTests: XCTestCase {
             return albumTitleResult
         }
         
-        let completion = TitleCompletion(completionHandler: { title, completedAsync in
+        let completion = TitleCompletion(queue: nil) { title, completedAsync in
             titleCompletionExpectation.fulfill()
             XCTAssertTrue(completedAsync, "Sync completion should have completedAsync == false")
             XCTAssertEqual("Voices", title, "Title is incorrect")
-        })
+        }
         
         let result = _findAwesomeAlbumTitle(completion: completion)
         
@@ -188,10 +188,10 @@ class CompletionRequirementTests: XCTestCase {
 
             // Do an async fetch of this info
             DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1, execute: {
-                let albumCompletion = AlbumCompletion(completionHandler: { (album, completedAsync) in
+                let albumCompletion = AlbumCompletion(queue: nil) { (album, completedAsync) in
                     let title = album["title"]!
                     albumTitleResult.completed(title)
-                })
+                }
 
                 let albumResult = _findAlbum(completion: albumCompletion)
                 XCTAssertTrue(albumCompletion.verify(albumResult), "Status must be from the album completion instance we created")
@@ -204,11 +204,11 @@ class CompletionRequirementTests: XCTestCase {
         }
         
         /// This is the completion that we will proxy. It in turn relies on another async completion
-        let completion = TitleCompletion(completionHandler: { title, completedAsync in
+        let completion = TitleCompletion(queue: nil) { title, completedAsync in
             titleCompletionExpectation.fulfill()
             XCTAssertTrue(completedAsync, "Sync completion should have completedAsync == false")
             XCTAssertEqual("Title: Voices", title, "Title is incorrect")
-        })
+        }
         
         // We'll proxy the real title completion, to add a prefix
         completion.addProxyCompletionHandler() { title, wasAsync -> String in

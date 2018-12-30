@@ -25,8 +25,9 @@ import Foundation
 ///
 /// ## Threading
 ///
-/// A session can only be used from a single thread or queue, the queue set when creating the session. This is known as the
-/// `callerQueue`.
+/// A session can be accessed from any queue or thread. The `ActionSession.perform` method can be called directly or
+/// via the `StaticActionBinding`/`ConditionalActionRequest` convenience `perform` methods without knowing whether
+/// the queue is correct for the action.
 ///
 /// Actions can select which queue they will be called to `perform` on, via their `queue` property. This is *always*
 /// the queue they will execute on, and may be entirely different from the session's queue.
@@ -36,7 +37,7 @@ import Foundation
 /// This reduces "slushiness" and lag in UIs, and makes it easier to reason about the code.
 ///
 /// The dispatcher will ensure that the Actions are called synchronously on their desired queue, even if that is the same as the current queue.
-/// It will also make sure that they call their completion handler on the session's `callerQueue`, without excessive queue hops
+/// It will also make sure that they call their completion handler on the completion requirement's `callerQueue`, without excessive queue hops
 /// so that if the caller is already on the correct thread, there is no async dispatch required.
 ///
 /// !!! TODO: Extract protocol for easier testing
@@ -69,34 +70,25 @@ public class ActionSession: CustomDebugStringConvertible {
     /// and awaiting completion
     public var currentActionStackEntry: ActionStackEntry?
 
-    /// The queue on which `perform` should always be called – failure to do so will result in an error.
-    /// The completion callbacks will always be called on this queue, either synchronously or asynchronously depending
-    /// on how the Action calls completion.
-    public let callerQueue: DispatchQueue
-    lazy var smartCallerQueue: SmartDispatchQueue = {
-        return SmartDispatchQueue(queue: callerQueue)
-    }()
-
     /// An internal counter for the request IDs
     private var currentRequestID: UInt = 0
+    
+    /// An internal queue to protect access to state, so the session can be used from any queue or thread
+    private lazy var propertyAccessQueue: DispatchQueue = { DispatchQueue(label: "tools.flint.ActionSession-state") }()
     
     /// Initialise a session
     /// - param name: The name of the session, e.g. "main" or "bgtasks" or "document-3"
     /// - param userInitiatedActions: Set to `true` if by default the actions for this session are always initiated by the user.
-    /// - param callerQueue: The queue that all future calls to `perform` are expected to be on.
-    /// This avoids you having to specify this when calling `perform`
     /// - param dispatch: The dispatcher to use, defaults to the global Flint dispatcher
     /// - param actionStackTracker: The action stack tracker that will be used, defaults to the shared tracker instance
     public init(named name: String,
                 userInitiatedActions: Bool,
-                callerQueue: DispatchQueue = .main,
                 dispatcher: ActionDispatcher = Flint.dispatcher,
                 actionStackTracker: ActionStackTracker = .instance) {
         self.userInitiatedActions = userInitiatedActions
         self.dispatcher = dispatcher
         self.actionStackTracker = actionStackTracker
         self.name = name
-        self.callerQueue = callerQueue
     }
     
     /// Call to set up the standard action start/stop logging
@@ -111,14 +103,17 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param conditionalRequest: The conditional request for the action to perform
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
-                                                 completion: ((ActionOutcome) -> ())? = nil) {
-        perform(conditionalRequest, input: input, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil) {
+        perform(conditionalRequest, input: input, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
     
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -127,13 +122,16 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param conditionalRequest: The conditional request for the action to perform
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.PresenterType == NoPresenter {
-        perform(conditionalRequest, input: input, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion)
+        perform(conditionalRequest, input: input, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -142,13 +140,16 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param conditionalRequest: The conditional request for the action to perform
     /// - param presenter: The object presenting the outcome of the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
                                                  presenter: ActionType.PresenterType,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput {
-        perform(conditionalRequest, input: .none, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion)
+        perform(conditionalRequest, input: .none, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -157,11 +158,14 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param conditionalRequest: The conditional request for the action to perform
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-        perform(conditionalRequest, input: .none, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion)
+        perform(conditionalRequest, input: .none, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -175,12 +179,14 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
                                                  userInitiated: Bool,
                                                  source: ActionSource,
-                                                 completion: ((ActionOutcome) -> ())? = nil) {
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil) {
         let staticBinding = StaticActionBinding(feature: conditionalRequest.actionBinding.feature, action: conditionalRequest.actionBinding.action)
         let logContextCreator = { (sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
@@ -197,7 +203,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                           input: input,
                                           presenter: presenter,
                                           logContextCreator: logContextCreator)
-        perform(actionRequest, completion: completion)
+        perform(actionRequest, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -243,15 +249,23 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
-                                                 completion: ((ActionOutcome) -> ())? = nil) {
-        perform(actionBinding, input: input, presenter: presenter, userInitiated: userInitiatedActions,
-                source: .application, completion: completion)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil) {
+        perform(actionBinding,
+                input: input,
+                presenter: presenter,
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
     
     /// Perform an action associated with an unconditional `Feature`.
@@ -260,14 +274,23 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
+    /// - param completionQueue: The queue to use when calling the completion handler.
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.PresenterType == NoPresenter {
-        perform(actionBinding, input: input, presenter: NoPresenter(), userInitiated: userInitiatedActions,
-                source: .application, completion: completion)
+        perform(actionBinding,
+                input: input,
+                presenter: NoPresenter(),
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform an action associated with an unconditional `Feature`.
@@ -276,14 +299,22 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
     /// - param presenter: The presenter to pass to the action
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
                                                  presenter: ActionType.PresenterType,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput {
-        perform(actionBinding, input: .none, presenter: presenter, userInitiated: userInitiatedActions,
-                source: .application, completion: completion)
+        perform(actionBinding,
+                input: .none,
+                presenter: presenter,
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform an action associated with an unconditional `Feature`.
@@ -293,12 +324,20 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                                                 completion: ((ActionOutcome) -> ())? = nil)
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-        perform(actionBinding, input: .none, presenter: NoPresenter(), userInitiated: userInitiatedActions,
-                source: .application, completion: completion)
+        perform(actionBinding,
+                input: .none,
+                presenter: NoPresenter(),
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform an action associated with an unconditional `Feature`.
@@ -307,17 +346,20 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion handler to call.
+    /// - param completionQueue: The queue to use when calling the completion handler.
     public func perform<FeatureType, ActionType>(_ actionBinding: StaticActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
                                                  userInitiated: Bool,
                                                  source: ActionSource,
-                                                 completion: ((ActionOutcome) -> ())? = nil) {
+                                                 completion: ((ActionOutcome) -> ())? = nil,
+                                                 completionQueue: DispatchQueue? = nil) {
         let logContextCreator = { (sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
@@ -333,7 +375,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                       input: input,
                                                       presenter: presenter,
                                                       logContextCreator: logContextCreator)
-        perform(request, completion: completion)
+        perform(request, completion: completion, completionQueue: completionQueue)
     }
     
     /// Perform an action associated with an unconditional `Feature`, returning completion status.
@@ -342,6 +384,7 @@ public class ActionSession: CustomDebugStringConvertible {
     ///
     /// The completion handler is called on `callerQueue` of this `ActionSession`
     ///
+    /// - param actionBinding: The binding of the action to perform
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
@@ -387,8 +430,8 @@ public class ActionSession: CustomDebugStringConvertible {
 
     /// Execute the action of the request, appending it to the action sequence for the relevant feature
     /// - note: This is the heart of the Features implementation.
-    private func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completion: ((ActionOutcome) -> ())?) {
-        let completionRequirement = Action.Completion() { outcome, completedAsync in
+    private func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completion: ((ActionOutcome) -> ())?, completionQueue: DispatchQueue? = nil) {
+        let completionRequirement = Action.Completion(queue: completionQueue) { outcome, completedAsync in
             completion?(outcome.simplifiedOutcome)
         }
         
@@ -397,12 +440,6 @@ public class ActionSession: CustomDebugStringConvertible {
     }
     
     func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completionRequirement: Action.Completion) -> Action.Completion.Status {
-        if !smartCallerQueue.isCurrentQueue {
-            let message = "Called ActionSession \"\(self.name)\" from a queue that is not \(self.callerQueue). Failing fast because this implies your completion will execute on a different queue to the one you expect"
-            FlintInternal.logger?.error(message)
-            flintUsageError(message)
-        }
-
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: request.actionBinding.feature)
@@ -428,11 +465,14 @@ public class ActionSession: CustomDebugStringConvertible {
         
         // Create the entry and add it to the sequence
         let entry = ActionStackEntry(request, sessionName: name)
+        // Action stack is concurrency safe
         actionStack.add(entry: entry)
         
-        // Each session can be used by only one thread, and as such we can remember the "most recent" action request
-        currentActionStackEntry = entry
-
+        withPropertyAccess {
+            // Each session can be used by only one thread, and as such we can remember the "most recent" action request
+            currentActionStackEntry = entry
+        }
+        
         // By the magic of closures we get to capture the Action Stack that the action request is part of here
         // and can terminate the correct one
         completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
@@ -448,12 +488,15 @@ public class ActionSession: CustomDebugStringConvertible {
             return outcome
         }
 
-        // Make sure completion happens on the right queue
-        completionRequirement.completionQueue = smartCallerQueue
-        
         // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
         // match the queue we are currently on, so the completion is all threadsafe.
         let completionStatus = dispatcher.perform(request: request, completion: completionRequirement)
         return completionStatus
+    }
+    
+    // MARK - Internals
+    
+    private func withPropertyAccess(_ block: () -> Void) {
+        propertyAccessQueue.sync(execute: block)
     }
 }

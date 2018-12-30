@@ -296,7 +296,7 @@ final public class Flint {
         requiresSetup()
         if let request = RoutesFeature.performIncomingURL.request() {
             var performOutcome: ActionOutcome?
-            ActionSession.main.perform(request, input: url, presenter: presentationRouter, userInitiated: true, source: .openURL) { outcome in
+            request.perform(input: url, presenter: presentationRouter, userInitiated: true, source: .openURL) { outcome in
                 FlintInternal.logger?.debug("Activity auto URL result: \(outcome)")
                 performOutcome = outcome
             }
@@ -368,7 +368,7 @@ final public class Flint {
 #endif
             }
             
-            ActionSession.main.perform(request, input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
+            request.perform(input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
             }

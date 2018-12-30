@@ -119,7 +119,7 @@ class ActionActivityMappings {
                 if case let .appReady(presenter) = presentationRouterResult {
                     var outcome: ActionPerformOutcome?
                     
-                    let completion = Action.Completion(completionHandler: { performOutcome, completedAsync in
+                    let completion = Action.Completion(queue: nil, completionHandler: { performOutcome, completedAsync in
                         outcome = performOutcome
                     })
                     let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
@@ -167,7 +167,7 @@ class ActionActivityMappings {
                     if let request = binding.request() {
                         var outcome: ActionPerformOutcome?
                         
-                        let completion = Action.Completion(completionHandler: { performOutcome, completedAsync in
+                        let completion = Action.Completion(queue: nil, completionHandler: { performOutcome, completedAsync in
                             outcome = performOutcome
                         })
     
