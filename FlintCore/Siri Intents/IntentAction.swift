@@ -13,7 +13,7 @@ import Intents
 
 // The queues and sessions to use for handling Intents
 public let intentsQueue = DispatchQueue(label: "intents-actions")
-public let intentActionSession = ActionSession(named: "Intents", userInitiatedActions: true, callerQueue: intentsQueue)
+public let intentActionSession = ActionSession(named: "Intents", userInitiatedActions: true)
 
 #if canImport(Intents)
 public typealias FlintIntentResponse = INIntentResponse

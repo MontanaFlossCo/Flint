@@ -411,7 +411,7 @@ final public class Flint {
         let intentWrapper = FlintIntentWrapper(intent: intent)
         
         var syncOutcome: ActionPerformOutcome?
-        let completion = Action.Completion { (outcome, wasAsync) in
+        let completion = Action.Completion(queue: nil) { (outcome, wasAsync) in
             FlintInternal.logger?.debug("Intent perform outcome: \(outcome) wasAsync: \(wasAsync)");
             syncOutcome = outcome
         }
