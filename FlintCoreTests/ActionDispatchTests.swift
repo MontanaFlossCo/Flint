@@ -31,15 +31,14 @@ class ActionDispatchTests: XCTestCase {
         request.setLoggingSessionDetailsCreator { () -> (sessionID: String, activitySequenceID: String) in
             return ("test-session-id", "test-activity")
         }
-        let completionQueue = SmartDispatchQueue(queue: DispatchQueue.global())
         
         let completionExpectation = expectation(description: "Async completion called")
-        let completion = Action.Completion(completionHandler: { outcome, callAsync in
+        let queue = SmartDispatchQueue(queue: DispatchQueue.global())
+        let completion = Action.Completion(smartQueue: queue, completionHandler: { outcome, callAsync in
             XCTAssertTrue(callAsync, "Completion was not called async")
-            XCTAssertTrue(completionQueue.isCurrentQueue, "Completion not called on the expected queue")
+            XCTAssertTrue(queue.isCurrentQueue, "Completion not called on the expected queue")
             completionExpectation.fulfill()
         })
-        completion.completionQueue = completionQueue
         
         let result = dispatcher.perform(request: request, completion: completion)
         XCTAssertTrue(result.isCompletingAsync, "Expected to complete async")

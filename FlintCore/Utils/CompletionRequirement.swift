@@ -12,7 +12,8 @@ import Foundation
 /// that reduce the risks of callers forgetting to call the completion handler.
 ///
 /// The type is not concurrency safe (see notes in Threading) and it will always call the `completion` handler
-/// synchronously, using the supplied `completionQueue` if available, or inline on whatever the current queue thread is.
+/// synchronously, using the supplied `completionQueue` if available, or on whatever the current queue thread is if
+/// `currentQueue` is nil.
 ///
 /// To use, define a typealias for this type, with T the type of the completion function's argument (use a tuple if
 /// your completion requires multiple arguments).
@@ -135,25 +136,26 @@ public class CompletionRequirement<T> {
         }
     }
     
-    /// The completion handler to call.
+    /// The completion handler to call
     fileprivate var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
-    public var completionQueue: SmartDispatchQueue? {
-        willSet {
-            guard newValue != nil && completionQueue != nil else {
-                return
-            }
-            flintUsagePrecondition(completionQueue == newValue, "Cannot change completionQueue on a completion requirement after it has been set. Don't cross the streams!")
-        }
-    }
+    public let completionQueue: SmartDispatchQueue?
     
     /// Instantiate a new completion requirement that calls the supplied completion handler, either
     /// synchronously or asynchronously.
-    public init(completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
+    public init(smartQueue: SmartDispatchQueue?, completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
         self.completionHandler = completionHandler
+        self.completionQueue = smartQueue
+    }
+
+    /// Instantiate a new completion requirement that calls the supplied completion handler, either
+    /// synchronously or asynchronously.
+    public convenience init(queue: DispatchQueue?, completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
+        self.init(smartQueue: queue.flatMap(SmartDispatchQueue.init), completionHandler: completionHandler)
     }
 
     /// Internal initialiser for proxy subclass, which will set the completion after
     fileprivate init() {
+        completionQueue = nil
     }
 
     /// Call to verify that the result belongs to this completion instance and there hasn't been a mistake
