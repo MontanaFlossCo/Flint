@@ -61,10 +61,10 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
                 return
             }
             if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
-                loggers.development?.info("Action completed and returned an intent to donate: \(actionRequest)")
+                loggers.development?.info("Action \(request.actionBinding.action) completed and returned an Intent to donate: \(intent)")
                 actionRequest.perform(input: FlintIntentWrapper(intent: intent))
             } else {
-                loggers.development?.info("Action completed and has an intent to donate but donation feature is not enabled: \(request)")
+                loggers.development?.info("Action \(request.actionBinding.action) completed and has an intent to donate but the donation feature is not enabled")
             }
         }
     }
