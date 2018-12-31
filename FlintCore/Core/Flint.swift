@@ -424,19 +424,26 @@ final public class Flint {
             flintBug("We should have a sync outcome by now");
         }
         
+        let result: MappedActionResult
+        
         switch outcome {
             case .success,
                  .successWithFeatureTermination:
-                return .success
+                result = .success
             case .failure(let error),
                  .failureWithFeatureTermination(let error):
                 switch error {
                     case PerformIncomingURLAction.URLActionError.noURLMappingFound:
-                        return .noMappingFound
+                        result = .noMappingFound
                     default:
-                        return .failure(error: error)
+                        result = .failure(error: error)
                 }
         }
+        
+        flintAdvisoryPrecondition(result == .success,
+                                  "Action for Intent \(intent) did not succeed immediately: \(outcome)")
+        
+        return result
     }
 
     // MARK: Debug functions
