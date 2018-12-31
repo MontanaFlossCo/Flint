@@ -118,7 +118,7 @@ final public class Flint {
     /// - param initialProductionLogLevel: The default log level for production logging. Default if not specified is `.info`
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
-                                  initialProductionLogLevel: LoggerLevel = .info, briefLogging: Bool = true) {
+                                  initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
