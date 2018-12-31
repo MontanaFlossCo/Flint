@@ -200,6 +200,7 @@ final public class Flint {
         feature.prepare(actions: builder)
 
         _registerUrlMappings(feature: feature)
+        _registerIntentMappings(feature: feature)
     }
     
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
