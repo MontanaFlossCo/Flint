@@ -24,22 +24,20 @@ extension FlintIntent: FlintLoggable {
 }
 
 public protocol IntentMappingsBuilder {
-    associatedtype FeatureType: FeatureDefinition
-    
     // Declare that incoming continued intents of this type must be forward to this action
-    func forward<ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter
+    func forward<FeatureType, ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter
 }
 
 public class DefaultIntentMappingsBuilder<FeatureType>: IntentMappingsBuilder where FeatureType: FeatureDefinition {
     var mappings = IntentMappings()
     
-    public func forward<ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter {
+    public func forward<FeatureType, ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter {
         mappings.forward(intentType, to: actionBinding)
     }
 }
 
-public protocol IntentMapped : FeatureDefinition {
-    static func intentMappings<BuilderType>(intents: BuilderType) where BuilderType: IntentMappingsBuilder, BuilderType.FeatureType == Self
+public protocol IntentMapped: FeatureDefinition {
+    static func intentMappings(intents: IntentMappingsBuilder)
 }
 
 public typealias LoggableIntent = FlintIntent & FlintLoggable
@@ -81,7 +79,8 @@ class IntentMappings {
                                    source: .intent,
                                    completion: completion)
         }
-        mappings[String(describing: intentType)] = IntentMapping(intentType: intentType, executor: executor)
+        let targetActionName = String(reflecting: ActionType.self)
+        mappings[targetActionName] = IntentMapping(intentType: intentType, executor: executor)
     }
     
     func mapping(for intentType: FlintIntent.Type) -> IntentMapping? {

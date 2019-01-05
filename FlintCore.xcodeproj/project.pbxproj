@@ -628,7 +628,7 @@
 		49CC6630212332820042489F /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CC662F212332810042489F /* EventKit.framework */; };
 		49CCC96A2195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCC9692195BB2800ED4C50 /* ConditionalActionRequest+iOS+Extensions.swift */; };
 		49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */; };
-		49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */; };
+		49CCF0B91F8BB1B200F7020E /* FlintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintTests.swift */; };
 		49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49CCF0CB1F8BB23B00F7020E /* FeatureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0C91F8BB23600F7020E /* FeatureDefinition.swift */; };
 		49CCF0CC1F8BB23E00F7020E /* ActionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0CA1F8BB23600F7020E /* ActionDispatcher.swift */; };
@@ -994,7 +994,7 @@
 		49CCF0AD1F8BB1B200F7020E /* FlintCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore.h; sourceTree = "<group>"; };
 		49CCF0AE1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CCF0B31F8BB1B200F7020E /* FlintCore-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCoreTests.swift; sourceTree = "<group>"; };
+		49CCF0B81F8BB1B200F7020E /* FlintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintTests.swift; sourceTree = "<group>"; };
 		49CCF0BA1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CCF0C81F8BB23600F7020E /* ActionSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSession.swift; sourceTree = "<group>"; };
 		49CCF0C91F8BB23600F7020E /* FeatureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDefinition.swift; sourceTree = "<group>"; };
@@ -1539,7 +1539,7 @@
 				49298227205D677F00267A49 /* Test Features */,
 				491533652093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift */,
 				49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */,
-				49CCF0B81F8BB1B200F7020E /* FlintCoreTests.swift */,
+				49CCF0B81F8BB1B200F7020E /* FlintTests.swift */,
 				49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */,
 				49F37A36209A177400B27671 /* FeatureConstraintsBuilderTests.swift */,
 				490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */,
@@ -2693,7 +2693,7 @@
 				49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
-				49CCF0B91F8BB1B200F7020E /* FlintCoreTests.swift in Sources */,
+				49CCF0B91F8BB1B200F7020E /* FlintTests.swift in Sources */,
 				49AA5A632133469E00E65533 /* LogEventContext+Mocking.swift in Sources */,
 				4915336B2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				49298229205D67A100267A49 /* DummyFeature.swift in Sources */,

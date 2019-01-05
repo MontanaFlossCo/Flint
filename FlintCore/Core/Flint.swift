@@ -472,7 +472,7 @@ final public class Flint {
             let mappings = builder.mappings
             metadataAccessQueue.sync {
                 guard let featureMetadata = metadata(for: feature) else {
-                    flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                    flintUsageError("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
                 }
                 
                 featureMetadata.setActionURLMappings(mappings)
@@ -489,7 +489,7 @@ final public class Flint {
 
             metadataAccessQueue.sync {
                 guard let featureMetadata = metadata(for: feature) else {
-                    flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                    flintUsageError("Cannot register Intent mappings for feature \(feature) because the feature has not been prepared")
                 }
                 featureMetadata.setIntentMappings(mappings)
             }

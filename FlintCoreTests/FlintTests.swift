@@ -1,6 +1,6 @@
 //
-//  FeaturesTests.swift
-//  FeaturesTests
+//  FlintTests.swift
+//  FlintTests
 //
 //  Created by Marc Palmer on 09/10/2017.
 //  Copyright © 2017 Montana Floss Co. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import FlintCore
 
-class FlintCoreTests: XCTestCase {
+class FlintTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -23,10 +23,10 @@ class FlintCoreTests: XCTestCase {
         Flint.register(group: DummyFeatures.self)
         XCTAssertEqual(Flint.allFeatures.count, 2, "Two features should be registered")
         
-        guard let dummyFeatureMetadata = Flint.metadata(for: DummyStaticFeature.self) else {
+        guard let dummyFeatureMetadata = Flint.metadata(for: DummyFeature.self) else {
             XCTFail("Missing metadata")
             return
         }
-        XCTAssertEqual(dummyFeatureMetadata.actions.count, 1, "Actions not bound")
+        XCTAssertEqual(dummyFeatureMetadata.actions.count, 2, "Actions not bound")
     }
 }

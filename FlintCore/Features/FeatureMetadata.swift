@@ -42,7 +42,7 @@ public class FeatureMetadata: Hashable, Equatable {
         for (actionTypeName, mapping) in mappings.mappings {
             let firstFound = actions.first { return $0.typeName == actionTypeName }
             guard let action = firstFound else {
-                flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
+                flintUsageError("Cannot find action metadata for action \(actionTypeName) for the URL mapping \(mapping). Did you forget to declare or publish the action?")
             }
             action.add(urlMapping: mapping)
         }
@@ -52,7 +52,7 @@ public class FeatureMetadata: Hashable, Equatable {
         for (actionTypeName, mapping) in mappings.mappings {
             let firstFound = actions.first { return $0.typeName == actionTypeName }
             guard let action = firstFound else {
-                flintBug("Cannot find action metadata for \(actionTypeName) for the URL mapping \(mapping)")
+                flintUsageError("Cannot find action metadata for action \(actionTypeName) for the Intent mapping \(mapping). Did you forget to declare or publish the action?")
             }
             action.add(intentMapping: mapping)
         }
