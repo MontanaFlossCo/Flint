@@ -407,8 +407,7 @@ final public class Flint {
         guard let request = SiriIntentsFeature.handleIntent.request() else {
             return .featureDisabled
         }
-        /// !!! TODO: Do we need to force that this is a synchronous perform? Probably not so we need
-        /// a result that indicates it is pending - intents actions might process asynchronously
+
         let intentWrapper = FlintIntentWrapper(intent: intent)
         
         var syncOutcome: ActionPerformOutcome?
@@ -434,7 +433,7 @@ final public class Flint {
             case .failure(let error),
                  .failureWithFeatureTermination(let error):
                 switch error {
-                    case PerformIncomingURLAction.URLActionError.noURLMappingFound:
+                    case DispatchIntentAction.IntentActionError.noMappingFound:
                         result = .noMappingFound
                     default:
                         result = .failure(error: error)
@@ -442,7 +441,7 @@ final public class Flint {
         }
         
         flintAdvisoryPrecondition(result == .success,
-                                  "Action for Intent \(intent) did not succeed immediately: \(outcome)")
+                                  "Action dispatch for Intent \(intent) did not succeed immediately: \(outcome)")
         
         return result
     }
@@ -493,6 +492,8 @@ final public class Flint {
                 }
                 featureMetadata.setIntentMappings(mappings)
             }
+            
+            IntentMappings.shared.addMappings(mappings)
         }
     }
 }

@@ -597,6 +597,9 @@
 		49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */; };
 		49A99A061FF9072200A64E8C /* PrintLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */; };
 		49A99A081FF9073C00A64E8C /* AggregatingLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */; };
+		49AA1EBF21E129CB0079FE29 /* IntentBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */; };
+		49AA1EC021E129CB0079FE29 /* IntentBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */; };
+		49AA1EC121E129CB0079FE29 /* IntentBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */; };
 		49AA5A632133469E00E65533 /* LogEventContext+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */; };
 		49AA5A642133469E00E65533 /* LogEventContext+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */; };
 		49AA5A652133469E00E65533 /* LogEventContext+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */; };
@@ -977,6 +980,7 @@
 		49A99A031FF906AA00A64E8C /* DefaultLoggerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggerFactory.swift; sourceTree = "<group>"; };
 		49A99A051FF9072200A64E8C /* PrintLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLoggerOutput.swift; sourceTree = "<group>"; };
 		49A99A071FF9073C00A64E8C /* AggregatingLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatingLoggerOutput.swift; sourceTree = "<group>"; };
+		49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentBindingTests.swift; sourceTree = "<group>"; };
 		49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LogEventContext+Mocking.swift"; sourceTree = "<group>"; };
 		49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionRequest+Mocking.swift"; sourceTree = "<group>"; };
 		49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -1546,6 +1550,7 @@
 				49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */,
 				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
 				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
+				49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -2106,6 +2111,7 @@
 				491533672093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
 				4999B6AA2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */,
+				49AA1EC021E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A682133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
@@ -2303,6 +2309,7 @@
 				491533682093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
 				4999B6AB2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */,
+				49AA1EC121E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A692133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
@@ -2690,6 +2697,7 @@
 				491533662093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
 				4999B6A92136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */,
+				49AA1EBF21E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,

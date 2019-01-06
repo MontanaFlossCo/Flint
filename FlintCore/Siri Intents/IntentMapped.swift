@@ -46,10 +46,12 @@ public typealias IntentActionExecutor = (_ input: FlintIntent, _ presenter: Inte
 
 struct IntentMapping {
     let intentType: FlintIntent.Type
+    let actionTypeName: String
     let executorProxy: (_ intent: FlintIntent, _ presenter: IntentResultPresenter, _ completion: Action.Completion) -> Action.Completion.Status
     
-    init(intentType: FlintIntent.Type, executor: @escaping IntentActionExecutor) {
+    init(intentType: FlintIntent.Type, actionTypeName: String, executor: @escaping IntentActionExecutor) {
         self.intentType = intentType
+        self.actionTypeName = actionTypeName
         executorProxy = { (input: FlintIntent, presenter: IntentResultPresenter, completion: Action.Completion) -> Action.Completion.Status in
             executor(input, presenter, completion)
         }
@@ -61,9 +63,16 @@ struct IntentMapping {
 }
 
 class IntentMappings {
-    static let instance = IntentMappings()
+    static let shared = IntentMappings()
     
-    var mappings: [String:IntentMapping] = [:]
+    /// A mapping from Intent Type name to Intent Mapping
+    private(set) var mappings: [String:IntentMapping] = [:]
+    
+    func addMappings(_ mappings:IntentMappings) {
+        self.mappings.merge(mappings.mappings) { (a, b) -> IntentMapping in
+            return b
+        }
+    }
     
     func forward<FeatureType, ActionType>(_ intentType: FlintIntent.Type, to binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: LoggableIntent, ActionType.PresenterType: IntentResultPresenter {
         let executor: IntentActionExecutor = { input, presenter, completion in
@@ -79,12 +88,13 @@ class IntentMappings {
                                    source: .intent,
                                    completion: completion)
         }
-        let targetActionName = String(reflecting: ActionType.self)
-        mappings[targetActionName] = IntentMapping(intentType: intentType, executor: executor)
+        let intentName = String(reflecting: intentType)
+        let actionName = String(reflecting: ActionType.self)
+        mappings[intentName] = IntentMapping(intentType: intentType, actionTypeName: actionName, executor: executor)
     }
     
     func mapping(for intentType: FlintIntent.Type) -> IntentMapping? {
-        return mappings[String(describing: intentType)]
+        return mappings[String(reflecting: intentType)]
     }
 }
 

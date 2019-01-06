@@ -34,7 +34,7 @@ final class DispatchIntentAction: IntentAction {
 
     static func perform(context: ActionContext<FlintIntentWrapper>, presenter: IntentResultPresenter, completion: Completion) -> Completion.Status {
         // Look up the executor by type
-        guard let mapping = IntentMappings.instance.mapping(for: type(of: context.input.intent)) else {
+        guard let mapping = IntentMappings.shared.mapping(for: type(of: context.input.intent)) else {
             return completion.completedSync(.failure(error: IntentActionError.noMappingFound))
         }
 
