@@ -440,9 +440,6 @@ final public class Flint {
                 }
         }
         
-        flintAdvisoryPrecondition(result == .success,
-                                  "Action dispatch for Intent \(intent) did not succeed immediately: \(outcome)")
-        
         return result
     }
 
