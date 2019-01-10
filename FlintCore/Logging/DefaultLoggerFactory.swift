@@ -68,7 +68,6 @@ public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
     public static func setup(initialDebugLogLevel: LoggerLevel = .debug, initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
         let outputs: [LoggerOutput] = [
             PrintLoggerImplementation(prefix: "🐞", timeOnly: briefLogging),
-            OSLogOutput()
         ]
 
         let prodOutputs: [LoggerOutput] = [

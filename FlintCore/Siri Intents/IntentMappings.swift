@@ -27,7 +27,7 @@ class IntentMappings {
                 flintBug("Input passed to intent executor is not the expected type \(ActionType.InputType.self), it was \(type(of: input))")
             }
             guard let intentPresenter = presenter as? ActionType.PresenterType else {
-                flintBug("Presentr passed to intent executor is not the expected type \(ActionType.PresenterType.self), it was \(type(of: presenter))")
+                flintBug("Presenter passed to intent executor is not the expected type \(ActionType.PresenterType.self), it was \(type(of: presenter))")
             }
             return binding.perform(input: intentInput,
                                    presenter: intentPresenter,
