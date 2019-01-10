@@ -9,10 +9,10 @@
 import Foundation
 
 /// Internal dependencies for Flint usage.
-final class FlintInternal {
+public final class FlintInternal {
 
     /// The loggig topic for internal Flint Core logging that is not associated with Features
-    static let coreLoggingTopic = TopicPath(["Flint", "Core"])
+    public static let coreLoggingTopic = TopicPath(["Flint", "Core"])
 
     /// Provides the internal logger for core bootstrapping
     static var logger: ContextSpecificLogger? = {

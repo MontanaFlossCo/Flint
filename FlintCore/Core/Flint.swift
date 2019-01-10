@@ -133,6 +133,10 @@ final public class Flint {
             linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
         }
         
+        // Unless we're debugging Flint we don't want this stuff.
+        Logging.development?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
+        Logging.production?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
+
         ActionSession.quickSetupMainSession()
 
         commonSetup()
