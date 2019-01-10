@@ -15,21 +15,10 @@ import Intents
 public let intentsQueue = DispatchQueue(label: "intents-actions")
 public let intentActionSession = ActionSession(named: "Intents", userInitiatedActions: true)
 
-#if canImport(Intents)
-public typealias FlintIntentResponse = INIntentResponse
-#else
-public class FakeIntentResponse {
-}
-public typealias FlintIntentResponse = FakeIntentResponse
-#endif
-
-/// The presenter type required when performing an action as a result of receiving a Siri Intent.
-/// This is used in Intent extensions to perform the action and record the response to return to Siri.
-public protocol IntentResultPresenter {
-    func showResult(response: FlintIntentResponse)
-}
-
 /// Actions that implement a Siri Intent must conform to this protocol.
+///
+/// It will ensure that they use a non-main queue (because Intent extensions are called on a background thread) and
+/// use an Intent-specific session for log and timeline scoping.
 public protocol IntentAction: Action {
 }
 

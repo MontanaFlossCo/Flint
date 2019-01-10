@@ -7,23 +7,12 @@
 //
 
 import Foundation
-#if canImport(Intents)
-import Intents
-#endif
-
-/// The input type for handling intents.
-///
-/// This is used to avoid having to expose hard dependencies on `INIntent` in our public facing APIs for
-/// platforms or apps that do not import Intents.
-struct FlintIntentWrapper: FlintLoggable {
-#if canImport(Intents)
-    let intent: INIntent
-#endif
-}
 
 /// Dispatch the appropriate action for a given intent.
 ///
-/// Call this from within Intent extensions to perform the correct action.
+/// Called from within Intent extensions to perform the correct action.
+///
+/// - note: You should not need to call this, see `Flint.performIntent` instead.
 final class DispatchIntentAction: IntentAction {
     typealias InputType = FlintIntentWrapper
     typealias PresenterType = IntentResultPresenter

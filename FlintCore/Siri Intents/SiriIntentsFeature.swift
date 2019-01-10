@@ -11,7 +11,8 @@ import Foundation
 import Intents
 #endif
 
-/// The is the internal Flint feature for automatic dispatch of Siri Intent donation and handling.
+/// The is the internal Flint feature for automatic Siri Intent donation and intent dispatch
+/// handling from Intent extensions
 public final class SiriIntentsFeature: ConditionalFeature, FeatureGroup {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.iOS = 12
@@ -33,8 +34,9 @@ public final class SiriIntentsFeature: ConditionalFeature, FeatureGroup {
     public static var isEnabled: Bool? = false
 #endif
 
-    public static var description: String = "Siri Intent handling and continuation"
+    public static var description: String = "Siri Intent handling and donation"
 
+    /// Used to dispatch the action bound to an intent type.
     static var handleIntent = action(DispatchIntentAction.self)
     
     public static func prepare(actions: FeatureActionsBuilder) {
