@@ -12,8 +12,8 @@ import Intents
 #endif
 
 /// The is the internal Flint feature for automatic Siri Intent donation and intent dispatch
-/// handling from Intent extensions
-public final class SiriIntentsFeature: ConditionalFeature, FeatureGroup {
+/// handling from Intent extensions, shortcut registration etc.
+public final class SiriFeature: ConditionalFeature, FeatureGroup {
     public static func constraints(requirements: FeatureConstraintsBuilder) {
         requirements.iOS = 12
         requirements.watchOS = 5
