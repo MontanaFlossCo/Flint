@@ -20,10 +20,24 @@ public let intentActionSession = ActionSession(named: "Intents", userInitiatedAc
 /// It will ensure that they use a non-main queue (because Intent extensions are called on a background thread) and
 /// use an Intent-specific session for log and timeline scoping.
 public protocol IntentAction: Action {
+#if canImport(Intents)
+    /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
+    /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
+    @available(iOS 12, *)
+    static func intent(for input: InputType) -> FlintIntent?
+#endif
 }
 
 /// Set up the queue and session to use for Siri actions because these cannot use the main queue.
 public extension IntentAction {
     static var queue: DispatchQueue { return intentsQueue }
     static var defaultSession: ActionSession? { return intentActionSession }
+
+#if canImport(Intents)
+    @available(iOS 12, *)
+    public static func intent(for input: InputType) -> FlintIntent?
+    {
+        return nil
+    }
+#endif
 }

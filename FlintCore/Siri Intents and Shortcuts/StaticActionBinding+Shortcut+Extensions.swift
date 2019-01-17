@@ -26,8 +26,10 @@ extension StaticActionBinding {
     public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter)
     }
+}
 
-    /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
+extension StaticActionBinding where ActionType: IntentAction {
+    /// Donate an intent-based shortcut that will invoke this `Action` to Siri for the given input.
     @available(iOS 12, *)
     public func donateToSiri(for input: ActionType.InputType) {
         guard let intent = action.intent(for: input) else {

@@ -31,6 +31,15 @@ import IntentsUI
 class VoiceShortcuts {
     @available(iOS 12, *)
     static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type, feature: FeatureType.Type, for input: ActionType.InputType, presenter: UIViewController) where ActionType: Action, FeatureType: FeatureDefinition {
+        guard let activity = ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
+            flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
+        }
+        let shortcut = INShortcut(userActivity: activity)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
+    }
+
+    @available(iOS 12, *)
+    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type, feature: FeatureType.Type, for input: ActionType.InputType, presenter: UIViewController) where ActionType: IntentAction, FeatureType: FeatureDefinition {
         let shortcut: INShortcut
         if let intent = ActionType.intent(for: input) {
             guard let intentShortcut = INShortcut(intent: intent) else {
