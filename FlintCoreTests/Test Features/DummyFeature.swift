@@ -51,10 +51,18 @@ class DummyIntentResultPresenter: IntentResultPresenter {
 }
 
 final class DummyIntentAction: IntentAction {
-    typealias InputType = DummyIntent
+    typealias IntentType = DummyIntent
     typealias PresenterType = DummyIntentResultPresenter
     
-    static func perform(context: ActionContext<DummyIntentAction.InputType>, presenter: DummyIntentAction.PresenterType, completion: Action.Completion) -> Action.Completion.Status {
+    static func intent(for input: DummyIntentAction.InputType) -> DummyIntent? {
+        return DummyIntent()
+    }
+    
+    static func input(for intent: DummyIntent) -> DummyIntentAction.InputType? {
+        return NoInput.none
+    }
+    
+    static func perform(context: ActionContext<NoInput>, presenter: DummyIntentAction.PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         return completion.completedSync(.successWithFeatureTermination)
     }
 }

@@ -13,11 +13,12 @@ import Foundation
 /// Called from within Intent extensions to perform the correct action.
 ///
 /// - note: You should not need to call this, see `Flint.performIntent` instead.
-final class DispatchIntentAction: IntentAction {
+final class DispatchIntentAction: IntentBackgroundAction {
     typealias InputType = FlintIntentWrapper
     typealias PresenterType = IntentResultPresenter
-    
+
     enum IntentActionError: Error {
+        case invalidInputFromIntent
         case noMappingFound
         case noIntentSupplied
     }

@@ -14,7 +14,7 @@ import Foundation
 public class DefaultIntentMappingsBuilder<FeatureType>: IntentMappingsBuilder where FeatureType: FeatureDefinition {
     var mappings = IntentMappings()
     
-    public func forward<FeatureType, ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: Action, ActionType.InputType: FlintIntent, ActionType.PresenterType: IntentResultPresenter {
+    public func forward<FeatureType, ActionType>(intentType: FlintIntent.Type, to actionBinding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
         mappings.forward(intentType, to: actionBinding)
     }
 }
