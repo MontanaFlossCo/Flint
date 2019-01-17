@@ -26,10 +26,11 @@ final class DispatchIntentAction: IntentBackgroundAction {
     static func perform(context: ActionContext<FlintIntentWrapper>, presenter: IntentResultPresenter, completion: Completion) -> Completion.Status {
         // Look up the executor by type
         guard let mapping = IntentMappings.shared.mapping(for: type(of: context.input.intent)) else {
-            return completion.completedSync(.failure(error: IntentActionError.noMappingFound))
+            return completion.completedSync(.failureWithFeatureTermination(error: IntentActionError.noMappingFound))
         }
 
         // Call it
+        /// !!! TODO: Proxy this and convert it to a feature terminating result
         return mapping.performAction(for: context.input.intent, presenter: presenter, completion: completion)
     }
 }

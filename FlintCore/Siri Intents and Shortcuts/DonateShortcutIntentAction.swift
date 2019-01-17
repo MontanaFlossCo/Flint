@@ -23,7 +23,7 @@ final class DonateShortcutIntentAction: UIAction {
         if #available(iOS 12.0, *) {
             donateToSiri(intent: context.input.intent)
         }
-        return completion.completedSync(.success)
+        return completion.completedSync(.successWithFeatureTermination)
     }
 
     @available(iOS 12, *)
