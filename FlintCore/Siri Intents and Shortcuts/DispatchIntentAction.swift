@@ -19,6 +19,7 @@ final class DispatchIntentAction: IntentAction {
     
     enum IntentActionError: Error {
         case noMappingFound
+        case noIntentSupplied
     }
 
     static func perform(context: ActionContext<FlintIntentWrapper>, presenter: IntentResultPresenter, completion: Completion) -> Completion.Status {

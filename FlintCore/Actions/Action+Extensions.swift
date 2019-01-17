@@ -76,26 +76,5 @@ public extension Action {
     {
         return nil
     }
-
-    /// Donate a a Siri Intent interaction to the shortcuts subsystem, for the given input to the action.
-    @available(iOS 12, *)
-    public static func donateToSiri(input: InputType) {
-        guard let intentToUse = intent(for: input) else {
-            return
-        }
-        donateToSiri(intent: intentToUse)
-    }
-    
-    @available(iOS 12, *)
-    internal static func donateToSiri(intent: INIntent) {
-        if intent.suggestedInvocationPhrase == nil {
-            intent.suggestedInvocationPhrase = suggestedInvocationPhrase
-        }
-        
-        let interaction = INInteraction(intent: intent, response: nil)
-        interaction.donate { error in
-            FlintInternal.logger?.error("Donation error: \(String(describing: error))")
-        }
-    }
 #endif
 }

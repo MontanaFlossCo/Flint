@@ -125,10 +125,10 @@ public protocol Action {
     static var suggestedInvocationPhrase: String? { get }
     
 #if canImport(Intents)
-    @available(iOS 12, *)
-    /// Call this to explicitly donate a Siri Intent as a possible shortcut for the given input.
-    /// - note: Your Action must also return a non-nil intent from the `intent(for:)` function.
-    static func donateToSiri(input: InputType)
+//    @available(iOS 12, *)
+//    /// Call this to explicitly donate a Siri Intent as a possible shortcut for the given input.
+//    /// - note: Your Action must also return a non-nil intent from the `intent(for:)` function.
+//    static func donateToSiri(input: InputType)
 
     @available(iOS 12, *)
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register

@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Intents)
+import Intents
+#endif
 
 /// Action that donates the given input (a wrapped INIntent) as a possible shortcut.
 ///
@@ -21,5 +24,17 @@ final class DonateShortcutIntentAction: UIAction {
             donateToSiri(intent: context.input.intent)
         }
         return completion.completedSync(.success)
+    }
+
+    @available(iOS 12, *)
+    internal static func donateToSiri(intent: INIntent) {
+        if intent.suggestedInvocationPhrase == nil {
+            intent.suggestedInvocationPhrase = suggestedInvocationPhrase
+        }
+        
+        let interaction = INInteraction(intent: intent, response: nil)
+        interaction.donate { error in
+            FlintInternal.logger?.error("Donation error: \(String(describing: error))")
+        }
     }
 }
