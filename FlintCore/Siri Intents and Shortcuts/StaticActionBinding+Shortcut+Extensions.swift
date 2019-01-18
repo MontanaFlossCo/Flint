@@ -29,6 +29,54 @@ extension StaticActionBinding {
 }
 
 extension StaticActionBinding where ActionType: IntentAction {
+    @available(iOS 12, *)
+    public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
+//        guard let request = SiriFeature.handleIntent.request() else {
+//            return .featureDisabled
+//        }
+
+        /// !!! TODO: We probably need a Result<T> here as nil could be valid
+        guard let inputFromIntent = ActionType.input(for: intent) else {
+            flintUsageError("Failed to create input from intent \(intent)")
+        }
+
+//        let intentWrapper = FlintIntentWrapper(intent: intent)
+        
+        var syncOutcome: ActionPerformOutcome?
+        let completion = Action.Completion(queue: nil) { (outcome, wasAsync) in
+            FlintInternal.logger?.debug("Intent perform outcome: \(outcome) wasAsync: \(wasAsync)");
+            syncOutcome = outcome
+        }
+
+        let status: Action.Completion.Status = perform(input: inputFromIntent, presenter: presenter, userInitiated: true, source: .intent, completion: completion)
+
+        if status.isCompletingAsync {
+            return .completingAsync
+        }
+        
+        guard let outcome = syncOutcome else {
+            flintBug("We should have a sync outcome by now");
+        }
+        
+        let result: MappedActionResult
+        
+        switch outcome {
+            case .success,
+                 .successWithFeatureTermination:
+                result = .success
+            case .failure(let error),
+                 .failureWithFeatureTermination(let error):
+                switch error {
+                    case DispatchIntentAction.IntentActionError.noMappingFound:
+                        result = .noMappingFound
+                    default:
+                        result = .failure(error: error)
+                }
+        }
+        
+        return result
+    }
+
     /// Donate an intent-based shortcut that will invoke this `Action` to Siri for the given input.
     @available(iOS 12, *)
     public func donateToSiri(for input: ActionType.InputType) {

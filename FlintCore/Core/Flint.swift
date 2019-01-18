@@ -200,7 +200,6 @@ final public class Flint {
         feature.prepare(actions: builder)
 
         _registerUrlMappings(feature: feature)
-        _registerIntentMappings(feature: feature)
     }
     
     /// Register a feature group with Flint. This will recursively register all the subfeatures.
@@ -355,7 +354,7 @@ final public class Flint {
 #endif
             default:
 #if os(iOS) || os(macOS)
-                // Check for a Siri intent
+                // Check for a Siri Interaction
 #if canImport(Intents)
                 if let interaction = activity.interaction {
                     source = .continueActivity(type: .siri(interaction: interaction))
@@ -402,7 +401,7 @@ final public class Flint {
                 }
         }
     }
-    
+/*
     public static func performIntentAction(intent: INIntent, presenter: UntypedIntentResponsePresenter) -> MappedActionResult {
         guard let request = SiriFeature.handleIntent.request() else {
             return .featureDisabled
@@ -442,7 +441,7 @@ final public class Flint {
         
         return result
     }
-
+*/
     // MARK: Debug functions
     
     /// Gather all logs, timelines and stacks into a single ZIP suitable for sharing.
@@ -473,24 +472,6 @@ final public class Flint {
                 
                 featureMetadata.setActionURLMappings(mappings)
             }
-        }
-    }
-
-    private static func _registerIntentMappings(feature: FeatureDefinition.Type) {
-        if let intentMappedSelf = feature as? IntentMapped.Type {
-            FlintInternal.logger?.debug("Registering URL mappings for: \(feature)")
-
-            /// Force the static intentMappings to be evaluated
-            let mappings = intentMappedSelf.collectIntentMappings()
-
-            metadataAccessQueue.sync {
-                guard let featureMetadata = metadata(for: feature) else {
-                    flintUsageError("Cannot register Intent mappings for feature \(feature) because the feature has not been prepared")
-                }
-                featureMetadata.setIntentMappings(mappings)
-            }
-            
-            IntentMappings.shared.addMappings(mappings)
         }
     }
 }

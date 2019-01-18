@@ -41,17 +41,3 @@ public extension IntentBackgroundAction {
     static var queue: DispatchQueue { return intentsQueue }
     static var defaultSession: ActionSession? { return intentActionSession }
 }
-
-//public extension IntentAction {
-//#if canImport(Intents)
-//    @available(iOS 12, *)
-//    public static func intent(for input: InputType) -> IntentType? {
-//        return nil
-//    }
-//
-//    @available(iOS 12, *)
-//    static func input(for intent: IntentType) -> InputType? {
-//        return nil
-//    }
-//#endif
-//}
