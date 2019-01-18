@@ -403,7 +403,7 @@ final public class Flint {
         }
     }
     
-    public static func performIntentAction(intent: INIntent, presenter: IntentResultPresenter) -> MappedActionResult {
+    public static func performIntentAction(intent: INIntent, presenter: UntypedIntentResponsePresenter) -> MappedActionResult {
         guard let request = SiriFeature.handleIntent.request() else {
             return .featureDisabled
         }

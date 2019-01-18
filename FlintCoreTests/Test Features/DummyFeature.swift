@@ -42,17 +42,12 @@ final class DummyAction: UIAction {
     }
 }
 
-class DummyIntent: FlintIntent {
-}
-
-class DummyIntentResultPresenter: IntentResultPresenter {
-    func showResult(response: FlintIntentResponse) {
-    }
-}
+typealias DummyIntent = FlintIntent
+typealias DummyIntentResponse = FlintIntentResponse
 
 final class DummyIntentAction: IntentAction {
     typealias IntentType = DummyIntent
-    typealias PresenterType = DummyIntentResultPresenter
+    typealias PresenterType = IntentResponsePresenter<DummyIntentResponse>
     
     static func intent(for input: DummyIntentAction.InputType) -> DummyIntent? {
         return DummyIntent()

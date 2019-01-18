@@ -15,7 +15,7 @@ import Foundation
 /// - note: You should not need to call this, see `Flint.performIntent` instead.
 final class DispatchIntentAction: IntentBackgroundAction {
     typealias InputType = FlintIntentWrapper
-    typealias PresenterType = IntentResultPresenter
+    typealias PresenterType = UntypedIntentResponsePresenter
 
     enum IntentActionError: Error {
         case invalidInputFromIntent
@@ -23,7 +23,7 @@ final class DispatchIntentAction: IntentBackgroundAction {
         case noIntentSupplied
     }
 
-    static func perform(context: ActionContext<FlintIntentWrapper>, presenter: IntentResultPresenter, completion: Completion) -> Completion.Status {
+    static func perform(context: ActionContext<FlintIntentWrapper>, presenter: UntypedIntentResponsePresenter, completion: Completion) -> Completion.Status {
         // Look up the executor by type
         guard let mapping = IntentMappings.shared.mapping(for: type(of: context.input.intent)) else {
             return completion.completedSync(.failureWithFeatureTermination(error: IntentActionError.noMappingFound))
