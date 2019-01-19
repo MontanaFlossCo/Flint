@@ -11,7 +11,7 @@ import Foundation
 /// The presenter type required when performing an action as a result of receiving a Siri Intent.
 /// This is used in Intent extensions to perform the action and forward the response to Siri.
 public protocol UntypedIntentResponsePresenter {
-    func showResult(response: FlintIntentResponse)
+    func showResponse(_ response: FlintIntentResponse)
 }
 
 /// The default
@@ -22,7 +22,7 @@ public class IntentResponsePresenter<ResponseType>: UntypedIntentResponsePresent
         self.completion = completion
     }
     
-    public func showResult(response: FlintIntentResponse) {
+    public func showResponse(_ response: FlintIntentResponse) {
         guard let safeResponse = response as? ResponseType else {
             fatalError("Wrong response type, expected \(ResponseType.self) but got \(type(of: response))")
         }
