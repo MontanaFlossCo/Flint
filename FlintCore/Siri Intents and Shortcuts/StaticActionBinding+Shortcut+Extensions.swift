@@ -30,6 +30,12 @@ extension StaticActionBinding {
 
 extension StaticActionBinding where ActionType: IntentAction {
     @available(iOS 12, *)
+    public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) -> MappedActionResult {
+        let presenter = IntentResponsePresenter(completion: completion)
+        return perform(intent: intent, presenter: presenter)
+    }
+    
+    @available(iOS 12, *)
     public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
         /// !!! TODO: We probably need a Result<T> here as nil could be valid
         guard let inputFromIntent = ActionType.input(for: intent) else {

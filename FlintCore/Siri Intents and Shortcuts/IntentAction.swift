@@ -24,7 +24,10 @@ public protocol IntentBackgroundAction: Action {
 
 public protocol IntentAction: IntentBackgroundAction {
     associatedtype IntentType: FlintIntent
-    
+    associatedtype IntentResponseType: FlintIntentResponse
+
+    typealias PresenterType = IntentResponsePresenter<IntentResponseType>
+
 #if canImport(Intents)
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
