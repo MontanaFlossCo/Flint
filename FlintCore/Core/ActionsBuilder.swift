@@ -23,7 +23,16 @@ class ActionsBuilder: FeatureActionsBuilder {
         Flint.bind(binding.action, to: feature)
     }
     
+    public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
+        Flint.bind(binding.action, to: feature)
+    }
+    
     public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        activityMappings.registerActivity(for: binding)
+        Flint.bind(binding.action, to: feature)
+    }
+    
+    public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
         Flint.bind(binding.action, to: feature)
     }
@@ -32,7 +41,16 @@ class ActionsBuilder: FeatureActionsBuilder {
         Flint.bind(binding.action, to: feature)
     }
 
+    public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
+        Flint.bind(binding.action, to: feature)
+    }
+
     public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        activityMappings.registerActivity(for: binding)
+        Flint.bind(binding.action, to: feature)
+    }
+
+    public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
         Flint.bind(binding.action, to: feature)
     }
@@ -41,7 +59,16 @@ class ActionsBuilder: FeatureActionsBuilder {
         Flint.publish(binding.action, to: feature)
     }
     
+    public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
+        Flint.publish(binding.action, to: feature)
+    }
+    
     public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        activityMappings.registerActivity(for: binding)
+        Flint.publish(binding.action, to: feature)
+    }
+
+    public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
         Flint.publish(binding.action, to: feature)
     }
@@ -50,7 +77,16 @@ class ActionsBuilder: FeatureActionsBuilder {
         Flint.publish(binding.action, to: feature)
     }
 
+    public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
+        Flint.publish(binding.action, to: feature)
+    }
+
     public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
+        activityMappings.registerActivity(for: binding)
+        Flint.publish(binding.action, to: feature)
+    }
+
+    public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
         Flint.publish(binding.action, to: feature)
     }

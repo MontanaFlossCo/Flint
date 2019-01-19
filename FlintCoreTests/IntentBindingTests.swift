@@ -19,6 +19,18 @@ class IntentBindingTests: XCTestCase {
     override func tearDown() {
     }
 
+    /// Verify that action metadata includes the Intent if any for intent actions
+    func testIntentMetadataBinding() {
+        guard let metadata = Flint.metadata(for: DummyFeature.self) else {
+            fatalError("Expected metadata for test feature")
+        }
+        guard let actionMetadata = metadata.actionMetadata(action: DummyFeature.intentAction.action) else {
+            fatalError("Expected metadata for test action")
+        }
+        let intentTypeName = String(reflecting: DummyIntent.self)
+        XCTAssertEqual(actionMetadata.intentTypeName, intentTypeName, "Intent type was not found in action metadata")
+    }
+
     @available(iOS 12, *)
     func testPerformIntent() {
         let intent = DummyIntent()

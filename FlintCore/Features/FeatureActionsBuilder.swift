@@ -15,22 +15,30 @@ public protocol FeatureActionsBuilder {
     /// Declare an action that is always available. This will bind the action and the feature, so that the
     /// action can be performed.
     func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>)
+    func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
     func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
+    func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
 
     /// Declare an action that is conditionally available. This will bind the action and the feature, so that the
     /// action can be performed.
     func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>)
+    func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
     func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
+    func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
 
     /// Publish an action that is always available. This will bind the action and the feature, so that the
     /// action can be performed. Published actions can be enumerated separately by the application to
     /// provide UI for them.
     func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>)
+    func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
     func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
+    func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
 
     /// Publishes an action that is conditionally available. This will bind the action and the feature, so that the
     /// action can be performed. Published actions can be enumerated separately by the application to
     /// provide UI for them.
     func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>)
+    func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
     func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
+    func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
 }

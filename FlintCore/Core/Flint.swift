@@ -401,47 +401,7 @@ final public class Flint {
                 }
         }
     }
-/*
-    public static func performIntentAction(intent: INIntent, presenter: UntypedIntentResponsePresenter) -> MappedActionResult {
-        guard let request = SiriFeature.handleIntent.request() else {
-            return .featureDisabled
-        }
 
-        let intentWrapper = FlintIntentWrapper(intent: intent)
-        
-        var syncOutcome: ActionPerformOutcome?
-        let completion = Action.Completion(queue: nil) { (outcome, wasAsync) in
-            FlintInternal.logger?.debug("Intent perform outcome: \(outcome) wasAsync: \(wasAsync)");
-            syncOutcome = outcome
-        }
-        let status: Action.Completion.Status = request.perform(input: intentWrapper, presenter: presenter, userInitiated: true, source: .intent, completion: completion)
-        if status.isCompletingAsync {
-            return .completingAsync
-        }
-        
-        guard let outcome = syncOutcome else {
-            flintBug("We should have a sync outcome by now");
-        }
-        
-        let result: MappedActionResult
-        
-        switch outcome {
-            case .success,
-                 .successWithFeatureTermination:
-                result = .success
-            case .failure(let error),
-                 .failureWithFeatureTermination(let error):
-                switch error {
-                    case DispatchIntentAction.IntentActionError.noMappingFound:
-                        result = .noMappingFound
-                    default:
-                        result = .failure(error: error)
-                }
-        }
-        
-        return result
-    }
-*/
     // MARK: Debug functions
     
     /// Gather all logs, timelines and stacks into a single ZIP suitable for sharing.
@@ -563,7 +523,33 @@ extension Flint {
         }
     }
 
+    static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
+        FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
+
+        // Get the existing FeatureMetadata for the feature
+        metadataAccessQueue.sync {
+            guard let featureMetadata = metadata(for: feature) else {
+                flintBug("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.bind(action)
+        }
+    }
+
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
+        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
+
+        metadataAccessQueue.sync {
+            // Get the existing FeatureMetadata for the feature
+            guard let featureMetadata = metadata(for: feature) else {
+                flintBug("Cannot publish action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.publish(action)
+        }
+    }
+    
+    static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
         FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
 
         metadataAccessQueue.sync {
