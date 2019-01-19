@@ -40,10 +40,6 @@
 		491A348721E7E63600E81D58 /* DonateShortcutIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */; };
 		491A348921E7E75800E81D58 /* IntentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348821E7E75800E81D58 /* IntentTypes.swift */; };
 		491A348B21E7E77D00E81D58 /* IntentResultPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */; };
-		491A348D21E7E85500E81D58 /* IntentMappingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348C21E7E85500E81D58 /* IntentMappingsBuilder.swift */; };
-		491A348F21E7E87200E81D58 /* DefaultIntentMappingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348E21E7E87200E81D58 /* DefaultIntentMappingsBuilder.swift */; };
-		491A349121E7E90900E81D58 /* IntentMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A349021E7E90900E81D58 /* IntentMapping.swift */; };
-		491A349321E7E92700E81D58 /* IntentMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A349221E7E92700E81D58 /* IntentMappings.swift */; };
 		492037522124D609005DDA29 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492037512124D609005DDA29 /* Photos.framework */; };
 		4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
 		4921705520D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
@@ -581,14 +577,6 @@
 		499FE35920BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */; };
 		499FE35A20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */; };
 		499FE35B20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */; };
-		49A389902166440600E6A87E /* DispatchIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3898F2166440600E6A87E /* DispatchIntentAction.swift */; };
-		49A389912166440600E6A87E /* DispatchIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3898F2166440600E6A87E /* DispatchIntentAction.swift */; };
-		49A389922166440600E6A87E /* DispatchIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3898F2166440600E6A87E /* DispatchIntentAction.swift */; };
-		49A389932166440600E6A87E /* DispatchIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A3898F2166440600E6A87E /* DispatchIntentAction.swift */; };
-		49A38997216697CC00E6A87E /* IntentMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A38996216697CC00E6A87E /* IntentMapped.swift */; };
-		49A38998216697CC00E6A87E /* IntentMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A38996216697CC00E6A87E /* IntentMapped.swift */; };
-		49A38999216697CC00E6A87E /* IntentMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A38996216697CC00E6A87E /* IntentMapped.swift */; };
-		49A3899A216697CC00E6A87E /* IntentMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A38996216697CC00E6A87E /* IntentMapped.swift */; };
 		49A62C8320D2FDF800264606 /* PerformIncomingActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */; };
 		49A62C8420D2FDF800264606 /* PerformIncomingActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */; };
 		49A62C8520D2FDF800264606 /* PerformIncomingActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */; };
@@ -831,10 +819,6 @@
 		491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateShortcutIntentAction.swift; sourceTree = "<group>"; };
 		491A348821E7E75800E81D58 /* IntentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentTypes.swift; sourceTree = "<group>"; };
 		491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentResultPresenter.swift; sourceTree = "<group>"; };
-		491A348C21E7E85500E81D58 /* IntentMappingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentMappingsBuilder.swift; sourceTree = "<group>"; };
-		491A348E21E7E87200E81D58 /* DefaultIntentMappingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultIntentMappingsBuilder.swift; sourceTree = "<group>"; };
-		491A349021E7E90900E81D58 /* IntentMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentMapping.swift; sourceTree = "<group>"; };
-		491A349221E7E92700E81D58 /* IntentMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentMappings.swift; sourceTree = "<group>"; };
 		492037512124D609005DDA29 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		4921705320D13B31007D6883 /* ActivityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuilder.swift; sourceTree = "<group>"; };
 		4921705A20D25625007D6883 /* ActivityCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCodable.swift; sourceTree = "<group>"; };
@@ -985,8 +969,6 @@
 		499FE34B20BD89F800552CE9 /* FeatureConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraint.swift; sourceTree = "<group>"; };
 		499FE35220BD8BAE00552CE9 /* FeatureConstraintResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintResult.swift; sourceTree = "<group>"; };
 		499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConstraintStatus.swift; sourceTree = "<group>"; };
-		49A3898F2166440600E6A87E /* DispatchIntentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchIntentAction.swift; sourceTree = "<group>"; };
-		49A38996216697CC00E6A87E /* IntentMapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentMapped.swift; sourceTree = "<group>"; };
 		49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformIncomingActivityAction.swift; sourceTree = "<group>"; };
 		49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionActivityMappings.swift; sourceTree = "<group>"; };
 		49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StaticActionBinding+Shortcut+Extensions.swift"; sourceTree = "<group>"; };
@@ -1136,14 +1118,8 @@
 				491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */,
 				4930281D215138660042DA96 /* IntentAction.swift */,
 				491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */,
-				49A3898F2166440600E6A87E /* DispatchIntentAction.swift */,
 				491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */,
-				49A38996216697CC00E6A87E /* IntentMapped.swift */,
 				491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */,
-				491A348C21E7E85500E81D58 /* IntentMappingsBuilder.swift */,
-				491A348E21E7E87200E81D58 /* DefaultIntentMappingsBuilder.swift */,
-				491A349021E7E90900E81D58 /* IntentMapping.swift */,
-				491A349221E7E92700E81D58 /* IntentMappings.swift */,
 				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
 				49CCC9692195BB2800ED4C50 /* ConditionalActionRequest+Shortcut+Extensions.swift */,
 				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
@@ -2045,7 +2021,6 @@
 				493267532142FA0E00CC88CB /* Archive+Writing.swift in Sources */,
 				496F8F4A203EEBA5003AB29B /* ObserverSet.swift in Sources */,
 				496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */,
-				49A38998216697CC00E6A87E /* IntentMapped.swift in Sources */,
 				496F8F54203EEBB1003AB29B /* Timeline.swift in Sources */,
 				495576DC20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEE2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
@@ -2060,7 +2035,6 @@
 				496F8FC9203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
 				499FE35920BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				492B2A4420FE9A2400F4EAB0 /* CompletionRequirement.swift in Sources */,
-				49A389912166440600E6A87E /* DispatchIntentAction.swift in Sources */,
 				49DFB7DF20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DA209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4921706620D27D14007D6883 /* FlintImage.swift in Sources */,
@@ -2243,7 +2217,6 @@
 				493267542142FA0E00CC88CB /* Archive+Writing.swift in Sources */,
 				496F8F4D203EEBA6003AB29B /* ObserverSet.swift in Sources */,
 				496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */,
-				49A38999216697CC00E6A87E /* IntentMapped.swift in Sources */,
 				496F8F63203EEBB2003AB29B /* Timeline.swift in Sources */,
 				495576DD20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
@@ -2258,7 +2231,6 @@
 				496F8FDE203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
 				499FE35A20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				492B2A4520FE9A2500F4EAB0 /* CompletionRequirement.swift in Sources */,
-				49A389922166440600E6A87E /* DispatchIntentAction.swift in Sources */,
 				49DFB7E020A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DB209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4921706720D27D14007D6883 /* FlintImage.swift in Sources */,
@@ -2398,7 +2370,6 @@
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				494C279320BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */,
-				49A389932166440600E6A87E /* DispatchIntentAction.swift in Sources */,
 				494F59222098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				498A894F2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */,
@@ -2502,7 +2473,6 @@
 				4927FEF4208A3B8800163576 /* ActionSource.swift in Sources */,
 				496F8FEE203EEBDB003AB29B /* ActionSession.swift in Sources */,
 				496F8FF8203EEBDB003AB29B /* Flint.swift in Sources */,
-				49A3899A216697CC00E6A87E /* IntentMapped.swift in Sources */,
 				499FE34A20BD89C400552CE9 /* FeatureConstraintEvaluationResults.swift in Sources */,
 				496F8FED203EEBDB003AB29B /* ActionRequest.swift in Sources */,
 				496F8F7A203EEBB3003AB29B /* FocusContextualLoggerTarget.swift in Sources */,
@@ -2555,7 +2525,6 @@
 				4976923D201F3CEE00F97BD5 /* ActionURLMappings.swift in Sources */,
 				4946FAC0208D16750097E10E /* ActionsBuilder.swift in Sources */,
 				49D24B5620ADD35900649BB4 /* RegexURLPattern.swift in Sources */,
-				491A348D21E7E85500E81D58 /* IntentMappingsBuilder.swift in Sources */,
 				4927FEF6208A533000163576 /* HandleActivityAction.swift in Sources */,
 				49A99A021FF9067600A64E8C /* LoggerOutput.swift in Sources */,
 				4976924A201F41D900F97BD5 /* ActivityActionDispatchObserver.swift in Sources */,
@@ -2577,7 +2546,6 @@
 				49F37A3E209B2AC900B27671 /* PlatformConstraint.swift in Sources */,
 				49DB92432073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				4921AC0B20371B83003465E5 /* TopicPath.swift in Sources */,
-				49A38997216697CC00E6A87E /* IntentMapped.swift in Sources */,
 				49B4DCBF20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				4946FAC5208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				498F97692077832F00209633 /* DefaultFocusSelection.swift in Sources */,
@@ -2628,9 +2596,7 @@
 				494F591A2098AA380075E7EE /* FeaturePreconditionConstraint.swift in Sources */,
 				49839CED2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				494F59152098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
-				491A349121E7E90900E81D58 /* IntentMapping.swift in Sources */,
 				495576DB20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
-				491A349321E7E92700E81D58 /* IntentMappings.swift in Sources */,
 				49CCC96A2195BB2800ED4C50 /* ConditionalActionRequest+Shortcut+Extensions.swift in Sources */,
 				4978F0C7210399BC00C3B259 /* ContextualLoggers.swift in Sources */,
 				4956D5D9209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
@@ -2644,7 +2610,6 @@
 				49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
 				499FE35820BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
-				491A348F21E7E87200E81D58 /* DefaultIntentMappingsBuilder.swift in Sources */,
 				4921AC0920371B15003465E5 /* ContextSpecificLogger.swift in Sources */,
 				492B2A4320FE9A1B00F4EAB0 /* CompletionRequirement.swift in Sources */,
 				491A348521E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift in Sources */,
@@ -2707,7 +2672,6 @@
 				49769247201F3DD700F97BD5 /* PresentationRouter.swift in Sources */,
 				4927FF05208A556E00163576 /* ActivityEligibility.swift in Sources */,
 				49F6823A20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
-				49A389902166440600E6A87E /* DispatchIntentAction.swift in Sources */,
 				4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				494F59382098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
 				499F94EF1F93F84B0005B810 /* ActionLoggingDispatchObserver.swift in Sources */,

@@ -19,12 +19,22 @@ public enum MappedActionResult: Equatable {
     /// The mapping was resolved but the action failed
     case failure(error: Error?)
     
-    /// The mapping failed, and did not resolve to an action
+    /// There was not action mapped to the input 
     case noMappingFound
     
     /// The Routes feature is disabled so the routing was not performed
     case featureDisabled
     
+    init(outcome: ActionPerformOutcome) {
+        switch outcome {
+            case .success,
+                 .successWithFeatureTermination: self = .success
+            case .failure(let error),
+                 .failureWithFeatureTermination(let error): self = .failure(error: error)
+        }
+    }
+
+
     public static func ==(lhs: MappedActionResult, rhs: MappedActionResult) -> Bool {
         switch (lhs, rhs) {
             case (.success, .success),

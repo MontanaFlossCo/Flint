@@ -48,16 +48,6 @@ public class FeatureMetadata: Hashable, Equatable {
         }
     }
     
-    func setIntentMappings(_ mappings: IntentMappings) {
-        for (intentTypeName, mapping) in mappings.mappings {
-            let firstFound = actions.first { return $0.typeName == mapping.actionTypeName }
-            guard let action = firstFound else {
-                flintUsageError("Cannot find metadata for action \(mapping.actionTypeName) for the Intent type \(intentTypeName). Did you forget to declare or publish the action?")
-            }
-            action.add(intentMapping: mapping)
-        }
-    }
-    
     func _bind<T>(_ action: T.Type, publish: Bool) where T: Action {
         let existingAction = actions.first {
             return $0.typeName == String(reflecting: action)

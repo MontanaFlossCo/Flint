@@ -29,6 +29,36 @@ extension ConditionalActionRequest {
 }
 
 extension ConditionalActionRequest where ActionType: IntentAction {
+    @available(iOS 12, *)
+    public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
+        /// !!! TODO: We probably need a Result<T> here as nil could be valid
+        guard let inputFromIntent = ActionType.input(for: intent) else {
+            flintUsageError("Failed to create input from intent \(intent)")
+        }
+
+        var syncOutcome: ActionPerformOutcome?
+        let completion = Action.Completion(queue: nil) { (outcome, wasAsync) in
+            FlintInternal.logger?.debug("Intent perform outcome: \(outcome) wasAsync: \(wasAsync)");
+            syncOutcome = outcome
+        }
+
+        let status: Action.Completion.Status = perform(input: inputFromIntent,
+                                                       presenter: presenter,
+                                                       userInitiated: true,
+                                                       source: .intent,
+                                                       completion: completion)
+
+        if status.isCompletingAsync {
+            return .completingAsync
+        }
+        
+        guard let outcome = syncOutcome else {
+            flintBug("We should have a sync outcome by now");
+        }
+
+        return .init(outcome: outcome)
+    }
+
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
     @available(iOS 12, *)
     public func donateToSiri(for input: ActionType.InputType) {

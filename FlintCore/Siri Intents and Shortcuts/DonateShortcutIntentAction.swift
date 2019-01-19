@@ -28,10 +28,6 @@ final class DonateShortcutIntentAction: UIAction {
 
     @available(iOS 12, *)
     internal static func donateToSiri(intent: INIntent) {
-        if intent.suggestedInvocationPhrase == nil {
-            intent.suggestedInvocationPhrase = suggestedInvocationPhrase
-        }
-        
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate { error in
             FlintInternal.logger?.error("Donation error: \(String(describing: error))")

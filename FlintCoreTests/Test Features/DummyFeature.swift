@@ -18,7 +18,7 @@ class DummyFeatures: FeatureGroup {
     ]
 }
 
-final class DummyFeature: Feature, IntentMapped {
+final class DummyFeature: Feature {
     static var description: String = "Test feature"
     static let action1 = action(DummyAction.self)
     static let intentAction = action(DummyIntentAction.self)
@@ -26,10 +26,6 @@ final class DummyFeature: Feature, IntentMapped {
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
         actions.declare(intentAction)
-    }
-
-    static func intentMappings(intents: IntentMappingsBuilder) {
-        intents.forward(intentType: DummyIntent.self, to: intentAction)
     }
 }
 

@@ -34,12 +34,5 @@ public final class SiriFeature: ConditionalFeature, FeatureGroup {
     public static var isEnabled: Bool? = false
 #endif
 
-    public static var description: String = "Siri Intent handling and donation"
-
-    /// Used to dispatch the action bound to an intent type.
-    static var handleIntent = action(DispatchIntentAction.self)
-    
-    public static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(handleIntent)
-    }
+    public static var description: String = "Siri Intent and Shortcut donation features"
 }

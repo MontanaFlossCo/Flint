@@ -19,12 +19,6 @@ class IntentBindingTests: XCTestCase {
     override func tearDown() {
     }
 
-//    func testIntentIsMappedToAction() {
-//        let mapping: IntentMapping? = IntentMappings.shared.mapping(for: DummyIntent.self)
-//        XCTAssertNotNil(mapping, "Expected to have a mapping for the intent")
-//        XCTAssert(mapping?.intentType == DummyIntent.self, "Incorrect mapping")
-//    }
-    
     @available(iOS 12, *)
     func testPerformIntent() {
         let intent = DummyIntent()
