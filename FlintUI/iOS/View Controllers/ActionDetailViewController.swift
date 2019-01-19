@@ -37,8 +37,9 @@ class ActionDetailViewController: UITableViewController {
         case presenterType
         case activityEligibility
         case analyticsID
+        case intentType
 
-        static let last: Property = .analyticsID
+        static let last: Property = .intentType
         
         static var count: Int {
             return last.rawValue+1
@@ -110,6 +111,9 @@ class ActionDetailViewController: UITableViewController {
                         } else {
                             detail = "<none>"
                         }
+                    case .intentType:
+                        text = "Siri Intent"
+                        detail = action.intentTypeName ?? "<none>"
                 }
                 cell.textLabel?.text = text
                 cell.detailTextLabel?.text = detail
@@ -159,6 +163,9 @@ class ActionDetailViewController: UITableViewController {
                 } else {
                     detail = "<none>"
                 }
+            case .intentType:
+                title = "Siri Intent Tyoe"
+                detail = action.intentTypeName ?? "<none>"
         }
         let alertController = UIAlertController(title: title, message: detail, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
