@@ -61,25 +61,4 @@ public extension Feature {
         return StaticActionBinding(feature: self, action: action)
     }
 
-    /// Returns a set of new context-specific loggers with this feature as the context (topic path).
-    ///
-    /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
-    /// - return: A `Logs` value which contains development and production loggers as appropriate at runtime.
-    public static func logs(for activity: String) -> ContextualLoggers {
-        let development: ContextSpecificLogger?
-        if let factory = Logging.development {
-            development = factory.contextualLogger(with: activity, topicPath: self.identifier)
-        } else {
-            development = nil
-        }
-
-        let production: ContextSpecificLogger?
-        if let factory = Logging.development {
-            production = factory.contextualLogger(with: activity, topicPath: self.identifier)
-        } else {
-            production = nil
-        }
-
-        return ContextualLoggers(development: development, production: production)
-    }
 }
