@@ -454,6 +454,9 @@
 		497175FF20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
 		4971760020ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
 		4971760120ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */; };
+		49734F7B21F4A64D00ACF5DF /* IntentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348821E7E75800E81D58 /* IntentTypes.swift */; };
+		49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348821E7E75800E81D58 /* IntentTypes.swift */; };
+		49734F7D21F4A64E00ACF5DF /* IntentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348821E7E75800E81D58 /* IntentTypes.swift */; };
 		4976923B201F3CBE00F97BD5 /* URLMappingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923A201F3CBE00F97BD5 /* URLMappingsBuilder.swift */; };
 		4976923D201F3CEE00F97BD5 /* ActionURLMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923C201F3CEE00F97BD5 /* ActionURLMappings.swift */; };
 		4976923F201F3D5A00F97BD5 /* URLMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4976923E201F3D5A00F97BD5 /* URLMappings.swift */; };
@@ -1972,6 +1975,7 @@
 				49B4DCC020F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FC5203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
+				49734F7B21F4A64D00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FCD203EEBDA003AB29B /* FeaturePath.swift in Sources */,
@@ -2168,6 +2172,7 @@
 				49B4DCC120F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
+				49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
 				496F8FE2203EEBDA003AB29B /* FeaturePath.swift in Sources */,
@@ -2360,6 +2365,7 @@
 				496F8F96203EEBBC003AB29B /* UserFeatureToggles.swift in Sources */,
 				496F8FF1203EEBDB003AB29B /* ActionStackEntry.swift in Sources */,
 				494F59182098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
+				49734F7D21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				4978F0CA2103BBFA00C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC220F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				498F97672077824200209633 /* FocusSelection.swift in Sources */,

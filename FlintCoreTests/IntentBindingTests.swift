@@ -31,13 +31,14 @@ class IntentBindingTests: XCTestCase {
         XCTAssertEqual(actionMetadata.intentTypeName, intentTypeName, "Intent type was not found in action metadata")
     }
 
-    @available(iOS 12, *)
     func testPerformIntent() {
-        let intent = DummyIntent()
-        let presenter = IntentResponsePresenter(completion: { (DummyIntentResponse) in
-            
-        })
-        let result = DummyFeature.intentAction.perform(intent: intent, presenter: presenter)
-        XCTAssert(result == .success)
+        if #available(iOS 12, *) {
+            let intent = DummyIntent()
+            let presenter = IntentResponsePresenter(completion: { (DummyIntentResponse) in
+                
+            })
+            let result = DummyFeature.intentAction.perform(intent: intent, presenter: presenter)
+            XCTAssert(result == .success)
+        }
     }
 }
