@@ -31,14 +31,21 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
     public static var isEnabled: Bool? = false
 #endif
 
+#if canImport(Network) && os(iOS)
+    @available(iOS 12, *)
     static var donateShortcut = action(DonateShortcutIntentAction.self)
+#endif
 
     public static func prepare(actions: FeatureActionsBuilder) {
-        actions.declare(donateShortcut)
-        
+#if canImport(Network) && os(iOS)
+        if #available(iOS 12, *) {
+            actions.declare(donateShortcut)
+        }
+
         if isAvailable == true {
             // Implements Auto-Activities
             ActionSession.main.dispatcher.add(observer: SiriShortcutDonatingActionDispatchObserver())
         }
+#endif
     }
 }

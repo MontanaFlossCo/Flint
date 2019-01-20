@@ -19,6 +19,7 @@ class IntentBindingTests: XCTestCase {
     override func tearDown() {
     }
 
+#if canImport(Network) && os(iOS)
     /// Verify that action metadata includes the Intent if any for intent actions
     func testIntentMetadataBinding() {
         if #available(iOS 12, *) {
@@ -33,7 +34,6 @@ class IntentBindingTests: XCTestCase {
         }
     }
 
-#if canImport(Network) && os(iOS)
     func testPerformIntent() {
         if #available(iOS 12, *) {
             let intent = DummyIntent()

@@ -137,6 +137,10 @@
 		493267632142FA6B00CC88CB /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493267602142FA6B00CC88CB /* Data+Compression.swift */; };
 		493267642142FA6B00CC88CB /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493267602142FA6B00CC88CB /* Data+Compression.swift */; };
 		493572D41FC9D284003AD465 /* FeatureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493572D31FC9D284003AD465 /* FeatureGroup.swift */; };
+		4937001A21F4E9FA007F78BB /* SiriIntentsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */; };
+		4937001B21F4E9FB007F78BB /* SiriIntentsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */; };
+		4937001C21F4EA10007F78BB /* IntentShortcutDonationFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */; };
+		4937001D21F4EA12007F78BB /* IntentShortcutDonationFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */; };
 		4946FAC0208D16750097E10E /* ActionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946FABF208D16750097E10E /* ActionsBuilder.swift */; };
 		4946FAC1208D16750097E10E /* ActionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946FABF208D16750097E10E /* ActionsBuilder.swift */; };
 		4946FAC2208D16750097E10E /* ActionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946FABF208D16750097E10E /* ActionsBuilder.swift */; };
@@ -1953,6 +1957,7 @@
 				49D24B5720ADD35900649BB4 /* RegexURLPattern.swift in Sources */,
 				4927FEFC208A53B800163576 /* HandleActivityAction.swift in Sources */,
 				496F8FD2203EEBDA003AB29B /* NoPresenter.swift in Sources */,
+				4937001C21F4EA10007F78BB /* IntentShortcutDonationFeature.swift in Sources */,
 				496136C1209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FCC203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
@@ -2062,6 +2067,7 @@
 				49A62C8920D2FF3B00264606 /* ActionActivityMappings.swift in Sources */,
 				49EA0BCF208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				4927FEF3208A3B8800163576 /* ActionSource.swift in Sources */,
+				4937001A21F4E9FA007F78BB /* SiriIntentsFeature.swift in Sources */,
 				496F8F9C203EEBC4003AB29B /* PresentationRouter.swift in Sources */,
 				493267492142F7F200CC88CB /* FileManager+ZIP.swift in Sources */,
 				4932674E2142F87C00CC88CB /* Entry.swift in Sources */,
@@ -2150,6 +2156,7 @@
 				49D24B5820ADD35900649BB4 /* RegexURLPattern.swift in Sources */,
 				4927FEFD208A53B900163576 /* HandleActivityAction.swift in Sources */,
 				496F8FE7203EEBDA003AB29B /* NoPresenter.swift in Sources */,
+				4937001D21F4EA12007F78BB /* IntentShortcutDonationFeature.swift in Sources */,
 				496136C2209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
@@ -2259,6 +2266,7 @@
 				49A62C8A20D2FF3B00264606 /* ActionActivityMappings.swift in Sources */,
 				49EA0BD0208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				4927FEF2208A3B8800163576 /* ActionSource.swift in Sources */,
+				4937001B21F4E9FB007F78BB /* SiriIntentsFeature.swift in Sources */,
 				496F8F9E203EEBC5003AB29B /* PresentationRouter.swift in Sources */,
 				4932674A2142F7F200CC88CB /* FileManager+ZIP.swift in Sources */,
 				4932674F2142F87C00CC88CB /* Entry.swift in Sources */,

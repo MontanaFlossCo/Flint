@@ -523,6 +523,20 @@ extension Flint {
         }
     }
 
+    static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
+        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
+
+        metadataAccessQueue.sync {
+            // Get the existing FeatureMetadata for the feature
+            guard let featureMetadata = metadata(for: feature) else {
+                flintBug("Cannot publish action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.publish(action)
+        }
+    }
+    
+#if canImport(Intents) && os(iOS)
     @available(iOS 12, *)
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
         FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
@@ -537,19 +551,6 @@ extension Flint {
         }
     }
 
-    static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
-        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
-
-        metadataAccessQueue.sync {
-            // Get the existing FeatureMetadata for the feature
-            guard let featureMetadata = metadata(for: feature) else {
-                flintBug("Cannot publish action \(action) to feature \(feature) because the feature has not been prepared")
-            }
-            
-            featureMetadata.publish(action)
-        }
-    }
-    
     @available(iOS 12, *)
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
         FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
@@ -563,7 +564,8 @@ extension Flint {
             featureMetadata.publish(action)
         }
     }
-    
+#endif
+
     static func isDeclared<T>(_ action: T.Type, on feature: FeatureDefinition.Type) -> Bool where T: Action {
         return metadataAccessQueue.sync {
             guard let featureMetadata = metadata(for: feature) else {

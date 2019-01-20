@@ -23,8 +23,10 @@ final class DummyFeature: Feature {
 
     static let action1 = action(DummyAction.self)
 
+#if canImport(Network) && os(iOS)
     @available(iOS 12, *)
     static let intentAction = action(DummyIntentAction.self)
+#endif
 
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
@@ -48,6 +50,7 @@ final class DummyAction: UIAction {
 typealias DummyIntent = FlintIntent
 typealias DummyIntentResponse = FlintIntentResponse
 
+#if canImport(Network) && os(iOS)
 @available(iOS 12, *)
 final class DummyIntentAction: IntentAction {
     typealias IntentType = DummyIntent
@@ -65,3 +68,4 @@ final class DummyIntentAction: IntentAction {
         return completion.completedSync(.successWithFeatureTermination)
     }
 }
+#endif

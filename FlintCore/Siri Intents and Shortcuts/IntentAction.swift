@@ -23,6 +23,7 @@ public let intentActionSession = ActionSession(named: "Intents", userInitiatedAc
 public protocol IntentBackgroundAction: Action {
 }
 
+#if canImport(Intents) && os(iOS)
 @available(iOS 12, *)
 public protocol IntentAction: IntentBackgroundAction {
     associatedtype IntentType: FlintIntent
@@ -30,7 +31,6 @@ public protocol IntentAction: IntentBackgroundAction {
 
     typealias PresenterType = IntentResponsePresenter<IntentResponseType>
 
-#if canImport(Intents)
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
     @available(iOS 12, *)
@@ -38,8 +38,8 @@ public protocol IntentAction: IntentBackgroundAction {
 
     @available(iOS 12, *)
     static func input(for intent: IntentType) -> InputType?
-#endif
 }
+#endif
 
 /// Set up the queue and session to use for Siri actions because these cannot use the main queue.
 @available(iOS 12, *)
