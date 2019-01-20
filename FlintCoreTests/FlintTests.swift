@@ -29,14 +29,13 @@ class FlintTests: XCTestCase {
         }
         let expectedCount: Int
 #if canImport(Network) && os(iOS)
-        expectedCount = 1
-#else
         if #available(iOS 12, *) {
             expectedCount = 2
         } else {
             expectedCount = 1
-        
         }
+#else
+        expectedCount = 1
 #endif
         XCTAssertEqual(dummyFeatureMetadata.actions.count, expectedCount, "Actions not bound")
     }
