@@ -40,11 +40,11 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
 #if canImport(Network) && os(iOS)
         if #available(iOS 12, *) {
             actions.declare(donateShortcut)
-        }
 
-        if isAvailable == true {
-            // Implements Auto-Activities
-            ActionSession.main.dispatcher.add(observer: SiriShortcutDonatingActionDispatchObserver())
+            if isAvailable == true {
+                // Implements Auto-Activities
+                ActionSession.main.dispatcher.add(observer: SiriShortcutDonatingActionDispatchObserver())
+            }
         }
 #endif
     }
