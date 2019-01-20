@@ -187,7 +187,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  source: ActionSource,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil) {
-        let staticBinding = StaticActionBinding(feature: conditionalRequest.actionBinding.feature, action: conditionalRequest.actionBinding.action)
+        let staticBinding = StaticActionBinding<FeatureType, ActionType>()
         let logContextCreator = { (sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
@@ -224,7 +224,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  userInitiated: Bool,
                                                  source: ActionSource,
                                                  completionRequirement: Action.Completion) -> Action.Completion.Status {
-        let staticBinding = StaticActionBinding(feature: conditionalRequest.actionBinding.feature, action: conditionalRequest.actionBinding.action)
+        let staticBinding = StaticActionBinding<FeatureType, ActionType>()
         let logContextCreator = { (sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
@@ -442,13 +442,13 @@ public class ActionSession: CustomDebugStringConvertible {
     func perform<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, completionRequirement: Action.Completion) -> Action.Completion.Status {
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
-        Flint.requiresPrepared(feature: request.actionBinding.feature)
-        guard Flint.isDeclared(request.actionBinding.action, on: request.actionBinding.feature) else {
-            flintUsageError("Action \(request.actionBinding.action) has not been declared on \(request.actionBinding.feature). Call 'declare' or 'publish' with it in your feature's prepare function")
+        Flint.requiresPrepared(feature: FeatureType.self)
+        guard Flint.isDeclared(ActionType.self, on: FeatureType.self) else {
+            flintUsageError("Action \(ActionType.self) has not been declared on \(FeatureType.self). Call 'declare' or 'publish' with it in your feature's prepare function")
         }
         
         // Work out if we have a sequence for the request's feature, create a new one if not
-        let actionStack = actionStackTracker.findOrCreateActionStack(for: request.actionBinding.feature,
+        let actionStack = actionStackTracker.findOrCreateActionStack(for: FeatureType.self,
                                                                      in: self,
                                                                      userInitiated: request.userInitiated)
 
@@ -457,7 +457,7 @@ public class ActionSession: CustomDebugStringConvertible {
             guard let strongSelf = self else {
                 return (sessionID: "_session gone away_", activitySequenceID: "_session gone away_")
             }
-            let firstEntry = actionStack.first?.debugDescription ?? request.actionBinding.action.name
+            let firstEntry = actionStack.first?.debugDescription ?? ActionType.name
             let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
             let activityID = "Stack #\(actionStack.id) \(aDescription)"
             return (sessionID: strongSelf.name, activitySequenceID: activityID)

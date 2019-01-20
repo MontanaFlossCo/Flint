@@ -43,7 +43,7 @@ public class LinkCreator {
         guard let scheme = defaultScheme else {
             flintUsageError("No app URL scheme available")
         }
-        guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
+        guard let mappings = ActionURLMappings.instance.mappings(for: FeatureType.self, action: ActionType.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }
@@ -60,7 +60,7 @@ public class LinkCreator {
         guard let scheme = defaultScheme else {
             flintUsageError("No app URL scheme available")
         }
-        guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
+        guard let mappings = ActionURLMappings.instance.mappings(for: FeatureType.self, action: ActionType.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }
@@ -77,7 +77,7 @@ public class LinkCreator {
         guard let domain = defaultDomain else {
             flintUsageError("No associated domain available")
         }
-        guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
+        guard let mappings = ActionURLMappings.instance.mappings(for: FeatureType.self, action: ActionType.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isUniversal }
@@ -94,7 +94,7 @@ public class LinkCreator {
         guard let domain = defaultDomain else {
             flintUsageError("No associated domain available")
         }
-        guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
+        guard let mappings = ActionURLMappings.instance.mappings(for: FeatureType.self, action: ActionType.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isUniversal }
@@ -113,7 +113,7 @@ public class LinkCreator {
         guard let scheme = defaultScheme else {
             flintUsageError("No app URL scheme available")
         }
-        guard let mappings = ActionURLMappings.instance.mappings(for: actionBinding.feature, action: actionBinding.action.name) else {
+        guard let mappings = ActionURLMappings.instance.mappings(for: FeatureType.self, action: ActionType.name) else {
             flintUsageError("No URL mapping exists for: \(actionBinding)")
         }
         let matchedMapping = mappings.first { $0.scope.isApp }

@@ -41,8 +41,8 @@ public struct ActionStackEntry: CustomDebugStringConvertible {
     /// Initialise the entry capturing only simple types and without retaining anything from the request.
     init<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, sessionName: String) {
         userInitiated = request.userInitiated
-        feature = request.actionBinding.feature
-        details = .action(name: request.actionBinding.action.name,
+        feature = FeatureType.self
+        details = .action(name: ActionType.name,
                           source: request.source,
                           input: String(reflecting: request.context.input))
         self.sessionName = sessionName

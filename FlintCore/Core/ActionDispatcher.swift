@@ -72,10 +72,8 @@ public class DefaultActionDispatcher: ActionDispatcher {
 
         // The action does *not* have to complete synchronously. We watch out for the cases where it doesn't and
         // log this for now. In future we will have a new outcome value indicating `completingAsynchronously`.
-        let action = request.actionBinding.action
-        
         // !!! TODO: This has to execute on the queue it is trying to capture. Is this a catch-22?
-        let smartActionQueue = SmartDispatchQueue(queue: action.queue)
+        let smartActionQueue = SmartDispatchQueue(queue: ActionType.queue)
         var performStatus: Action.Completion.Status?
         
         // Here we synchronously call the action on the queue it has requested, and we pass a completion object in
@@ -95,9 +93,9 @@ public class DefaultActionDispatcher: ActionDispatcher {
             }
 
             // Perform the action and get the immediate status of it
-            let status = action.perform(context: request.context,
-                                        presenter: request.presenter,
-                                        completion: completion)
+            let status = ActionType.perform(context: request.context,
+                                            presenter: request.presenter,
+                                            completion: completion)
             performStatus = status
             flintUsagePrecondition(completion.verify(status), "Action returned an invalid completion status")
         }

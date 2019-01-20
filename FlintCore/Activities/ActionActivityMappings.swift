@@ -48,7 +48,7 @@ class ActionActivityMappings {
     /// using `userInfo` and `activityType`.
     public static func createActivity<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
                                                                with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? {
-        return createActivity(for: actionBinding.action, of: actionBinding.feature, with: input, appLink: appLink)
+        return createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
     }
     
     /// A helper function for creating an `NSUserActivity` that will invoke an action with a given input when received
@@ -61,7 +61,7 @@ class ActionActivityMappings {
     /// using `userInfo` and `activityType`.
     public static func createActivity<FeatureType, ActionType>(for actionBinding: ConditionalActionBinding<FeatureType, ActionType>,
                                                                with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? {
-        return createActivity(for: actionBinding.action, of: actionBinding.feature, with: input, appLink: appLink)
+        return createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
     }
     
     /// Interfnal function to create the activity.
@@ -104,7 +104,7 @@ class ActionActivityMappings {
             return
         }
 
-        let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
+        let activityID = ActionActivityMappings.makeActivityID(forActionNamed: ActionType.name, of: FeatureType.self)
 
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
@@ -141,7 +141,7 @@ class ActionActivityMappings {
             }
         }
 
-        addMapping(for: activityID, to: binding.action.name, executor: executor)
+        addMapping(for: activityID, to: ActionType.name, executor: executor)
     }
 
     /// Adds a mapping from an `activityType` ID to a conditional feature/action binding.
@@ -193,7 +193,7 @@ class ActionActivityMappings {
             }
         }
 
-        addMapping(for: activityID, to: binding.action.name, executor: executor)
+        addMapping(for: activityID, to: ActionType.name, executor: executor)
     }
 
     static func failedPresentationResultToActionPerformOutcome<T>(_ result: PresentationResult<T>) -> ActionPerformOutcome {
