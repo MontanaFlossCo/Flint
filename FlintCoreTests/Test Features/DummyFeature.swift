@@ -28,9 +28,11 @@ final class DummyFeature: Feature {
 
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
+#if canImport(Network) && os(iOS)
         if #available(iOS 12, *) {
             actions.declare(intentAction)
         }
+#endif
     }
 }
 
