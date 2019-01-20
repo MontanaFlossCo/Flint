@@ -27,6 +27,11 @@ class FlintTests: XCTestCase {
             XCTFail("Missing metadata")
             return
         }
-        XCTAssertEqual(dummyFeatureMetadata.actions.count, 2, "Actions not bound")
+#if canImport(Network) && os(iOS)
+        let expectedCount = 1
+#else
+        let expectedCount = 2
+#endif
+        XCTAssertEqual(dummyFeatureMetadata.actions.count, expectedCount, "Actions not bound")
     }
 }

@@ -1555,8 +1555,8 @@
 				490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */,
 				49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */,
 				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
-				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 				49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */,
+				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
