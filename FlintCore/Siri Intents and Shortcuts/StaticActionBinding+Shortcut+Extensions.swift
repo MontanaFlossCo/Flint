@@ -8,6 +8,7 @@
 
 import Foundation
 
+#if canImport(Network) && os(iOS)
 extension StaticActionBinding {
 
     /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the conditionally-available
@@ -75,3 +76,5 @@ extension StaticActionBinding where ActionType: IntentAction {
         }
     }
 }
+
+#endif

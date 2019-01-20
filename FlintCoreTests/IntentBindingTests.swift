@@ -33,6 +33,7 @@ class IntentBindingTests: XCTestCase {
         }
     }
 
+#if canImport(Network) && os(iOS)
     func testPerformIntent() {
         if #available(iOS 12, *) {
             let intent = DummyIntent()
@@ -43,4 +44,6 @@ class IntentBindingTests: XCTestCase {
             XCTAssert(result == .success)
         }
     }
+#endif
+
 }
