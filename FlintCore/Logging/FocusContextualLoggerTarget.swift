@@ -40,21 +40,22 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
     }
     
     public func log(level: LoggerLevel, context: LogEventContext, content: @escaping @autoclosure () -> String) {
+        // If there is no focus active, or there is focus and this topic is within the area of interest, log it.
+        //
+        // We fake the threshold as "debug" if items are in the current focus, and anything not focused becomes threshold `.none`
+        let effectiveThreshold: LoggerLevel
+        if let focusSelection = FocusFeature.dependencies.focusSelection, focusSelection.isActive {
+            effectiveThreshold = focusSelection.isFocused(context.topicPath) ? .debug : .none
+        } else {
+            effectiveThreshold = topicLevel(for: context.topicPath) ?? level
+        }
+        guard effectiveThreshold >= level else {
+            return
+        }
+        let entryText = content()
+
         queue.async { [weak self] in
             guard let strongSelf = self else {
-                return
-            }
-            
-            // If there is no focus active, or there is focus and this topic is within the area of interest, log it.
-            //
-            // We fake the threshold as "debug" if items are in the current focus, and anything not focused becomes threshold `.none`
-            let effectiveThreshold: LoggerLevel
-            if let focusSelection = FocusFeature.dependencies.focusSelection, focusSelection.isActive {
-                effectiveThreshold = focusSelection.isFocused(context.topicPath) ? .debug : .none
-            } else {
-                effectiveThreshold = strongSelf.topicLevel(for: context.topicPath) ?? strongSelf.level
-            }
-            guard effectiveThreshold >= level else {
                 return
             }
 
@@ -65,7 +66,7 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
                                  sequenceID: strongSelf.sequenceID,
                                  level: level,
                                  context: context,
-                                 text: content())
+                                 text: entryText)
             
             strongSelf.output.log(event: event)
         }

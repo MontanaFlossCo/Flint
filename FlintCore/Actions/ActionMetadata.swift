@@ -22,6 +22,7 @@ public class ActionMetadata {
     public let analyticsID: String?
     public let activityTypes: Set<ActivityEligibility>
     public private(set) var urlMappings = [String]()
+    public private(set) var intentTypeName: String?
 
     init<T>(_ action: T.Type) where T: Action {
         typeName = String(reflecting: action)
@@ -33,7 +34,12 @@ public class ActionMetadata {
         activityTypes = action.activityTypes
     }
     
-    func add(_ urlMapping: URLMapping) {
+    func add(urlMapping: URLMapping) {
         urlMappings.append(urlMapping.debugDescription)
+    }
+    
+    func setIntent(_ intent: FlintIntent.Type) {
+        flintBugPrecondition(intentTypeName == nil, "Cannot add more than one intent to an action")
+        intentTypeName = String(describing: intent)
     }
 }

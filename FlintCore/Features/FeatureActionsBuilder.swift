@@ -17,6 +17,7 @@ public protocol FeatureActionsBuilder {
     func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>)
     func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
 
+    
     /// Declare an action that is conditionally available. This will bind the action and the feature, so that the
     /// action can be performed.
     func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>)
@@ -33,4 +34,26 @@ public protocol FeatureActionsBuilder {
     /// provide UI for them.
     func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>)
     func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable
+
+#if canImport(Network) && os(iOS)
+    @available(iOS 12, *)
+    func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
+    @available(iOS 12, *)
+    func declare<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
+
+    @available(iOS 12, *)
+    func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
+    @available(iOS 12, *)
+    func declare<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
+
+    @available(iOS 12, *)
+    func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
+    @available(iOS 12, *)
+    func publish<FeatureType, ActionType>(_ action: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
+
+    @available(iOS 12, *)
+    func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction
+    @available(iOS 12, *)
+    func publish<FeatureType, ActionType>(_ action: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable
+#endif
 }

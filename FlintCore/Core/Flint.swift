@@ -118,7 +118,7 @@ final public class Flint {
     /// - param initialProductionLogLevel: The default log level for production logging. Default if not specified is `.info`
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
-                                  initialProductionLogLevel: LoggerLevel = .info, briefLogging: Bool = true) {
+                                  initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
@@ -296,7 +296,7 @@ final public class Flint {
     /// - param url: The URL that may point to an action in the app.
     /// - param presentationRouter: The object that will return the correct presenter for the router
     /// - return: The routing result indicating whether or not an action was found and performed
-    public static func open(url: URL, with presentationRouter: PresentationRouter) -> URLRoutingResult {
+    public static func open(url: URL, with presentationRouter: PresentationRouter) -> MappedActionResult {
         requiresSetup()
         if let request = RoutesFeature.performIncomingURL.request() {
             var performOutcome: ActionOutcome?
@@ -304,6 +304,7 @@ final public class Flint {
                 FlintInternal.logger?.debug("Activity auto URL result: \(outcome)")
                 performOutcome = outcome
             }
+            /// !!! TODO: Replace this with CompletionStatus checks
             guard let outcome = performOutcome else {
                 flintUsageError("Perform URL unexpectedly happened asynchronously")
             }
@@ -336,63 +337,68 @@ final public class Flint {
     /// - param activity: The activity pass to the application
     /// - param presentationRouter: The object that will return the correct presenter for the router
     /// - return: The routing result indicating whether or not an action was found and performed
-    public static func continueActivity(activity: NSUserActivity, with presentationRouter: PresentationRouter) -> URLRoutingResult {
+    public static func continueActivity(activity: NSUserActivity, with presentationRouter: PresentationRouter) -> MappedActionResult {
         requiresSetup()
-        if let request = ActivitiesFeature.handleActivity.request() {
-            /// We know this will block on this main thread so we can "wait" for the outcome
-            var performOutcome: ActionOutcome?
-            
-            var source: ActionSource = .continueActivity(type: .other)
-            switch activity.activityType {
-                case NSUserActivityTypeBrowsingWeb: source = .continueActivity(type: .browsingWeb)
+        var performOutcome: ActionOutcome?
+
+        // Work out what kind of activity it is and use the appropriate kind of action.
+        
+        var source: ActionSource = .continueActivity(type: .other)
+        
+        switch activity.activityType {
+            case NSUserActivityTypeBrowsingWeb:
+                source = .continueActivity(type: .browsingWeb)
 #if os(iOS) || os(macOS)
-                case CSQueryContinuationActionType: source = .continueActivity(type: .search)
+            case CSQueryContinuationActionType:
+                source = .continueActivity(type: .search)
 #endif
-                default:
+            default:
 #if os(iOS) || os(macOS)
-                    // Check for a Siri intent
+                // Check for a Siri Interaction
 #if canImport(Intents)
-                    if let _ = activity.interaction {
-                        source = .continueActivity(type: .siri)
-                    }
+                if let interaction = activity.interaction {
+                    source = .continueActivity(type: .siri(interaction: interaction))
+                }
 #endif
 #endif
 
 #if canImport(ClassKit)
-                    if #available(iOS 11.4, *) {
-                        // This may not be linked in targets if the ClassKit framework is not linked,
-                        // so we have to manually check
-                        if activity.responds(to: #selector(getter: NSUserActivity.isClassKitDeepLink)) {
-                            // Check for a ClassKit activity
-                            if activity.isClassKitDeepLink {
-                                source = .continueActivity(type: .classKit)
-                            }
+                if #available(iOS 11.4, *) {
+                    // This may not be linked in targets if the ClassKit framework is not linked,
+                    // so we have to manually check
+                    if activity.responds(to: #selector(getter: NSUserActivity.isClassKitDeepLink)) {
+                        // Check for a ClassKit activity
+                        if activity.isClassKitDeepLink {
+                            source = .continueActivity(type: .classKit)
                         }
                     }
+                }
 #endif
-            }
-            
+        }
+
+        if let request = ActivitiesFeature.handleActivity.request() {
             request.perform(input: activity, presenter: presentationRouter, userInitiated: true, source: source) { outcome in
                 FlintInternal.logger?.debug("Activity auto continue result: \(outcome)")
                 performOutcome = outcome
             }
-            /// !!! TODO: How to ensure blocking completion?
-            guard let outcome = performOutcome else {
-                flintUsageError("Action's perform unexpectedly happened asynchronously")
-            }
-            switch outcome {
-                case .success:
-                    return .success
-                case .failure(let error):
-                    switch error {
-                        case PerformIncomingURLAction.URLActionError.noURLMappingFound:
-                            return .noMappingFound
-                        default:
-                            return .failure(error: error)
-                    }
-            }
         } else {
             return .featureDisabled
+        }
+
+        /// !!! TODO: This is unsafe, change to CompletionStatus and assert sync completion
+        guard let outcome = performOutcome else {
+            flintUsageError("Action's perform unexpectedly happened asynchronously")
+        }
+        switch outcome {
+            case .success:
+                return .success
+            case .failure(let error):
+                switch error {
+                    case PerformIncomingURLAction.URLActionError.noURLMappingFound:
+                        return .noMappingFound
+                    default:
+                        return .failure(error: error)
+                }
         }
     }
 
@@ -421,7 +427,7 @@ final public class Flint {
             let mappings = builder.mappings
             metadataAccessQueue.sync {
                 guard let featureMetadata = metadata(for: feature) else {
-                    flintBug("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
+                    flintUsageError("Cannot register URL mappings for feature \(feature) because the feature has not been prepared")
                 }
                 
                 featureMetadata.setActionURLMappings(mappings)
@@ -530,6 +536,36 @@ extension Flint {
         }
     }
     
+#if canImport(Intents) && os(iOS)
+    @available(iOS 12, *)
+    static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
+        FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
+
+        // Get the existing FeatureMetadata for the feature
+        metadataAccessQueue.sync {
+            guard let featureMetadata = metadata(for: feature) else {
+                flintBug("Cannot bind action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.bind(action)
+        }
+    }
+
+    @available(iOS 12, *)
+    static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
+        FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
+
+        metadataAccessQueue.sync {
+            // Get the existing FeatureMetadata for the feature
+            guard let featureMetadata = metadata(for: feature) else {
+                flintBug("Cannot publish action \(action) to feature \(feature) because the feature has not been prepared")
+            }
+            
+            featureMetadata.publish(action)
+        }
+    }
+#endif
+
     static func isDeclared<T>(_ action: T.Type, on feature: FeatureDefinition.Type) -> Bool where T: Action {
         return metadataAccessQueue.sync {
             guard let featureMetadata = metadata(for: feature) else {

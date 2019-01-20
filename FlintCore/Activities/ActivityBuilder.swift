@@ -114,6 +114,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
 
     /// Use Network + Platforms to detect support for Siri Shortcuts
 #if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
+    /// Set to the suggested phrase for creating a Siri shortcut to perform this activity
     @available(iOS 12, watchOS 5, *)
     public var suggestedInvocationPhrase: String? {
         get {

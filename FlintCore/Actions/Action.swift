@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Intents)
+import Intents
+#endif
 
 /// Actions that can be performed conform to this protocol to define their inputs, presenter and logic.
 ///
@@ -120,4 +123,14 @@ public protocol Action {
     ///
     /// - note: This value is only used if your `activityTypes` include `.prediction`.
     static var suggestedInvocationPhrase: String? { get }
+    
+#if canImport(Intents)
+    /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
+    /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
+    @available(iOS 12, *)
+    static func associatedIntents(for input: InputType) -> [FlintIntent]?
+#endif
+
 }
+
+

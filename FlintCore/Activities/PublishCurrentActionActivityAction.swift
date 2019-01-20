@@ -67,7 +67,8 @@ extension NSUserActivity {
 #endif
 #endif
 #if os(iOS) || os(macOS)
-        result.append(", Search attributes: \(String(reflecting: contentAttributeSet))")
+        // Don't show searchable attribues as they include thumbnail data which is huge.
+        result.append(", includes search attributes not shown")
 #endif
         return result
     }

@@ -13,6 +13,9 @@ public enum ActionSource {
     /// The action was triggered by an event in the application itself
     case application
     
+    /// The action was triggered by an INIntent request in an Intent extension
+    case intent
+
     /// The action was triggered by the operating system passing an `NSUserActivity` to the application
     case continueActivity(type: ActivityType)
     
