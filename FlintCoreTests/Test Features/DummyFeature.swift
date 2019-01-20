@@ -20,12 +20,17 @@ class DummyFeatures: FeatureGroup {
 
 final class DummyFeature: Feature {
     static var description: String = "Test feature"
+
     static let action1 = action(DummyAction.self)
+
+    @available(iOS 12, *)
     static let intentAction = action(DummyIntentAction.self)
 
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
-        actions.declare(intentAction)
+        if #available(iOS 12, *) {
+            actions.declare(intentAction)
+        }
     }
 }
 
@@ -41,6 +46,7 @@ final class DummyAction: UIAction {
 typealias DummyIntent = FlintIntent
 typealias DummyIntentResponse = FlintIntentResponse
 
+@available(iOS 12, *)
 final class DummyIntentAction: IntentAction {
     typealias IntentType = DummyIntent
     typealias PresenterType = IntentResponsePresenter<DummyIntentResponse>

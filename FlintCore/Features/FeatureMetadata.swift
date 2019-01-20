@@ -35,6 +35,7 @@ public class FeatureMetadata: Hashable, Equatable {
         _bind(action, publish: false)
     }
 
+    @available(iOS 12, *)
     func bind<T>(_ action: T.Type) where T: IntentAction {
         _bind(action, publish: false)
     }
@@ -43,6 +44,7 @@ public class FeatureMetadata: Hashable, Equatable {
         _bind(action, publish: true)
     }
 
+    @available(iOS 12, *)
     func publish<T>(_ action: T.Type) where T: IntentAction {
         _bind(action, publish: true)
     }
@@ -65,6 +67,7 @@ public class FeatureMetadata: Hashable, Equatable {
         let _ = _bindInternal(action, publish: publish)
     }
     
+    @available(iOS 12, *)
     private func _bind<ActionType>(_ action: ActionType.Type, publish: Bool) where ActionType: IntentAction {
         let metadata = _bindInternal(action, publish: publish)
         metadata.setIntent(ActionType.IntentType.self)

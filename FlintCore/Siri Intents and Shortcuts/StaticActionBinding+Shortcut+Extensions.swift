@@ -8,8 +8,6 @@
 
 import Foundation
 
-// Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
-#if canImport(Network) && os(iOS)
 extension StaticActionBinding {
 
     /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the conditionally-available
@@ -28,14 +26,14 @@ extension StaticActionBinding {
     }
 }
 
+@available(iOS 12, *)
 extension StaticActionBinding where ActionType: IntentAction {
-    @available(iOS 12, *)
+
     public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) -> MappedActionResult {
         let presenter = IntentResponsePresenter(completion: completion)
         return perform(intent: intent, presenter: presenter)
     }
     
-    @available(iOS 12, *)
     public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
         /// !!! TODO: We probably need a Result<T> here as nil could be valid
         guard let inputFromIntent = ActionType.input(for: intent) else {
@@ -77,5 +75,3 @@ extension StaticActionBinding where ActionType: IntentAction {
         }
     }
 }
-
-#endif

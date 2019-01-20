@@ -19,9 +19,11 @@ public let intentActionSession = ActionSession(named: "Intents", userInitiatedAc
 ///
 /// It will ensure that they use a non-main queue (because Intent extensions are called on a background thread) and
 /// use an Intent-specific session for log and timeline scoping.
+@available(iOS 12, *)
 public protocol IntentBackgroundAction: Action {
 }
 
+@available(iOS 12, *)
 public protocol IntentAction: IntentBackgroundAction {
     associatedtype IntentType: FlintIntent
     associatedtype IntentResponseType: FlintIntentResponse
@@ -40,6 +42,7 @@ public protocol IntentAction: IntentBackgroundAction {
 }
 
 /// Set up the queue and session to use for Siri actions because these cannot use the main queue.
+@available(iOS 12, *)
 public extension IntentBackgroundAction {
     static var queue: DispatchQueue { return intentsQueue }
     static var defaultSession: ActionSession? { return intentActionSession }

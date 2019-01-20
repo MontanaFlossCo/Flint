@@ -523,6 +523,7 @@ extension Flint {
         }
     }
 
+    @available(iOS 12, *)
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
         FlintInternal.logger?.debug("Binding action \(action) to feature: \(feature)")
 
@@ -549,6 +550,7 @@ extension Flint {
         }
     }
     
+    @available(iOS 12, *)
     static func publish<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: IntentAction {
         FlintInternal.logger?.debug("Publishing binding of action \(action) to feature: \(feature)")
 
