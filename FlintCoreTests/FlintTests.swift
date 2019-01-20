@@ -27,10 +27,16 @@ class FlintTests: XCTestCase {
             XCTFail("Missing metadata")
             return
         }
+        let expectedCount: Int
 #if canImport(Network) && os(iOS)
-        let expectedCount = 1
+        expectedCount = 1
 #else
-        let expectedCount = 2
+        if #available(iOS 12, *) {
+            expectedCount = 2
+        } else {
+            expectedCount = 1
+        
+        }
 #endif
         XCTAssertEqual(dummyFeatureMetadata.actions.count, expectedCount, "Actions not bound")
     }
