@@ -151,7 +151,7 @@ class ActionActivityMappings {
             return
         }
         
-        let activityID = ActionActivityMappings.makeActivityID(forActionNamed: binding.action.name, of: binding.feature)
+        let activityID = ActionActivityMappings.makeActivityID(forActionNamed: ActionType.name, of: FeatureType.self)
 
         let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")

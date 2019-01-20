@@ -54,13 +54,13 @@ public extension ConditionalFeature {
     /// If so, returns a request that can be used to perform the action, otherwise `nil`.
     ///
     /// The default `isAvailable` implementation will delegate to the `AvailabilityChecker` to see if the feature is available.
-    public static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> ConditionalActionRequest<Self, T>? {
+    public static func request<ActionType>(_ actionBinding: ConditionalActionBinding<Self, ActionType>) -> ConditionalActionRequest<Self, ActionType>? {
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
-        Flint.requiresPrepared(feature: actionBinding.feature)
+        Flint.requiresPrepared(feature: Self.self)
 
-        flintBugPrecondition(Flint.isDeclared(actionBinding.action, on: actionBinding.feature),
-                             "Action \(actionBinding.action) has not been declared on \(actionBinding.feature). Call 'declare' or 'publish' with it in your feature's prepare function.")
+        flintBugPrecondition(Flint.isDeclared(ActionType.self, on: Self.self),
+                             "Action \(ActionType.self) has not been declared on \(Self.self). Call 'declare' or 'publish' with it in your feature's prepare function.")
 
         /// The action is possible only if this feature is currently available
         guard let available = isAvailable, available == true else {
@@ -76,7 +76,7 @@ public extension ConditionalFeature {
                 reason.append(" Requires purchases: \(purchaseNames).")
             }
             /// TODO: Add info about preconditions
-            flintAdvisoryNotice("Request to use action '\(actionBinding.action.name)' on feature '\(actionBinding.feature.name)' denied.\(reason)")
+            flintAdvisoryNotice("Request to use action '\(ActionType.name)' on feature '\(Self.name)' denied.\(reason)")
             return nil
         }
         return ConditionalActionRequest(actionBinding: actionBinding)
@@ -85,8 +85,8 @@ public extension ConditionalFeature {
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.
     ///
     /// - note: This exists only in an extension as it is not an extension point for features to override.
-    public static func action<A>(_ action: A.Type) -> ConditionalActionBinding<Self, A> where A: Action {
-        return ConditionalActionBinding(feature: self, action: action)
+    public static func action<ActionType>(_ action: ActionType.Type) -> ConditionalActionBinding<Self, ActionType> where ActionType: Action {
+        return ConditionalActionBinding<Self, ActionType>()
     }
 }
 

@@ -45,11 +45,9 @@ import Foundation
 /// with a conditional action, you must first request the conditional action using this binding, and then
 /// call perform with the `ConditionalActionRequest` received from that.
 public struct ConditionalActionBinding<FeatureType: ConditionalFeature, ActionType: Action>: CustomDebugStringConvertible {
-    public let feature: FeatureType.Type
-    public let action: ActionType.Type
 
     public var debugDescription: String {
-        return "ConditionalActionBinding action \(action) of \(feature)"
+        return "ConditionalActionBinding action \(ActionType.self) of \(FeatureType.self)"
     }
 
     /// Get a conditional action request if the feature of this binding is currently available.
