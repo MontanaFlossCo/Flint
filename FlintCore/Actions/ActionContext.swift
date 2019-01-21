@@ -62,7 +62,7 @@ public class ActionContext<InputType> where InputType: FlintLoggable {
     
     /// Perform the action in the same session as this current action request, passing on the contextual loggers
     /// Use this to perform other actions within action implementations.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                            input: ActionType.InputType,
                            presenter: ActionType.PresenterType,
                            userInitiated: Bool,

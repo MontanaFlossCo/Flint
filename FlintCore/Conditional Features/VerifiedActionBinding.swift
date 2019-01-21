@@ -1,5 +1,5 @@
 //
-//  ConditionalActionRequest.swift
+//  VerifiedActionBinding.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 28/03/2018.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// A type used to prevent direct execution of actions on `ConditionalFeature`(s), such that
-/// `ActionSession` only has functions to perform actions using `ConditionalActionRequest` and not
+/// `ActionSession` only has functions to perform actions using `VerifiedActionBinding` and not
 /// a `perform()` using a `ConditionalActionBinding`.
 ///
 /// This makes it impossible to directly perform an action of a conditional feature without first requesting access to it,
@@ -18,7 +18,7 @@ import Foundation
 /// The protocol extensions on `ConditionalFeature` only supports
 /// `request` and not `perform`, forcing the caller to test if the feature is available first and at least
 /// explicitly ignore the "feature not available" path, but hopefully provide a code path for that.
-public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureType: ConditionalFeature, ActionType: Action {
+public struct VerifiedActionBinding<FeatureType, ActionType> where FeatureType: ConditionalFeature, ActionType: Action {
     public let actionBinding: ConditionalActionBinding<FeatureType, ActionType>
     
     private var session: ActionSession {
@@ -57,7 +57,7 @@ public struct ConditionalActionRequest<FeatureType, ActionType> where FeatureTyp
 }
 
 /// Overloads for actions with no presenter
-extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter {
+extension VerifiedActionBinding where ActionType.PresenterType == NoPresenter {
     public func perform(input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: input, presenter: NoPresenter(), completion: completion)
@@ -72,7 +72,7 @@ extension ConditionalActionRequest where ActionType.PresenterType == NoPresenter
 }
 
 /// Overloads for actions with no input
-extension ConditionalActionRequest where ActionType.InputType == NoInput {
+extension VerifiedActionBinding where ActionType.InputType == NoInput {
     public func perform(presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .none, presenter: presenter, completion: completion)
@@ -87,7 +87,7 @@ extension ConditionalActionRequest where ActionType.InputType == NoInput {
 }
 
 /// Overloads for actions with neither input nor presenter
-extension ConditionalActionRequest where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
+extension VerifiedActionBinding where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
     public func perform(completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
     }
