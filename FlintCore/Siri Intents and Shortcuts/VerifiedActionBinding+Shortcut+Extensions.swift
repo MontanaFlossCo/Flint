@@ -1,5 +1,5 @@
 //
-//  ConditionalActionRequest+iOS+Extensions.swift
+//  VerifiedActionBinding+iOS+Extensions.swift
 //  FlintCore-iOS
 //
 //  Created by Marc Palmer on 09/11/2018.
@@ -10,7 +10,7 @@ import Foundation
 
 // Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
 #if canImport(Network) && os(iOS)
-extension ConditionalActionRequest {
+extension VerifiedActionBinding {
 
     /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the conditionally-available
     /// action represented by this action request. The action must support creating an `INIntent` for a custom intent extension
@@ -29,7 +29,7 @@ extension ConditionalActionRequest {
 }
 
 @available(iOS 12, *)
-extension ConditionalActionRequest where ActionType: IntentAction {
+extension VerifiedActionBinding where ActionType: IntentAction {
     public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) -> MappedActionResult {
         let presenter = IntentResponsePresenter(completion: completion)
         return perform(intent: intent, presenter: presenter)

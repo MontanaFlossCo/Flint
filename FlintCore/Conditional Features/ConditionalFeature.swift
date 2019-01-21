@@ -44,7 +44,7 @@ public protocol ConditionalFeature: ConditionalFeatureDefinition {
     /// the action directly or on a specific `ActionSession` if the feature is available
     ///
     /// - note: This is defined in the protocol so you may override it if you have other ways to validate features.
-    static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> ConditionalActionRequest<Self, T>?
+    static func request<T>(_ actionBinding: ConditionalActionBinding<Self, T>) -> VerifiedActionBinding<Self, T>?
 }
 
 /// Convenience functions to do useful things with conditional features
@@ -54,7 +54,7 @@ public extension ConditionalFeature {
     /// If so, returns a request that can be used to perform the action, otherwise `nil`.
     ///
     /// The default `isAvailable` implementation will delegate to the `AvailabilityChecker` to see if the feature is available.
-    public static func request<ActionType>(_ actionBinding: ConditionalActionBinding<Self, ActionType>) -> ConditionalActionRequest<Self, ActionType>? {
+    public static func request<ActionType>(_ actionBinding: ConditionalActionBinding<Self, ActionType>) -> VerifiedActionBinding<Self, ActionType>? {
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: Self.self)
@@ -79,7 +79,7 @@ public extension ConditionalFeature {
             flintAdvisoryNotice("Request to use action '\(ActionType.name)' on feature '\(Self.name)' denied.\(reason)")
             return nil
         }
-        return ConditionalActionRequest(actionBinding: actionBinding)
+        return VerifiedActionBinding(actionBinding: actionBinding)
     }
 
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.

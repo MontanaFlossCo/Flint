@@ -26,7 +26,7 @@ import Foundation
 /// ## Threading
 ///
 /// A session can be accessed from any queue or thread. The `ActionSession.perform` method can be called directly or
-/// via the `StaticActionBinding`/`ConditionalActionRequest` convenience `perform` methods without knowing whether
+/// via the `StaticActionBinding`/`VerifiedActionBinding` convenience `perform` methods without knowing whether
 /// the queue is correct for the action.
 ///
 /// Actions can select which queue they will be called to `perform` on, via their `queue` property. This is *always*
@@ -108,7 +108,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
     /// - param completionQueue: The queue to use when calling the completion handler.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
                                                  completion: ((ActionOutcome) -> ())? = nil,
@@ -126,7 +126,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
     /// - param completionQueue: The queue to use when calling the completion handler.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
@@ -144,7 +144,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param presenter: The object presenting the outcome of the action
     /// - param completion: The completion handler to call.
     /// - param completionQueue: The queue to use when calling the completion handler.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  presenter: ActionType.PresenterType,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
@@ -161,7 +161,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param conditionalRequest: The conditional request for the action to perform
     /// - param completion: The completion handler to call.
     /// - param completionQueue: The queue to use when calling the completion handler.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
@@ -180,7 +180,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param source: Indicates where the request came from
     /// - param completion: The completion handler to call.
     /// - param completionQueue: The queue to use when calling the completion handler.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
                                                  userInitiated: Bool,
@@ -218,7 +218,7 @@ public class ActionSession: CustomDebugStringConvertible {
     /// - param source: Indicates where the request came from
     /// - param completionRequirement: The completion object to use.
     /// - return: The completion status, indicating whether it was synchronously completed or not, and the result if so.
-    public func perform<FeatureType, ActionType>(_ conditionalRequest: ConditionalActionRequest<FeatureType, ActionType>,
+    public func perform<FeatureType, ActionType>(_ conditionalRequest: VerifiedActionBinding<FeatureType, ActionType>,
                                                  input: ActionType.InputType,
                                                  presenter: ActionType.PresenterType,
                                                  userInitiated: Bool,

@@ -43,7 +43,7 @@ import Foundation
 ///
 /// - note: This is a completely discrete type from `StaticActionBinding` so that you cannot call `perform`
 /// with a conditional action, you must first request the conditional action using this binding, and then
-/// call perform with the `ConditionalActionRequest` received from that.
+/// call perform with the `VerifiedActionBinding` received from that.
 public struct ConditionalActionBinding<FeatureType: ConditionalFeature, ActionType: Action>: CustomDebugStringConvertible {
 
     public var debugDescription: String {
@@ -54,7 +54,7 @@ public struct ConditionalActionBinding<FeatureType: ConditionalFeature, ActionTy
     /// Otherwise, returns nil and the action cannot be performed.
     ///
     /// - see: `ActionSession.perform`
-    public func request() -> ConditionalActionRequest<FeatureType, ActionType>? {
+    public func request() -> VerifiedActionBinding<FeatureType, ActionType>? {
         return FeatureType.request(self)
     }
 }
