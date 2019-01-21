@@ -124,6 +124,18 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             activity.suggestedInvocationPhrase = newValue
         }
     }
+
+    /// Set to an app-unique identifier to allow this activity to be deleted
+    /// at a later point, to prevent further Siri suggestions.
+    @available(iOS 12, watchOS 5, *)
+    public var persistentIdentifier: String? {
+        get {
+            return activity.persistentIdentifier
+        }
+        set {
+            activity.persistentIdentifier = newValue
+        }
+    }
 #endif
 
     private var cancelled: Bool = false
