@@ -108,6 +108,14 @@ final public class Flint {
         }
     }
 
+    /// Get the metadata for the specified action binding
+    public static func metadata<FeatureType, ActionType>(for action: StaticActionBinding<FeatureType,ActionType>) -> ActionMetadata? {
+        guard let featureMetadata = metadata(for: FeatureType.self) else {
+            flintUsageError("Cannot get metadata for feature \(FeatureType.self), feature not registered.")
+        }
+        return featureMetadata.actionMetadata(action: ActionType.self)
+    }
+
     // MARK: Setup and convenience functions
     
     /// Call for the default setup of loggers, link creation, automatic logging of action start/end.

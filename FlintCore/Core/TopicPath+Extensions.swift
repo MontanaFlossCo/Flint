@@ -15,10 +15,10 @@ public extension TopicPath {
     }
 
     init<FeatureType, ActionType>(actionBinding: StaticActionBinding<FeatureType, ActionType>) {
-        self.init(actionBinding.feature.identifier.path + ["#\(String(describing: actionBinding.action))"])
+        self.init(FeatureType.identifier.path + ["#\(String(describing: ActionType.self))"])
     }
 
     init<FeatureType, ActionType>(actionBinding: ConditionalActionBinding<FeatureType, ActionType>) {
-        self.init(actionBinding.feature.identifier.path + ["#\(String(describing: actionBinding.action))"])
+        self.init(FeatureType.identifier.path + ["#\(String(describing: ActionType.self))"])
     }
 }

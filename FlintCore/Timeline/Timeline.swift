@@ -37,10 +37,10 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
     // MARK: Observing the action dispatcher
     
     public func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) {
-        guard !request.actionBinding.action.hideFromTimeline else {
+        guard !ActionType.hideFromTimeline else {
             return
         }
-        guard !(FocusFeature.dependencies.focusSelection?.shouldSuppress(feature: request.actionBinding.feature) == true) else {
+        guard !(FocusFeature.dependencies.focusSelection?.shouldSuppress(feature: FeatureType.self) == true) else {
             return
         }
         let entry = TimelineEntry(sequenceID: request.uniqueID,
@@ -48,18 +48,18 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
                                   source: request.source,
                                   date: Date(),
                                   sessionName: request.sessionName,
-                                  feature: request.actionBinding.feature,
-                                  actionName: request.actionBinding.action.name,
+                                  feature: FeatureType.self,
+                                  actionName: ActionType.name,
                                   inputDescription: request.context.input.loggingDescription,
                                   inputInfo: request.context.input.loggingInfo)
         entries.append(entry)
     }
     
     public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
-        guard !request.actionBinding.action.hideFromTimeline else {
+        guard !ActionType.hideFromTimeline else {
             return
         }
-        guard !(FocusFeature.dependencies.focusSelection?.shouldSuppress(feature: request.actionBinding.feature) == true) else {
+        guard !(FocusFeature.dependencies.focusSelection?.shouldSuppress(feature: FeatureType.self) == true) else {
             return
         }
         let entry = TimelineEntry(sequenceID: request.uniqueID,
@@ -67,8 +67,8 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
                                   source: request.source,
                                   date: Date(),
                                   sessionName: request.sessionName,
-                                  feature: request.actionBinding.feature,
-                                  actionName: request.actionBinding.action.name,
+                                  feature: FeatureType.self,
+                                  actionName: ActionType.name,
                                   inputDescription: request.context.input.loggingDescription,
                                   inputInfo: request.context.input.loggingInfo,
                                   outcome: outcome.simplifiedOutcome)

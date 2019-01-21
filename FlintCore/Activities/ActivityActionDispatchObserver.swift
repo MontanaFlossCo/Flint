@@ -19,7 +19,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
 
     public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
         if outcome.isSuccess {
-            if request.actionBinding.action.activityTypes.count > 0 {
+            if ActionType.activityTypes.count > 0 {
                 registerUserActivity(for: request)
             }
         }
@@ -35,7 +35,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
     /// nil. Returning non-nil from that function will result in a call to `actionActivity(for:)`.
     func registerUserActivity<FeatureType, ActionType>(for actionRequest: ActionRequest<FeatureType, ActionType>) {
         // Don't recurse into the activity actions
-        guard actionRequest.actionBinding.feature != ActivitiesFeature.self else {
+        guard FeatureType.self != ActivitiesFeature.self else {
             return
         }
         
@@ -45,7 +45,6 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         
         // Extract everything the action needs from the generic action request, as we cannot retain the type
         // information as we pass this forward to the action
-        let action = actionRequest.actionBinding.action
         let input = actionRequest.context.input
 
         var appLink: URL? = nil
@@ -71,7 +70,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
                 appLink = linkCreator.appLink(to: actionRequest.actionBinding, with: validEncodable)
             } else {
                 if !(input is ActivityCodable) {
-                    flintUsageError("Input type \(type(of: input)) for action \(action.name) is not ActivityCodable, and " +
+                    flintUsageError("Input type \(type(of: input)) for action \(ActionType.name) is not ActivityCodable, and " +
                         "there is no Flint.linkCreator specified (are you missing a default custom URL scheme?). " +
                         "It will not be possible to continue this activity later.")
                 }
@@ -83,8 +82,8 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
             return actionRequest.actionBinding.activity(for: input, withURL: appLink)
         }
 
-        let publishState = PublishActivityRequest(actionName: action.name,
-                                                feature: actionRequest.actionBinding.feature,
+        let publishState = PublishActivityRequest(actionName: ActionType.name,
+                                                feature: FeatureType.self,
                                                 activityCreator: prepareActivityWrapper,
                                                 appLink: appLink)
         DispatchQueue.main.async {

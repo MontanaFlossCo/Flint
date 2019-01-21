@@ -20,85 +20,85 @@ class ActionsBuilder: FeatureActionsBuilder {
     }
     
     public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) {
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
     
     public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
     
     public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) {
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
 
     public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
 
     public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) {
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
-    
+
     public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
-
+    
     public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) {
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
 
+    
     public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
 
-#if canImport(Intents) && os(iOS)
-    @available(iOS 12, *)
-    public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
-        Flint.bind(binding.action, to: feature)
-    }
-
+#if canImport(Network) && os(iOS)
     @available(iOS 12, *)
     public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
     
     @available(iOS 12, *)
     public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
 
     @available(iOS 12, *)
     public func declare<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.bind(binding.action, to: feature)
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
 
     @available(iOS 12, *)
     public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
+    }
+    
+    @available(iOS 12, *)
+    public func declare<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
+        Flint.bind(ActionType.self, to: FeatureType.self)
     }
     
     @available(iOS 12, *)
     public func publish<FeatureType, ActionType>(_ binding: StaticActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
     
     @available(iOS 12, *)
     public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction {
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
 
     @available(iOS 12, *)
     public func publish<FeatureType, ActionType>(_ binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType: IntentAction, ActionType.InputType: ActivityCodable {
         activityMappings.registerActivity(for: binding)
-        Flint.publish(binding.action, to: feature)
+        Flint.publish(ActionType.self, to: FeatureType.self)
     }
 #endif
-
 }

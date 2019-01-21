@@ -23,18 +23,16 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     }
     
     func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) where FeatureType : FeatureDefinition, ActionType : Action {
-        if #available(iOS 12.0, *) {
-            guard let intents = request.actionBinding.action.associatedIntents(for: request.context.input) else {
-                loggers.development?.debug("Action completed but did not return an intent to donate: \(request)")
-                return
-            }
-            for intent in intents {
-                if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
-                    loggers.development?.debug("Action \(request.actionBinding.action) completed and returned an Intent to donate: \(intent)")
-                    actionRequest.perform(input: FlintIntentWrapper(intent: intent))
-                } else {
-                    loggers.development?.debug("Action \(request.actionBinding.action) completed and has an intent to donate but the donation feature is not enabled")
-                }
+        guard let intents = ActionType.associatedIntents(for: request.context.input) else {
+            loggers.development?.debug("Action completed but did not return an intent to donate: \(request)")
+            return
+        }
+        for intent in intents {
+            if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
+                loggers.development?.debug("Action \(ActionType.self) completed and returned an Intent to donate: \(intent)")
+                actionRequest.perform(input: FlintIntentWrapper(intent: intent))
+            } else {
+                loggers.development?.debug("Action \(ActionType.self) completed and has an intent to donate but the donation feature is not enabled")
             }
         }
     }

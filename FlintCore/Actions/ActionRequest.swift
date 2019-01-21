@@ -60,9 +60,9 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
     
     public var debugDescription: String {
         if userInitiated {
-            return "Request \(uniqueID) for user-initiated \(actionBinding.feature) action \(actionBinding.action)"
+            return "Request \(uniqueID) for user-initiated \(FeatureType.self) action \(ActionType.self)"
         } else {
-            return "Request \(uniqueID) for \(actionBinding.feature) action \(actionBinding.action)"
+            return "Request \(uniqueID) for \(FeatureType.self) action \(ActionType.self)"
         }
     }
 }

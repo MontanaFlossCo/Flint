@@ -33,18 +33,12 @@ import Foundation
 /// ```
 public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringConvertible where FeatureType: FeatureDefinition, ActionType: Action {
 
-    /// The feature to which the action is bounc
-    public let feature: FeatureType.Type
-    
-    /// The action bound to the feature
-    public let action: ActionType.Type
-    
     private var _logTopicPath: TopicPath?
     /// The `TopicPath` to use when outputting logging for this action
     public var logTopicPath: TopicPath { return _logTopicPath! }
 
     private var session: ActionSession {
-        guard let result = action.defaultSession else {
+        guard let result = ActionType.defaultSession else {
             flintUsageError("You cannot call perform on action bindings directly unless the Action defines a value for defaultSession. Perhaps you mean your action to conform to UIAction, which uses the main session?")
         }
         return result
@@ -52,14 +46,12 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     
     /// This initialiser is `internal` and must remain so to prevent misuse where static bindings could be created
     /// and directly performed even if they are only meant to be conditionally available.
-    init(feature: FeatureType.Type, action: ActionType.Type) {
-        self.feature = feature
-        self.action = action
+    init() {
         _logTopicPath = TopicPath(actionBinding: self)
     }
     
     public var debugDescription: String {
-        return "\(feature)'s action \(action)"
+        return "\(FeatureType.self)'s action \(ActionType.self)"
     }
 
     /// A convenience function to perform the action in the main `ActionSession`.

@@ -102,14 +102,14 @@ public class URLMappingsBuilder {
         }
         
         FlintInternal.urlMappingLogger?.debug("Adding URL mapping \(mapping) ➡️ \(actionBinding)")
-        mappings.add(mapping, actionType: actionBinding.action)
+        mappings.add(mapping, actionType: ActionType.self)
         
         // This is a bit funky doing this inside the builder, we should really take the results of the build and
         // iterate over them to add them to the actual url mapping subsystem. However this means introducing a new
         // type to contain the feature, action and executor info.
         /// !!! TODO: Introduce a new `URLMappingExecutorBinding` type and use this in `URLMappings` and return here,
         /// letting the caller iterate over the mappings and bind them to the `ActionURLMappings`
-        ActionURLMappings.instance.add(mapping: mapping, for: actionBinding.feature, actionName: actionBinding.action.name, executor: executor)
+        ActionURLMappings.instance.add(mapping: mapping, for: FeatureType.self, actionName: ActionType.name, executor: executor)
     }
     
     /// Create the mapping and register with the global mappings table. Similar but not idential to above, because
@@ -138,13 +138,13 @@ public class URLMappingsBuilder {
         }
 
         FlintInternal.urlMappingLogger?.debug("Adding URL mapping \(mapping) ➡️ \(actionBinding)")
-        mappings.add(mapping, actionType: actionBinding.action)
+        mappings.add(mapping, actionType: ActionType.self)
 
         // This is a bit funky doing this inside the builder, we should really take the results of the build and
         // iterate over them to add them to the actual url mapping subsystem. However this means introducing a new
         // type to contain the feature, action and executor info.
         /// !!! TODO: Introduce a new `URLMappingExecutorBinding` type and use this in `URLMappings` and return here,
         /// letting the caller iterate over the mappings and bind them to the `ActionURLMappings`
-        ActionURLMappings.instance.add(mapping: mapping, for: actionBinding.feature, actionName: actionBinding.action.name, executor: executor)
+        ActionURLMappings.instance.add(mapping: mapping, for: FeatureType.self, actionName: ActionType.name, executor: executor)
     }
 }

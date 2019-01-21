@@ -32,22 +32,22 @@ public class AnalyticsReporting: ActionDispatchObserver {
     }
     
     public func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) {
-        guard request.actionBinding.action.analyticsID != nil else {
+        guard ActionType.analyticsID != nil else {
             return
         }
-        let context = request.actionBinding.action.analyticsAttributes(for: request)
-        provider.analyticsEventWillBegin(feature: request.actionBinding.feature,
-                                         action: request.actionBinding.action,
+        let context =  ActionType.analyticsAttributes(for: request)
+        provider.analyticsEventWillBegin(feature: FeatureType.self,
+                                         action: ActionType.self,
                                          context: context)
     }
     
     public func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) {
-        guard request.actionBinding.action.analyticsID != nil else {
+        guard ActionType.analyticsID != nil else {
             return
         }
-        let context = request.actionBinding.action.analyticsAttributes(for: request)
-        provider.analyticsEventDidEnd(feature: request.actionBinding.feature,
-                                      action: request.actionBinding.action,
+        let context = ActionType.analyticsAttributes(for: request)
+        provider.analyticsEventDidEnd(feature: FeatureType.self,
+                                      action:  ActionType.self,
                                       context: context,
                                       outcome: outcome)
     }
