@@ -147,15 +147,15 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
 
         activity = NSUserActivity(activityType: activityID)
 
-        activity.isEligibleForSearch = action.activityTypes.contains(.search)
-        activity.isEligibleForHandoff = action.activityTypes.contains(.handoff)
-        activity.isEligibleForPublicIndexing = action.activityTypes.contains(.publicIndexing)
+        activity.isEligibleForSearch = action.activityEligibility.contains(.search)
+        activity.isEligibleForHandoff = action.activityEligibility.contains(.handoff)
+        activity.isEligibleForPublicIndexing = action.activityEligibility.contains(.publicIndexing)
 
         // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
         // require raising the language level to Swift 4.2 in the target.
 #if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
         if #available(iOS 12, watchOS 5, *) {
-            activity.isEligibleForPrediction = action.activityTypes.contains(.prediction)
+            activity.isEligibleForPrediction = action.activityEligibility.contains(.prediction)
             // Force search eligibility as this is required for prediction too
             if activity.isEligibleForPrediction {
                 activity.isEligibleForSearch = true

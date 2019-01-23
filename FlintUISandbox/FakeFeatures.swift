@@ -55,7 +55,7 @@ final class DoSomethingFakeAction: UIAction {
     typealias InputType = String?
     typealias PresenterType = NoPresenter
     
-    static var activityTypes: Set<ActivityEligibility> = [.handoff, .prediction]
+    static var activityEligibility: Set<ActivityEligibility> = [.handoff, .prediction]
 
     static func prepareActivity(_ activity: ActivityBuilder<DoSomethingFakeAction>) {
         activity.title = "Do a fake thing"

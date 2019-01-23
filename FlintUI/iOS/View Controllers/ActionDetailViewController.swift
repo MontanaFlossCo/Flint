@@ -106,8 +106,8 @@ class ActionDetailViewController: UITableViewController {
                         detail = action.analyticsID ?? "<none>"
                     case .activityEligibility:
                         text = "Activities"
-                        if action.activityTypes.count > 0 {
-                            detail = action.activityTypes.map({ String(describing: $0) }).sorted().joined(separator: ", ")
+                        if action.activityEligibility.count > 0 {
+                            detail = action.activityEligibility.map({ String(describing: $0) }).sorted().joined(separator: ", ")
                         } else {
                             detail = "<none>"
                         }
@@ -158,8 +158,8 @@ class ActionDetailViewController: UITableViewController {
                 detail = action.analyticsID ?? "<none>"
             case .activityEligibility:
                 title = "Activities"
-                if action.activityTypes.count > 0 {
-                    detail = action.activityTypes.map({ String(describing: $0) }).sorted().joined(separator: ", ")
+                if action.activityEligibility.count > 0 {
+                    detail = action.activityEligibility.map({ String(describing: $0) }).sorted().joined(separator: ", ")
                 } else {
                     detail = "<none>"
                 }
