@@ -40,7 +40,7 @@ final public class FlintAppInfo {
     public static var associatedDomains = [String]()
     
     /// The NSURLActivityTypes supported by the app, as declared in Info.plist
-    public static var activityTypes: [String] = {
+    public static var activityEligibility: [String] = {
         let types = Bundle.main.infoDictionary?["NSUserActivityTypes"]
         guard let stringTypes = types as? [String] else {
             return []

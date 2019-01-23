@@ -20,7 +20,7 @@ public class ActionMetadata {
     public let inputType: Any.Type
     public let presenterType: Any.Type
     public let analyticsID: String?
-    public let activityTypes: Set<ActivityEligibility>
+    public let activityEligibility: Set<ActivityEligibility>
     public private(set) var urlMappings = [String]()
     public private(set) var intentTypeName: String?
 
@@ -31,7 +31,7 @@ public class ActionMetadata {
         inputType = T.InputType.self
         presenterType = T.PresenterType.self
         analyticsID = action.analyticsID
-        activityTypes = action.activityTypes
+        activityEligibility = action.activityEligibility
     }
     
     func add(urlMapping: URLMapping) {

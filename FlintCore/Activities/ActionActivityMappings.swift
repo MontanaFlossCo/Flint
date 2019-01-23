@@ -67,8 +67,8 @@ class ActionActivityMappings {
     /// Interfnal function to create the activity.
     static func createActivity<ActionType>(for action: ActionType.Type, of feature: FeatureDefinition.Type,
                                            with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
-        let activityTypes = action.activityTypes
-        guard activityTypes.count > 0 else {
+        let activityEligibility = action.activityEligibility
+        guard activityEligibility.count > 0 else {
             return nil
         }
         
@@ -76,7 +76,7 @@ class ActionActivityMappings {
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
 
-        flintAdvisoryPrecondition(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
+        flintAdvisoryPrecondition(FlintAppInfo.activityEligibility.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
             "The ID `\(activityID)` is not there.")
 
         // The action can populate or veto publishing this activity by cancelling the builder passed in.
@@ -99,7 +99,7 @@ class ActionActivityMappings {
     
     /// Adds a mapping from an `activityType` ID to a feature/action binding.
     func registerActivity<FeatureType, ActionType>(for binding: StaticActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
-        guard ActionType.activityTypes.count > 0 else {
+        guard ActionType.activityEligibility.count > 0 else {
             FlintInternal.logger?.debug("Not registering activity for \(ActionType.self), no activity types set.")
             return
         }
@@ -146,7 +146,7 @@ class ActionActivityMappings {
 
     /// Adds a mapping from an `activityType` ID to a conditional feature/action binding.
     func registerActivity<FeatureType, ActionType>(for binding: ConditionalActionBinding<FeatureType, ActionType>) where ActionType.InputType: ActivityCodable {
-        guard ActionType.activityTypes.count > 0 else {
+        guard ActionType.activityEligibility.count > 0 else {
             FlintInternal.logger?.debug("Not registering activity for \(ActionType.self), no activity types set.")
             return
         }

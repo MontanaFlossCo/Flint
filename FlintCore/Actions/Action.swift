@@ -103,7 +103,7 @@ public protocol Action {
     /// proactive suggestions, use `[.perform]`.
     ///
     /// - see: `ActivitiesFeature`
-    static var activityTypes: Set<ActivityEligibility> { get }
+    static var activityEligibility: Set<ActivityEligibility> { get }
 
     /// Implement this function to configure the NSUserActivity for any extra preparation required by the action.
     ///
@@ -121,7 +121,7 @@ public protocol Action {
     /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut or registering an `NSUserActivity` for
     /// this action.
     ///
-    /// - note: This value is only used if your `activityTypes` include `.prediction`.
+    /// - note: This value is only used if your `activityEligibility` include `.prediction`.
     static var suggestedInvocationPhrase: String? { get }
     
 #if canImport(Intents)

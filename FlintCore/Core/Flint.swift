@@ -270,7 +270,7 @@ final public class Flint {
     }
     
     private static func checkRequiredActivityTypes(features: [FeatureDefinition.Type]) {
-        let declaredActivityTypes = Set(FlintAppInfo.activityTypes)
+        let declaredActivityTypes = Set(FlintAppInfo.activityEligibility)
         
         /// !!! TODO: Change this to use metadata stored in ActionActivityMappings.instance
         for feature in features {
@@ -278,10 +278,10 @@ final public class Flint {
                 flintBug("We must have metadata for \(feature) by now")
             }
             for action in featureMetadata.actions {
-                if action.activityTypes.count > 0 {
+                if action.activityEligibility.count > 0 {
                     let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
                     if !declaredActivityTypes.contains(activityID) {
-                        flintAdvisoryNotice("Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityTypes)")
+                        flintAdvisoryNotice("Your Info.plist NSUserActivityTypes key is missing the activity ID \(activityID) for action type \(action.typeName) which has activity types \(action.activityEligibility)")
                     }
                 }
             }

@@ -167,7 +167,7 @@ final class DocumentOpenAction: Action {
     static var description = "Open a document"
     
     // 💥 Just tell Flint what activity types to use
-    static var activityTypes: Set<ActivityEligibility> = [.perform, .handoff]
+    static var activityEligibility: Set<ActivityEligibility> = [.perform, .handoff]
     
     static func perform(context: ActionContext<DocumentRef>, presenter: DocumentPresenter, completion: Complettion) -> Completion.Status {
         // … do the work

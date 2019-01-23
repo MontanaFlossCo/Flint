@@ -53,7 +53,7 @@ public extension Action {
 /// Default implementation of the activities requirements, to ease the out-of-box experience.
 public extension Action {
     /// By default there are no activity types, so no `NSUserActivity` will be emitted.
-    static var activityTypes: Set<ActivityEligibility> {
+    static var activityEligibility: Set<ActivityEligibility> {
         return []
     }
 
