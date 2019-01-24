@@ -8,10 +8,16 @@
 
 import Foundation
 
+/// This is important information for the developer.
+/// !!! TODO: This should be disabled in production builds
+public func flintInformation(_ message: String) {
+    print("☝️ \(message)")
+}
+
 /// This is an warning that something needs to be addressed before shipping.
 /// !!! TODO: This should be disabled in production builds
 public func flintAdvisoryNotice(_ message: String, file: StaticString = #file, line: UInt32 = #line) {
-    FlintInternal.logger?.warning("🚑 \(message). See \(file) line \(line)")
+    print("🚑 \(message). See \(file) line \(line)")
 }
 
 /// This is an warning that something is definitely broken and needs to be addressed. AKA Footgun prevention.

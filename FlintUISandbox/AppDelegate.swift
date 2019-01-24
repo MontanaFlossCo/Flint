@@ -57,7 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Flint.quickSetup(FakeFeatures.self, domains: [], initialDebugLogLevel: .debug, initialProductionLogLevel: .info)
+        let fileOutput = try! FileLoggerOutput(appGroupIdentifier: nil, name: "uisandbox")
+        Logging.setLoggerOutputs(debug: [fileOutput], level: .debug, production: nil, level: .none)
+        Flint.setup(FakeFeatures.self)
         Flint.register(group: FlintUIFeatures.self)
         
         // Spit out a fake action every few seconds
