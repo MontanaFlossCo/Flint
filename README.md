@@ -16,13 +16,19 @@ We made Flint because we want people to build great apps for Apple platforms tha
 
 🏠 [flint.tools](https://flint.tools) is the official web site, with guide & API docs and blog
 
-🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where project lead [Marc Palmer](https://twitter.com/marcpalmerdev) explains the motivation and ideas behind Flint
-
 📖 [View the documentation](https://flint.tools/manual) or [help us improve it with a pull request](https://github.com/MontanaFlossCo/Flint-Documentation)
 
 🔬 [View the FlintDemo-iOS sample project](https://github.com/MontanaFlossCo/FlintDemo-iOS)
 
-💬 [Join the FlintCore Slack](https://join.slack.com/t/flintcore/shared_invite/enQtMzUwOTU4NTU0OTYwLWMxYTNiOTNjNmVkOTM3ZDgwNzZiNzJiNmE2NWUyMzUzMjg3ZTg4YjNmMjdhYmZkYTlmYmI2ZDQ5NjU0ZmQ3ZjU)
+💬 [Get help on the FlintCore Slack](https://join.slack.com/t/flintcore/shared_invite/enQtMzUwOTU4NTU0OTYwLWMxYTNiOTNjNmVkOTM3ZDgwNzZiNzJiNmE2NWUyMzUzMjg3ZTg4YjNmMjdhYmZkYTlmYmI2ZDQ5NjU0ZmQ3ZjU)
+
+✉️ [Subscribe to the Flint newsletter](http://eepurl.com/dGW5Uj)
+
+🐦 [Follow @flintframework on Twitter](https://twitter.com/flintframework)
+
+🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where project lead [Marc Palmer](https://twitter.com/marcpalmerdev) explains the motivation and ideas behind Flint
+
+
 
 ## The basics
 
@@ -243,10 +249,10 @@ There is of course much left to do! Here is a high level roadmap  of planned wor
 * ✅ Action Stacks feature
 * ✅ Exportable debug reports
 * ✅ Set up CI
-* ⏳ Early-access public API review 
-* ⏳ Siri Intents support
-* 👨‍💻 Implement IAP / Subscription validation
-* 👨‍💻 Implement Built-in persistent file logger
+* ✅ Early-access public API review 
+* ✅ Siri Intents support
+* ⏳ Implement IAP / Subscription validation
+* ⏳ Implement Built-in persistent file logger
 * 👨‍💻 Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
 * 👨‍💻 Implement core unit tests
 * 👨‍💻 Examples of Mixpanel, Sentry and Firebase integrations
