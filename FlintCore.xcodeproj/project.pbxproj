@@ -237,6 +237,9 @@
 		495EED8121FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
 		495EED8221FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
 		495EED8321FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
+		495EED8421FB1EC7001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
+		495EED8521FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
+		495EED8621FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
 		495FD9FA20026A180007A427 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9F920026A180007A427 /* Timeline.swift */; };
 		495FD9FC20026A520007A427 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FB20026A520007A427 /* ObserverSet.swift */; };
 		495FD9FE200363290007A427 /* FeaturePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FD200363290007A427 /* FeaturePath.swift */; };
@@ -2025,6 +2028,7 @@
 				49734F7B21F4A64D00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */,
+				495EED8421FB1EC7001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FCD203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				491211C42159074700B199C4 /* UIAction.swift in Sources */,
 				494F593E2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -2229,6 +2233,7 @@
 				49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
+				495EED8521FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FE2203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				491211C52159074700B199C4 /* UIAction.swift in Sources */,
 				494F593F2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -2433,6 +2438,7 @@
 				49F6824720D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
+				495EED8621FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				494C279320BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */,

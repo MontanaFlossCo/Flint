@@ -14,11 +14,18 @@ import Foundation
 public class FileLoggerOutput: LoggerOutput {
     public let nameStem: String
     public let folderName: String
-    private let baseURL: URL
-    private var currentLogFile: LogFile?
     public let namingStrategy: LogFileNamingStrategy
     public let formattingStrategy: LogEventFormattingStrategy = VerboseLogEventFormatter()
 
+    private let baseURL: URL
+    private var currentLogFile: LogFile?
+
+    /// Create a new logger output that writes to files.
+    ///
+    /// - param appGroupIdentifier: The optional App Group ID to use to store the logs in a shared container
+    /// - param name: The file name of the log file (minus path). This will be passed to the naming strategy for inclusion.
+    /// - param folderName: The name of the folder in which to put the log file, under the container.
+    /// - param namingStrategy: An optional strategy for creating log file names. By default a `TimestampLogFileNamingStrategy` will be used.
     public init(appGroupIdentifier: String?, name: String, folderName: String = "Flint", namingStrategy: LogFileNamingStrategy? = nil) throws {
         self.folderName = folderName
         self.namingStrategy = namingStrategy ?? TimestampLogFileNamingStrategy(namePrefix: name)
@@ -53,11 +60,29 @@ public class FileLoggerOutput: LoggerOutput {
     }
     
     public func copyForArchiving(to path: URL) {
-    
+        let urls = logFileURLs()
+        for url in urls {
+            do {
+                try FileManager.default.copyItem(at: url, to: path)
+            } catch let e {
+                assertionFailure("Could not copy logs: \(e)")
+            }
+        }
     }
     
     // MARK: Internals
+
+    func logFileURLs() -> [URL] {
+        do {
+            let urls = try FileManager.default.contentsOfDirectory(at: baseURL, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsPackageDescendants])
+            return urls
+        } catch let e {
+            assertionFailure("Could not list log files: \(e)")
+            return []
+        }
+    }
     
+
     /// Open or create the log file as necessary.
     private func openLogFile() {
         let logUrl = urlForNextLogFile

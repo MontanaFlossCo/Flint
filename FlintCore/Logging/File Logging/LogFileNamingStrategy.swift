@@ -10,6 +10,7 @@ import Foundation
 
 /// The abstraction for creating new log file names
 public protocol LogFileNamingStrategy {
+    /// - return: The name to use for the next log file
     func next() -> String
 }
 
