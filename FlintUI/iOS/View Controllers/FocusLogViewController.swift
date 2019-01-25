@@ -97,7 +97,7 @@ public class FocusLogViewController: UITableViewController, FocusLogPresenter {
     // MARK: Outlets and actions
     
     @objc public func shareLogs() {
-        let url = DebugReporting.gatherReportZip()
+        let url = DebugReporting.gatherReportZip(options: [.machineReadableFormat])
         let shareViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         shareViewController.completionWithItemsHandler = { _, _, _, _ in
             try? FileManager.default.removeItem(at: url)
