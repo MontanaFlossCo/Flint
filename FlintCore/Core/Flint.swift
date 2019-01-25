@@ -129,7 +129,9 @@ final public class Flint {
                                   initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
 
-        DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
+        DefaultLoggerFactory.setup(initialDevelopmentLogLevel: initialDebugLogLevel,
+                                   initialProductionLogLevel: initialProductionLogLevel,
+                                   briefLogging: briefLogging)
         FlintAppInfo.associatedDomains.append(contentsOf: domains)
 
         // Unless we're debugging Flint we don't want this stuff.
