@@ -67,7 +67,7 @@ public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
     /// Quick setup default logging behaviours, tracking the specified hierarchy of features.
     public static func setup(initialDebugLogLevel: LoggerLevel = .debug, initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
         let outputs: [LoggerOutput] = [
-            PrintLoggerImplementation(prefix: "🐞", timeOnly: briefLogging),
+            PrintLoggerImplementation(prefix: "🐞 ", timeOnly: briefLogging),
         ]
 
         let prodOutputs: [LoggerOutput] = [

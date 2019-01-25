@@ -14,11 +14,11 @@ import Foundation
 ///
 public class VerboseLogEventFormatter: LogEventFormattingStrategy {
     public let dateFormatter = DateFormatter()
-    public let prefix: String?
+    public let prefix: String
 
     /// Initialise the logger with a prefix to add to each line, and a custom date format
     public init(prefix: String? = nil, dateFormat: String = "HH:mm:ss.SSS") {
-        self.prefix = prefix
+        self.prefix = prefix ?? ""
         let format = DateFormatter.dateFormat(fromTemplate: dateFormat, options: 0, locale: nil)
         dateFormatter.dateFormat = format
     }
@@ -34,7 +34,7 @@ public class VerboseLogEventFormatter: LogEventFormattingStrategy {
         } else {
             args = ""
         }
-        let text = "\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)\(args)\n"
+        let text = "\(prefix)\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)\(args)\n"
         return text
     }
 }
