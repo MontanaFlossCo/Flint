@@ -14,11 +14,11 @@ import Foundation
 ///
 /// - see: `DebugReporting.add(:)` for registering your own reportable objet to be included.
 public protocol DebugReportable: AnyObject {
-    func copyReport(to path: URL, options: Set<DebugReportOptions>) throws
+    func copyReport(to path: URL, options: Set<DebugReportOption>) throws
 }
 
 /// Options for the report export.
-public enum DebugReportOptions {
+public enum DebugReportOption {
     /// Specify this option to only include events resulting from an action that the user directly initiated, as specified
     /// in the `userInitiated` property of the `ActionContext`. This will filter out any programmatically triggered events,
     /// such as data or time event-based subsystems.

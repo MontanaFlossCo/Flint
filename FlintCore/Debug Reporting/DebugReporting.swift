@@ -46,7 +46,7 @@ public class DebugReporting {
     ///
     /// The caller is responsible for removing the file to free space. The file is in a temporary location but
     /// it is undefined when that will be cleared out.
-    public static func gatherReportZip() -> URL {
+    public static func gatherReportZip(options: Set<DebugReportOption>) -> URL {
         let tempDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let baseURL = tempDirectoryURL.appendingPathComponent("flint-report", isDirectory: true)
         do {
@@ -64,7 +64,7 @@ public class DebugReporting {
         eachReportable { reportable in
             FlintInternal.logger?.info("Generating report for \(reportable)")
             do {
-                try reportable.copyReport(to: filesURL, options: [.machineReadableFormat])
+                try reportable.copyReport(to: filesURL, options: options)
             } catch {
                 FlintInternal.logger?.error("Could not write report for \(reportable)")
             }

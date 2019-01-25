@@ -102,7 +102,7 @@ extension Timeline {
 }
 
 extension Timeline {
-    public func copyReport(to path: URL, options: Set<DebugReportOptions>) {
+    public func copyReport(to path: URL, options: Set<DebugReportOption>) {
         var data = Data()
 
         let userInitiatedOnly = options.contains(.userInitiatedOnly)
