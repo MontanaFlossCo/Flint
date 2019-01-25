@@ -11,9 +11,8 @@ import Foundation
 /// A trivial logger that uses Swift `print` to stdout. This is not very useful except
 /// for debugging without a dependency on another logging framework, as used in Flint demo projects.
 public class PrintLoggerImplementation: LoggerOutput {
-    let prefix: String?
-    let dateFormatter = DateFormatter()
-    
+    public let formattingStrategy: LogEventFormattingStrategy
+
     /// Initialise the print logger with a prefix added to every line output, and an option to show only the time
     /// instead of the full date and time.
     convenience public init(prefix: String? = nil, timeOnly: Bool = false) {
@@ -23,27 +22,21 @@ public class PrintLoggerImplementation: LoggerOutput {
 
     /// Initialise the logger with a prefix to add to each line, and a custom date format
     public init(prefix: String? = nil, dateFormat: String) {
-        let format = DateFormatter.dateFormat(fromTemplate: dateFormat, options: 0, locale: nil)
-        dateFormatter.dateFormat = format
-        self.prefix = prefix
+        formattingStrategy = VerboseLogEventFormatter(prefix: prefix, dateFormat: dateFormat)
+    }
+    
+    public init(formatter: LogEventFormattingStrategy) {
+        self.formattingStrategy = formatter
     }
     
     public func log(event: LogEvent) {
-        let date = dateFormatter.string(from: event.date)
-        
-        let level = event.level.description
-        var text = "\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)"
-        if let arguments = event.context.arguments {
-            text.append(" | State: \(arguments)")
+        guard let text = formattingStrategy.format(event) else {
+            return
         }
         
         // Ensure we don't corrupt stdout
         DispatchQueue.main.async {
-            if let prefix = self.prefix {
-                print(prefix, text)
-            } else {
-                print(text)
-            }
+            print(text)
         }
     }
 
