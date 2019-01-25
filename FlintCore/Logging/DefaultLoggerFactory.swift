@@ -60,7 +60,7 @@ public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
         target.add(output: output)
     }
 
-    public func copyReport(to path: URL, options: Set<DebugReportOptions>) {
+    public func copyReport(to path: URL, options: Set<DebugReportOption>) {
         target.output.copyForArchiving(to: path)
     }
 

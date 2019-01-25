@@ -411,8 +411,8 @@ final public class Flint {
     /// to generate their reports, and then it will zip all the contents into a single file.
     ///
     /// - return: A URL pointing to a Zip file containing the reports. You should delete this after generating it.
-    public static func gatherReportZip() -> URL {
-        return DebugReporting.gatherReportZip()
+    public static func gatherReportZip(options: Set<DebugReportOption>) -> URL {
+        return DebugReporting.gatherReportZip(options: options)
     }
 
     // MARK: Internals

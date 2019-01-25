@@ -27,6 +27,5 @@ public class FocusLogging: LoggerOutput {
     }
 
     public func copyForArchiving(to path: URL) {
-        /// !!! TODO
     }
 }
