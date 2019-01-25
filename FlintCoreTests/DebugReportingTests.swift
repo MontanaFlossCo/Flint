@@ -17,14 +17,14 @@ class DebugReportingTests: XCTestCase {
     }
     
     func testGatheringEmptyZipReport() {
-        let zipUrl = DebugReporting.gatherReportZip()
+        let zipUrl = DebugReporting.gatherReportZip(options: [.machineReadableFormat])
         XCTAssert(FileManager.default.fileExists(atPath: zipUrl.path))
     }
 
     func testGatheringZipReport() {
         Flint.quickSetup(DummyFeatures.self, domains: [], initialDebugLogLevel: .none, initialProductionLogLevel: .none)
         DummyFeature.action1.perform()
-        let zipUrl = DebugReporting.gatherReportZip()
+        let zipUrl = DebugReporting.gatherReportZip(options: [.machineReadableFormat])
         XCTAssert(FileManager.default.fileExists(atPath: zipUrl.path))
     }
 }
