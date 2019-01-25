@@ -150,13 +150,14 @@ public extension ActionStackTracker {
     public func copyReport(to path: URL, options: Set<DebugReportOptions>) {
         var data = Data()
         let userInitiatedOnly = options.contains(.userInitiatedOnly)
+        let filename = options.contains(.machineReadableFormat) ? "action_stacks.json" : "action_stacks.txt"
         if options.contains(.machineReadableFormat) {
             writeJSONReport(to: &data, userInitiatedOnly: userInitiatedOnly)
         } else {
             writeHumanReadableReport(to: &data, userInitiatedOnly: userInitiatedOnly)
         }
         do {
-            try data.write(to: path.appendingPathComponent("action_stacks.txt"))
+            try data.write(to: path.appendingPathComponent(filename))
         } catch let e {
             FlintInternal.logger?.error("Could not write action_stacks.txt: \(e)")
             // Carry on, as maybe logs were useful
