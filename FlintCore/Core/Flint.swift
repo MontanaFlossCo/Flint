@@ -132,15 +132,6 @@ final public class Flint {
         DefaultLoggerFactory.setup(initialDebugLogLevel: initialDebugLogLevel, initialProductionLogLevel: initialProductionLogLevel, briefLogging: briefLogging)
         FlintAppInfo.associatedDomains.append(contentsOf: domains)
 
-        let defaultScheme = FlintAppInfo.urlSchemes.first
-        let defaultDomain = FlintAppInfo.associatedDomains.first
-        
-        // Don't create a link creator unless we can do _something_ with it, so that advisories can come out if
-        // the dev actually tries to create links without setting up the app properly
-        if defaultScheme != nil || defaultDomain != nil {
-            linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
-        }
-        
         // Unless we're debugging Flint we don't want this stuff.
         Logging.development?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
         Logging.production?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
@@ -454,6 +445,8 @@ extension Flint {
     /// This must always be called at startup, via one of the public setup functions,
     /// after all other features have been prepared
     static func commonSetup() {
+        setupLinkCreator()
+        
 #if !os(watchOS)
         if userFeatureToggles == nil {
             userFeatureToggles = UserDefaultsFeatureToggles()
@@ -489,6 +482,17 @@ extension Flint {
         preflightCheck()
         
         outputEnvironment()
+    }
+    
+    static func setupLinkCreator() {
+        let defaultScheme = FlintAppInfo.urlSchemes.first
+        let defaultDomain = FlintAppInfo.associatedDomains.first
+        
+        // Don't create a link creator unless we can do _something_ with it, so that advisories can come out if
+        // the dev actually tries to create links without setting up the app properly
+        if defaultScheme != nil || defaultDomain != nil {
+            linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
+        }
     }
 
     static func outputEnvironment() {

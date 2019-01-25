@@ -224,6 +224,22 @@
 		495768B6200E629C00CB2E6F /* LinkCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495768B5200E629C00CB2E6F /* LinkCreator.swift */; };
 		495B6C69202B60A50024CDFB /* FlintAppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495B6C68202B60A50024CDFB /* FlintAppInfo.swift */; };
 		495B6C70202BC9280024CDFB /* Flint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495B6C6F202BC9280024CDFB /* Flint.swift */; };
+		495EED7421FA8065001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
+		495EED7621FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
+		495EED7721FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
+		495EED7821FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
+		495EED7921FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
+		495EED7B21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */; };
+		495EED7C21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */; };
+		495EED7D21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */; };
+		495EED7E21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */; };
+		495EED8021FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
+		495EED8121FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
+		495EED8221FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
+		495EED8321FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */; };
+		495EED8421FB1EC7001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
+		495EED8521FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
+		495EED8621FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
 		495FD9FA20026A180007A427 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9F920026A180007A427 /* Timeline.swift */; };
 		495FD9FC20026A520007A427 /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FB20026A520007A427 /* ObserverSet.swift */; };
 		495FD9FE200363290007A427 /* FeaturePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495FD9FD200363290007A427 /* FeaturePath.swift */; };
@@ -757,6 +773,14 @@
 		49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CE82046D1CA00C0AED3 /* DebugReportable.swift */; };
 		49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49839CEC2046D1D500C0AED3 /* DebugReporting.swift */; };
 		49FC460F20A488D000679F97 /* InternalJSONFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977DC72205ABF7400DAA0C8 /* InternalJSONFormatting.swift */; };
+		49FF056821FA4DE700A7E325 /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056721FA4DE700A7E325 /* LogFile.swift */; };
+		49FF056921FA4DE700A7E325 /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056721FA4DE700A7E325 /* LogFile.swift */; };
+		49FF056A21FA4DE700A7E325 /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056721FA4DE700A7E325 /* LogFile.swift */; };
+		49FF056B21FA4DE700A7E325 /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056721FA4DE700A7E325 /* LogFile.swift */; };
+		49FF056D21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
+		49FF056E21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
+		49FF056F21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
+		49FF057021FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -881,6 +905,10 @@
 		495768B5200E629C00CB2E6F /* LinkCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCreator.swift; sourceTree = "<group>"; };
 		495B6C68202B60A50024CDFB /* FlintAppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintAppInfo.swift; sourceTree = "<group>"; };
 		495B6C6F202BC9280024CDFB /* Flint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flint.swift; sourceTree = "<group>"; };
+		495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFileNamingStrategy.swift; sourceTree = "<group>"; };
+		495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampLogFileNamingStrategy.swift; sourceTree = "<group>"; };
+		495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEventFormattingStrategy.swift; sourceTree = "<group>"; };
+		495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerboseLogEventFormatter.swift; sourceTree = "<group>"; };
 		495FD9F920026A180007A427 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		495FD9FB20026A520007A427 /* ObserverSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		495FD9FD200363290007A427 /* FeaturePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePath.swift; sourceTree = "<group>"; };
@@ -1045,6 +1073,8 @@
 		49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/tvOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49FC45F720A46E6C00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/Mac/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/watchOS/ZIPFoundation.framework; sourceTree = "<group>"; };
+		49FF056721FA4DE700A7E325 /* LogFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFile.swift; sourceTree = "<group>"; };
+		49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLoggerOutput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1587,6 +1617,7 @@
 		49CCF0CE1F8BB24500F7020E /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				49FF056621FA4DCC00A7E325 /* File Logging */,
 				49CCF0CF1F8BB25600F7020E /* Logging.swift */,
 				49A99A011FF9067600A64E8C /* LoggerOutput.swift */,
 				49A999FD1FF9061D00A64E8C /* LoggerLevel.swift */,
@@ -1603,6 +1634,8 @@
 				49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */,
 				499FE33C20B9FE7A00552CE9 /* OSLogOutput.swift */,
 				4978F0C6210399BC00C3B259 /* ContextualLoggers.swift */,
+				495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */,
+				495EED7F21FA8103001142A0 /* VerboseLogEventFormatter.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1618,6 +1651,17 @@
 				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
 			);
 			path = Purchases;
+			sourceTree = "<group>";
+		};
+		49FF056621FA4DCC00A7E325 /* File Logging */ = {
+			isa = PBXGroup;
+			children = (
+				49FF056721FA4DE700A7E325 /* LogFile.swift */,
+				49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */,
+				495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */,
+				495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */,
+			);
+			path = "File Logging";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1978,11 +2022,13 @@
 				494F59482098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				4978F0C82103BBF800C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC020F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
+				495EED8121FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
 				49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FC5203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
 				49734F7B21F4A64D00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F85203EEBBA003AB29B /* PurchaseTracker.swift in Sources */,
+				495EED8421FB1EC7001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FCD203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				491211C42159074700B199C4 /* UIAction.swift in Sources */,
 				494F593E2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -1990,9 +2036,11 @@
 				494C279120BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */,
 				496F8FD3203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FAB203EEBD3003AB29B /* LinkCreator.swift in Sources */,
+				49FF056E21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				4927FEF9208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
 				494C278C20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				49FC460120A46F2E00679F97 /* LogEvent.swift in Sources */,
+				495EED7C21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */,
 				496136D52099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F976F207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8FD6203EEBDA003AB29B /* FlintInternal.swift in Sources */,
@@ -2039,6 +2087,7 @@
 				4927FF01208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F47203EEB0D003AB29B /* String+Extensions.swift in Sources */,
 				49EFE2BD20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift in Sources */,
+				49FF056921FA4DE700A7E325 /* LogFile.swift in Sources */,
 				496F8F58203EEBB1003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEA2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FC9203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
@@ -2099,6 +2148,7 @@
 				496F8F86203EEBBA003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4B20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				49F6823B20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
+				495EED7721FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */,
 				4932675D2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
 				4921705520D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				496F8FAA203EEBD3003AB29B /* ActionURLMappings.swift in Sources */,
@@ -2177,11 +2227,13 @@
 				494F59492098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				4978F0C92103BBF900C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC120F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
+				495EED8221FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
 				49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
 				49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
+				495EED8521FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FE2203EEBDA003AB29B /* FeaturePath.swift in Sources */,
 				491211C52159074700B199C4 /* UIAction.swift in Sources */,
 				494F593F2098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
@@ -2189,9 +2241,11 @@
 				494C279220BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */,
 				496F8FE8203EEBDA003AB29B /* Feature.swift in Sources */,
 				496F8FB3203EEBD4003AB29B /* LinkCreator.swift in Sources */,
+				49FF056F21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				4927FEFA208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
 				494C278D20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				49FC460220A46F2F00679F97 /* LogEvent.swift in Sources */,
+				495EED7D21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */,
 				496136D62099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F9770207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8FEB203EEBDA003AB29B /* FlintInternal.swift in Sources */,
@@ -2238,6 +2292,7 @@
 				4927FF02208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F48203EEB0E003AB29B /* String+Extensions.swift in Sources */,
 				49EFE2BE20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift in Sources */,
+				49FF056A21FA4DE700A7E325 /* LogFile.swift in Sources */,
 				496F8F67203EEBB2003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEB2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FDE203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
@@ -2298,6 +2353,7 @@
 				496F8F8F203EEBBB003AB29B /* UserDefaultsFeatureToggles.swift in Sources */,
 				49BC1C4C20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */,
 				49F6823C20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
+				495EED7821FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */,
 				4932675E2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
 				4921705620D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				496F8FB2203EEBD4003AB29B /* ActionURLMappings.swift in Sources */,
@@ -2376,11 +2432,13 @@
 				49734F7D21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				4978F0CA2103BBFA00C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC220F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
+				495EED8321FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
 				498F97672077824200209633 /* FocusSelection.swift in Sources */,
 				49DFB7C820A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				49F6824720D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
+				495EED8621FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				494C279320BF374F00053FF7 /* EventKitPermissionAdapter.swift in Sources */,
@@ -2388,9 +2446,11 @@
 				498A894F2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				496F8F97203EEBBC003AB29B /* PurchaseTracker.swift in Sources */,
 				491211BE2158FC8E00B199C4 /* SiriIntentsFeature.swift in Sources */,
+				49FF057021FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				494C278E20BEF11900053FF7 /* ContactsPermissionAdapter.swift in Sources */,
 				496136E12099028F00291885 /* LocationUsage.swift in Sources */,
 				496F8FF7203EEBDB003AB29B /* FeaturePath.swift in Sources */,
+				495EED7E21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */,
 				494F592C2098AB390075E7EE /* FeaturePreconditionEvaluator.swift in Sources */,
 				494F594A2098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
 				496136D22099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
@@ -2437,6 +2497,7 @@
 				494F59132098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				49EFE2BF20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift in Sources */,
 				496F8FBF203EEBD4003AB29B /* URLMappings.swift in Sources */,
+				49FF056B21FA4DE700A7E325 /* LogFile.swift in Sources */,
 				496F8F92203EEBBC003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F51203EEBA8003AB29B /* AnalyticsReporting.swift in Sources */,
 				499FE35B20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
@@ -2497,6 +2558,7 @@
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				49F6823D20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4932675F2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
+				495EED7921FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */,
 				4921705720D13B31007D6883 /* ActivityBuilder.swift in Sources */,
 				4956D5DD209897AB002A2A35 /* PurchaseTrackerObserver.swift in Sources */,
 				496F8FA7203EEBCF003AB29B /* ActivitiesFeature.swift in Sources */,
@@ -2547,6 +2609,7 @@
 				495FD9FA20026A180007A427 /* Timeline.swift in Sources */,
 				497175FE20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */,
+				495EED7421FA8065001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				4956D5D420986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
 				494F591F2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				498AF6E52028972A00AFE666 /* RoutesFeature.swift in Sources */,
@@ -2579,6 +2642,7 @@
 				498A894C2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				498B80862001210300E44C91 /* String+Extensions.swift in Sources */,
 				498F97732077846000209633 /* FocusArea.swift in Sources */,
+				49FF056D21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				49CCF0D01F8BB25800F7020E /* Logging.swift in Sources */,
 				49935BEA206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				499FE34220BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift in Sources */,
@@ -2590,6 +2654,7 @@
 				494F59422098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
 				494C27A320C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				49298237205ED11900267A49 /* FeatureMetadata.swift in Sources */,
+				495EED7B21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */,
 				496136D92099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				49846EFA20F233860094060C /* EventKitPermissionAdapter.swift in Sources */,
 				49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */,
@@ -2657,6 +2722,7 @@
 				494F59332098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				4977DC73205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				49647D3B20384077005F9825 /* ActivitiesFeature.swift in Sources */,
+				495EED8021FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
 				499FE35320BD8BAE00552CE9 /* FeatureConstraintResult.swift in Sources */,
 				49819EBA1FC9C2310013AF55 /* StaticActionBinding.swift in Sources */,
 				4927FEE8208A362E00163576 /* MappedActionResult.swift in Sources */,
@@ -2684,6 +2750,7 @@
 				4914EFC72067C4D000FE0F41 /* Formatters.swift in Sources */,
 				496136DE2099028F00291885 /* LocationUsage.swift in Sources */,
 				49769247201F3DD700F97BD5 /* PresentationRouter.swift in Sources */,
+				495EED7621FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */,
 				4927FF05208A556E00163576 /* ActivityEligibility.swift in Sources */,
 				49F6823A20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */,
@@ -2696,6 +2763,7 @@
 				49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */,
 				49DFB7C520A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
 				49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
+				49FF056821FA4DE700A7E325 /* LogFile.swift in Sources */,
 				4927FF00208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				498A89582069695100457D66 /* FocusFeature.swift in Sources */,
