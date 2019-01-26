@@ -24,18 +24,20 @@ public class OSLogOutput: LoggerOutput {
     private var logs: [TopicPath:OSLog] = [:]
     private let bundleID: String
     private let queue = DispatchQueue(label: "tools.flint.OSLogOutput")
+    private let formatter: LogEventFormattingStrategy
     
-    public init() {
+    public init(formatter: LogEventFormattingStrategy = VerboseLogEventFormatter(prefix: nil, dateFormat: nil)) {
+        self.formatter = formatter
         bundleID = Bundle.main.bundleIdentifier ?? "missing.bundle.id"
     }
     
     public func log(event: LogEvent) {
         let log = getLog(for: event)
 
-        var text = "\(event.context.activity) | \(event.text)"
-        if let arguments = event.context.arguments {
-            text.append(" | State: \(arguments)")
+        guard let text = formatter.format(event) else {
+            return
         }
+        
         let type: OSLogType
         switch event.level {
             case .debug:   type = .debug
