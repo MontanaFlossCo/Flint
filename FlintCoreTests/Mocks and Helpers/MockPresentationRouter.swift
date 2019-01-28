@@ -22,9 +22,6 @@ class MockPresentationRouter: PresentationRouter {
     
     
     func presentation<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>, input: ActionType.InputType) -> PresentationResult<ActionType.PresenterType> where FeatureType : FeatureDefinition, ActionType : Action {
-        debugPrint(actionBinding)
-        debugPrint(ActionType.PresenterType.self)
-        debugPrint(ActionType.InputType.self)
         if ActionType.PresenterType.self == MockViewController.self {
             return .appReady(presenter: dummyViewController as! ActionType.PresenterType)
         }
