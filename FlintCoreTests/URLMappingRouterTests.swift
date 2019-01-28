@@ -9,6 +9,7 @@
 import XCTest
 @testable import FlintCore
 
+/// Validate that URL mappings route correctly to actions that can be performed
 class URLMappingRouterTests: XCTestCase {
     
     fileprivate final class TestFeature: Feature, FeatureGroup, URLMapped {
@@ -24,8 +25,8 @@ class URLMappingRouterTests: XCTestCase {
         }
         
         static func urlMappings(routes: URLMappingsBuilder) {
-            routes.send("/cde", to: testAction2)
-            routes.send("/abc", to: testAction)
+            routes.send("cde", to: testAction2)
+            routes.send("abc", to: testAction)
         }
     }
     
@@ -68,7 +69,7 @@ class URLMappingRouterTests: XCTestCase {
     func testSuccessRouteAction() {
         Flint.quickSetup(TestFeature.self)
         FlintAppInfo.urlSchemes = ["test"]
-        let url = URL(string: "test:///abc")!
+        let url = URL(string: "test://abc")!
         
         let presenter = MockPresentationRouter()
         
@@ -83,23 +84,43 @@ class URLMappingRouterTests: XCTestCase {
                                                                             }
         })
     }
+    
+    func testSuccessRouteActionWithNoSchemeSlashes() {
+        Flint.quickSetup(TestFeature.self)
+        FlintAppInfo.urlSchemes = ["test"]
+        let url = URL(string: "test:abc")!
+        
+        let presenter = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+                                                                         presenter: presenter,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .success:
+                                                                                XCTAssertTrue(true)
+                                                                            default:
+                                                                                XCTFail()
+                                                                            }
+        })
+    }
+    
     /// This will work if i register /cde first instead of /abc.
-//    func testFailureRouteAction() {
-//        Flint.quickSetup(TestFeature.self)
-//        FlintAppInfo.urlSchemes = ["test"]
-//        let url = URL(string: "test:///cde")!
-//
-//        let presenter = MockPresentationRouter()
-//
-//        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
-//                                                                         presenter: presenter,
-//                                                                         completion: { outcome in
-//                                                                            switch outcome {
-//                                                                            case .failure:
-//                                                                                XCTAssertTrue(true)
-//                                                                            default:
-//                                                                                XCTFail()
-//                                                                            }
-//        })
-//    }
+    func testFailureRouteAction() {
+        Flint.quickSetup(TestFeature.self)
+        FlintAppInfo.urlSchemes = ["test"]
+        let url = URL(string: "test://cde")!
+
+        let presenter = MockPresentationRouter()
+
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+                                                                         presenter: presenter,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .failure:
+                                                                                XCTAssertTrue(true)
+                                                                            default:
+                                                                                XCTFail()
+                                                                            }
+        })
+    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// Callback function used to invoke an action for a URL
-typealias URLExecutor = (_ queryParams: RouteParameters?, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: (ActionPerformOutcome) -> Void) -> ()
+typealias URLExecutor = (_ queryParams: RouteParameters?, _ PresentationRouter: PresentationRouter, _ source: ActionSource, _ completion: @escaping (ActionPerformOutcome) -> Void) -> ()
 
 /// This type stores the URL mappings to features and actions, as defined in the routes specified in `URLMapped`
 /// Feature definitions.

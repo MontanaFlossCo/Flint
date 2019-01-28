@@ -24,3 +24,32 @@ public protocol URLPattern {
     /// Attempt to build a URL path using the given parameters
     func buildPath(with parameters: [String:String]?) -> String?
 }
+
+public class AnyURLPattern: URLPattern {
+    public let urlPattern: String
+    public let isValidForLinkCreation: Bool
+    
+    private let matchFunction: (_ path: String) -> [String:String]?
+    private let buildPathFunction: (_ parameters: [String:String]?) -> String?
+
+    init<PatternType>(pattern: PatternType) where PatternType: URLPattern {
+        urlPattern = pattern.urlPattern
+        isValidForLinkCreation = pattern.isValidForLinkCreation
+        matchFunction = pattern.match(path:)
+        buildPathFunction = pattern.buildPath(with:)
+    }
+    
+    public func match(path: String) -> [String:String]? {
+        return matchFunction(path)
+    }
+    
+    /// Attempt to build a URL path using the given parameters
+    public func buildPath(with parameters: [String:String]?) -> String? {
+        return buildPathFunction(parameters)
+    }
+
+    public static func ==(lhs: AnyURLPattern, rhs: AnyURLPattern) -> Bool {
+        return lhs.urlPattern == rhs.urlPattern &&
+            lhs.isValidForLinkCreation == rhs.isValidForLinkCreation
+    }
+}

@@ -18,7 +18,13 @@ public struct URLMappingResult {
 public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
     let name: String?
     let scope: RouteScope
-    let pattern: URLPattern
+    let pattern: AnyURLPattern
+
+    public init<PatternType>(name: String?, scope: RouteScope, pattern: PatternType) where PatternType: URLPattern {
+        self.name = name
+        self.scope = scope
+        self.pattern = AnyURLPattern(pattern: pattern)
+    }
 
     public func matches(path: String) -> URLMappingResult? {
         switch pattern.match(path: path) {
@@ -61,7 +67,9 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
     }
     
     public static func ==(lhs: URLMapping, rhs: URLMapping) -> Bool {
-        return lhs.scope == rhs.scope && /* lhs.pattern == rhs.pattern && */ lhs.name == rhs.name
+        return lhs.scope == rhs.scope &&
+            lhs.pattern == rhs.pattern &&
+            lhs.name == rhs.name
     }
     
     public var debugDescription: String {

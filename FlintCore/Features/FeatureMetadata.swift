@@ -62,7 +62,8 @@ public class FeatureMetadata: Hashable, Equatable {
     }
 
     func setActionURLMappings(_ mappings: URLMappings) {
-        for (actionTypeName, mapping) in mappings.mappings {
+        for (urlActionNamePair, mapping) in mappings.mappings {
+            let (_, actionTypeName) = urlActionNamePair
             let firstFound = actions.first { return $0.typeName == actionTypeName }
             guard let action = firstFound else {
                 flintUsageError("Cannot find action metadata for action \(actionTypeName) for the URL mapping \(mapping). Did you forget to declare or publish the action?")
