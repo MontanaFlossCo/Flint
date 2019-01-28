@@ -47,7 +47,6 @@ public class RegexURLPattern: URLPattern {
 
     init(urlPattern: String) {
         flintUsagePrecondition(!urlPattern.isEmpty, "URL patterns must not be empty")
-        flintUsagePrecondition(urlPattern.hasPrefix("/"), "URL patterns must start with /")
 
         self.urlPattern = urlPattern
         
@@ -119,7 +118,7 @@ public class RegexURLPattern: URLPattern {
                 // Anything that makes it to here is a just standard literal component
                 let regexEscapedComponent = RegexURLPattern.regexEscaped(component)
 
-                if !regexEscapedComponent.isEmpty || componentIndex > 0 {
+                if componentIndex > 0 {
                     regexPatternString.append("/")
                     formatPatternString?.append("/")
                 }

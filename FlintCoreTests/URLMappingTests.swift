@@ -27,6 +27,8 @@ class URLMappingTests: XCTestCase {
             (pattern: "/hello/world", incomingURLPath: "/hello/worl", expectedParams: nil),
             (pattern: "/hello/world", incomingURLPath: "hello/world", expectedParams: nil),
             (pattern: "/hello/world", incomingURLPath: "/hello/world", expectedParams: [:]),
+            (pattern: "/hello/world/", incomingURLPath: "/hello/world", expectedParams: nil),
+            (pattern: "/hello/world/", incomingURLPath: "/hello/world/", expectedParams: [:]),
             (pattern: "/hello/**", incomingURLPath: "/hello", expectedParams: nil),
             (pattern: "/hello/**", incomingURLPath: "/hello/", expectedParams: [:]),
             (pattern: "/hello/**", incomingURLPath: "/hello/this/is/a/test", expectedParams: [:]),
@@ -45,6 +47,8 @@ class URLMappingTests: XCTestCase {
             (pattern: "/documents/prefix$(param1)suffix/world", incomingURLPath: "/documents/prefixhellosuffix/world", expectedParams: ["param1":"hello"]),
             (pattern: "/documents/prefix$(param1)suffix/$(thing)", incomingURLPath: "/documents/prefixhellosuffix/world", expectedParams: ["param1":"hello", "thing":"world"]),
             (pattern: "/documents/prefix$(param1)suffix/world/$(mode)", incomingURLPath: "/documents/prefixhellosuffix/world/map", expectedParams: ["param1":"hello", "mode":"map"]),
+            (pattern: "notPrefixedWithSlash", incomingURLPath: "notPrefixedWithSlash", expectedParams: [:]),
+            (pattern: "/prefixedWithSlash", incomingURLPath: "prefixedWithSlash", expectedParams: nil),
         ]
         
         fixtures.forEach {

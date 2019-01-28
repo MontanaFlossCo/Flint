@@ -85,6 +85,25 @@ class URLMappingRouterTests: XCTestCase {
         })
     }
     
+    func testSuccessRouteActionWithNoSchemeSlashes() {
+        Flint.quickSetup(TestFeature.self)
+        FlintAppInfo.urlSchemes = ["test"]
+        let url = URL(string: "test:abc")!
+        
+        let presenter = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+                                                                         presenter: presenter,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .success:
+                                                                                XCTAssertTrue(true)
+                                                                            default:
+                                                                                XCTFail()
+                                                                            }
+        })
+    }
+    
     /// This will work if i register /cde first instead of /abc.
     func testFailureRouteAction() {
         Flint.quickSetup(TestFeature.self)

@@ -70,8 +70,7 @@ public class URLMappingsBuilder {
     }
 
     private func createURLMapping(named name: String?, for pattern: String, in scope: RouteScope) -> URLMapping {
-        let trimmedPattern = pattern.starts(with: "/") ? String(pattern.dropFirst()) : pattern
-        let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: "/\(trimmedPattern)"))
+        let mapping = URLMapping(name: name, scope: scope, pattern: RegexURLPattern(urlPattern: pattern))
         return mapping
     }
 

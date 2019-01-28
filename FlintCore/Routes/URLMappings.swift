@@ -9,15 +9,21 @@
 import Foundation
 
 /// A simple representation of the supported `URLMapping`(s) for actions.
-/// This is produced by the `URLMappingsBuilder`, and used to collect all the mappings for the app.
+///
+/// This is produced by the `URLMappingsBuilder`, and used to collect all the mappings for a single feature, with
+/// a sort of type-erasure for the action type, which is required for action metadata binding elsewhere, so we can
+/// show developers the URLs mapped to a given action type
 public class URLMappings {
-    private (set) var mappings = [(String, URLMapping)]()
+    typealias URLPatternActionNamePair = (String, String)
+    
+    private (set) var mappings = [(URLPatternActionNamePair, URLMapping)]()
 
     init() {
     
     }
     
-    func add(_ mapping: URLMapping, actionType: Any.Type) {
-        mappings.append((String(reflecting: actionType), mapping))
+    func add<ActionType>(_ mapping: URLMapping, actionType: ActionType.Type) {
+        let key = (mapping.pattern.urlPattern, String(reflecting: actionType))
+        mappings.append((key, mapping))
     }
 }

@@ -20,13 +20,31 @@ final public class PerformIncomingURLAction: UIAction {
     
     public static var description: String = "Perform the action associated with the input URL"
 
+    /// The errors possible from performing the action for a given URL mapping
     public enum URLActionError: Error {
+        /// There was no action mapped to the URL.
         case noURLMappingFound
+
+        /// The URL was not valid.
         case invalidURL
+
+        /// The URL was mapped to an action but the conditional feature that defines the URL mapping is not currently
+        /// available, through permissions, purchase or other feature constraints not being met.
         case notAvailable
+        
+        /// The PresentationRouter indicated that it does not support routing for the action that the URL is mapped to
         case presenterNotSupported
+        
+        /// The PresentationRouter indicated that user interaction was required before the UI could transition to the
+        /// state required by the action, but the user cancelled this.
         case presenterUserCancelled
+
+        /// The PresentationRouter indicated that a state transition was required for the UI but it was not possible
+        /// from the current UI state. This might indicate for example that a modal view controller is currently active.
         case presenterAppCancelled
+        
+        /// The PresentationRouter indicated that no state transition was required for the UI as the action would result
+        /// in the same UI state that is currently being presented.
         case presenterAppPerformed
     }
     
@@ -56,12 +74,16 @@ final public class PerformIncomingURLAction: UIAction {
             if !["http", "https"].contains(scheme) {
                 context.logs.development?.debug("URL is for app scheme: \(scheme)")
                 if let _ = supportedSchemes.index(of: scheme) {
-                    guard let host = urlComponents.host else {
+                    var compoundPath: String
+                    if let host = urlComponents.host {
+                        compoundPath = host
+                        if urlComponents.path.count > 0 {
+                            compoundPath = compoundPath + "\(urlComponents.path)"
+                        }
+                    } else if urlComponents.path.count > 0 {
+                        compoundPath = urlComponents.path
+                    } else {
                         return completion.completedSync(.failure(error: URLActionError.invalidURL))
-                    }
-                    var compoundPath = host
-                    if urlComponents.path.count > 0 {
-                        compoundPath = compoundPath + "\(urlComponents.path)"
                     }
                     
                     scope = .app(scheme: scheme)
@@ -91,7 +113,6 @@ final public class PerformIncomingURLAction: UIAction {
                 for item in queryItems {
                     queryParameters[item.name] = item.value
                 }
-                
             }
             
             // We make sure parameters set by the URL path macros win over query parameters.
