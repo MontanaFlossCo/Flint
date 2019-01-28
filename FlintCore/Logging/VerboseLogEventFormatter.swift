@@ -40,7 +40,7 @@ public class VerboseLogEventFormatter: LogEventFormattingStrategy {
         } else {
             args = ""
         }
-        let text = "\(prefix)\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)\(args)\n"
+        let text = "\(prefix)\(date) \(level) • \(event.context.session) | Activity '\(event.context.activity)' | \(event.context.topicPath) | \(event.text)\(args)"
         return text
     }
 }

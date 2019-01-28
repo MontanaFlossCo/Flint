@@ -56,6 +56,7 @@ public class FileLoggerOutput: LoggerOutput {
         }
         if let text = formattingStrategy.format(event) {
             logFile.write(text)
+            logFile.write("\n")
         }
     }
     

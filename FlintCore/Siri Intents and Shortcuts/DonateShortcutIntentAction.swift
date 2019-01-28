@@ -30,7 +30,9 @@ final class DonateShortcutIntentAction: UIAction {
     internal static func donateToSiri(intent: INIntent) {
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate { error in
-            FlintInternal.logger?.error("Donation error: \(String(describing: error))")
+            if let error = error {
+                FlintInternal.logger?.error("Shortcut donation error: \(error) for \(intent)")
+            }
         }
     }
 }
