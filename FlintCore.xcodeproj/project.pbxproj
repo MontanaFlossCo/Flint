@@ -781,6 +781,8 @@
 		49FF056E21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
 		49FF056F21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
 		49FF057021FA500F00A7E325 /* FileLoggerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */; };
+		5A07465821FEDB89002FCD62 /* MockPresentationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A07465721FEDB89002FCD62 /* MockPresentationRouter.swift */; };
+		5A07465C21FEF282002FCD62 /* URLMappingRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A07465B21FEF282002FCD62 /* URLMappingRouterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1075,6 +1077,8 @@
 		49FC45F920A46E7B00679F97 /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/watchOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49FF056721FA4DE700A7E325 /* LogFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFile.swift; sourceTree = "<group>"; };
 		49FF056C21FA500F00A7E325 /* FileLoggerOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLoggerOutput.swift; sourceTree = "<group>"; };
+		5A07465721FEDB89002FCD62 /* MockPresentationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationRouter.swift; sourceTree = "<group>"; };
+		5A07465B21FEF282002FCD62 /* URLMappingRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingRouterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1172,6 +1176,7 @@
 				496136E220990F5C00291885 /* MockFeatureConstraintsEvaluator.swift */,
 				49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */,
 				49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */,
+				5A07465721FEDB89002FCD62 /* MockPresentationRouter.swift */,
 			);
 			path = "Mocks and Helpers";
 			sourceTree = "<group>";
@@ -1590,6 +1595,7 @@
 				49DFAEEB21303B5100791680 /* ActionDispatchTests.swift */,
 				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
 				49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */,
+				5A07465B21FEF282002FCD62 /* URLMappingRouterTests.swift */,
 				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCoreTests;
@@ -2717,6 +2723,7 @@
 				49A62C8820D2FF3B00264606 /* ActionActivityMappings.swift in Sources */,
 				49A65E5220E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift in Sources */,
 				49966D8F200A63D1004C4AA0 /* AvailabilityChecker.swift in Sources */,
+				5A07465821FEDB89002FCD62 /* MockPresentationRouter.swift in Sources */,
 				493267612142FA6B00CC88CB /* Data+Compression.swift in Sources */,
 				4932675C2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
 				494F59332098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
@@ -2790,6 +2797,7 @@
 				49F37A37209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,
 				4915336F2093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B5F20B308F500649BB4 /* URLMappingTests.swift in Sources */,
+				5A07465C21FEF282002FCD62 /* URLMappingRouterTests.swift in Sources */,
 				496136E320990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
 				49CC662B21232FFC0042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);

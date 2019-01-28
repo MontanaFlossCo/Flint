@@ -90,10 +90,15 @@ public class URLMappingsBuilder {
                 switch presentationRouterResult {
                     case .appReady(let presenter):
                         actionBinding.perform(input: input, presenter: presenter, userInitiated: true, source: source)
+                        completion(.success)
+                        return
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
+                        completion(.failure(error: PerformIncomingURLAction.URLActionError.featureUnsupported))
+                        return
                     case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                        completion(.success)
+                        return
                 }
 
             } else {
@@ -126,11 +131,18 @@ public class URLMappingsBuilder {
                     case .appReady(let presenter):
                         if let request = actionBinding.request() {
                             request.perform(input: input, presenter: presenter, userInitiated: true, source: source)
+                            completion(.success)
+                            return
                         }
+                        completion(.failure(error: PerformIncomingURLAction.URLActionError.featureNotAvailable))
+                        return
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
+                        completion(.failure(error: PerformIncomingURLAction.URLActionError.featureUnsupported))
+                        return
                     case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                        completion(.success)
+                        return
                 }
             } else {
                 flintUsageError("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
