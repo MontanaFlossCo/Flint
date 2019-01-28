@@ -23,6 +23,11 @@ final public class PerformIncomingURLAction: UIAction {
     public enum URLActionError: Error {
         case noURLMappingFound
         case invalidURL
+        case notAvailable
+        case presenterNotSupported
+        case presenterUserCancelled
+        case presenterAppCancelled
+        case presenterAppPerformed
     }
     
     static private var supportedSchemes: [String] = {

@@ -79,7 +79,7 @@ public class URLMappingsBuilder {
     private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: StaticActionBinding<FeatureType, ActionType>)
             where ActionType.InputType: RouteParametersDecodable {
 
-        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: @escaping (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
       
             if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
@@ -89,11 +89,23 @@ public class URLMappingsBuilder {
                 FlintInternal.urlMappingLogger?.debug("URL executor presentation \(presentationRouterResult) received for \(actionBinding) with input \(input)")
                 switch presentationRouterResult {
                     case .appReady(let presenter):
-                        actionBinding.perform(input: input, presenter: presenter, userInitiated: true, source: source)
+                        let actionCompletion = Action.Completion(queue: ActionType.queue) { (performOutcome, calledAsync) in
+                            completion(performOutcome)
+                        }
+                        let completionResult = actionBinding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
+                        flintUsagePrecondition(!completionResult.isCompletingAsync, "Actions mapped to URLs must complete synchronously, but \(ActionType.self) did not")
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
-                    case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterNotSupported))
+                    case .appPerformed:
+                        FlintInternal.urlMappingLogger?.error("App already performed the presentation/action for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterAppPerformed))
+                    case .appCancelled:
+                        FlintInternal.urlMappingLogger?.error("App cancelled the presentation for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterAppCancelled))
+                    case .userCancelled:
+                        FlintInternal.urlMappingLogger?.error("User cancelled the presentation for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterUserCancelled))
                 }
 
             } else {
@@ -117,7 +129,7 @@ public class URLMappingsBuilder {
     private func add<FeatureType, ActionType>(mapping: URLMapping, to actionBinding: ConditionalActionBinding<FeatureType, ActionType>)
             where ActionType.InputType: RouteParametersDecodable {
 
-        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: (ActionPerformOutcome) -> Void) in
+        let executor: URLExecutor = { (queryParams: RouteParameters?, presentationRouter: PresentationRouter, source: ActionSource, completion: @escaping (ActionPerformOutcome) -> Void) in
             FlintInternal.urlMappingLogger?.debug("In URL executor for mapping \(mapping) to \(actionBinding)")
             if let input = ActionType.InputType.init(from: queryParams, mapping: mapping) {
                 let result = presentationRouter.presentation(for: actionBinding, input: input)
@@ -125,12 +137,26 @@ public class URLMappingsBuilder {
                 switch result {
                     case .appReady(let presenter):
                         if let request = actionBinding.request() {
-                            request.perform(input: input, presenter: presenter, userInitiated: true, source: source)
+                            let actionCompletion = Action.Completion(queue: ActionType.queue) { (performOutcome, calledAsync) in
+                                completion(performOutcome)
+                            }
+                            let completionResult = request.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
+                            flintUsagePrecondition(!completionResult.isCompletingAsync, "Actions mapped to URLs must complete synchronously, but \(ActionType.self) did not")
+                        } else {
+                            completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.notAvailable))
                         }
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
-                    case .appCancelled, .userCancelled, .appPerformed:
-                    break
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterNotSupported))
+                    case .appPerformed:
+                        FlintInternal.urlMappingLogger?.error("App already performed the presentation/action for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterAppPerformed))
+                    case .appCancelled:
+                        FlintInternal.urlMappingLogger?.error("App cancelled the presentation for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterAppCancelled))
+                    case .userCancelled:
+                        FlintInternal.urlMappingLogger?.error("User cancelled the presentation for mapping \(mapping) for \(actionBinding) - not calling the action")
+                        completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.presenterUserCancelled))
                 }
             } else {
                 flintUsageError("Unable to create action state \(String(describing: ActionType.InputType.self)) from query parameters")
