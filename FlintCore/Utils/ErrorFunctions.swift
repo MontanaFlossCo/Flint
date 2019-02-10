@@ -1,5 +1,5 @@
 //
-//  Advisor.swift
+//  ErrorFunctions.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 16/06/2018.

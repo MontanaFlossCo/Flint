@@ -454,7 +454,7 @@ extension Flint {
             userFeatureToggles = UserDefaultsFeatureToggles()
         }
         if purchaseTracker == nil {
-            purchaseTracker = StoreKitPurchaseTracker()
+            purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
         }
 #else
         if userFeatureToggles == nil {

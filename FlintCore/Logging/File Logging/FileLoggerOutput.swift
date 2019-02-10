@@ -31,15 +31,7 @@ public class FileLoggerOutput: LoggerOutput {
         self.namingStrategy = namingStrategy ?? TimestampLogFileNamingStrategy(namePrefix: name)
         self.nameStem = name
         
-        let containerURL: URL
-        if let groupID = appGroupIdentifier {
-            guard let appGroupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) else {
-                fatalError("Couldn't get app group container with ID \(groupID)")
-            }
-            containerURL = appGroupUrl
-        } else {
-            containerURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        }
+        let containerURL = try FileHelpers.containerURL(appGroupIdentifier: appGroupIdentifier, in: .cachesDirectory)
         
         baseURL = containerURL.appendingPathComponent(folderName).appendingPathComponent("Logs")
         try FileManager.default.createDirectory(at: baseURL, withIntermediateDirectories: true, attributes: nil)
