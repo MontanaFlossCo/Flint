@@ -15,7 +15,7 @@ public struct URLMappingResult {
 
 
 /// A struct used to represent a route scope and path mapping to an action
-public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
+public struct URLMapping: Hashable, Equatable, CustomStringConvertible, CustomDebugStringConvertible {
     let name: String?
     let scope: RouteScope
     let pattern: AnyURLPattern
@@ -72,7 +72,21 @@ public struct URLMapping: Hashable, Equatable, CustomDebugStringConvertible {
             lhs.name == rhs.name
     }
     
+    public var description: String {
+        var result = "/\(pattern.urlPattern)"
+        switch scope {
+            case .appAny: result.append(" in all app schemes")
+            case .universalAny: result.append(" in all associated domains")
+            case .app(let scheme): result.append(" in app scheme \(scheme)")
+            case .universal(let domain): result.append(" in associated domain \(domain)")
+        }
+        if let name = name {
+            result.append(" with name \(name)")
+        }
+        return result
+    }
+    
     public var debugDescription: String {
-        return "\(pattern.urlPattern) in \(scope) with name \(name ?? "<none>")"
+        return "/\(pattern.urlPattern) in \(scope) with name \(name ?? "<none>")"
     }
 }
