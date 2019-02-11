@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let fileOutput = try! FileLoggerOutput(appGroupIdentifier: nil, name: "uisandbox")
+        let fileOutput = try! FileLoggerOutput(name: "uisandbox")
         Logging.setLoggerOutputs(development: [fileOutput], level: .debug, production: nil, level: .none)
         Flint.setup(FakeFeatures.self)
 //        Flint.quickSetup(FakeFeatures.self)
