@@ -35,7 +35,7 @@ public class ActionMetadata {
     }
     
     func add(urlMapping: URLMapping) {
-        urlMappings.append(urlMapping.debugDescription)
+        urlMappings.append(urlMapping.description)
     }
     
     func setIntent(_ intent: FlintIntent.Type) {

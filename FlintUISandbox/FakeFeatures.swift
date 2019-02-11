@@ -33,7 +33,7 @@ final class FakeFeature: ConditionalFeature, URLMapped {
     }
     
     static func urlMappings(routes: URLMappingsBuilder) {
-        routes.send("/test", to: action1)
+        routes.send("test", to: action1)
     }
 }
 
