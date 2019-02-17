@@ -685,7 +685,6 @@
 		49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
-		49DB923C2073AF9C00F758DC /* StoreKitPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */; };
 		49DB923E2073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
 		49DB923F2073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
 		49DB92402073B4F500F758DC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB923D2073B4F500F758DC /* Product.swift */; };
@@ -2449,7 +2448,6 @@
 				49DB92462073C67900F758DC /* PurchaseRequirement.swift in Sources */,
 				49935BED206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
 				496F8FF6203EEBDB003AB29B /* FeatureGroup.swift in Sources */,
-				49DB923C2073AF9C00F758DC /* StoreKitPurchaseTracker.swift in Sources */,
 				496136BE209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				496F8FEC203EEBDB003AB29B /* ActionDispatcher.swift in Sources */,
 				49137FF620CF29C500C696F4 /* Action+Extensions.swift in Sources */,

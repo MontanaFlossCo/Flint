@@ -7,9 +7,7 @@
 //
 
 import Foundation
-#if canImport(StoreKit)
 import StoreKit
-#endif
 
 /// A basic StoreKit In-App Purchase checker that uses only the payment queue and *local storage*
 /// to cache the list of purchases. It does not validate receipts.
@@ -28,6 +26,8 @@ import StoreKit
 /// single point of verification, and to check receipts. You may not want to use Flint
 /// for purchase verification at all if it transpires that the Swift call sites for
 /// conditional requests are easily circumvented.
+///
+/// - note: In-App Purchases are not available on watchOS as of watchOS 5
 @available(iOS 3, tvOS 9, macOS 10.7, *)
 @objc
 public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
