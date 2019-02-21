@@ -58,8 +58,14 @@ public class PurchaseBrowserViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductStatus", for: indexPath)
         let item: (product: Product, status: Bool?) = purchases[indexPath.row]
-        cell.textLabel?.text = "\(item.product.productID) - \(String(describing: item.status))"
-        cell.detailTextLabel?.text = "Override?"
+        let statusText: String
+        if let status = item.status {
+            statusText = status ? "Purchased" : "Not purchased"
+        } else {
+            statusText = "Unknown"
+        }
+        cell.textLabel?.text = "\(item.product.name) — \(item.product.description)"
+        cell.detailTextLabel?.text = "\(statusText). \(item.product.productID)"
         return cell
     }
     
