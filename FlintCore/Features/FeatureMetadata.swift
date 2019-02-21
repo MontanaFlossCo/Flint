@@ -20,6 +20,7 @@ public class FeatureMetadata: Hashable, Equatable {
 
     public private(set) var actions = [ActionMetadata]()
     public private(set) var publishedActions = [ActionMetadata]()
+    public internal(set) var productsRequired = Set<Product>()
 
     init(feature: FeatureDefinition.Type) {
         self.feature = feature

@@ -53,15 +53,6 @@ final public class ShowTimelineBrowserAction: UIAction {
     }
 }
 
-public protocol TerminatingAction: Action {
-}
-
-extension TerminatingAction {
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
-        return completion.completedSync(.successWithFeatureTermination)
-    }
-}
-
 final public class HideTimelineBrowserAction: TerminatingAction, UIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = NoPresenter

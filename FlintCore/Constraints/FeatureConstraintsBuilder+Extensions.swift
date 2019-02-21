@@ -13,14 +13,26 @@ public extension FeatureConstraintsBuilder {
     /// Call to declare a list of permissions that your feature requires.
     public func permissions(_ requirements: SystemPermissionConstraint...) {
         for requirement in requirements {
-            self.permission(requirement)
+            permission(requirement)
         }
     }
 
-    /// Call to declare a list of purchase requiremnets that your feature gase
+    /// Call to declare a list of purchase requirements that your feature requires
     public func purchases(_ requirements: PurchaseRequirement...) {
         for requirement in requirements {
-            self.purchase(requirement)
+            purchase(requirement)
+        }
+    }
+
+    /// Call to declare a product that your feature requires
+    public func purchase(_ product: Product) {
+        purchase(PurchaseRequirement(product))
+    }
+
+    /// Call to declare a list of products that your feature requires
+    public func purchases(_ products: Product...) {
+        for product in products {
+            purchase(PurchaseRequirement(product))
         }
     }
 }

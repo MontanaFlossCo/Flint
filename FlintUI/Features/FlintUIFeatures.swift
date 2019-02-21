@@ -19,6 +19,7 @@ public class FlintUIFeatures: FeatureGroup {
         TimelineBrowserFeature.self,
         LogBrowserFeature.self,
         ActionStackBrowserFeature.self,
-        FeatureBrowserFeature.self
+        FeatureBrowserFeature.self,
+        PurchaseBrowserFeature.self
     ]
 }

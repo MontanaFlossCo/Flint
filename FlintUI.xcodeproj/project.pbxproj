@@ -25,6 +25,8 @@
 		498F977B20779F9800209633 /* FocusLogDataAccessFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F977A20779F9800209633 /* FocusLogDataAccessFeature.swift */; };
 		49935BE5206BD30B00CB2B5D /* FlintUIFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE4206BD30B00CB2B5D /* FlintUIFeatures.swift */; };
 		4995374D205C488800FC09FE /* FlintUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4995374C205C488800FC09FE /* FlintUI.storyboard */; };
+		4996BF1A221E09E000355675 /* PurchaseBrowserFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996BF19221E09E000355675 /* PurchaseBrowserFeature.swift */; };
+		4996BF21221E0D5600355675 /* PurchaseBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996BF20221E0D5600355675 /* PurchaseBrowserViewController.swift */; };
 		49BC1C4F208644D600A7FC77 /* TimelineBrowserFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4E208644D600A7FC77 /* TimelineBrowserFeature.swift */; };
 		49BC1C512086468E00A7FC77 /* LogBrowserFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C502086468E00A7FC77 /* LogBrowserFeature.swift */; };
 		49BC1C53208646D500A7FC77 /* ActionStackBrowserFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C52208646D500A7FC77 /* ActionStackBrowserFeature.swift */; };
@@ -87,6 +89,8 @@
 		498F977A20779F9800209633 /* FocusLogDataAccessFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusLogDataAccessFeature.swift; sourceTree = "<group>"; };
 		49935BE4206BD30B00CB2B5D /* FlintUIFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintUIFeatures.swift; sourceTree = "<group>"; };
 		4995374C205C488800FC09FE /* FlintUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = FlintUI.storyboard; path = iOS/FlintUI.storyboard; sourceTree = "<group>"; };
+		4996BF19221E09E000355675 /* PurchaseBrowserFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseBrowserFeature.swift; sourceTree = "<group>"; };
+		4996BF20221E0D5600355675 /* PurchaseBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseBrowserViewController.swift; sourceTree = "<group>"; };
 		49BC1C4E208644D600A7FC77 /* TimelineBrowserFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineBrowserFeature.swift; sourceTree = "<group>"; };
 		49BC1C502086468E00A7FC77 /* LogBrowserFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBrowserFeature.swift; sourceTree = "<group>"; };
 		49BC1C52208646D500A7FC77 /* ActionStackBrowserFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackBrowserFeature.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				4947302520435D6A00E483D1 /* ActionStackListViewController.swift */,
 				49BC1C5D2087551400A7FC77 /* ActionStackViewController.swift */,
 				49DB9230206FD65B00F758DC /* FocusLogViewController.swift */,
+				4996BF20221E0D5600355675 /* PurchaseBrowserViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 				49BC1C502086468E00A7FC77 /* LogBrowserFeature.swift */,
 				49BC1C52208646D500A7FC77 /* ActionStackBrowserFeature.swift */,
 				49BC1C542086473E00A7FC77 /* FeatureBrowserFeature.swift */,
+				4996BF19221E09E000355675 /* PurchaseBrowserFeature.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -374,9 +380,11 @@
 				49BC1C512086468E00A7FC77 /* LogBrowserFeature.swift in Sources */,
 				49BC1C552086473E00A7FC77 /* FeatureBrowserFeature.swift in Sources */,
 				4947302620435D6A00E483D1 /* ActionStackListViewController.swift in Sources */,
+				4996BF1A221E09E000355675 /* PurchaseBrowserFeature.swift in Sources */,
 				49BC1C4F208644D600A7FC77 /* TimelineBrowserFeature.swift in Sources */,
 				498F977B20779F9800209633 /* FocusLogDataAccessFeature.swift in Sources */,
 				49D579702063C6E0006EE0C9 /* FeatureBrowserViewController.swift in Sources */,
+				4996BF21221E0D5600355675 /* PurchaseBrowserViewController.swift in Sources */,
 				49F5DA7D2065121F00DA0CD3 /* TimelineEntryViewController.swift in Sources */,
 				49935BE5206BD30B00CB2B5D /* FlintUIFeatures.swift in Sources */,
 				496F8EFF203EE85A003AB29B /* FeatureDetailViewController.swift in Sources */,

@@ -9,6 +9,8 @@
 import Foundation
 import FlintCore
 
+let fakeProduct = Product(name: "💎 Premium", description: "Unlock everything", productID: "PREM0001")
+
 class FakeFeatures: FeatureGroup {
     static var name = "MyFakeFeaturesAliased"
     static var subfeatures: [FeatureDefinition.Type] = [FakeFeature.self]
@@ -30,6 +32,8 @@ final class FakeFeature: ConditionalFeature, URLMapped {
         requirements.permission(.camera)
         requirements.permission(.photos)
         requirements.permission(.contacts(entity: .contacts))
+        
+        requirements.purchase(fakeProduct)
     }
     
     static func urlMappings(routes: URLMappingsBuilder) {

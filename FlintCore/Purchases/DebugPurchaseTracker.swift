@@ -8,10 +8,9 @@
 
 import Foundation
 
-/// Purchase trackers that support debug overrides of purchases must conform to
-/// this protocol for the default Flint debug UI to work.
+/// A purchase tracker that allows manually setting of purchase status.
 public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
-    public enum OverrideResult {
+    public enum OverrideStatus {
         case purchased
         case notPurchased
         case unknown
@@ -19,9 +18,10 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
     
     private let observers = ObserverSet<PurchaseTrackerObserver>()
     
-    private let targetPurchaseTracker: PurchaseTracker
-    private var purchaseOverrides: [String:OverrideResult] = [:]
+    private let targetPurchaseTracker: PurchaseTracker?
+    public private(set) var purchaseOverrides: [String:OverrideStatus] = [:]
     
+    /// Initiliase a debug tracker that overrides another purchase tracker, if overrides are applied.
     /// - param targetPurchaseTracker: The original purchase tracker that will be proxied to override
     /// purchase results.
     public init(targetPurchaseTracker: PurchaseTracker) {
@@ -29,9 +29,20 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
         targetPurchaseTracker.addObserver(self)
     }
     
-    /// Called to force tthe purchase tracker This must betrue even if the user's real
+    deinit {
+        targetPurchaseTracker?.removeObserver(self)
+    }
+    
+    /// Initiliase a debug tracker that acts as the source of truth typically in development builds only.
+    /// You must call `overridePurchase()` to enable or disable individual products, or use
+    /// the FlintUI `DebugPurchasesViewController` on iOS to toggle them at run time.
+    public init() {
+        targetPurchaseTracker = nil
+    }
+    
+    /// Called to force the purchase tracker This must betrue even if the user's real
     /// purchase history indicates otherwise.
-    public func overridePurchase(purchaseID: String, with result: OverrideResult) {
+    public func overridePurchase(purchaseID: String, with result: OverrideStatus) {
         purchaseOverrides[purchaseID] = result
     }
 
@@ -78,7 +89,7 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
                 case .unknown: return nil
             }
         } else {
-            return targetPurchaseTracker.isPurchased(productID)
+            return targetPurchaseTracker?.isPurchased(productID)
         }
     }
     
