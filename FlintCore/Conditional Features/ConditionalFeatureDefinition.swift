@@ -71,7 +71,7 @@ public extension ConditionalFeatureDefinition {
     public static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         
-        func _filter(_ permissions: [SystemPermissionConstraint], onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
+        func _filter(_ permissions: Set<SystemPermissionConstraint>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
             let results = permissions.filter { permission in
                 let status = Flint.permissionChecker.status(of: permission)
                 return matchingStatus == status
@@ -79,9 +79,9 @@ public extension ConditionalFeatureDefinition {
             return Set(results)
         }
         
-        let notDetermined = _filter(constraints.permissions.notDetermined.map { $0.constraint }, onStatus: .notDetermined)
-        let denied = _filter(constraints.permissions.notSatisfied.map { $0.constraint }, onStatus: .denied)
-        let restricted = _filter(constraints.permissions.notSatisfied.map { $0.constraint }, onStatus: .restricted)
+        let notDetermined = _filter(constraints.permissions.notDetermined, onStatus: .notDetermined)
+        let denied = _filter(constraints.permissions.notSatisfied, onStatus: .denied)
+        let restricted = _filter(constraints.permissions.notSatisfied, onStatus: .restricted)
 
         return FeaturePermissionRequirements(all: Set(constraints.permissions.all.map { $0.constraint }),
                                              notDetermined: notDetermined,
@@ -92,7 +92,7 @@ public extension ConditionalFeatureDefinition {
     /// Access information about the purchases required by this feature
     public static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
-        func _extractPurchaseRequirements(_ preconditions: [FeaturePreconditionConstraint]) -> Set<PurchaseRequirement> {
+        func _extractPurchaseRequirements(_ preconditions: Set<FeaturePreconditionConstraint>) -> Set<PurchaseRequirement> {
             let requirements: [PurchaseRequirement] = preconditions.compactMap {
                 if case let .purchase(requirement) = $0 {
                     return requirement
@@ -104,11 +104,11 @@ public extension ConditionalFeatureDefinition {
         }
     
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
-        let all = _extractPurchaseRequirements(constraints.preconditions.all.map { $0.constraint })
+        let all = _extractPurchaseRequirements(Set(constraints.preconditions.all.map { $0.constraint }))
         let allUnsatisfied = constraints.preconditions.notSatisfied.union(constraints.preconditions.notDetermined)
-        let requiredToUnlock = _extractPurchaseRequirements(allUnsatisfied.map { $0.constraint })
+        let requiredToUnlock = _extractPurchaseRequirements(allUnsatisfied)
         
-        let purchased = _extractPurchaseRequirements(constraints.preconditions.satisfied.map { $0.constraint })
+        let purchased = _extractPurchaseRequirements(constraints.preconditions.satisfied)
         
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
     }
@@ -118,7 +118,7 @@ public extension ConditionalFeatureDefinition {
     public static var requiresUserToggle: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
-            if case .userToggled = $0.constraint {
+            if case .userToggled = $0 {
                 return true
             } else {
                 return false
@@ -137,7 +137,7 @@ public extension ConditionalFeatureDefinition {
     public static var requiresRuntimeEnabled: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
-            if case .runtimeEnabled = $0.constraint {
+            if case .runtimeEnabled = $0 {
                 return true
             } else {
                 return false
@@ -159,6 +159,6 @@ public extension ConditionalFeatureDefinition {
         }
         
         return DefaultAuthorisationController(coordinator: coordinator,
-                                              permissions: Set(constraints.permissions.notDetermined.map { $0.constraint }))
+                                              permissions: constraints.permissions.notDetermined)
     }
 }
