@@ -18,7 +18,6 @@ public class PurchaseBrowserViewController: UITableViewController {
     }
     
     public var purchases: [(Product, Bool?)] = []
-    var selectedEntry: (Int, (Product, Bool?))?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,19 +68,74 @@ public class PurchaseBrowserViewController: UITableViewController {
         return cell
     }
     
-    public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let entry = purchases[indexPath.row]
-        selectedEntry = (indexPath.row, entry)
-        return indexPath
-    }
-
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry = purchases[indexPath.item]
-        let alertController = UIAlertController(title: "Purchase status", message: String(reflecting: entry), preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let entry: (product: Product, status: Bool?) = purchases[indexPath.item]
+        let statusText: String
+        if let status = entry.status {
+            statusText = status ? "is purchased" : "is not purchased"
+        } else {
+            statusText = "status is unknown"
+        }
+        
+        let overrideStatusText: String
+        let debugPurchaseTracker = Flint.purchaseTracker as? DebugPurchaseTracker
+        let debugOverrideStatus = debugPurchaseTracker?.overridenStatus(for: entry.product)
+        if  debugPurchaseTracker != nil {
+            if let overrideStatus = debugOverrideStatus {
+                switch overrideStatus {
+                    case .notPurchased: overrideStatusText = "not purchased"
+                    case .purchased: overrideStatusText = "purchased"
+                    case .unknown: overrideStatusText = "unknown"
+                }
+            } else {
+                overrideStatusText = "none"
+            }
+        } else {
+            overrideStatusText = "no debug tracker installed"
+        }
+        
+        let message = "\(entry.product.name) \(statusText)\nOverride: \(overrideStatusText)"
+        
+        let alertController = UIAlertController(title: "Purchase status", message: message, preferredStyle: .actionSheet)
+        
+        if let overrideTracker = debugPurchaseTracker {
+            if debugOverrideStatus != nil {
+                alertController.addAction(UIAlertAction(title: "Remove override", style: .default, handler: { _ in
+                    overrideTracker.invalidatePurchaseOverride(purchaseID: entry.product.productID)
+                    self.refresh()
+                }))
+            }
+            if debugOverrideStatus != .purchased {
+                alertController.addAction(UIAlertAction(title: "Simulate purchase", style: .default, handler: { _ in
+                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .purchased)
+                    self.refresh()
+                }))
+            }
+            if debugOverrideStatus != .notPurchased {
+                alertController.addAction(UIAlertAction(title: "Simulate not purchased", style: .default, handler: { _ in
+                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .notPurchased)
+                    self.refresh()
+                }))
+            }
+            if debugOverrideStatus != .unknown {
+                alertController.addAction(UIAlertAction(title: "Simulate not unknown", style: .default, handler: { _ in
+                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .unknown)
+                    self.refresh()
+                }))
+            }
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        } else {
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        }
+        
         present(alertController, animated: true)
     }
     
+    public func refresh() {
+        gatherPurchaseData()
+        tableView.reloadData()
+    }
+
     // MARK: Outlets and actions
     
     @objc public func dismissPurchases() {

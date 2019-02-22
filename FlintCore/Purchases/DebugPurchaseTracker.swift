@@ -53,6 +53,14 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
         purchaseOverrides.removeValue(forKey: purchaseID)
         
     }
+
+    public func overridenStatus(for product: Product) -> OverrideStatus? {
+        return purchaseOverrides[product.productID]
+    }
+    
+    public func realStatus(for product: Product) -> Bool? {
+        return targetPurchaseTracker?.isPurchased(product.productID)
+    }
     
     /// Remove all the overrides
     public func invalidateAllPurchaseOverrides() {

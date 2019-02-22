@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if os(iOS) || os(tvOS) || os(macOS)
 import StoreKit
+#endif
 
 /// A basic StoreKit In-App Purchase checker that uses only the payment queue and *local storage*
 /// to cache the list of purchases. It does not validate receipts.

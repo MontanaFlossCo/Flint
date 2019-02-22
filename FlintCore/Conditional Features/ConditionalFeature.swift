@@ -73,7 +73,7 @@ public extension ConditionalFeature {
             }
             if requiredPurchases.count > 0 {
                 let purchaseNames = requiredPurchases.map({ $0.description }).joined(separator: ", ")
-                reason.append(" Requires purchases: \(purchaseNames).")
+                reason.append(" \(purchaseNames).")
             }
             /// TODO: Add info about preconditions
             flintAdvisoryNotice("Request to use action '\(ActionType.name)' on feature '\(Self.name)' denied.\(reason)")
