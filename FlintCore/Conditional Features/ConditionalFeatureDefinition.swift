@@ -113,6 +113,8 @@ public extension ConditionalFeatureDefinition {
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
     }
     
+    /// - return: `true` if this feature is currently disabled at least in part because the user has not toggled it ON
+    /// via the Flint user toggles API
     public static var requiresUserToggle: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
@@ -130,6 +132,8 @@ public extension ConditionalFeatureDefinition {
         }
     }
     
+    /// - return: `true` if this feature is currently disabled at least in part because it requires runtime status
+    /// of `isEnabled` to return `true` and it is not currently.
     public static var requiresRuntimeEnabled: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
