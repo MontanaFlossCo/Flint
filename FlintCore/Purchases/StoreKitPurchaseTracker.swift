@@ -35,15 +35,20 @@ import StoreKit
 public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     private let purchaseStore: SimplePurchaseStore
     private var observers = ObserverSet<PurchaseTrackerObserver>()
-    private var purchases: Set<String> = []
+    private var purchases: [String:PurchaseStatus]
+    
+    struct PurchaseStatus: Codable {
+        let productID: String
+        let status: Bool
+    }
     
     public init(appGroupIdentifier: String?) throws {
         purchaseStore = try SimplePurchaseStore(appGroupIdentifier: appGroupIdentifier)
-        let purchases = try purchaseStore.load()
-        self.purchases = Set(purchases)
-        
+        purchases = [:]
         super.init()
-        
+
+        try purchaseStore.load().forEach { purchases[$0.productID] = $0 }        
+
         SKPaymentQueue.default().add(self)
     }
 
@@ -62,10 +67,12 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
 
     /// Called to see if a specific product has been purchased
     public func isPurchased(_ productID: String) -> Bool? {
-        return purchases.contains(productID)
+        if let productStatus = purchases[productID] {
+            return productStatus.status
+        } else {
+            return nil
+        }
     }
-    
-    
 }
 
 extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
@@ -80,12 +87,12 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
             /// !!! TODO: At least salt and hash the product IDs?
             switch transaction.transactionState {
                 case .purchased, .restored:
-                    purchases.insert(productID)
+                    purchases[productID] = PurchaseStatus(productID: productID, status: true)
                     observers.notifySync { observer in
                         observer.purchaseStatusDidChange(productID: productID, isPurchased: true)
                     }
                 case .failed, .deferred:
-                    purchases.remove(productID)
+                    purchases.removeValue(forKey: productID)
                     observers.notifySync { observer in
                         observer.purchaseStatusDidChange(productID: productID, isPurchased: false)
                     }

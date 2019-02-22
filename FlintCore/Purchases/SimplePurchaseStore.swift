@@ -10,6 +10,8 @@ import Foundation
 
 /// A very simple store of purchased Product IDs.
 class SimplePurchaseStore {
+    typealias PurchaseStatus = StoreKitPurchaseTracker.PurchaseStatus
+    
     static let fileName = ".purchases.json"
     private let url: URL
 
@@ -19,7 +21,7 @@ class SimplePurchaseStore {
         url = baseURL.appendingPathComponent(SimplePurchaseStore.fileName)
     }
     
-    func load() throws -> [String] {
+    func load() throws -> [PurchaseStatus] {
         let jsonData: Data
         do {
             jsonData = try Data(contentsOf: url)
@@ -28,16 +30,16 @@ class SimplePurchaseStore {
             return []
         }
 
-        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
-        guard let purchases = jsonObject as? [String] else {
+        let decoder = JSONDecoder.init()
+        guard let purchases = try? decoder.decode([PurchaseStatus].self, from: jsonData) else {
             FlintInternal.logger?.error("Couldn't read purchases file correctly")
             return []
         }
         return purchases
     }
 
-    func save(productIDs: [String]) throws {
-        let jsonData = try JSONSerialization.data(withJSONObject: productIDs, options: [])
+    func save(productStatuses: [PurchaseStatus]) throws {
+        let jsonData = try JSONEncoder().encode(productStatuses)
 
         try jsonData.write(to: url, options: .atomicWrite)
 #if os(iOS) || os(watchOS)
