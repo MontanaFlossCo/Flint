@@ -101,25 +101,25 @@ public class PurchaseBrowserViewController: UITableViewController {
         if let overrideTracker = debugPurchaseTracker {
             if debugOverrideStatus != nil {
                 alertController.addAction(UIAlertAction(title: "Remove override", style: .default, handler: { _ in
-                    overrideTracker.invalidatePurchaseOverride(purchaseID: entry.product.productID)
+                    overrideTracker.invalidatePurchaseOverride(productID: entry.product.productID)
                     self.refresh()
                 }))
             }
             if debugOverrideStatus != .purchased {
                 alertController.addAction(UIAlertAction(title: "Simulate purchase", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .purchased)
+                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .purchased)
                     self.refresh()
                 }))
             }
             if debugOverrideStatus != .notPurchased {
                 alertController.addAction(UIAlertAction(title: "Simulate not purchased", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .notPurchased)
+                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .notPurchased)
                     self.refresh()
                 }))
             }
             if debugOverrideStatus != .unknown {
                 alertController.addAction(UIAlertAction(title: "Simulate unknown", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .unknown)
+                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .unknown)
                     self.refresh()
                 }))
             }

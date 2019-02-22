@@ -88,16 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let evaluation = Flint.constraintsEvaluator.evaluate(for: FakeFeature.self)
-        for result in evaluation.permissions.all {
-            switch result.status {
-                case .notActive: print("Inactive: \(result)")
-                case .notSatisfied, .notDetermined: print("Not satisfied: \(result)")
-                case .satisfied: print("Satisfied: \(result)")
-            }
-            print("parametersDescription: \(result.constraint.parametersDescription)")
-        }
-        
         let coordinator = FakePermissionCoordinator()
         controller = FakeFeature.permissionAuthorisationController(using: coordinator)
         controller?.begin(retryHandler: nil)

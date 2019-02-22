@@ -42,16 +42,21 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
     
     /// Called to force the purchase tracker This must betrue even if the user's real
     /// purchase history indicates otherwise.
-    public func overridePurchase(purchaseID: String, with result: OverrideStatus) {
-        purchaseOverrides[purchaseID] = result
+    public func overridePurchase(productID: String, with result: OverrideStatus) {
+        purchaseOverrides[productID] = result
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: productID, isPurchased: isPurchased(productID) ?? false)
+        }
     }
 
     /// Called to indicate that the purchase tracker should behave as if this
     /// purchase has *not* been performed. This must be true even if the user's real
     /// purchase history indicates otherwise.
-    public func invalidatePurchaseOverride(purchaseID: String) {
-        purchaseOverrides.removeValue(forKey: purchaseID)
-        
+    public func invalidatePurchaseOverride(productID: String) {
+        purchaseOverrides.removeValue(forKey: productID)
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: productID, isPurchased: isPurchased(productID) ?? false)
+        }
     }
 
     public func overridenStatus(for product: Product) -> OverrideStatus? {

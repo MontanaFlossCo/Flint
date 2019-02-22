@@ -43,7 +43,30 @@ public extension ConditionalFeatureDefinition {
         return Flint.availabilityChecker?.isAvailable(self)
     }
 
-
+    /// Get a human readable description of what constraints are not currently satisfied and hence preventing
+    /// the use of this feature.
+    static var descriptionOfUnsatisfiedConstraints: String? {
+        let requiredPermissions = permissions.allNotAuthorized
+        let requiredPurchases = purchases.requiredToUnlock
+        var reason = ""
+        if requiredPermissions.count > 0 {
+            let permissionNames = requiredPermissions.map({ $0.name }).joined(separator: ", ")
+            reason.append(" Requires permissions: \(permissionNames).")
+        }
+        if requiredPurchases.count > 0 {
+            let purchaseNames = requiredPurchases.map({ $0.description }).joined(separator: ", ")
+            reason.append(" \(purchaseNames).")
+        }
+        if requiresUserToggle {
+            reason.append(" User toggle = OFF.")
+        }
+        if requiresRuntimeEnabled {
+            reason.append(" Runtime enabled = OFF.")
+        }
+        
+        return reason.count == 0 ? nil : reason
+    }
+    
     /// Access information about the permissions required by this feature
     public static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
@@ -82,10 +105,46 @@ public extension ConditionalFeatureDefinition {
     
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let all = _extractPurchaseRequirements(constraints.preconditions.all.map { $0.constraint })
-        let requiredToUnlock = _extractPurchaseRequirements(constraints.preconditions.notSatisfied.map { $0.constraint })
+        let allUnsatisfied = constraints.preconditions.notSatisfied.union(constraints.preconditions.notDetermined)
+        let requiredToUnlock = _extractPurchaseRequirements(allUnsatisfied.map { $0.constraint })
+        
         let purchased = _extractPurchaseRequirements(constraints.preconditions.satisfied.map { $0.constraint })
         
         return FeaturePurchaseRequirements(all: all, requiredToUnlock: requiredToUnlock, purchased: purchased)
+    }
+    
+    public static var requiresUserToggle: Bool {
+        let constraints = Flint.constraintsEvaluator.evaluate(for: self)
+        let preconditionMatching = constraints.preconditions.notSatisfied.first {
+            if case .userToggled = $0.constraint {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if preconditionMatching != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public static var requiresRuntimeEnabled: Bool {
+        let constraints = Flint.constraintsEvaluator.evaluate(for: self)
+        let preconditionMatching = constraints.preconditions.notSatisfied.first {
+            if case .runtimeEnabled = $0.constraint {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if preconditionMatching != nil {
+            return true
+        } else {
+            return false
+        }
     }
     
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
