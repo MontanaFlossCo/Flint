@@ -10,7 +10,6 @@
 		4901C97621F0D6B900910BDD /* VoiceShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */; };
 		49095409218078B6009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
 		4909540A218078BC009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
-		490A21D7205B034F003E1D00 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4977DC7B205AECB500DAA0C8 /* ZIPFoundation.framework */; };
 		490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
@@ -627,7 +626,6 @@
 		49AA5A682133497B00E65533 /* ActionRequest+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */; };
 		49AA5A692133497B00E65533 /* ActionRequest+Mocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */; };
 		49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B06F0C20A4BCE8004564E1 /* AVFoundation.framework */; };
-		49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FC45F520A46E5E00679F97 /* ZIPFoundation.framework */; };
 		49B4DCBF20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
 		49B4DCC020F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
 		49B4DCC120F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
@@ -1093,7 +1091,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49B06F1120A4C274004564E1 /* ZIPFoundation.framework in Frameworks */,
 				49B06F0D20A4BCE8004564E1 /* AVFoundation.framework in Frameworks */,
 				496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */,
 			);
@@ -1143,7 +1140,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49891EBB2097118300B9BCBF /* AVFoundation.framework in Frameworks */,
-				490A21D7205B034F003E1D00 /* ZIPFoundation.framework in Frameworks */,
 				49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
