@@ -118,7 +118,7 @@ public class PurchaseBrowserViewController: UITableViewController {
                 }))
             }
             if debugOverrideStatus != .unknown {
-                alertController.addAction(UIAlertAction(title: "Simulate not unknown", style: .default, handler: { _ in
+                alertController.addAction(UIAlertAction(title: "Simulate unknown", style: .default, handler: { _ in
                     overrideTracker.overridePurchase(purchaseID: entry.product.productID, with: .unknown)
                     self.refresh()
                 }))
