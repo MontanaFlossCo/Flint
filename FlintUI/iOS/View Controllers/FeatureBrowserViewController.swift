@@ -58,12 +58,12 @@ public class FeatureBrowserViewController: UITableViewController {
         
         let feature = rootFeatures[indexPath.row]
         if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
-            let availableNow: String
+            let availabilityText: String
             switch conditionalFeature.isAvailable {
-                case .some(let value): availableNow = value ? "✅" : "⛔️"
-                case .none: availableNow = "❓"
+                case .some(let value): availabilityText = value ? "✅" : "⛔️"
+                case .none: availabilityText = "🤷‍♀️"
             }
-            cell.textLabel?.text = "\(availableNow) \(feature.name)"
+            cell.textLabel?.text = "\(availabilityText) \(feature.name)"
         } else {
             cell.textLabel?.text = "✅ \(feature.name)"
         }

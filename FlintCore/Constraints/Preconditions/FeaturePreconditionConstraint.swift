@@ -28,7 +28,7 @@ public enum FeaturePreconditionConstraint: Hashable, CustomStringConvertible {
         switch self {
             case .userToggled(let defaultValue): return "User toggled (default: \(defaultValue))"
             case .runtimeEnabled: return "Runtime enabled"
-            case .purchase(let requirement): return "Purchase \(requirement.description)"
+            case .purchase(let requirement): return requirement.description
         }
     }
 }
