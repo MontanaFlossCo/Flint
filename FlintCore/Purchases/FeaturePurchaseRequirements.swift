@@ -16,7 +16,10 @@ public struct FeaturePurchaseRequirements {
     /// The set of all purchases required that must be met for the feature to be available
     public let all: Set<PurchaseRequirement>
 
-    /// The set of all purchases required that must be met for the feature to be available, which have not already been purchased.
+    /// The set of all purchases required that must be met for the feature to be available,
+    /// which have not already been purchased. This includes purchases for which we know
+    /// the user has not purchased them (or failed, or become invalid), and those for which we have no
+    /// status information yet.
     public let requiredToUnlock: Set<PurchaseRequirement>
 
     /// The set of all purchases that this feature requires, which have already been purchased
