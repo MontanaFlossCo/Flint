@@ -12,24 +12,25 @@ import StoreKit
 #endif
 
 /// A basic StoreKit In-App Purchase checker that uses only the payment queue and *local storage*
-/// to cache the list of purchases. It does not validate receipts.
+/// to cache the list of purchase statuses. *It does not validate receipts*.
 ///
-/// The local storage is unencrypted if the user unlocks the device, and as such may be
+/// The local storage is unprotected if the user unlocks the device, and as such may be
 /// subject to relatively easy editing by the determined cheapskate user to unlock features.
 ///
 /// - note: ⚠️⚠️⚠️ Do not use this implementation if you insist on cryprographically verifying
-/// purchases. ⚠️⚠️⚠️ It is our view that we should rely on the security of Apple's platform and not
+/// purchases.
+/// - note: ⚠️⚠️⚠️ It is our view that we should rely on the security of Apple's platform and not
 /// be overly concerned with users performing hacks and workarounds. People that go to the effort of
 /// jailbreaking, re-signing apps or applying other patching or data editing mechanisms
 /// are unlikely to have paid you any money anyway.
 ///
-/// So remember this code could be easily hacked by people who don't want to pay you.
 /// If this isn't good enough for you, you will need to add your own app-specific logic to verify this so there isn't a
 /// single point of verification, and to check receipts. You may not want to use Flint
 /// for purchase verification at all if it transpires that the Swift call sites for
 /// conditional requests are easily circumvented.
 ///
-/// - note: In-App Purchases are not available on watchOS as of watchOS 5
+/// - note: In-App Purchases APIs are not available on watchOS as of watchOS 5. Any
+/// Feature that requires a purchase will not be enabled on watchOS.
 @available(iOS 3, tvOS 9, macOS 10.7, *)
 @objc
 public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
@@ -39,7 +40,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     
     struct PurchaseStatus: Codable {
         let productID: String
-        let status: Bool
+        let isPurchased: Bool
     }
     
     public init(appGroupIdentifier: String?) throws {
@@ -68,10 +69,32 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     /// Called to see if a specific product has been purchased
     public func isPurchased(_ productID: String) -> Bool? {
         if let productStatus = purchases[productID] {
-            return productStatus.status
+            return productStatus.isPurchased
         } else {
             return nil
         }
+    }
+
+    func didPurchase(_ productID: String) throws {
+        purchases[productID] = PurchaseStatus(productID: productID, isPurchased: true)
+        notifyChange(productID: productID, isPurchased: true)
+        try save()
+    }
+
+    func didInvalidatePurchase(_ productID: String) throws {
+        purchases.removeValue(forKey: productID)
+        notifyChange(productID: productID, isPurchased: false)
+        try save()
+    }
+
+    private func notifyChange(productID: String, isPurchased: Bool) {
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: productID, isPurchased: false)
+        }
+    }
+    
+    private func save() throws {
+        try purchaseStore.save(productStatuses: Array(purchases.values))
     }
 }
 
@@ -87,14 +110,16 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
             /// !!! TODO: At least salt and hash the product IDs?
             switch transaction.transactionState {
                 case .purchased, .restored:
-                    purchases[productID] = PurchaseStatus(productID: productID, status: true)
-                    observers.notifySync { observer in
-                        observer.purchaseStatusDidChange(productID: productID, isPurchased: true)
+                    do {
+                        try didPurchase(productID)
+                    } catch {
+                        FlintInternal.logger?.error("Failed to save purchase confirmation for \(productID)")
                     }
                 case .failed, .deferred:
-                    purchases.removeValue(forKey: productID)
-                    observers.notifySync { observer in
-                        observer.purchaseStatusDidChange(productID: productID, isPurchased: false)
+                    do {
+                        try didInvalidatePurchase(productID)
+                    } catch {
+                        FlintInternal.logger?.error("Failed to save purchase invalidation for \(productID)")
                     }
                 default:
                     break
