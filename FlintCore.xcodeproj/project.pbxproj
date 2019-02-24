@@ -11,7 +11,6 @@
 		4905C5C522104C4B00890C11 /* SimplePurchaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */; };
 		4905C5C622104C4B00890C11 /* SimplePurchaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */; };
 		4905C5C722104C4B00890C11 /* SimplePurchaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */; };
-		4905C5C822104C4B00890C11 /* SimplePurchaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */; };
 		4905C5CA221053A600890C11 /* FileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C9221053A600890C11 /* FileHelpers.swift */; };
 		4905C5CB221053A600890C11 /* FileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C9221053A600890C11 /* FileHelpers.swift */; };
 		4905C5CC221053A600890C11 /* FileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5C9221053A600890C11 /* FileHelpers.swift */; };
@@ -2604,7 +2603,6 @@
 				49DFB7E120A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4927FEF4208A3B8800163576 /* ActionSource.swift in Sources */,
 				496F8FEE203EEBDB003AB29B /* ActionSession.swift in Sources */,
-				4905C5C822104C4B00890C11 /* SimplePurchaseStore.swift in Sources */,
 				496F8FF8203EEBDB003AB29B /* Flint.swift in Sources */,
 				499FE34A20BD89C400552CE9 /* FeatureConstraintEvaluationResults.swift in Sources */,
 				496F8FED203EEBDB003AB29B /* ActionRequest.swift in Sources */,
