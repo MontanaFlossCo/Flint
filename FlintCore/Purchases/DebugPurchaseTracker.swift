@@ -9,6 +9,17 @@
 import Foundation
 
 /// A purchase tracker that allows manually setting of purchase status.
+///
+/// This can be used standalone as a fake in-memory purchase tracker, or to proxy
+/// another purchase tracker implementation so that you can provide overrides at runtime
+/// for easier testing.
+///
+/// On iOS you can use the FlintUI `PurchaseBrowserFeature` to show a simple UI in your app
+/// that will let you view the status of purchases, and if this tracker is used, override the
+/// purchase status at runtime for testing.
+///
+/// - see `PurchaseBrowserFeature`
+/// - see `StoreKitPurchaseTracker`
 public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
     public enum OverrideStatus {
         case purchased
@@ -22,6 +33,7 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
     public private(set) var purchaseOverrides: [String:OverrideStatus] = [:]
     
     /// Initiliase a debug tracker that overrides another purchase tracker, if overrides are applied.
+    ///
     /// - param targetPurchaseTracker: The original purchase tracker that will be proxied to override
     /// purchase results.
     public init(targetPurchaseTracker: PurchaseTracker) {
@@ -29,15 +41,15 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
         targetPurchaseTracker.addObserver(self)
     }
     
-    deinit {
-        targetPurchaseTracker?.removeObserver(self)
-    }
-    
     /// Initiliase a debug tracker that acts as the source of truth typically in development builds only.
     /// You must call `overridePurchase()` to enable or disable individual products, or use
     /// the FlintUI `DebugPurchasesViewController` on iOS to toggle them at run time.
     public init() {
         targetPurchaseTracker = nil
+    }
+
+    deinit {
+        targetPurchaseTracker?.removeObserver(self)
     }
     
     /// Called to force the purchase tracker This must betrue even if the user's real
@@ -59,15 +71,21 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
         }
     }
 
+    /// - return: The current overriden status of the specified product. This may
+    /// be `nil` indicating that there is no override in effect.
+    /// - param product: The product for which you want to check the override status
     public func overridenStatus(for product: Product) -> OverrideStatus? {
         return purchaseOverrides[product.productID]
     }
     
+    /// - return: The current actual status of the specified product, from the real target
+    /// purchase tracker. If there is no real purchase tracker, the result will always be `nil`.
+    /// - param product: The product for which you want to check the real status
     public func realStatus(for product: Product) -> Bool? {
         return targetPurchaseTracker?.isPurchased(product.productID)
     }
     
-    /// Remove all the overrides
+    /// Remove all the overrides in effect
     public func invalidateAllPurchaseOverrides() {
         purchaseOverrides.removeAll()
     }

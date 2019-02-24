@@ -43,6 +43,13 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
         let isPurchased: Bool
     }
     
+    /// Instantiate the StoreKit purchase tracker, storing the status of purchases
+    /// in the container specified by `appGroupIndentifier`.
+    ///
+    /// - param appGroupIdentifier: If nil, the information about purchases will be stored
+    /// in the app's container. This will not be accessible to other parts of your app, e.g.
+    /// app extensions. So if you have extensions you must create an app group container all
+    /// extensions use and specify its identifier here.
     public init(appGroupIdentifier: String?) throws {
         purchaseStore = try SimplePurchaseStore(appGroupIdentifier: appGroupIdentifier)
         purchases = [:]
@@ -75,12 +82,14 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
         }
     }
 
+    /// Indicate the purchase was successful, and store this fact
     func didPurchase(_ productID: String) throws {
         purchases[productID] = PurchaseStatus(productID: productID, isPurchased: true)
         notifyChange(productID: productID, isPurchased: true)
         try save()
     }
 
+    /// Indicate the purchase is no longer valid, and store this fact
     func didInvalidatePurchase(_ productID: String) throws {
         purchases.removeValue(forKey: productID)
         notifyChange(productID: productID, isPurchased: false)

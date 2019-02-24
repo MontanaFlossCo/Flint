@@ -10,6 +10,8 @@ import Foundation
 
 #if os(iOS) || os(tvOS) || os(macOS)
 /// A very simple store of purchased Product IDs, using file protection but no other encryption.
+///
+/// This would well edited easily, but it is provided as a simple default implementation.
 class SimplePurchaseStore {
     typealias PurchaseStatus = StoreKitPurchaseTracker.PurchaseStatus
     

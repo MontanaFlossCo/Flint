@@ -9,6 +9,12 @@
 import Foundation
 import FlintCore
 
+/// A simple presentation of the current status of purchases, as returned by
+/// Flint's current `purchaseTracker` implementation.
+///
+/// - note: This has special support for `DebugPurchaseTracker`, and if it detects
+/// that your `Flint.purchaseTracker` that type, you will be able to use the UI to override
+/// the status of individual purchases
 public class PurchaseBrowserViewController: UITableViewController {
  
     public static func instantiate() -> PurchaseBrowserViewController {

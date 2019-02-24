@@ -9,6 +9,11 @@
 import Foundation
 import FlintCore
 
+/// Use to show a purchase browser UI that displays the current purchase status
+/// of all purchases required by Features currently declared with Flint.
+///
+/// Perform the `show` action to present the browser from a `UIViewController` or
+/// `UINavigationController`.
 final public class PurchaseBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the status of Purchases"
     

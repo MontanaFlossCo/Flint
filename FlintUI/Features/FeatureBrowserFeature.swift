@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 import FlintCore
 
-/// Provides a UI for browsing the features and actions registered in the application
+/// Provides a UI for browsing the features and actions registered in the application.
+///
+/// Perform the action `show` to present the feature browser UI.
 final public class FeatureBrowserFeature: ConditionalFeature {
     public static var description: String = "UI for browsing the Features and Actions of the app"
     
@@ -25,7 +27,8 @@ final public class FeatureBrowserFeature: ConditionalFeature {
     }
 }
 
-
+/// Shows the featur browser UI, from either a `UIViewController` (modally) or from a
+/// `UINavigationController` non-modally.
 final public class ShowFeatureBrowserAction: UIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
