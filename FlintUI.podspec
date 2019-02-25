@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "FlintCore"
-  s.version      = "ea-1.0.6"
+  s.name         = "FlintUI"
+  s.version      = "1.0.6"
   s.summary      = "Debug UI tools for apps built with Flint framework."
 
   # This description is used to generate tags and improve search results.
@@ -81,7 +81,7 @@ Debug UI for UIKit platforms to browse and update Flint debugging information
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files = 'FlintUI'
+  s.source_files = 'FlintUI/**/*.{h,m,swift}'
 
   s.swift_version = '4.0'
   s.module_name   = 'FlintUI'
@@ -125,6 +125,6 @@ Debug UI for UIKit platforms to browse and update Flint debugging information
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "FlintCore", "ea-1.0.6"
+  s.dependency "FlintCore", "1.0.6"
 
 end

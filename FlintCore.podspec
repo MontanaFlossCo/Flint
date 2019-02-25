@@ -85,7 +85,7 @@ A modern framework for deeply integrated Swift apps.
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files = 'FlintCore'
+  s.source_files = 'FlintCore/**/*.{h,m,swift}'
   s.macos.exclude_files  = '**/UIKit-Specific/*.swift'
   s.watchos.exclude_files  = '**/UIKit-Specific/*.swift', '**/StoreKit-Specific/*.swift'
 
