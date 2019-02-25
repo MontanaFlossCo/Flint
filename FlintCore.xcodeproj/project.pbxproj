@@ -1175,6 +1175,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49040A162224236300E5104D /* StoreKit-Specific */ = {
+			isa = PBXGroup;
+			children = (
+				49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */,
+			);
+			path = "StoreKit-Specific";
+			sourceTree = "<group>";
+		};
 		491211BB2158FC6D00B199C4 /* Siri Intents and Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1685,12 +1693,12 @@
 		49DB92362073AF3100F758DC /* Purchases */ = {
 			isa = PBXGroup;
 			children = (
+				49040A162224236300E5104D /* StoreKit-Specific */,
 				49DB923D2073B4F500F758DC /* Product.swift */,
 				49966D92200A644A004C4AA0 /* PurchaseTracker.swift */,
 				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
 				49DB92422073C67900F758DC /* PurchaseRequirement.swift */,
 				49DFB7D820A3462600D3AE68 /* FeaturePurchaseRequirements.swift */,
-				49647D362037434B005F9825 /* StoreKitPurchaseTracker.swift */,
 				4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */,
 				4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */,
 			);
