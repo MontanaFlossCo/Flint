@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "FlintCore"
-  s.version      = "1.0.6"
-  s.summary      = "The Flint framework for building apps on Apple platforms using Feature Driven Development."
+  s.version      = "ea-1.0.6"
+  s.summary      = "Debug UI tools for apps built with Flint framework."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-A modern framework for deeply integrated Swift apps.
+Debug UI for UIKit platforms to browse and update Flint debugging information
                    DESC
 
   s.homepage     = "https://flint.tools"
@@ -62,11 +62,7 @@ A modern framework for deeply integrated Swift apps.
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  #  When using multiple platforms
-
   s.ios.deployment_target = '10.0'
-  s.macos.deployment_target = '10.12'
-  s.watchos.deployment_target = '4.0'
   s.tvos.deployment_target = '10.0'
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -75,7 +71,7 @@ A modern framework for deeply integrated Swift apps.
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => 'ea-1.0.6'}
+  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => "ea-1.0.6"}
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -85,12 +81,10 @@ A modern framework for deeply integrated Swift apps.
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files = 'FlintCore'
-  s.macos.exclude_files  = '**/UIKit-Specific/*.swift'
-  s.watchos.exclude_files  = '**/UIKit-Specific/*.swift', '**/StoreKit-Specific/*.swift'
+  s.source_files = 'FlintUI'
 
   s.swift_version = '4.0'
-  s.module_name   = 'FlintCore'
+  s.module_name   = 'FlintUI'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -105,6 +99,7 @@ A modern framework for deeply integrated Swift apps.
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
+
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  Link your library with frameworks, or libraries. Libraries do not include
@@ -117,8 +112,9 @@ A modern framework for deeply integrated Swift apps.
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
 
-  s.ios.framework  = 'UIKit', 'StoreKit'
-  s.tvos.framework  = 'UIKit', 'StoreKit'
+  s.ios.framework  = 'UIKit'
+  # s.macos.framework  = 'AppKit'
+
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -129,5 +125,6 @@ A modern framework for deeply integrated Swift apps.
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  s.dependency "FlintCore", "ea-1.0.6"
 
 end

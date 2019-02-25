@@ -66,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49040A122224046500E5104D /* FlintUI.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlintUI.podspec; sourceTree = "<group>"; };
 		4904958A2060304B00A57991 /* FlintUISandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlintUISandbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4904958C2060304B00A57991 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4904958E2060304B00A57991 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +183,7 @@
 		498CB400203ECDCB0072E544 = {
 			isa = PBXGroup;
 			children = (
+				49040A122224046500E5104D /* FlintUI.podspec */,
 				49089579208F48CA0022E0A7 /* FlintCore.framework */,
 				49089576208F48B10022E0A7 /* ZIPFoundation.framework */,
 				498CB40C203ECDCB0072E544 /* FlintUI */,
