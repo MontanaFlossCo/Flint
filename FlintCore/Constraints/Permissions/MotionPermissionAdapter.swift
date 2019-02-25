@@ -15,6 +15,7 @@ typealias CMProxyMotionActivityQueryHandler = ([NSObject]?, Error?) -> Void
 
 @objc protocol ProxyMotionActivityManager {
 #if canImport(CoreMotion)
+    @available(iOS 11, watchOS 4, *)
     @objc static func authorizationStatus() -> CMAuthorizationStatus
     
     @objc static var isActivityAvailable: Bool { get }
@@ -25,7 +26,7 @@ typealias CMProxyMotionActivityQueryHandler = ([NSObject]?, Error?) -> Void
 
 }
 
-/// Support: iOS 11+, macOS ⛔️, watchOS 4+, tvOS ⛔️
+/// Support: iOS 11+, watchOS 4+, tvOS ⛔️, macOS ⛔️
 class MotionPermissionAdapter: SystemPermissionAdapter {
     static let activityManagerName = "CMMotionActivityManager"
 
