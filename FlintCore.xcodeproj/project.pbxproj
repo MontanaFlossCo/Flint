@@ -856,6 +856,7 @@
 /* Begin PBXFileReference section */
 		4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceShortcuts.swift; sourceTree = "<group>"; };
 		4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePurchaseStore.swift; sourceTree = "<group>"; };
+		490409F22223372900E5104D /* FlintCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlintCore.podspec; sourceTree = "<group>"; };
 		4905C5C9221053A600890C11 /* FileHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPurchaseTracker.swift; sourceTree = "<group>"; };
 		490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirementTests.swift; sourceTree = "<group>"; };
@@ -1564,6 +1565,7 @@
 		49CCF0A01F8BB1B200F7020E = {
 			isa = PBXGroup;
 			children = (
+				490409F22223372900E5104D /* FlintCore.podspec */,
 				4977DC7D205AFFCD00DAA0C8 /* Cartfile */,
 				49846FF6212F15D8002160B8 /* .travis.yml */,
 				496267B31F8BC14D002C83F2 /* README.md */,
