@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "FlintUI"
-  s.version      = "1.0.6"
+  s.version      = "1.0.7"
   s.summary      = "Debug UI tools for apps built with Flint framework."
 
   # This description is used to generate tags and improve search results.
@@ -71,7 +71,7 @@ Debug UI for UIKit platforms to browse and update Flint debugging information
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => "ea-1.0.6"}
+  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => "ea-1.0.7"}
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -125,6 +125,6 @@ Debug UI for UIKit platforms to browse and update Flint debugging information
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "FlintCore", "1.0.6"
+  s.dependency "FlintCore", "1.0.7"
 
 end
