@@ -15,6 +15,7 @@ import Intents
 public protocol UIAction: Action {
 }
 
+/// Extension providing default values for UI-based actions
 public extension UIAction {
     /// By default the dispatch queue that all actions are called on is `main`.
     /// They will be called synchronously if the caller is already on the same queue, and asynchronously

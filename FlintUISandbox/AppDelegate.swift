@@ -57,10 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let fileOutput = try! FileLoggerOutput(appGroupIdentifier: nil, name: "uisandbox")
+        let fileOutput = try! FileLoggerOutput(name: "uisandbox")
         Logging.setLoggerOutputs(development: [fileOutput], level: .debug, production: nil, level: .none)
+
+        let storeKitTracker = try! StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
+        Flint.purchaseTracker = DebugPurchaseTracker(targetPurchaseTracker: storeKitTracker)
         Flint.setup(FakeFeatures.self)
-//        Flint.quickSetup(FakeFeatures.self)
         Flint.register(group: FlintUIFeatures.self)
         
         // Spit out a fake action every few seconds
@@ -84,16 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let request = FocusFeature.request(FocusFeature.resetFocus) {
                 request.perform()
             }
-        }
-        
-        let evaluation = Flint.constraintsEvaluator.evaluate(for: FakeFeature.self)
-        for result in evaluation.permissions.all {
-            switch result.status {
-                case .notActive: print("Inactive: \(result)")
-                case .notSatisfied, .notDetermined: print("Not satisfied: \(result)")
-                case .satisfied: print("Satisfied: \(result)")
-            }
-            print("parametersDescription: \(result.constraint.parametersDescription)")
         }
         
         let coordinator = FakePermissionCoordinator()

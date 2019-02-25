@@ -18,11 +18,11 @@ public protocol FeatureConstraintEvaluationResults {
     var all: Set<FeatureConstraintResult<ConstraintType>> { get }
     
     /// All the `.satisfied` constraint results
-    var satisfied: Set<FeatureConstraintResult<ConstraintType>> { get }
+    var satisfied: Set<ConstraintType> { get }
 
     /// All the `.notSatisfied` constraint results
-    var notSatisfied: Set<FeatureConstraintResult<ConstraintType>> { get }
+    var notSatisfied: Set<ConstraintType> { get }
 
     /// All the `.notDetermined` constraint results
-    var notDetermined: Set<FeatureConstraintResult<ConstraintType>> { get }
+    var notDetermined: Set<ConstraintType> { get }
 }

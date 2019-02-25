@@ -47,23 +47,28 @@ class ViewController: UITableViewController {
         
         switch indexPath.row {
             case 0:
-                guard let request = FeatureBrowserFeature.request(FeatureBrowserFeature.show) else {
+                guard let request = FeatureBrowserFeature.show.request() else {
                     preconditionFailure("Feature browser is not enabled")
                 }
                 request.perform(presenter: navigationController)
             case 1:
-                guard let request = TimelineBrowserFeature.request(TimelineBrowserFeature.show) else {
+                guard let request = TimelineBrowserFeature.show.request() else {
                     preconditionFailure("Timeline is not enabled")
                 }
                 request.perform(presenter: navigationController)
             case 2:
-                guard let request = ActionStackBrowserFeature.request(ActionStackBrowserFeature.show) else {
+                guard let request = ActionStackBrowserFeature.show.request() else {
                     preconditionFailure("Action Stack is not enabled")
                 }
                 request.perform(presenter: navigationController)
             case 3:
-                guard let request = LogBrowserFeature.request(LogBrowserFeature.show) else {
+                guard let request = LogBrowserFeature.show.request() else {
                     preconditionFailure("Log Browser is not enabled")
+                }
+                request.perform(presenter: navigationController)
+            case 4:
+                guard let request = PurchaseBrowserFeature.show.request() else {
+                    preconditionFailure("Purchase Browser is not enabled")
                 }
                 request.perform(presenter: navigationController)
             default: preconditionFailure()

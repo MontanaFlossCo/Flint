@@ -20,6 +20,16 @@ public class FileLoggerOutput: LoggerOutput {
     private let baseURL: URL
     private var currentLogFile: LogFile?
 
+    /// Create a new logger output that writes to files, using the shared app group container (if any) specified in
+    /// `AppInfo.appGroupIdentifier`.
+    ///
+    /// - param name: The file name of the log file (minus path). This will be passed to the naming strategy for inclusion.
+    /// - param folderName: The name of the folder in which to put the log file, under the container.
+    /// - param namingStrategy: An optional strategy for creating log file names. By default a `TimestampLogFileNamingStrategy` will be used.
+    convenience public init(name: String, folderName: String = "Flint", namingStrategy: LogFileNamingStrategy? = nil) throws {
+        try self.init(appGroupIdentifier: FlintAppInfo.appGroupIdentifier, name: name, folderName: folderName, namingStrategy: namingStrategy)
+    }
+    
     /// Create a new logger output that writes to files.
     ///
     /// - param appGroupIdentifier: The optional App Group ID to use to store the logs in a shared container
@@ -31,15 +41,7 @@ public class FileLoggerOutput: LoggerOutput {
         self.namingStrategy = namingStrategy ?? TimestampLogFileNamingStrategy(namePrefix: name)
         self.nameStem = name
         
-        let containerURL: URL
-        if let groupID = appGroupIdentifier {
-            guard let appGroupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) else {
-                fatalError("Couldn't get app group container with ID \(groupID)")
-            }
-            containerURL = appGroupUrl
-        } else {
-            containerURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        }
+        let containerURL = try FileHelpers.containerURL(appGroupIdentifier: appGroupIdentifier, in: .cachesDirectory)
         
         baseURL = containerURL.appendingPathComponent(folderName).appendingPathComponent("Logs")
         try FileManager.default.createDirectory(at: baseURL, withIntermediateDirectories: true, attributes: nil)

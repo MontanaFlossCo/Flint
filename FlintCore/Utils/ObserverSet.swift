@@ -41,7 +41,7 @@ class ObserverSet<T: AnyObject> {
     }
 
     /// Notify all the observers on their respective queues, synchronously
-    func notifySync(handler: @escaping (T) -> Void) {
+    func notifySync(handler: (T) -> Void) {
         observers.forEach { pair in
             if let observer = pair.observer {
                 pair.queue.sync {

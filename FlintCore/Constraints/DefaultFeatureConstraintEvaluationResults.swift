@@ -13,19 +13,23 @@ public class DefaultFeatureConstraintEvaluationResults<ConstraintType>: FeatureC
     /// Results for all the constraint results, including those that are `.notActive`
     public let all: Set<FeatureConstraintResult<ConstraintType>>
 
+    private func reduceAndMap(_ status: FeatureConstraintStatus) -> Set<ConstraintType> {
+        return Set(all.filter({ $0.status == status }).map { $0.constraint })
+    }
+    
     /// Only the `.satisfied` constraint results
-    public lazy var satisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.status == .satisfied }
+    public lazy var satisfied: Set<ConstraintType> = {
+        return reduceAndMap(.satisfied)
     }()
 
     /// Only the `.notSatisfied` constraint results
-    public lazy var notSatisfied: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.status == .notSatisfied }
+    public lazy var notSatisfied: Set<ConstraintType> = {
+        return reduceAndMap(.notSatisfied)
     }()
 
     /// Only the `.notDetermined` constraint results
-    public lazy var notDetermined: Set<FeatureConstraintResult<ConstraintType>> = {
-        return all.filter { $0.status == .notDetermined }
+    public lazy var notDetermined: Set<ConstraintType> = {
+        return reduceAndMap(.notDetermined)
     }()
     
     /// Initialise with the supplied results.

@@ -98,8 +98,8 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     }
  
     public var description: String {
-        let productDescriptions = products.map { $0.description }
-        let text = "Products \(productDescriptions.joined(separator: ", ")) matching \(matchingCriteria)"
+        let productDescriptions = products.map { "\($0.productID): \"\($0.description)\"" }
+        let text = "Purchase requirement for \(productDescriptions.joined(separator: ", ")) (matching: \(matchingCriteria))"
         if let dependencies = dependencies, dependencies.count > 0 {
             let dependencyDescriptions = dependencies.map { $0.description }
             return text + " dependencies: \(dependencyDescriptions.joined(separator: ", "))"

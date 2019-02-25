@@ -64,18 +64,7 @@ public extension ConditionalFeature {
 
         /// The action is possible only if this feature is currently available
         guard let available = isAvailable, available == true else {
-            let requiredPermissions = permissions.allNotAuthorized
-            let requiredPurchases = purchases.requiredToUnlock
-            var reason = ""
-            if requiredPermissions.count > 0 {
-                let permissionNames = requiredPermissions.map({ $0.name }).joined(separator: ", ")
-                reason.append(" Requires permissions: \(permissionNames).")
-            }
-            if requiredPurchases.count > 0 {
-                let purchaseNames = requiredPurchases.map({ $0.description }).joined(separator: ", ")
-                reason.append(" Requires purchases: \(purchaseNames).")
-            }
-            /// TODO: Add info about preconditions
+            let reason = descriptionOfUnsatisfiedConstraints ?? " Unknown reason, likely a Flint bug"
             flintAdvisoryNotice("Request to use action '\(ActionType.name)' on feature '\(Self.name)' denied.\(reason)")
             return nil
         }

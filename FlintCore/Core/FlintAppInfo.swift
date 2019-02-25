@@ -47,4 +47,9 @@ final public class FlintAppInfo {
         }
         return stringTypes
     }()
+    
+    /// The default App Group ID to use for shared storage.
+    /// - note: By default logs and purchase tracking info may be stored in this container.
+    /// Set this before initialising Flint.
+    public static var appGroupIdentifier: String? = nil
 }

@@ -186,13 +186,23 @@ final public class Flint {
     }
 
     private static func _register(_ feature: FeatureDefinition.Type) {
-        createMetadata(for: feature)
+        let featureMetadata = createMetadata(for: feature)
         
         // Evaluate the constraints before calling `prepare` - that may check its own `isAvailable` value.
         if let conditionalFeature = feature as? ConditionalFeatureDefinition.Type {
             let builder = DefaultFeatureConstraintsBuilder()
             let constraints = builder.build(conditionalFeature.constraints)
+
             _constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+
+            // Collate the required products into metadata
+            var products: Set<Product> = []
+            for constraint in constraints.preconditions {
+                if case let .purchase(requirement) = constraint {
+                    products.formUnion(requirement.products)
+                }
+            }
+            featureMetadata.productsRequired = products
         }
 
         let builder = ActionsBuilder(feature: feature, activityMappings: ActionActivityMappings.instance)
@@ -454,7 +464,7 @@ extension Flint {
             userFeatureToggles = UserDefaultsFeatureToggles()
         }
         if purchaseTracker == nil {
-            purchaseTracker = StoreKitPurchaseTracker()
+            purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
         }
 #else
         if userFeatureToggles == nil {
@@ -517,11 +527,12 @@ extension Flint {
         }
     }
     
-    static func createMetadata(for feature: FeatureDefinition.Type) {
+    static func createMetadata(for feature: FeatureDefinition.Type) -> FeatureMetadata {
         let featureMetadata = FeatureMetadata(feature: feature)
         metadataAccessQueue.sync {
             allFeatures.insert(featureMetadata)
         }
+        return featureMetadata
     }
     
     static func bind<T>(_ action: T.Type, to feature: FeatureDefinition.Type) where T: Action {
