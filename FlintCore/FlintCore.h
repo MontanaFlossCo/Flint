@@ -6,8 +6,6 @@
 //  Copyright © 2017 Montana Floss Co. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 //! Project version number for FlintCore.
 FOUNDATION_EXPORT double FlintCoreVersionNumber;
 
