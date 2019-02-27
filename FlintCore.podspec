@@ -88,6 +88,7 @@ A modern framework for deeply integrated Swift apps.
   s.source_files = 'FlintCore/**/*.{h,m,swift}'
   s.macos.exclude_files  = '**/UIKit-Specific/*.swift'
   s.watchos.exclude_files  = '**/UIKit-Specific/*.swift', '**/StoreKit-Specific/*.swift'
+  s.tvos.exclude_files = '**/Siri Intents and Shortcuts/*.swift'
 
   s.swift_version = '4.0'
   s.module_name   = 'FlintCore'
