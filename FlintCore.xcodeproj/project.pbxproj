@@ -855,8 +855,8 @@
 
 /* Begin PBXFileReference section */
 		4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceShortcuts.swift; sourceTree = "<group>"; };
-		4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePurchaseStore.swift; sourceTree = "<group>"; };
 		490409F22223372900E5104D /* FlintCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlintCore.podspec; sourceTree = "<group>"; };
+		4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePurchaseStore.swift; sourceTree = "<group>"; };
 		4905C5C9221053A600890C11 /* FileHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPurchaseTracker.swift; sourceTree = "<group>"; };
 		490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirementTests.swift; sourceTree = "<group>"; };
@@ -1183,13 +1183,13 @@
 		491211BB2158FC6D00B199C4 /* Siri Intents and Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
+				4973856122272CDC00C47A66 /* Intents-Specific */,
 				491A348821E7E75800E81D58 /* IntentTypes.swift */,
 				491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */,
 				491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */,
 				4930281D215138660042DA96 /* IntentAction.swift */,
 				491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */,
 				491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */,
-				491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */,
 				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
 				49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */,
 				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
@@ -1330,6 +1330,14 @@
 				496F8F42203EEA23003AB29B /* Info.plist */,
 			);
 			path = "FlintCore-watchOS";
+			sourceTree = "<group>";
+		};
+		4973856122272CDC00C47A66 /* Intents-Specific */ = {
+			isa = PBXGroup;
+			children = (
+				491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */,
+			);
+			path = "Intents-Specific";
 			sourceTree = "<group>";
 		};
 		49769240201F3D6900F97BD5 /* Activities */ = {
