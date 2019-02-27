@@ -7,9 +7,10 @@
 //
 
 import Foundation
-import UIKit
-
 #if os(iOS) || os(tvOS)
+import UIKit
+#endif
+
 /// Actions conforming to `DismissUIAction` will automatically dismiss a presenter that is a `UIViewController`
 /// on UIKit platforms.
 ///
@@ -29,6 +30,7 @@ import UIKit
 ///
 /// ```
 /// - see: `DismissUIInput`
+#if os(iOS) || os(tvOS)
 public protocol DismissingUIAction: UIAction {
     typealias InputType = DismissUIInput
     typealias PresenterType = UIViewController
