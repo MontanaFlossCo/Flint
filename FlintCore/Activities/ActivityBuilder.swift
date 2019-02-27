@@ -12,7 +12,7 @@ import Foundation
 import CoreSpotlight
 #endif
 
-#if canImport(UIKit)
+#if canImport(UIKit) && (os(iOS) || os(tvOS))
 import UIKit
 #endif
 
