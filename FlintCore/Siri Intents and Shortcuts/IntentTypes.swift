@@ -32,7 +32,7 @@ struct FlintIntentWrapper: FlintLoggable {
 #endif
 }
 
-#if canImport(Intents)
+#if canImport(Intents) && (os(iOS) || os(watchOS) || os(macOS))
 public typealias FlintIntent = INIntent
 #else
 public class FalseIntent {

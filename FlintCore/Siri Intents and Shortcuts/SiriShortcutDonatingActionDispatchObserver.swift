@@ -16,7 +16,7 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     let loggers: ContextualLoggers
     
     init() {
-        loggers = SiriFeature.logs(for: "Intent Dispatch")
+        loggers = SiriIntentsFeature.logs(for: "Intent Dispatch")
     }
     
     func actionWillBegin<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>) where FeatureType : FeatureDefinition, ActionType : Action {
