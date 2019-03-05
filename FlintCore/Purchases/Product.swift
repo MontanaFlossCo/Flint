@@ -31,16 +31,16 @@ public class Product: Hashable, Equatable {
     /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle.
     public let name: String
 
-    /// The description of the product, for display to the user. e.g. "Unlocks all features"
-    /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle.
-    public let description: String
+    /// The description of the product, for display primaroily in debugging UIs.
+    /// If you want to also show this to users and localise, you'll want to use a value that is a key you can resolve against a strings bundle.
+    public let description: String?
     
     /// A product ID used by your purchase subsystem to uniquely identify the product that to be purchased.
     /// For Apple App Store / StoreKit you'll need to use the Product ID you specified when creating the in-app
     /// purchase.
     public let productID: String
     
-    public init(name: String, description: String, productID: String) {
+    public init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
         self.productID = productID

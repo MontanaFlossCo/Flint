@@ -69,7 +69,7 @@ public class PurchaseBrowserViewController: UITableViewController {
         } else {
             statusText = "Unknown"
         }
-        cell.textLabel?.text = "\(item.product.name) — \(item.product.description)"
+        cell.textLabel?.text = "\(item.product.name) — \(item.product.description ?? "No description" )"
         cell.detailTextLabel?.text = "\(statusText). \(item.product.productID)"
         return cell
     }
