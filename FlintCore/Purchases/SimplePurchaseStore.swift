@@ -33,16 +33,18 @@ class SimplePurchaseStore {
         do {
             jsonData = try Data(contentsOf: url)
         } catch let error {
-            logger?.error("Couldn't read purchases file: \(error)")
+            logger?.warning("Couldn't read purchases file: \(error)")
             return []
         }
 
         let decoder = JSONDecoder.init()
-        guard let purchases = try? decoder.decode([PurchaseStatus].self, from: jsonData) else {
-            logger?.error("Couldn't read purchases file correctly")
+        do {
+            let purchases = try decoder.decode([PurchaseStatus].self, from: jsonData)
+            return purchases
+        } catch let error {
+            logger?.error("Couldn't read purchases file correctly: \(error)")
             return []
         }
-        return purchases
     }
 
     func save(productStatuses: [PurchaseStatus]) throws {

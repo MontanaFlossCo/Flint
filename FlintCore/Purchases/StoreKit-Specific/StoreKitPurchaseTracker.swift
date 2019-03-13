@@ -33,7 +33,7 @@ import StoreKit
 /// Feature that requires a purchase will not be enabled on watchOS.
 @available(iOS 3, tvOS 9, macOS 10.7, *)
 @objc
-public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
+public class 	StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     private let purchaseStore: SimplePurchaseStore
     private var observers = ObserverSet<PurchaseTrackerObserver>()
     private var purchases: [String:PurchaseStatus]
@@ -130,14 +130,14 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
                 case .purchased, .restored:
                     do {
                         try didPurchase(productID)
-                    } catch {
-                        logger?.error("Failed to save purchase confirmation for \(productID)")
+                    } catch let error {
+                        logger?.error("Failed to save purchase confirmation for \(productID): \(error)")
                     }
                 case .failed, .deferred:
                     do {
                         try didInvalidatePurchase(productID)
-                    } catch {
-                        logger?.error("Failed to save purchase invalidation for \(productID)")
+                    } catch let error {
+                        logger?.error("Failed to save purchase invalidation for \(productID): \(error)")
                     }
                 default:
                     break
