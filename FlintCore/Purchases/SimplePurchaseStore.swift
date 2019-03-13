@@ -17,31 +17,36 @@ class SimplePurchaseStore {
     
     static let fileName = ".purchases.json"
     private let url: URL
+    private let logger: ContextSpecificLogger?
 
     init(appGroupIdentifier: String?) throws {
+        logger = Logging.development?.contextualLogger(with: "SimplePurchaseStore", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
+
         // We store this list in the documents directory
         let baseURL = try FileHelpers.flintInternalFilesURL(appGroupIdentifier: appGroupIdentifier)
         url = baseURL.appendingPathComponent(SimplePurchaseStore.fileName)
     }
     
-    func load() throws -> [PurchaseStatus] {
+    func load() -> [PurchaseStatus] {
+        logger?.debug("Loading purchases file: \(self.url)")
         let jsonData: Data
         do {
             jsonData = try Data(contentsOf: url)
         } catch let error {
-            FlintInternal.logger?.error("Couldn't read purchases file: \(error)")
+            logger?.error("Couldn't read purchases file: \(error)")
             return []
         }
 
         let decoder = JSONDecoder.init()
         guard let purchases = try? decoder.decode([PurchaseStatus].self, from: jsonData) else {
-            FlintInternal.logger?.error("Couldn't read purchases file correctly")
+            logger?.error("Couldn't read purchases file correctly")
             return []
         }
         return purchases
     }
 
     func save(productStatuses: [PurchaseStatus]) throws {
+        logger?.debug("Saving purchases file: \(self.url)")
         let jsonData = try JSONEncoder().encode(productStatuses)
 
         try jsonData.write(to: url, options: .atomicWrite)
