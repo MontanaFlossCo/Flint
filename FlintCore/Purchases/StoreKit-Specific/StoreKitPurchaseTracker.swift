@@ -33,7 +33,7 @@ import StoreKit
 /// Feature that requires a purchase will not be enabled on watchOS.
 @available(iOS 3, tvOS 9, macOS 10.7, *)
 @objc
-public class 	StoreKitPurchaseTracker: NSObject, PurchaseTracker {
+public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     private let purchaseStore: SimplePurchaseStore
     private var observers = ObserverSet<PurchaseTrackerObserver>()
     private var purchases: [String:PurchaseStatus]
@@ -121,7 +121,7 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
     /// simple way.
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
-            logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier ?? nil) for payment of product \(transaction.payment.productIdentifier) witth quantity \(transaction.payment.quantity)")
+            logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier != nil ? transaction.transactionIdentifier! : "nil") for payment of product \(transaction.payment.productIdentifier) with quantity \(transaction.payment.quantity)")
             
             let productID = transaction.payment.productIdentifier
 
