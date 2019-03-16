@@ -61,6 +61,18 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     }
     
     /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// any of the listed purchases will fulfil the requirement
+    public static func anyOf(_ products: NoQuantityProduct...) -> PurchaseRequirement {
+        return PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .any)
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// all of the listed purchases will fulfil the requirement
+    public static func allOf(_ products: NoQuantityProduct...) -> PurchaseRequirement {
+        return PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .all)
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
     /// all of the listed purchases will fulfil the requirement
     public static func allOf(_ products: Set<NoQuantityProduct>) -> PurchaseRequirement {
         return PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .all)
