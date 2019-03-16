@@ -234,6 +234,26 @@
 		495768B6200E629C00CB2E6F /* LinkCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495768B5200E629C00CB2E6F /* LinkCreator.swift */; };
 		495B6C69202B60A50024CDFB /* FlintAppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495B6C68202B60A50024CDFB /* FlintAppInfo.swift */; };
 		495B6C70202BC9280024CDFB /* Flint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495B6C6F202BC9280024CDFB /* Flint.swift */; };
+		495CBD8A223D6E1E00233816 /* NonConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */; };
+		495CBD8B223D6E1E00233816 /* ConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD88223D6C2400233816 /* ConsumableProduct.swift */; };
+		495CBD8C223D6E1E00233816 /* SubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */; };
+		495CBD8D223D6E1E00233816 /* AutoRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */; };
+		495CBD8E223D6E1E00233816 /* NonRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */; };
+		495CBD8F223D6E1F00233816 /* NonConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */; };
+		495CBD90223D6E1F00233816 /* ConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD88223D6C2400233816 /* ConsumableProduct.swift */; };
+		495CBD91223D6E1F00233816 /* SubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */; };
+		495CBD92223D6E1F00233816 /* AutoRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */; };
+		495CBD93223D6E1F00233816 /* NonRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */; };
+		495CBD94223D6E2000233816 /* NonConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */; };
+		495CBD95223D6E2000233816 /* ConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD88223D6C2400233816 /* ConsumableProduct.swift */; };
+		495CBD96223D6E2000233816 /* SubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */; };
+		495CBD97223D6E2000233816 /* AutoRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */; };
+		495CBD98223D6E2000233816 /* NonRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */; };
+		495CBD99223D6E2100233816 /* NonConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */; };
+		495CBD9A223D6E2100233816 /* ConsumableProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD88223D6C2400233816 /* ConsumableProduct.swift */; };
+		495CBD9B223D6E2100233816 /* SubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */; };
+		495CBD9C223D6E2100233816 /* AutoRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */; };
+		495CBD9D223D6E2100233816 /* NonRenewingSubscriptionProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */; };
 		495EED7421FA8065001142A0 /* LogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */; };
 		495EED7621FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
 		495EED7721FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */; };
@@ -927,6 +947,11 @@
 		495768B5200E629C00CB2E6F /* LinkCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCreator.swift; sourceTree = "<group>"; };
 		495B6C68202B60A50024CDFB /* FlintAppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintAppInfo.swift; sourceTree = "<group>"; };
 		495B6C6F202BC9280024CDFB /* Flint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flint.swift; sourceTree = "<group>"; };
+		495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonConsumableProduct.swift; sourceTree = "<group>"; };
+		495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionProduct.swift; sourceTree = "<group>"; };
+		495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRenewingSubscriptionProduct.swift; sourceTree = "<group>"; };
+		495CBD88223D6C2400233816 /* ConsumableProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumableProduct.swift; sourceTree = "<group>"; };
+		495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonRenewingSubscriptionProduct.swift; sourceTree = "<group>"; };
 		495EED7321FA8065001142A0 /* LogFileNamingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFileNamingStrategy.swift; sourceTree = "<group>"; };
 		495EED7521FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampLogFileNamingStrategy.swift; sourceTree = "<group>"; };
 		495EED7A21FA80DE001142A0 /* LogEventFormattingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEventFormattingStrategy.swift; sourceTree = "<group>"; };
@@ -1701,6 +1726,11 @@
 			children = (
 				49040A162224236300E5104D /* StoreKit-Specific */,
 				49DB923D2073B4F500F758DC /* Product.swift */,
+				495CBD85223D6C1D00233816 /* NonConsumableProduct.swift */,
+				495CBD88223D6C2400233816 /* ConsumableProduct.swift */,
+				495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */,
+				495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */,
+				495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */,
 				49966D92200A644A004C4AA0 /* PurchaseTracker.swift */,
 				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
 				49DB92422073C67900F758DC /* PurchaseRequirement.swift */,
@@ -2074,6 +2104,7 @@
 				49137FF420CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				496F8FC7203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
 				496F8F55203EEBB1003AB29B /* TimelineEntry.swift in Sources */,
+				495CBD90223D6E1F00233816 /* ConsumableProduct.swift in Sources */,
 				4929823D205ED12C00267A49 /* ActionMetadata.swift in Sources */,
 				494F59162098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498A894D2068FF5200457D66 /* TimelineFeature.swift in Sources */,
@@ -2102,6 +2133,7 @@
 				496136D52099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				498F976F207783C500209633 /* FocusLogging.swift in Sources */,
 				496F8FD6203EEBDA003AB29B /* FlintInternal.swift in Sources */,
+				495CBD92223D6E1F00233816 /* AutoRenewingSubscriptionProduct.swift in Sources */,
 				4956D5D520986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
 				49FC460A20A4795D00679F97 /* PerformIncomingURLAction.swift in Sources */,
 				496F8F82203EEBBA003AB29B /* ConditionalActionBinding.swift in Sources */,
@@ -2119,6 +2151,7 @@
 				494C27A420C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
 				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
+				495CBD8F223D6E1F00233816 /* NonConsumableProduct.swift in Sources */,
 				4946FAC6208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				496F8F5B203EEBB1003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
 				496136B22099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
@@ -2133,6 +2166,7 @@
 				496F8F80203EEBBA003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F4B203EEBA5003AB29B /* AnalyticsReporting.swift in Sources */,
 				49FC45FB20A46F0900679F97 /* MappedActionResult.swift in Sources */,
+				495CBD91223D6E1F00233816 /* SubscriptionProduct.swift in Sources */,
 				493267532142FA0E00CC88CB /* Archive+Writing.swift in Sources */,
 				4905C5D022105CF400890C11 /* DebugPurchaseTracker.swift in Sources */,
 				496F8F4A203EEBA5003AB29B /* ObserverSet.swift in Sources */,
@@ -2162,6 +2196,7 @@
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590C2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F53203EEBB1003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
+				495CBD93223D6E1F00233816 /* NonRenewingSubscriptionProduct.swift in Sources */,
 				494F59202098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
 				496F8F4C203EEBA5003AB29B /* ConsoleAnalyticsProvider.swift in Sources */,
 				4980005720B3621200D68321 /* URLExecutionContext.swift in Sources */,
@@ -2286,6 +2321,7 @@
 				496F8FDC203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
 				496F8F64203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
 				4929823E205ED12C00267A49 /* ActionMetadata.swift in Sources */,
+				495CBD94223D6E2000233816 /* NonConsumableProduct.swift in Sources */,
 				494F59172098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498A894E2068FF5200457D66 /* TimelineFeature.swift in Sources */,
 				494F59492098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift in Sources */,
@@ -2318,6 +2354,7 @@
 				496F8F8B203EEBBB003AB29B /* ConditionalActionBinding.swift in Sources */,
 				496F8F9D203EEBC5003AB29B /* RoutesFeature.swift in Sources */,
 				4927FEF0208A3B7C00163576 /* ActivityType.swift in Sources */,
+				495CBD98223D6E2000233816 /* NonRenewingSubscriptionProduct.swift in Sources */,
 				496F8FB9203EEBD4003AB29B /* RouteScope.swift in Sources */,
 				499FE34420BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift in Sources */,
 				49FC45FF20A46F1A00679F97 /* ActionContext.swift in Sources */,
@@ -2335,6 +2372,7 @@
 				496136B32099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
 				496F8F66203EEBB2003AB29B /* ContextualLoggerTarget.swift in Sources */,
 				496F8FB6203EEBD4003AB29B /* URLMapping.swift in Sources */,
+				495CBD96223D6E2000233816 /* SubscriptionProduct.swift in Sources */,
 				496136BD209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				4921705D20D25625007D6883 /* ActivityCodable.swift in Sources */,
 				496F8FE9203EEBDA003AB29B /* StaticActionBinding.swift in Sources */,
@@ -2368,6 +2406,7 @@
 				4956D5DB209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4921706720D27D14007D6883 /* FlintImage.swift in Sources */,
 				493267592142FA2B00CC88CB /* Archive.swift in Sources */,
+				495CBD97223D6E2000233816 /* AutoRenewingSubscriptionProduct.swift in Sources */,
 				49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
 				494F59122098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590D2098A9F70075E7EE /* Platform.swift in Sources */,
@@ -2410,6 +2449,7 @@
 				49298239205ED11900267A49 /* FeatureMetadata.swift in Sources */,
 				496F8F6B203EEBB2003AB29B /* FocusContextualLoggerTarget.swift in Sources */,
 				4905C5C722104C4B00890C11 /* SimplePurchaseStore.swift in Sources */,
+				495CBD95223D6E2000233816 /* ConsumableProduct.swift in Sources */,
 				49DB926220757D9500F758DC /* AnalyticsProvider.swift in Sources */,
 				496F8F6E203EEBB2003AB29B /* LoggerLevel.swift in Sources */,
 				499FE34920BD89C400552CE9 /* FeatureConstraintEvaluationResults.swift in Sources */,
@@ -2473,6 +2513,7 @@
 				496F8F77203EEBB3003AB29B /* ContextSpecificLogger.swift in Sources */,
 				49DFB7CD20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				496F8FFB203EEBDB003AB29B /* NoInput.swift in Sources */,
+				495CBD99223D6E2100233816 /* NonConsumableProduct.swift in Sources */,
 				49A62C8620D2FDF800264606 /* PerformIncomingActivityAction.swift in Sources */,
 				494F59402098ABB20075E7EE /* UserTogglePreconditionEvaluator.swift in Sources */,
 				4956D5DC209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
@@ -2547,6 +2588,7 @@
 				496F8FFF203EEBDB003AB29B /* TopicPath+Extensions.swift in Sources */,
 				496F8F79203EEBB3003AB29B /* DefaultContextSpecificLogger.swift in Sources */,
 				496F8F75203EEBB3003AB29B /* ContextualLoggerTarget.swift in Sources */,
+				495CBD9A223D6E2100233816 /* ConsumableProduct.swift in Sources */,
 				49FC460F20A488D000679F97 /* InternalJSONFormatting.swift in Sources */,
 				49DB92412073B4F600F758DC /* Product.swift in Sources */,
 				49298235205ED0D900267A49 /* FeatureActionsBuilder.swift in Sources */,
@@ -2578,9 +2620,11 @@
 				496F8F95203EEBBC003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F72203EEBB2003AB29B /* Timeline.swift in Sources */,
 				4927FEFB208A537100163576 /* PublishCurrentActionActivityAction.swift in Sources */,
+				495CBD9C223D6E2100233816 /* AutoRenewingSubscriptionProduct.swift in Sources */,
 				496136C8209900E200291885 /* CameraPermissionAdapter.swift in Sources */,
 				498F976C2077832F00209633 /* DefaultFocusSelection.swift in Sources */,
 				4980005920B3621200D68321 /* URLExecutionContext.swift in Sources */,
+				495CBD9D223D6E2100233816 /* NonRenewingSubscriptionProduct.swift in Sources */,
 				496F8FBC203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
 				496F8F49203EEB0F003AB29B /* String+Extensions.swift in Sources */,
 				49F6824220D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
@@ -2625,6 +2669,7 @@
 				496F8F7D203EEBB3003AB29B /* LoggerLevel.swift in Sources */,
 				49FC460920A4793800679F97 /* FocusFeature.swift in Sources */,
 				496F8FF9203EEBDB003AB29B /* FlintFeatures.swift in Sources */,
+				495CBD9B223D6E2100233816 /* SubscriptionProduct.swift in Sources */,
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				49F6823D20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4932675F2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
@@ -2760,6 +2805,7 @@
 				4998079F213419ED00DACFAA /* ActionPerformError.swift in Sources */,
 				49819EBC1FC9C3660013AF55 /* ActionRequest.swift in Sources */,
 				49EFE2BC20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift in Sources */,
+				495CBD8A223D6E1E00233816 /* NonConsumableProduct.swift in Sources */,
 				49839CE92046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				49DFB7D920A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49891EB22094BEB600B9BCBF /* PurchaseTrackerObserver.swift in Sources */,
@@ -2773,6 +2819,7 @@
 				493572D41FC9D284003AD465 /* FeatureGroup.swift in Sources */,
 				491211C02158FEA300B199C4 /* IntentShortcutDonationFeature.swift in Sources */,
 				49C9C37A1FFD317800E4D500 /* TopicPath+Extensions.swift in Sources */,
+				495CBD8B223D6E1E00233816 /* ConsumableProduct.swift in Sources */,
 				498F97642077824200209633 /* FocusSelection.swift in Sources */,
 				494F59102098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				49E1A231203C31C900F7555C /* FlintInternal.swift in Sources */,
@@ -2781,10 +2828,13 @@
 				49A999FA1FF7FA6700A64E8C /* AnalyticsReporting.swift in Sources */,
 				4976923B201F3CBE00F97BD5 /* URLMappingsBuilder.swift in Sources */,
 				49F6823F20D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
+				495CBD8E223D6E1E00233816 /* NonRenewingSubscriptionProduct.swift in Sources */,
 				493267482142F7F200CC88CB /* FileManager+ZIP.swift in Sources */,
+				495CBD8D223D6E1E00233816 /* AutoRenewingSubscriptionProduct.swift in Sources */,
 				496136C5209900E200291885 /* CameraPermissionAdapter.swift in Sources */,
 				49CF4D3920F5281C0009FFF4 /* FlintLoggable.swift in Sources */,
 				495FD9FE200363290007A427 /* FeaturePath.swift in Sources */,
+				495CBD8C223D6E1E00233816 /* SubscriptionProduct.swift in Sources */,
 				49647D372037434B005F9825 /* StoreKitPurchaseTracker.swift in Sources */,
 				49BC1C5720867C2400A7FC77 /* ActionStack.swift in Sources */,
 				491A348721E7E63600E81D58 /* DonateShortcutIntentAction.swift in Sources */,

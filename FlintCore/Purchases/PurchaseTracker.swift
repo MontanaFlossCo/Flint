@@ -1,5 +1,5 @@
 //
-//  PurchaseValidator.swift
+//  PurchaseTracker.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 13/01/2018.

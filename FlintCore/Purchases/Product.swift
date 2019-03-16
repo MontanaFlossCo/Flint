@@ -42,7 +42,7 @@ open class Product: Hashable, Equatable {
     /// purchase.
     public let productID: String
     
-    fileprivate init(name: String, description: String? = nil, productID: String) {
+    init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
         self.productID = productID
@@ -54,40 +54,5 @@ open class Product: Hashable, Equatable {
     
     public static func ==(lhs: Product, rhs: Product) -> Bool {
         return lhs.productID == rhs.productID
-    }
-}
-
-/// A marker protocol for products that represent consumables
-open class NonConsumableProduct: Product {
-    override init(name: String, description: String? = nil, productID: String) {
-        super.init(name: name, description: description, productID: productID)
-    }
-}
-
-/// A marker protocol for products that represent consumables
-open class ConsumableProduct: Product {
-    override init(name: String, description: String? = nil, productID: String) {
-        super.init(name: name, description: description, productID: productID)
-    }
-}
-
-/// A marker protocol for products that represent auto-renewing subscriptions
-open class SubscriptionProduct: Product {
-    override init(name: String, description: String? = nil, productID: String) {
-        super.init(name: name, description: description, productID: productID)
-    }
-}
-
-/// A marker protocol for products that represent auto-renewing subscriptions
-open class AutoRenewingSubscriptionProduct: SubscriptionProduct {
-    override init(name: String, description: String? = nil, productID: String) {
-        super.init(name: name, description: description, productID: productID)
-    }
-}
-
-/// A marker protocol for products that represent non-renewing subscriptions
-open class NonRenewingSubscriptionProduct: SubscriptionProduct {
-    override init(name: String, description: String? = nil, productID: String) {
-        super.init(name: name, description: description, productID: productID)
     }
 }
