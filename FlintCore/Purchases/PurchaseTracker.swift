@@ -22,7 +22,8 @@ public protocol PurchaseTracker {
     /// Call to remove an observer for changes to purchases
     func removeObserver(_ observer: PurchaseTrackerObserver)
 
-    /// Return whether or not the specified product ID has been paid for (or should be enabled) by the user.
-    /// If the status is not yet known, the implementation can return `nil` to indicate this indeterminate status.
-    func isPurchased(_ productID: String) -> Bool?
+    /// Return whether or not the specified product ID has been paid for (and hence features requiring it can be enabled)
+    /// by the user. If the status is not yet known, the implementation can return `nil` to indicate this indeterminate status.
+    /// - note: Consumables subscriptions will not be pass to this function
+    func isPurchased(_ product: NonConsumableProduct) -> Bool?
 }

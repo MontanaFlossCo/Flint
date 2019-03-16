@@ -25,7 +25,7 @@ import Foundation
 ///
 /// - note: We use class semantics here so that the app can subclass it to include additional properties as required
 /// for the purchasing mechanism they use.
-public class Product: Hashable, Equatable {
+open class Product: Hashable, Equatable {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription".
     /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle.
@@ -53,4 +53,20 @@ public class Product: Hashable, Equatable {
     public static func ==(lhs: Product, rhs: Product) -> Bool {
         return lhs.productID == rhs.productID
     }
+}
+
+/// A marker protocol for products that represent consumables
+open class NonConsumableProduct: Product {
+}
+
+/// A marker protocol for products that represent consumables
+open class ConsumableProduct: Product {
+}
+
+/// A marker protocol for products that represent auto-renewing subscriptions
+open class AutoRenewingSubscriptionProduct: Product {
+}
+
+/// A marker protocol for products that represent non-renewing subscriptions
+open class NonRenewingSubscriptionProduct: Product {
 }

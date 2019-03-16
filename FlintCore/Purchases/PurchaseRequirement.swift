@@ -67,7 +67,9 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
             case .any:
                 var result: Bool?
                 for product in products {
-                    result = validator.isPurchased(product.productID)
+                    if let nonConsumableProduct = product as? NonConsumableProduct {
+                        result = validator.isPurchased(nonConsumableProduct)
+                    }
                     if result == true {
                         break
                     }
@@ -76,7 +78,9 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
             case .all:
                 var result: Bool?
                 for product in products {
-                    result = validator.isPurchased(product.productID)
+                    if let nonConsumableProduct = product as? NonConsumableProduct {
+                        result = validator.isPurchased(nonConsumableProduct)
+                    }
                     if !(result == true) {
                         break
                     }

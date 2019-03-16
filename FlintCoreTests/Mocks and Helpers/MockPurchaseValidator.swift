@@ -25,12 +25,12 @@ class MockPurchaseValidator: PurchaseTracker {
     
     /// Call this to fake confirmation that a purchase has not been made on this product.
     /// Until the purchase subsystem has checked receipts, the status of such features is unknown.
-    public func confirmNotPurchased(_ product: Product) {
+    public func confirmNotPurchased(_ product: NonConsumableProduct) {
         setPurchased(product, purchased: false)
     }
     
     /// Call this to fake a purchase
-    public func makeFakePurchase(_ product: Product) {
+    public func makeFakePurchase(_ product: NonConsumableProduct) {
         setPurchased(product, purchased: true)
     }
     
@@ -45,7 +45,7 @@ class MockPurchaseValidator: PurchaseTracker {
         }
     }
     
-    private func setPurchased(_ product: Product, purchased: Bool) {
+    private func setPurchased(_ product: NonConsumableProduct, purchased: Bool) {
         fakePurchases[product.productID] = purchased
 
         observers.notifySync { observer in
@@ -53,7 +53,7 @@ class MockPurchaseValidator: PurchaseTracker {
         }
     }
 
-    func isPurchased(_ productID: String) -> Bool? {
-        return fakePurchases[productID]
+    func isPurchased(_ product: NonConsumableProduct) -> Bool? {
+        return fakePurchases[product.productID]
     }
 }

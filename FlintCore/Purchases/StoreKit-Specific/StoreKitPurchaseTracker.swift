@@ -78,8 +78,8 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     }
 
     /// Called to see if a specific product has been purchased
-    public func isPurchased(_ productID: String) -> Bool? {
-        if let productStatus = purchases[productID] {
+    public func isPurchased(_ product: NonConsumableProduct) -> Bool? {
+        if let productStatus = purchases[product.productID] {
             return productStatus.isPurchased
         } else {
             return nil
