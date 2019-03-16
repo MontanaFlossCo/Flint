@@ -15,7 +15,7 @@ enum FileHelpers {
     static func flintInternalFilesURL(appGroupIdentifier: String?) throws -> URL {
         let baseURL = try containerURL(appGroupIdentifier: appGroupIdentifier, in: .documentDirectory)
         let dirURL = baseURL.appendingPathComponent(".flint")
-        try FileManager.default.createDirectory(at: baseURL, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true, attributes: nil)
         return dirURL
     }
     

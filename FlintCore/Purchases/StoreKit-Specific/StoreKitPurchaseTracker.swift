@@ -37,7 +37,8 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     private let purchaseStore: SimplePurchaseStore
     private var observers = ObserverSet<PurchaseTrackerObserver>()
     private var purchases: [String:PurchaseStatus]
-    
+    private let logger: ContextSpecificLogger?
+
     struct PurchaseStatus: Codable {
         let productID: String
         let isPurchased: Bool
@@ -51,11 +52,14 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     /// app extensions. So if you have extensions you must create an app group container all
     /// extensions use and specify its identifier here.
     public init(appGroupIdentifier: String?) throws {
+        logger = Logging.development?.contextualLogger(with: "StoreKit Purchases", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
+
         purchaseStore = try SimplePurchaseStore(appGroupIdentifier: appGroupIdentifier)
         purchases = [:]
         super.init()
 
-        try purchaseStore.load().forEach { purchases[$0.productID] = $0 }        
+        logger?.debug("Loading purchases")
+        try purchaseStore.load().forEach { purchases[$0.productID] = $0 }
 
         SKPaymentQueue.default().add(self)
     }
@@ -84,6 +88,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
 
     /// Indicate the purchase was successful, and store this fact
     func didPurchase(_ productID: String) throws {
+        logger?.debug("Recording purchase of iTunes product ID: \(productID)")
         purchases[productID] = PurchaseStatus(productID: productID, isPurchased: true)
         notifyChange(productID: productID, isPurchased: true)
         try save()
@@ -91,6 +96,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
 
     /// Indicate the purchase is no longer valid, and store this fact
     func didInvalidatePurchase(_ productID: String) throws {
+        logger?.debug("Recording invalidation of purchase of iTunes product ID: \(productID)")
         purchases.removeValue(forKey: productID)
         notifyChange(productID: productID, isPurchased: false)
         try save()
@@ -103,6 +109,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     }
     
     private func save() throws {
+        logger?.debug("Saving purchases")
         try purchaseStore.save(productStatuses: Array(purchases.values))
     }
 }
@@ -114,21 +121,23 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
     /// simple way.
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
+            logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier != nil ? transaction.transactionIdentifier! : "nil") for payment of product \(transaction.payment.productIdentifier) with quantity \(transaction.payment.quantity)")
+            
             let productID = transaction.payment.productIdentifier
 
-            /// !!! TODO: At least salt and hash the product IDs?
+            /// !!! TODO: At least salt and hash the product IDs to make it harder to hack?
             switch transaction.transactionState {
                 case .purchased, .restored:
                     do {
                         try didPurchase(productID)
-                    } catch {
-                        FlintInternal.logger?.error("Failed to save purchase confirmation for \(productID)")
+                    } catch let error {
+                        logger?.error("Failed to save purchase confirmation for \(productID): \(error)")
                     }
                 case .failed, .deferred:
                     do {
                         try didInvalidatePurchase(productID)
-                    } catch {
-                        FlintInternal.logger?.error("Failed to save purchase invalidation for \(productID)")
+                    } catch let error {
+                        logger?.error("Failed to save purchase invalidation for \(productID): \(error)")
                     }
                 default:
                     break
