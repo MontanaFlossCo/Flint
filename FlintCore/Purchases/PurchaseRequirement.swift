@@ -54,8 +54,20 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     /// when you need to show a store UI to unlock the feature.
     public let quantity: UInt?
     
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// any of the listed purchases will fulfil the requirement
+    public static func anyOf(products: Set<NoQuantityProduct>, dependencies: [PurchaseRequirement]? = nil) -> PurchaseRequirement {
+        return PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .any, dependencies: dependencies)
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// all of the listed purchases will fulfil the requirement
+    public static func allOf(products: Set<NoQuantityProduct>, dependencies: [PurchaseRequirement]? = nil) -> PurchaseRequirement {
+        return PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .all, dependencies: dependencies)
+    }
+    
     /// Initialise the requirement with its products, matching criteria and dependencies.
-    private init(products: Set<Product>, quantity: UInt?, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
+    init(products: Set<Product>, quantity: UInt?, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
         self.products = products
         self.quantity = quantity
         self.matchingCriteria = matchingCriteria

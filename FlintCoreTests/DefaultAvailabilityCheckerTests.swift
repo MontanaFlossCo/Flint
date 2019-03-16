@@ -212,7 +212,7 @@ final private class ConditionalFeatureA: ConditionalFeature {
     static var description: String = ""
 
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productA))
+        requirements.purchase(productA)
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -223,7 +223,7 @@ final private class ConditionalFeatureB: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productB))
+        requirements.purchase(productB)
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -247,7 +247,7 @@ final private class ConditionalFeatureC: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productD))
+        requirements.purchase(productD)
     }
     
     static func prepare(actions: FeatureActionsBuilder) {

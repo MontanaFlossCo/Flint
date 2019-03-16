@@ -9,7 +9,7 @@
 import Foundation
 
 /// A marker protocol for products that represent consumables
-open class NonConsumableProduct: Product {
+open class NonConsumableProduct: NoQuantityProduct {
     public override init(name: String, description: String? = nil, productID: String) {
         super.init(name: name, description: description, productID: productID)
     }
