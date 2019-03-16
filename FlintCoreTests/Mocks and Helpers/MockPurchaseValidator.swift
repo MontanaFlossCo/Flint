@@ -56,4 +56,12 @@ class MockPurchaseValidator: PurchaseTracker {
     func isPurchased(_ product: NonConsumableProduct) -> Bool? {
         return fakePurchases[product.productID]
     }
+    
+    func isSubscriptionActive(_ product: SubscriptionProduct) -> Bool? {
+        return nil
+    }
+    
+    func isFeatureEnabledByPastPurchases(_ feature: FeatureDefinition.Type) -> Bool {
+        return false
+    }
 }

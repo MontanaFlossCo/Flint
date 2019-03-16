@@ -86,6 +86,14 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
         }
     }
 
+    public func isSubscriptionActive(_ product: SubscriptionProduct) -> Bool? {
+        return nil
+    }
+    
+    public func isFeatureEnabledByPastPurchases(_ feature: FeatureDefinition.Type) -> Bool {
+        return false
+    }
+
     /// Indicate the purchase was successful, and store this fact
     func didPurchase(_ productID: String) throws {
         logger?.debug("Recording purchase of iTunes product ID: \(productID)")

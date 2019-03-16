@@ -25,15 +25,23 @@ public extension FeatureConstraintsBuilder {
     }
 
     /// Call to declare a product that your feature requires
-    public func purchase(_ product: Product) {
+    public func purchase(_ product: NonConsumableProduct) {
         purchase(PurchaseRequirement(product))
     }
 
-    /// Call to declare a list of products that your feature requires
-    public func purchases(_ products: Product...) {
-        for product in products {
-            purchase(PurchaseRequirement(product))
-        }
+    /// Call to declare a product that your feature requires
+    public func purchase(_ product: ConsumableProduct, quantity: UInt) {
+        purchase(PurchaseRequirement(product, quantity: quantity))
+    }
+
+    /// Call to declare a product that your feature requires
+    public func purchase(_ product: SubscriptionProduct) {
+        purchase(PurchaseRequirement(product))
+    }
+
+    /// Call to declare a list of products that your feature requires. All must be purchased for the constraint to be met
+    public func purchases(_ products: NonConsumableProduct...) {
+        purchase(PurchaseRequirement(products: Set(products), matchingCriteria: .all))
     }
 }
 

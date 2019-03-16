@@ -48,28 +48,46 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     /// Using this you can express complex combinations of purchases and options
     public let dependencies: [PurchaseRequirement]?
 
+    /// The optional quantity of product for this requirement to be met.
+    /// This is optional and only relates to ConsumableProduct types, and is *purely informational* because
+    /// Flint does not handle allocation of consumable products/credits, but your app can access this information
+    /// when you need to show a store UI to unlock the feature.
+    public let quantity: UInt?
+    
     /// Initialise the requirement with its products, matching criteria and dependencies.
-    public init(products: Set<Product>, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
+    private init(products: Set<Product>, quantity: UInt?, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
         self.products = products
+        self.quantity = quantity
         self.matchingCriteria = matchingCriteria
         self.dependencies = dependencies
     }
     
-    public convenience init(_ product: Product) {
-        self.init(products: [product], matchingCriteria: .all)
+    /// Initialise the requirement with its products, matching criteria and dependencies.
+    public convenience init(products: Set<NonConsumableProduct>, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
+        self.init(products: products, quantity: nil, matchingCriteria: matchingCriteria, dependencies: dependencies)
+    }
+    
+    public convenience init(_ product: NonConsumableProduct, dependencies: [PurchaseRequirement]? = nil) {
+        self.init(products: [product], matchingCriteria: .all, dependencies: dependencies)
+    }
+    
+    public convenience init(_ product: SubscriptionProduct, dependencies: [PurchaseRequirement]? = nil) {
+        self.init(products: [product], quantity: nil, matchingCriteria: .all, dependencies: dependencies)
+    }
+    
+    public convenience init(_ product: ConsumableProduct, quantity: UInt, dependencies: [PurchaseRequirement]? = nil) {
+        self.init(products: [product], quantity: quantity, matchingCriteria: .all, dependencies: dependencies)
     }
     
     /// Call to see if this requirement and all dependent requirements are fulfilled
     /// - param validator: The validator to use to see if each product in a requirement has been purchased
-    public func isFulfilled(validator: PurchaseTracker) -> Bool? {
+    public func isFulfilled(purchaseTracker: PurchaseTracker, feature: ConditionalFeatureDefinition.Type) -> Bool? {
         let matched: Bool?
         switch matchingCriteria {
             case .any:
                 var result: Bool?
                 for product in products {
-                    if let nonConsumableProduct = product as? NonConsumableProduct {
-                        result = validator.isPurchased(nonConsumableProduct)
-                    }
+                    result = establishFulfilment(of: product, purchaseTracker: purchaseTracker, feature: feature)
                     if result == true {
                         break
                     }
@@ -78,9 +96,7 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
             case .all:
                 var result: Bool?
                 for product in products {
-                    if let nonConsumableProduct = product as? NonConsumableProduct {
-                        result = validator.isPurchased(nonConsumableProduct)
-                    }
+                    result = establishFulfilment(of: product, purchaseTracker: purchaseTracker, feature: feature)
                     if !(result == true) {
                         break
                     }
@@ -93,7 +109,7 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
                 return matched
             }
             let firstFailing = dependencies.first(where: { requirement -> Bool in
-                return !(requirement.isFulfilled(validator: validator) == true)
+                return !(requirement.isFulfilled(purchaseTracker: purchaseTracker, feature: feature) == true)
             })
             return firstFailing == nil
         } else {
@@ -101,8 +117,36 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
         }
     }
  
+    private func establishFulfilment(of product: Product,
+                                     purchaseTracker: PurchaseTracker,
+                                     feature: ConditionalFeatureDefinition.Type) -> Bool? {
+        var purchased: Bool?
+        switch product {
+            case let nonConsumableProduct as NonConsumableProduct:
+                purchased = purchaseTracker.isPurchased(nonConsumableProduct)
+            case let subscriptionProduct as SubscriptionProduct:
+                purchased = purchaseTracker.isSubscriptionActive(subscriptionProduct)
+            case is ConsumableProduct:
+                break
+            default:
+                flintBug("Unsupported product type: \(product)")
+        }
+        if purchased == nil || purchased == false {
+            if purchaseTracker.isFeatureEnabledByPastPurchases(feature) {
+                purchased = true
+            }
+        }
+        return purchased
+    }
+    
     public var description: String {
-        let productDescriptions = products.map { "\($0.productID): \"\($0.description)\"" }
+        let productDescriptions: [String] = products.map {
+            if let descriptionText = $0.description {
+                return "\($0.productID): \"\(descriptionText)\""
+            } else {
+                return $0.productID
+            }
+        }
         let text = "Purchase requirement for \(productDescriptions.joined(separator: ", ")) (matching: \(matchingCriteria))"
         if let dependencies = dependencies, dependencies.count > 0 {
             let dependencyDescriptions = dependencies.map { $0.description }

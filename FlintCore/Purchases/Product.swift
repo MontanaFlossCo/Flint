@@ -28,11 +28,13 @@ import Foundation
 open class Product: Hashable, Equatable {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription".
-    /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle.
+    /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle,
+    /// or for StoreKit use the SKProduct `localizedName`
     public let name: String
 
     /// The description of the product, for display primaroily in debugging UIs.
-    /// If you want to also show this to users and localise, you'll want to use a value that is a key you can resolve against a strings bundle.
+    /// If you want to also show this to users and localise, you'll want to use a value that is a key you can resolve
+    /// against a strings bundle, or for StoreKit use the SKProduct `localizedDescription`
     public let description: String?
     
     /// A product ID used by your purchase subsystem to uniquely identify the product that to be purchased.
@@ -40,7 +42,7 @@ open class Product: Hashable, Equatable {
     /// purchase.
     public let productID: String
     
-    public init(name: String, description: String? = nil, productID: String) {
+    fileprivate init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
         self.productID = productID
@@ -57,16 +59,35 @@ open class Product: Hashable, Equatable {
 
 /// A marker protocol for products that represent consumables
 open class NonConsumableProduct: Product {
+    override init(name: String, description: String? = nil, productID: String) {
+        super.init(name: name, description: description, productID: productID)
+    }
 }
 
 /// A marker protocol for products that represent consumables
 open class ConsumableProduct: Product {
+    override init(name: String, description: String? = nil, productID: String) {
+        super.init(name: name, description: description, productID: productID)
+    }
 }
 
 /// A marker protocol for products that represent auto-renewing subscriptions
-open class AutoRenewingSubscriptionProduct: Product {
+open class SubscriptionProduct: Product {
+    override init(name: String, description: String? = nil, productID: String) {
+        super.init(name: name, description: description, productID: productID)
+    }
+}
+
+/// A marker protocol for products that represent auto-renewing subscriptions
+open class AutoRenewingSubscriptionProduct: SubscriptionProduct {
+    override init(name: String, description: String? = nil, productID: String) {
+        super.init(name: name, description: description, productID: productID)
+    }
 }
 
 /// A marker protocol for products that represent non-renewing subscriptions
-open class NonRenewingSubscriptionProduct: Product {
+open class NonRenewingSubscriptionProduct: SubscriptionProduct {
+    override init(name: String, description: String? = nil, productID: String) {
+        super.init(name: name, description: description, productID: productID)
+    }
 }

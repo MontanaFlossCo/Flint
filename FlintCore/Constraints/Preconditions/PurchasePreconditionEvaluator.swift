@@ -21,7 +21,7 @@ public class PurchasePreconditionEvaluator: FeaturePreconditionConstraintEvaluat
             flintBug("Incorrect precondition type '\(precondition)' passed to purchase evaluator")
         }
 
-        return requirement.isFulfilled(validator: purchaseTracker)
+        return requirement.isFulfilled(purchaseTracker: purchaseTracker, feature: feature)
     }
 }
 

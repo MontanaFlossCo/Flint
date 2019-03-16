@@ -71,6 +71,25 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
         }
     }
 
+    /// Called to force the purchase tracker This must betrue even if the user's real
+    /// purchase history indicates otherwise.
+    public func overridePurchase(product: SubscriptionProduct, with result: OverrideStatus) {
+        purchaseOverrides[product.productID] = result
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: product.productID, isPurchased: isSubscriptionActive(product) ?? false)
+        }
+    }
+
+    /// Called to indicate that the purchase tracker should behave as if this
+    /// purchase has *not* been performed. This must be true even if the user's real
+    /// purchase history indicates otherwise.
+    public func invalidatePurchaseOverride(product: SubscriptionProduct) {
+        purchaseOverrides.removeValue(forKey: product.productID)
+        observers.notifySync { observer in
+            observer.purchaseStatusDidChange(productID: product.productID, isPurchased: isSubscriptionActive(product) ?? false)
+        }
+    }
+
     /// - return: The current overriden status of the specified product. This may
     /// be `nil` indicating that there is no override in effect.
     /// - param product: The product for which you want to check the override status
@@ -117,6 +136,14 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
     }
     
     public func isPurchased(_ product: NonConsumableProduct) -> Bool? {
+        if let overrideValue = getOverrideStatus(product) {
+            return overrideValue
+        } else {
+            return targetPurchaseTracker?.isPurchased(product)
+        }
+    }
+    
+    private func getOverrideStatus(_ product: Product) -> Bool? {
         if let overrideValue = purchaseOverrides[product.productID] {
             switch overrideValue {
                 case .purchased: return true
@@ -124,8 +151,20 @@ public class DebugPurchaseTracker: PurchaseTracker, PurchaseTrackerObserver {
                 case .unknown: return nil
             }
         } else {
-            return targetPurchaseTracker?.isPurchased(product)
+            return nil
+        }
+    }
+
+    public func isSubscriptionActive(_ product: SubscriptionProduct) -> Bool? {
+        if let overrideValue = getOverrideStatus(product) {
+            return overrideValue
+        } else {
+            return targetPurchaseTracker?.isSubscriptionActive(product)
         }
     }
     
+    /// We don't support debug overrides for features as a whole currently
+    public func isFeatureEnabledByPastPurchases(_ feature: FeatureDefinition.Type) -> Bool {
+        return false
+    }
 }
