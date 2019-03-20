@@ -132,7 +132,15 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
             logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier != nil ? transaction.transactionIdentifier! : "nil") for payment of product \(transaction.payment.productIdentifier) with quantity \(transaction.payment.quantity)")
             
             let productID = transaction.payment.productIdentifier
-
+            guard let product = Product.productByID(productID) else {
+                logger?.error("Transaction updated for product ID not registered as a Product, will not store the fact this is purchased: \(productID)")
+                continue
+            }
+            guard product is NonConsumableProduct else {
+                logger?.error("Transaction updated for product ID that is not a non-consumable, will not store the fact this is purchased: \(productID)")
+                continue
+            }
+            
             /// !!! TODO: At least salt and hash the product IDs to make it harder to hack?
             switch transaction.transactionState {
                 case .purchased, .restored:

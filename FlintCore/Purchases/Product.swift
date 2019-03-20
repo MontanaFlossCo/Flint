@@ -41,11 +41,22 @@ open class Product: Hashable, Equatable {
     /// For Apple App Store / StoreKit you'll need to use the Product ID you specified when creating the in-app
     /// purchase.
     public let productID: String
+
+    /// Return the `Product` instance associated with the product ID.
+    public static func productByID(_ id: String) -> Product? {
+        return allProducts.first { $0.productID == id }
+    }
+    
+    private static var allProducts = [Product]()
     
     init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
         self.productID = productID
+        guard Product.productByID(productID) == nil else {
+            flintUsageError("Product ID '\(productID)' has been used in multiple products including: \(self)")
+        }
+        Product.allProducts.append(self)
     }
     
     public var hashValue: Int {
