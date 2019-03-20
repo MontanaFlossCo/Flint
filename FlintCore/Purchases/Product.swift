@@ -56,7 +56,3 @@ open class Product: Hashable, Equatable {
         return lhs.productID == rhs.productID
     }
 }
-
-open class NoQuantityProduct: Product {
-}
-

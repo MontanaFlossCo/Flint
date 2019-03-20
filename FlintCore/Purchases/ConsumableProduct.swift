@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A marker protocol for products that represent consumables
+/// A base product type for products that represent consumables such as credits
 open class ConsumableProduct: Product {
     public override init(name: String, description: String? = nil, productID: String) {
         super.init(name: name, description: description, productID: productID)

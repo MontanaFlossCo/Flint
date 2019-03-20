@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A marker protocol for products that represent auto-renewing subscriptions
+/// A base product type for products that represent any kind of subscription
 open class SubscriptionProduct: NoQuantityProduct {
     public override init(name: String, description: String? = nil, productID: String) {
         super.init(name: name, description: description, productID: productID)

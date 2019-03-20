@@ -54,30 +54,6 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     /// when you need to show a store UI to unlock the feature.
     public let quantity: UInt?
     
-    /// Convenience function for use when constructing constraints in the constraints builder, where
-    /// any of the listed purchases will fulfil the requirement
-    public static func anyOf(_ products: Set<NoQuantityProduct>) -> PurchaseRequirement {
-        return PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .any)
-    }
-    
-    /// Convenience function for use when constructing constraints in the constraints builder, where
-    /// any of the listed purchases will fulfil the requirement
-    public static func anyOf(_ products: NoQuantityProduct...) -> PurchaseRequirement {
-        return PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .any)
-    }
-    
-    /// Convenience function for use when constructing constraints in the constraints builder, where
-    /// all of the listed purchases will fulfil the requirement
-    public static func allOf(_ products: NoQuantityProduct...) -> PurchaseRequirement {
-        return PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .all)
-    }
-    
-    /// Convenience function for use when constructing constraints in the constraints builder, where
-    /// all of the listed purchases will fulfil the requirement
-    public static func allOf(_ products: Set<NoQuantityProduct>) -> PurchaseRequirement {
-        return PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .all)
-    }
-    
     /// Initialise the requirement with its products, matching criteria and dependencies.
     init(products: Set<Product>, quantity: UInt?, matchingCriteria: Criteria, dependencies: [PurchaseRequirement]? = nil) {
         self.products = products
@@ -128,7 +104,8 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
                 matched = result
         }
         
-        if matched == true {
+        // Only evaluate dependencies if this level's requirements are met, or there are no direct requirements at this level
+        if matched == true || products.count == 0 {
             guard let dependencies = dependencies else {
                 return matched
             }

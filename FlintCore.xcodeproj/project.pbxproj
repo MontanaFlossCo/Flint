@@ -669,6 +669,10 @@
 		49B4DCC020F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
 		49B4DCC120F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
 		49B4DCC220F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */; };
+		49B6F1C322426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
+		49B6F1C422426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
+		49B6F1C522426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
+		49B6F1C622426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
 		49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
 		49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
@@ -1072,6 +1076,7 @@
 		49B06F1820A4C5AC004564E1 /* FlintCore_watchOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_watchOSTests.swift; sourceTree = "<group>"; };
 		49B06F1A20A4C5AC004564E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSUserActivity+FlintAdditions.swift"; sourceTree = "<group>"; };
+		49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoQuantityProduct.swift; sourceTree = "<group>"; };
 		49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueueDataSource.swift; sourceTree = "<group>"; };
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
@@ -1731,6 +1736,7 @@
 				495CBD86223D6C1F00233816 /* SubscriptionProduct.swift */,
 				495CBD87223D6C2100233816 /* AutoRenewingSubscriptionProduct.swift */,
 				495CBD89223D6C2600233816 /* NonRenewingSubscriptionProduct.swift */,
+				49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */,
 				49966D92200A644A004C4AA0 /* PurchaseTracker.swift */,
 				49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */,
 				49DB92422073C67900F758DC /* PurchaseRequirement.swift */,
@@ -2186,6 +2192,7 @@
 				496F8F58203EEBB1003AB29B /* ContextualLoggerFactory.swift in Sources */,
 				49839CEA2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FC9203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
+				49B6F1C422426FFD0003C847 /* NoQuantityProduct.swift in Sources */,
 				499FE35920BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				492B2A4420FE9A2400F4EAB0 /* CompletionRequirement.swift in Sources */,
 				49DFB7DF20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
@@ -2401,6 +2408,7 @@
 				49839CEB2046D1CA00C0AED3 /* DebugReportable.swift in Sources */,
 				496F8FDE203EEBDA003AB29B /* FeatureDefinition.swift in Sources */,
 				499FE35A20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
+				49B6F1C522426FFD0003C847 /* NoQuantityProduct.swift in Sources */,
 				492B2A4520FE9A2500F4EAB0 /* CompletionRequirement.swift in Sources */,
 				49DFB7E020A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				4956D5DB209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
@@ -2567,6 +2575,7 @@
 				496F8FFD203EEBDB003AB29B /* Feature.swift in Sources */,
 				496F8FBB203EEBD4003AB29B /* LinkCreator.swift in Sources */,
 				496F9000203EEBDB003AB29B /* FlintInternal.swift in Sources */,
+				49B6F1C622426FFD0003C847 /* NoQuantityProduct.swift in Sources */,
 				499FE34520BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift in Sources */,
 				49EA0BD1208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				49F37A49209B2C2200B27671 /* FeatureConstraintsEvaluation.swift in Sources */,
@@ -2822,6 +2831,7 @@
 				495CBD8B223D6E1E00233816 /* ConsumableProduct.swift in Sources */,
 				498F97642077824200209633 /* FocusSelection.swift in Sources */,
 				494F59102098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
+				49B6F1C322426FFD0003C847 /* NoQuantityProduct.swift in Sources */,
 				49E1A231203C31C900F7555C /* FlintInternal.swift in Sources */,
 				49F2CF241FF7EB2C004F16EF /* ConditionalActionBinding.swift in Sources */,
 				4980005620B3621200D68321 /* URLExecutionContext.swift in Sources */,
