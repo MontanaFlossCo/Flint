@@ -25,25 +25,38 @@ import Foundation
 ///
 /// - note: We use class semantics here so that the app can subclass it to include additional properties as required
 /// for the purchasing mechanism they use.
-public class Product: Hashable, Equatable {
+open class Product: Hashable, Equatable {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription".
-    /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle.
+    /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle,
+    /// or for StoreKit use the SKProduct `localizedName`
     public let name: String
 
     /// The description of the product, for display primaroily in debugging UIs.
-    /// If you want to also show this to users and localise, you'll want to use a value that is a key you can resolve against a strings bundle.
+    /// If you want to also show this to users and localise, you'll want to use a value that is a key you can resolve
+    /// against a strings bundle, or for StoreKit use the SKProduct `localizedDescription`
     public let description: String?
     
     /// A product ID used by your purchase subsystem to uniquely identify the product that to be purchased.
     /// For Apple App Store / StoreKit you'll need to use the Product ID you specified when creating the in-app
     /// purchase.
     public let productID: String
+
+    /// Return the `Product` instance associated with the product ID.
+    public static func productByID(_ id: String) -> Product? {
+        return allProducts.first { $0.productID == id }
+    }
     
-    public init(name: String, description: String? = nil, productID: String) {
+    private static var allProducts = [Product]()
+    
+    init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
         self.productID = productID
+        guard Product.productByID(productID) == nil else {
+            flintUsageError("Product ID '\(productID)' has been used in multiple products including: \(self)")
+        }
+        Product.allProducts.append(self)
     }
     
     public var hashValue: Int {

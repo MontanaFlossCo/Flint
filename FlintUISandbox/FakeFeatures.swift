@@ -9,7 +9,7 @@
 import Foundation
 import FlintCore
 
-let fakeProduct = Product(name: "💎 Premium", description: "Unlock everything", productID: "PREM0001")
+let fakeProduct = NonConsumableProduct(name: "💎 Premium", description: "Unlock everything", productID: "PREM0001")
 
 class FakeFeatures: FeatureGroup {
     static var name = "MyFakeFeaturesAliased"

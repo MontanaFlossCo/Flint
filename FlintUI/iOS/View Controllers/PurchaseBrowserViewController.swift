@@ -46,7 +46,12 @@ public class PurchaseBrowserViewController: UITableViewController {
             featureMetadata.productsRequired.forEach { allProductsReferenced.insert($0) }
         }
         purchases = allProductsReferenced.map {
-            return ($0, Flint.purchaseTracker?.isPurchased($0.productID))
+            switch $0 {
+                case let nonConsumableProduct as NonConsumableProduct:
+                    return ($0, Flint.purchaseTracker?.isPurchased(nonConsumableProduct))
+                default:
+                    return ($0, nil)
+            }
         }
     }
     
@@ -105,27 +110,63 @@ public class PurchaseBrowserViewController: UITableViewController {
         let alertController = UIAlertController(title: "Purchase status", message: message, preferredStyle: .actionSheet)
         
         if let overrideTracker = debugPurchaseTracker {
-            if debugOverrideStatus != nil {
+            if debugOverrideStatus != nil &&
+                    (entry.product is NonConsumableProduct || entry.product is SubscriptionProduct) {
                 alertController.addAction(UIAlertAction(title: "Remove override", style: .default, handler: { _ in
-                    overrideTracker.invalidatePurchaseOverride(productID: entry.product.productID)
+                    switch entry.product {
+                        case let nonConsumableProduct as NonConsumableProduct:
+                            overrideTracker.invalidatePurchaseOverride(product: nonConsumableProduct)
+                        case let subscriptionProduct as SubscriptionProduct:
+                            overrideTracker.invalidatePurchaseOverride(product: subscriptionProduct)
+                        default:
+                            flintBug("We should not be able to remove overrides on product type: \(entry.product)")
+                            break
+                    }
                     self.refresh()
                 }))
             }
-            if debugOverrideStatus != .purchased {
+            if debugOverrideStatus != .purchased &&
+                    (entry.product is NonConsumableProduct || entry.product is SubscriptionProduct) {
                 alertController.addAction(UIAlertAction(title: "Simulate purchase", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .purchased)
+                    switch entry.product {
+                        case let nonConsumableProduct as NonConsumableProduct:
+                            overrideTracker.overridePurchase(product: nonConsumableProduct, with: .purchased)
+                        case let subscriptionProduct as SubscriptionProduct:
+                            overrideTracker.overridePurchase(product: subscriptionProduct, with: .purchased)
+                        default:
+                            flintBug("We should not be able to remove overrides on product type: \(entry.product)")
+                            break
+                    }
                     self.refresh()
                 }))
             }
-            if debugOverrideStatus != .notPurchased {
+            if debugOverrideStatus != .notPurchased &&
+                    (entry.product is NonConsumableProduct || entry.product is SubscriptionProduct) {
                 alertController.addAction(UIAlertAction(title: "Simulate not purchased", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .notPurchased)
+                    switch entry.product {
+                        case let nonConsumableProduct as NonConsumableProduct:
+                            overrideTracker.overridePurchase(product: nonConsumableProduct, with: .notPurchased)
+                        case let subscriptionProduct as SubscriptionProduct:
+                            overrideTracker.overridePurchase(product: subscriptionProduct, with: .notPurchased)
+                        default:
+                            flintBug("We should not be able to remove overrides on product type: \(entry.product)")
+                            break
+                    }
                     self.refresh()
                 }))
             }
-            if debugOverrideStatus != .unknown {
+            if debugOverrideStatus != .unknown &&
+                    (entry.product is NonConsumableProduct || entry.product is SubscriptionProduct) {
                 alertController.addAction(UIAlertAction(title: "Simulate unknown", style: .default, handler: { _ in
-                    overrideTracker.overridePurchase(productID: entry.product.productID, with: .unknown)
+                    switch entry.product {
+                        case let nonConsumableProduct as NonConsumableProduct:
+                            overrideTracker.overridePurchase(product: nonConsumableProduct, with: .unknown)
+                        case let subscriptionProduct as SubscriptionProduct:
+                            overrideTracker.overridePurchase(product: subscriptionProduct, with: .unknown)
+                        default:
+                            flintBug("We should not be able to remove overrides on product type: \(entry.product)")
+                            break
+                    }
                     self.refresh()
                 }))
             }

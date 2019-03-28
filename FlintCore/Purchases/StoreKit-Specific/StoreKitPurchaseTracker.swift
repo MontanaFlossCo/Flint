@@ -78,12 +78,20 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     }
 
     /// Called to see if a specific product has been purchased
-    public func isPurchased(_ productID: String) -> Bool? {
-        if let productStatus = purchases[productID] {
+    public func isPurchased(_ product: NonConsumableProduct) -> Bool? {
+        if let productStatus = purchases[product.productID] {
             return productStatus.isPurchased
         } else {
             return nil
         }
+    }
+
+    public func isSubscriptionActive(_ product: SubscriptionProduct) -> Bool? {
+        return nil
+    }
+    
+    public func isFeatureEnabledByPastPurchases(_ feature: FeatureDefinition.Type) -> Bool {
+        return false
     }
 
     /// Indicate the purchase was successful, and store this fact
@@ -124,7 +132,15 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
             logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier != nil ? transaction.transactionIdentifier! : "nil") for payment of product \(transaction.payment.productIdentifier) with quantity \(transaction.payment.quantity)")
             
             let productID = transaction.payment.productIdentifier
-
+            guard let product = Product.productByID(productID) else {
+                logger?.error("Transaction updated for product ID not registered as a Product, will not store the fact this is purchased: \(productID)")
+                continue
+            }
+            guard product is NonConsumableProduct else {
+                logger?.error("Transaction updated for product ID that is not a non-consumable, will not store the fact this is purchased: \(productID)")
+                continue
+            }
+            
             /// !!! TODO: At least salt and hash the product IDs to make it harder to hack?
             switch transaction.transactionState {
                 case .purchased, .restored:

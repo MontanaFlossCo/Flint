@@ -476,7 +476,9 @@ extension Flint {
             permissionChecker = DefaultPermissionChecker()
         }
         
-        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: _permissionChecker, purchaseTracker: purchaseTracker, userToggles: userFeatureToggles)
+        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: _permissionChecker,
+                                                                  purchaseTracker: purchaseTracker,
+                                                                  userToggles: userFeatureToggles)
         
         if availabilityChecker == nil {
             availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: _constraintsEvaluator)

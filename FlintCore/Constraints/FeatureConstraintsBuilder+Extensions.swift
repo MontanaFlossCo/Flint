@@ -24,17 +24,70 @@ public extension FeatureConstraintsBuilder {
         }
     }
 
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// any of the listed requirements will fulfil the requirement. Used for mixing non-consumable and consumable requirements:
+    ///
+    /// ```
+    /// requirements.purchase(anyOf: .init(nonConsumableProduct), .init(creditsProduct, quantity: 5))
+    /// ```
+    public func purchase(anyOf requirements: PurchaseRequirement...) {
+        purchase(PurchaseRequirement(products: [], quantity: nil, matchingCriteria: .any, dependencies:requirements))
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// all of the listed requirements must be fulfilled to fulfil the requirement. Used for mixing non-consumable and consumable requirements:
+    ///
+    /// ```
+    /// requirements.purchase(allOf: .init(nonConsumableProduct), .init(creditsProduct, quantity: 5))
+    /// ```
+    public func purchase(allOf requirements: PurchaseRequirement...) {
+        purchase(PurchaseRequirement(products: [], quantity: nil, matchingCriteria: .all, dependencies:requirements))
+    }
+    
     /// Call to declare a product that your feature requires
-    public func purchase(_ product: Product) {
+    public func purchase(_ product: NonConsumableProduct) {
         purchase(PurchaseRequirement(product))
     }
 
-    /// Call to declare a list of products that your feature requires
-    public func purchases(_ products: Product...) {
-        for product in products {
-            purchase(PurchaseRequirement(product))
-        }
+    /// Call to declare a product that your feature requires
+    public func purchase(_ product: ConsumableProduct, quantity: UInt) {
+        purchase(PurchaseRequirement(product, quantity: quantity))
     }
+
+    /// Call to declare a product that your feature requires
+    public func purchase(_ product: SubscriptionProduct) {
+        purchase(PurchaseRequirement(product))
+    }
+
+    /// Call to declare a list of products that your feature requires. All must be purchased for the constraint to be met
+    public func purchases(_ products: NonConsumableProduct...) {
+        purchase(PurchaseRequirement(products: Set(products), matchingCriteria: .all))
+    }
+
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// any of the listed purchases will fulfil the requirement
+    public func purchase(anyOf products: Set<NoQuantityProduct>) {
+        purchase(PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .any))
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// any of the listed purchases will fulfil the requirement
+    public func purchase(anyOf products: NoQuantityProduct...) {
+        purchase(PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .any))
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// all of the listed purchases will fulfil the requirement
+    public func purchase(allOf products: NoQuantityProduct...) {
+        purchase(PurchaseRequirement(products: Set(products), quantity: nil, matchingCriteria: .all))
+    }
+    
+    /// Convenience function for use when constructing constraints in the constraints builder, where
+    /// all of the listed purchases will fulfil the requirement
+    public func purchase(allOf products: Set<NoQuantityProduct>) {
+        purchase(PurchaseRequirement(products: products, quantity: nil, matchingCriteria: .all))
+    }
+    
 }
 
 /// Platform versions

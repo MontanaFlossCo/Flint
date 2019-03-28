@@ -203,16 +203,16 @@ class DefaultAvailabilityCheckerTests: XCTestCase {
 }
 
 
-fileprivate let productA = Product(name: "Product A", description: "This is product A", productID: "PROD-A")
-fileprivate let productB = Product(name: "Product B", description: "This is product B", productID: "PROD-B")
-fileprivate let productC = Product(name: "Product C", description: "This is product C", productID: "PROD-C")
-fileprivate let productD = Product(name: "Product D", description: "This is product D", productID: "PROD-D")
+fileprivate let productA = NonConsumableProduct(name: "Product A", description: "This is product A", productID: "PROD-A")
+fileprivate let productB = NonConsumableProduct(name: "Product B", description: "This is product B", productID: "PROD-B")
+fileprivate let productC = NonConsumableProduct(name: "Product C", description: "This is product C", productID: "PROD-C")
+fileprivate let productD = NonConsumableProduct(name: "Product D", description: "This is product D", productID: "PROD-D")
 
 final private class ConditionalFeatureA: ConditionalFeature {
     static var description: String = ""
 
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productA))
+        requirements.purchase(productA)
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -223,7 +223,7 @@ final private class ConditionalFeatureB: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productB))
+        requirements.purchase(productB)
     }
 
     static func prepare(actions: FeatureActionsBuilder) {
@@ -247,7 +247,7 @@ final private class ConditionalFeatureC: ConditionalFeature {
     static var description: String = ""
     
     static func constraints(requirements: FeatureConstraintsBuilder) {
-        requirements.purchase(PurchaseRequirement(productD))
+        requirements.purchase(productD)
     }
     
     static func prepare(actions: FeatureActionsBuilder) {
