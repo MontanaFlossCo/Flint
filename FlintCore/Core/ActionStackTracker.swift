@@ -147,7 +147,7 @@ extension ActionStackTracker {
 }
 
 public extension ActionStackTracker {
-    public func copyReport(to path: URL, options: Set<DebugReportOption>) {
+    func copyReport(to path: URL, options: Set<DebugReportOption>) {
         var data = Data()
         let userInitiatedOnly = options.contains(.userInitiatedOnly)
         let filename = options.contains(.machineReadableFormat) ? "action_stacks.json" : "action_stacks.txt"

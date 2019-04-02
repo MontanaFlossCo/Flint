@@ -95,7 +95,7 @@ public extension FeatureDefinition {
     ///
     /// - param activity: A string that identifies the kind of activity that will be generating log entries, e.g. "bg upload"
     /// - return: A `Logs` value which contains development and production loggers as appropriate at runtime.
-    public static func logs(for activity: String) -> ContextualLoggers {
+    static func logs(for activity: String) -> ContextualLoggers {
         let development: ContextSpecificLogger?
         if let factory = Logging.development {
             development = factory.contextualLogger(with: activity, topicPath: self.identifier)
@@ -114,13 +114,13 @@ public extension FeatureDefinition {
     }
     
     /// Convenience function to set the level of logging for this feature and subfeatures
-    public static func setLoggingLevel(_ level: LoggerLevel) {
+    static func setLoggingLevel(_ level: LoggerLevel) {
         Logging.development?.setLevel(for: self.identifier, to: level)
         Logging.production?.setLevel(for: self.identifier, to: level)
     }
 
     /// Convenience function to turn off logging for this feature and subfeatures
-    public static func disableLogging() {
+    static func disableLogging() {
         setLoggingLevel(.none)
     }
 }

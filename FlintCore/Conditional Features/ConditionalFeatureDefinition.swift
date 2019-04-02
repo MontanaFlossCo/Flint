@@ -40,7 +40,7 @@ public extension ConditionalFeatureDefinition {
     /// - note: It is safe to invoke this from any thread or queue
     /// - see: `AvailabilityChecker`
     static var isAvailable: Bool? {
-        return Flint.availabilityChecker?.isAvailable(self)
+        return Flint.availabilityChecker.isAvailable(self)
     }
 
     /// Get a human readable description of what constraints are not currently satisfied and hence preventing
@@ -68,7 +68,7 @@ public extension ConditionalFeatureDefinition {
     }
     
     /// Access information about the permissions required by this feature
-    public static var permissions: FeaturePermissionRequirements {
+    static var permissions: FeaturePermissionRequirements {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         
         func _filter(_ permissions: Set<SystemPermissionConstraint>, onStatus matchingStatus: SystemPermissionStatus) -> Set<SystemPermissionConstraint> {
@@ -90,7 +90,7 @@ public extension ConditionalFeatureDefinition {
     }
     
     /// Access information about the purchases required by this feature
-    public static var purchases: FeaturePurchaseRequirements {
+    static var purchases: FeaturePurchaseRequirements {
         // Ugly implementation of this for now until we patch up `FeatureConstraints` internals
         func _extractPurchaseRequirements(_ preconditions: Set<FeaturePreconditionConstraint>) -> Set<PurchaseRequirement> {
             let requirements: [PurchaseRequirement] = preconditions.compactMap {
@@ -115,7 +115,7 @@ public extension ConditionalFeatureDefinition {
     
     /// - return: `true` if this feature is currently disabled at least in part because the user has not toggled it ON
     /// via the Flint user toggles API
-    public static var requiresUserToggle: Bool {
+    static var requiresUserToggle: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
             if case .userToggled = $0 {
@@ -134,7 +134,7 @@ public extension ConditionalFeatureDefinition {
     
     /// - return: `true` if this feature is currently disabled at least in part because it requires runtime status
     /// of `isEnabled` to return `true` and it is not currently.
-    public static var requiresRuntimeEnabled: Bool {
+    static var requiresRuntimeEnabled: Bool {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         let preconditionMatching = constraints.preconditions.notSatisfied.first {
             if case .runtimeEnabled = $0 {
@@ -152,7 +152,7 @@ public extension ConditionalFeatureDefinition {
     }
     
     /// Request permissions for all unauthorised permission requirements, using the supplied presenter
-    public static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
+    static func permissionAuthorisationController(using coordinator: PermissionAuthorisationCoordinator?) -> AuthorisationController? {
         let constraints = Flint.constraintsEvaluator.evaluate(for: self)
         guard constraints.permissions.notDetermined.count > 0 else {
             return nil

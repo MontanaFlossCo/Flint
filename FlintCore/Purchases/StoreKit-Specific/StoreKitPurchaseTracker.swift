@@ -59,7 +59,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
         super.init()
 
         logger?.debug("Loading purchases")
-        try purchaseStore.load().forEach { purchases[$0.productID] = $0 }
+        purchaseStore.load().forEach { purchases[$0.productID] = $0 }
 
         SKPaymentQueue.default().add(self)
     }
