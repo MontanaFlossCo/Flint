@@ -55,6 +55,7 @@ typealias DummyIntentResponse = FlintIntentResponse
 final class DummyIntentAction: IntentAction {
     typealias IntentType = DummyIntent
     typealias PresenterType = IntentResponsePresenter<DummyIntentResponse>
+    typealias IntentResponseType = DummyIntentResponse
     
     static func intent(for input: DummyIntentAction.InputType) -> DummyIntent? {
         return DummyIntent()
@@ -64,7 +65,7 @@ final class DummyIntentAction: IntentAction {
         return NoInput.none
     }
     
-    static func perform(context: ActionContext<NoInput>, presenter: DummyIntentAction.PresenterType, completion: Action.Completion) -> Action.Completion.Status {
+    static func perform(context: ActionContext<NoInput>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {
         return completion.completedSync(.successWithFeatureTermination)
     }
 }

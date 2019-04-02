@@ -49,6 +49,16 @@ final public class Flint {
                 return checker
             } else {
                 let checker = DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
+
+                // Set up invalidation of availability with sources change
+                let preconditionChangeObserver = PreconditionChangeObserver(invalidationHandler: {
+                    checker.invalidate()
+                })
+                purchaseTracker?.addObserver(preconditionChangeObserver)
+                userFeatureToggles.addObserver(preconditionChangeObserver)
+                permissionChecker?.delegate = preconditionChangeObserver
+                Flint.preconditionChangeObserver = preconditionChangeObserver
+                
                 _availabilityChecker = checker
                 return checker
             }
@@ -250,7 +260,7 @@ final public class Flint {
             let builder = DefaultFeatureConstraintsBuilder()
             let constraints = builder.build(conditionalFeature.constraints)
 
-            _constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+            constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
 
             // Collate the required products into metadata
             var products: Set<Product> = []
@@ -515,14 +525,6 @@ extension Flint {
     /// after all other features have been prepared
     static func commonSetup() {
         setupLinkCreator()
-        
-        // Set up invalidation of availability with sources change
-        preconditionChangeObserver = PreconditionChangeObserver(invalidationHandler: {
-            self.availabilityChecker.invalidate()
-        })
-        purchaseTracker?.addObserver(preconditionChangeObserver!)
-        userFeatureToggles.addObserver(preconditionChangeObserver!)
-        _permissionChecker?.delegate = preconditionChangeObserver
         
         register(group: FlintFeatures.self)
         
