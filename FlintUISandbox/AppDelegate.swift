@@ -60,9 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fileOutput = try! FileLoggerOutput(name: "uisandbox")
         Logging.setLoggerOutputs(development: [fileOutput], level: .debug, production: nil, level: .none)
 
-        let storeKitTracker = try! StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
-        Flint.purchaseTracker = DebugPurchaseTracker(targetPurchaseTracker: storeKitTracker)
-        Flint.setup(FakeFeatures.self)
+        Flint.setup(FakeFeatures.self) { dependencies in
+            let storeKitTracker = try! StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
+            dependencies.purchaseTracker = DebugPurchaseTracker(targetPurchaseTracker: storeKitTracker)
+        }
+    
         Flint.register(group: FlintUIFeatures.self)
         
         // Spit out a fake action every few seconds
