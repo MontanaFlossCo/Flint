@@ -17,7 +17,7 @@ public protocol SystemPermissionCheckerDelegate: AnyObject {
 /// Implementations must be safe to call from any thread.
 ///
 /// - see: `DefaultPermissionChecker`
-public protocol SystemPermissionChecker {
+public protocol SystemPermissionChecker: AnyObject {
     var delegate: SystemPermissionCheckerDelegate? { get set }
     
     /// Must return `true` only if all the permissions are authorised

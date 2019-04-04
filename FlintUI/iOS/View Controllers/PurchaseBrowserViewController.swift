@@ -175,6 +175,10 @@ public class PurchaseBrowserViewController: UITableViewController {
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         }
         
+        let sourceFrame = tableView.cellForRow(at: indexPath)!.frame
+        let popoverSourceFrame = CGRect(x: sourceFrame.midX, y: sourceFrame.midY, width: 44, height: 44)
+        alertController.popoverPresentationController?.sourceView = tableView
+        alertController.popoverPresentationController?.sourceRect = popoverSourceFrame
         present(alertController, animated: true)
     }
     

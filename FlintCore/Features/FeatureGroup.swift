@@ -29,10 +29,10 @@ public protocol FeatureGroup: FeatureDefinition {
 
 public extension FeatureGroup {
     /// Normally a feature group has no initialisation to do, so we remove the requirement to implement this.
-    public static func prepare(actions: FeatureActionsBuilder) {
+    static func prepare(actions: FeatureActionsBuilder) {
     }
 
-    public static var description: String {
+    static var description: String {
         return "A feature group"
     }
 }

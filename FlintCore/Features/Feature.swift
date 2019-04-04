@@ -52,14 +52,14 @@ public protocol Feature: FeatureDefinition {
 public extension Feature {
 
     /// Function for binding a feature and action pair, to restrict how this can be done externally by app code.
-    public static func action<ActionType>(_ action: ActionType.Type) -> StaticActionBinding<Self, ActionType> {
+    static func action<ActionType>(_ action: ActionType.Type) -> StaticActionBinding<Self, ActionType> {
         return StaticActionBinding<Self, ActionType>()
     }
 
     /// Function for binding a feature and action pair, to restrict how this can be done externally by app code.
 #if canImport(Intents) && os(iOS)
     @available(iOS 12, *)
-    public static func action<ActionType>(_ action: ActionType.Type) -> StaticActionBinding<Self, ActionType> where ActionType: IntentAction {
+    static func action<ActionType>(_ action: ActionType.Type) -> StaticActionBinding<Self, ActionType> where ActionType: IntentAction {
         return StaticActionBinding<Self, ActionType>()
     }
 #endif

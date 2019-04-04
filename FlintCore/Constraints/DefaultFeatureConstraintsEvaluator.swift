@@ -10,13 +10,14 @@ import Foundation
 
 /// This is the implementation of the constraints evaluator.
 ///
-/// It is threadsafe, you may call this from any thread
+/// It is threadsafe in that you may call this from any thread.
 public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
     var constraintsByFeature: [FeaturePath:DeclaredFeatureConstraints] = [:]
-    var purchaseEvaluator: FeaturePreconditionConstraintEvaluator?
-    var runtimeEvaluator: FeaturePreconditionConstraintEvaluator = RuntimePreconditionEvaluator()
-    var userToggleEvaluator: FeaturePreconditionConstraintEvaluator?
+    let purchaseEvaluator: FeaturePreconditionConstraintEvaluator?
+    let runtimeEvaluator: FeaturePreconditionConstraintEvaluator = RuntimePreconditionEvaluator()
+    let userToggleEvaluator: FeaturePreconditionConstraintEvaluator?
     let permissionChecker: SystemPermissionChecker
+
     lazy var accessQueue = {
         return SmartDispatchQueue(queue: DispatchQueue(label: "tools.flint.DefaultFeatureConstraintsEvaluator"))
     }()
@@ -25,9 +26,13 @@ public class DefaultFeatureConstraintsEvaluator: ConstraintsEvaluator {
         self.permissionChecker = permissionChecker
         if let purchaseTracker = purchaseTracker {
             purchaseEvaluator = PurchasePreconditionEvaluator(purchaseTracker: purchaseTracker)
+        } else {
+            purchaseEvaluator = nil
         }
         if let userToggles = userToggles {
             userToggleEvaluator = UserTogglePreconditionEvaluator(userToggles: userToggles)
+        } else {
+            userToggleEvaluator = nil
         }
     }
     

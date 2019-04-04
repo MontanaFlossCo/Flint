@@ -17,6 +17,7 @@ import ClassKit
 import Intents
 #endif
 
+
 /// This is the Flint class, with entry points for application-level convenience functions and metadata.
 ///
 /// Your application must call `Flint.quickSetup` or `Flint.setup` at startup to bootstrap the Feature & Action declarations,
@@ -26,6 +27,24 @@ import Intents
 final public class Flint {
 
     // MARK: Dependencies
+
+    public class DependenciesConfig {
+        public var permissionChecker: SystemPermissionChecker? = nil
+        public var availabilityChecker: AvailabilityChecker? = nil
+        public var constraintsEvaluator: ConstraintsEvaluator? = nil
+        public var userFeatureToggles: UserFeatureToggles? = nil
+        public var purchaseTracker: PurchaseTracker? = nil
+    }
+
+    public struct Dependencies {
+        public let permissionChecker: SystemPermissionChecker
+        public let availabilityChecker: AvailabilityChecker
+        public let constraintsEvaluator: ConstraintsEvaluator
+        public let userFeatureToggles: UserFeatureToggles?
+        public let purchaseTracker: PurchaseTracker?
+    }
+    
+    public private(set) static var dependencies: Dependencies?
     
     /// The default link generator to use when creating automatic links to actions for Activities and so on.
     /// This is populated by default in `quickSetup` with a generator that uses the first app scheme and first domain.
@@ -42,40 +61,48 @@ final public class Flint {
     public static var dispatcher: ActionDispatcher = DefaultActionDispatcher()
     
     /// The availability checker for conditional features
-    public static var availabilityChecker: AvailabilityChecker!
+    public static var availabilityChecker: AvailabilityChecker {
+        guard let dependencies = dependencies else {
+            flintUsageError("Dependencies are not configured")
+        }
+        return dependencies.availabilityChecker
+    }
     
     /// The permission checker to verify availability of system permissions. You should not need to replace this
     /// unless you are writing tests and want a mock instance
-    private static var _permissionChecker: SystemPermissionChecker!
-    public static var permissionChecker: SystemPermissionChecker! {
-        get {
-            requiresSetup()
-            return _permissionChecker
+    public static var permissionChecker: SystemPermissionChecker {
+        guard let dependencies = dependencies else {
+            flintUsageError("Dependencies are not configured")
         }
-        set {
-            _permissionChecker = newValue
-        }
+        return dependencies.permissionChecker
     }
 
     /// The constraints evaluator used to define the constraints on features
-    private static var _constraintsEvaluator: ConstraintsEvaluator!
-    public static var constraintsEvaluator: ConstraintsEvaluator! {
-        get {
-            requiresSetup()
-            return _constraintsEvaluator
+    public static var constraintsEvaluator: ConstraintsEvaluator {
+        guard let dependencies = dependencies else {
+            flintUsageError("Dependencies are not configured")
         }
-        set {
-            _constraintsEvaluator = newValue
-        }
+        return dependencies.constraintsEvaluator
     }
-    
+
+
     /// The user feature toggles implementation. By default it will use `UserDefaults` for this, replace with your
     /// own implementation if you'd like to store these elsewhere.
-    public static var userFeatureToggles: UserFeatureToggles!
+    public static var userFeatureToggles: UserFeatureToggles? {
+        guard let dependencies = dependencies else {
+            flintUsageError("Dependencies are not configured")
+        }
+        return dependencies.userFeatureToggles
+    }
 
     /// The purchase tracker to use to verify purchased products. Replace this with your own implementation if
-    /// the Fling StoreKit tracker is not sufficient.
-    public static var purchaseTracker: PurchaseTracker?
+    /// the Flint StoreKit tracker is not sufficient.
+    public static var purchaseTracker: PurchaseTracker?  {
+        guard let dependencies = dependencies else {
+            flintUsageError("Dependencies are not configured")
+        }
+        return dependencies.purchaseTracker
+    }
 
     // MARK: Metadata
     
@@ -126,7 +153,7 @@ final public class Flint {
     /// - param initialProductionLogLevel: The default log level for production logging. Default if not specified is `.info`
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
-                                  initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true) {
+                                  initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true, configuration: ((_ dependencies: DependenciesConfig) -> Void)? = nil) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDevelopmentLogLevel: initialDebugLogLevel,
@@ -140,16 +167,32 @@ final public class Flint {
 
         ActionSession.quickSetupMainSession()
 
-        commonSetup()
-        register(group: group)
+        setup(group, configuration: { (_ dependencies: DependenciesConfig) in
+            // Delegate to the config closure if supplied
+            if let handler = configuration {
+                handler(dependencies)
+            }
+            
+            // Apply any smart defaults that quickSetup should provide
+
+#if !os(watchOS)
+            if dependencies.purchaseTracker == nil {
+                dependencies.purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
+            }
+#endif
+
+            if dependencies.userFeatureToggles == nil {
+                dependencies.userFeatureToggles = UserDefaultsFeatureToggles()
+            }
+        })
     }
     
     /// Call to set up your application features and Flint's internal features.
     ///
     /// Use this only if you have manually configured your logging and action sessions.
-    public static func setup(_ group: FeatureGroup.Type) {
+    public static func setup(_ group: FeatureGroup.Type, configuration: ((_ dependencies: DependenciesConfig) -> Void)? = nil) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
-        commonSetup()
+        commonSetup(configuration: configuration)
         register(group: group)
     }
     
@@ -193,7 +236,7 @@ final public class Flint {
             let builder = DefaultFeatureConstraintsBuilder()
             let constraints = builder.build(conditionalFeature.constraints)
 
-            _constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
+            constraintsEvaluator.set(constraints: constraints, for: conditionalFeature)
 
             // Collate the required products into metadata
             var products: Set<Product> = []
@@ -456,38 +499,42 @@ extension Flint {
 
     /// This must always be called at startup, via one of the public setup functions,
     /// after all other features have been prepared
-    static func commonSetup() {
-        setupLinkCreator()
-        
-#if !os(watchOS)
-        if userFeatureToggles == nil {
-            userFeatureToggles = UserDefaultsFeatureToggles()
-        }
-        if purchaseTracker == nil {
-            purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
-        }
-#else
-        if userFeatureToggles == nil {
-            userFeatureToggles = UserDefaultsFeatureToggles()
-        }
-#endif
-        
-        if _permissionChecker == nil {
-            permissionChecker = DefaultPermissionChecker()
+    static func commonSetup(configuration: ((_ dependencies: DependenciesConfig) -> Void)? = nil) {
+        let dependenciesConfig = DependenciesConfig()
+        if let handler = configuration {
+            handler(dependenciesConfig)
         }
         
-        constraintsEvaluator = DefaultFeatureConstraintsEvaluator(permissionChecker: _permissionChecker,
-                                                                  purchaseTracker: purchaseTracker,
-                                                                  userToggles: userFeatureToggles)
+        // Copy any dependencies out
         
-        if availabilityChecker == nil {
-            availabilityChecker = DefaultAvailabilityChecker(constraintsEvaluator: _constraintsEvaluator)
-        }
+        let permissionChecker: SystemPermissionChecker = dependenciesConfig.permissionChecker ?? DefaultPermissionChecker()
+        
+        let constraintsEvaluator: ConstraintsEvaluator = dependenciesConfig.constraintsEvaluator ?? DefaultFeatureConstraintsEvaluator(
+            permissionChecker: permissionChecker,
+            purchaseTracker: dependenciesConfig.purchaseTracker,
+            userToggles: dependenciesConfig.userFeatureToggles)
 
-        preconditionChangeObserver = PreconditionChangeObserver(availabilityChecker: availabilityChecker)
-        purchaseTracker?.addObserver(preconditionChangeObserver!)
-        userFeatureToggles.addObserver(preconditionChangeObserver!)
-        _permissionChecker?.delegate = preconditionChangeObserver
+        let availabilityChecker: AvailabilityChecker = dependenciesConfig.availabilityChecker ?? DefaultAvailabilityChecker(constraintsEvaluator: constraintsEvaluator)
+
+        let dependencies = Dependencies(permissionChecker: permissionChecker,
+                                    availabilityChecker: availabilityChecker,
+                                    constraintsEvaluator: constraintsEvaluator,
+                                    userFeatureToggles: dependenciesConfig.userFeatureToggles,
+                                    purchaseTracker: dependenciesConfig.purchaseTracker)
+        
+        self.dependencies = dependencies
+        
+        // Set up invalidation of availability with sources change
+        let preconditionChangeObserver = PreconditionChangeObserver(invalidationHandler: {
+            availabilityChecker.invalidate()
+        })
+        
+        dependencies.purchaseTracker?.addObserver(preconditionChangeObserver)
+        dependencies.userFeatureToggles?.addObserver(preconditionChangeObserver)
+        dependencies.permissionChecker.delegate = preconditionChangeObserver
+        Flint.preconditionChangeObserver = preconditionChangeObserver
+
+        setupLinkCreator()
         
         register(group: FlintFeatures.self)
         
@@ -504,7 +551,7 @@ extension Flint {
         
         // Don't create a link creator unless we can do _something_ with it, so that advisories can come out if
         // the dev actually tries to create links without setting up the app properly
-        if defaultScheme != nil || defaultDomain != nil {
+        if linkCreator == nil && (defaultScheme != nil || defaultDomain != nil) {
             linkCreator = LinkCreator(scheme: defaultScheme, domain: defaultDomain)
         }
     }
@@ -616,32 +663,31 @@ public extension Flint {
             allFeatures = []
             featureParents = [:]
         }
-        availabilityChecker = nil
-        permissionChecker = nil
-        constraintsEvaluator = nil
+        dependencies = nil
+
         isSetup = false
     }
 }
 
 class PreconditionChangeObserver: PurchaseTrackerObserver, UserFeatureTogglesObserver, SystemPermissionCheckerDelegate {
-    let availabilityChecker: AvailabilityChecker
+    let invalidationHandler: () -> Void
     
-    init(availabilityChecker: AvailabilityChecker) {
-        self.availabilityChecker = availabilityChecker
+    init(invalidationHandler: @escaping () -> Void) {
+        self.invalidationHandler = invalidationHandler
     }
     
     func purchaseStatusDidChange(productID: String, isPurchased: Bool) {
-        // Note that thread we are notified on does not matter here, availability is threadsafe
-        availabilityChecker.invalidate()
+        // Note that thread we are notified on does not matter here, invalidation is threadsafe
+        invalidationHandler()
     }
     
     func userFeatureTogglesDidChange() {
-        // Note that thread we are notified on does not matter here, availability is threadsafe
-        availabilityChecker.invalidate()
+        // Note that thread we are notified on does not matter here, invalidation is threadsafe
+        invalidationHandler()
     }
     
     func permissionStatusDidChange(_ permission: SystemPermissionConstraint) {
-        // Note that thread we are notified on does not matter here, availability is threadsafe
-        availabilityChecker.invalidate()
+        // Note that thread we are notified on does not matter here, invalidation is threadsafe
+        invalidationHandler()
     }
 }

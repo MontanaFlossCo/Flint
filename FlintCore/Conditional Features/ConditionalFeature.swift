@@ -54,7 +54,7 @@ public extension ConditionalFeature {
     /// If so, returns a request that can be used to perform the action, otherwise `nil`.
     ///
     /// The default `isAvailable` implementation will delegate to the `AvailabilityChecker` to see if the feature is available.
-    public static func request<ActionType>(_ actionBinding: ConditionalActionBinding<Self, ActionType>) -> VerifiedActionBinding<Self, ActionType>? {
+    static func request<ActionType>(_ actionBinding: ConditionalActionBinding<Self, ActionType>) -> VerifiedActionBinding<Self, ActionType>? {
         // Sanity checks and footgun avoidance
         Flint.requiresSetup()
         Flint.requiresPrepared(feature: Self.self)
@@ -74,7 +74,7 @@ public extension ConditionalFeature {
     /// Function for binding a conditional feature and action pair, to restrict how this can be done externally by app code.
     ///
     /// - note: This exists only in an extension as it is not an extension point for features to override.
-    public static func action<ActionType>(_ action: ActionType.Type) -> ConditionalActionBinding<Self, ActionType> where ActionType: Action {
+    static func action<ActionType>(_ action: ActionType.Type) -> ConditionalActionBinding<Self, ActionType> where ActionType: Action {
         return ConditionalActionBinding<Self, ActionType>()
     }
 }

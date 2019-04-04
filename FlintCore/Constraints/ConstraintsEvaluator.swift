@@ -12,7 +12,7 @@ import Foundation
 ///
 /// Implementations are responsible for evaluating all the constraints and returning information about
 /// those that are satisfied or not.
-public protocol ConstraintsEvaluator {
+public protocol ConstraintsEvaluator: AnyObject {
     /// Return a human-readable descriptiong for the constraints of a single feature
     func description(for feature: ConditionalFeatureDefinition.Type) -> String
     

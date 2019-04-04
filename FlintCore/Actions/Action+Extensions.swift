@@ -66,7 +66,7 @@ public extension Action {
 
 /// Default implementation of the Siri and Intents requirements, to ease the out-of-box experience.
 public extension Action {
-    public static var suggestedInvocationPhrase: String? {
+    static var suggestedInvocationPhrase: String? {
         return nil
     }
 
