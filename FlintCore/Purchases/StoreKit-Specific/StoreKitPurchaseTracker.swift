@@ -42,6 +42,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     struct PurchaseStatus: Codable {
         let productID: String
         let isPurchased: Bool
+        let date: Date
     }
     
     /// Instantiate the StoreKit purchase tracker, storing the status of purchases
@@ -95,9 +96,15 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     }
 
     /// Indicate the purchase was successful, and store this fact
-    func didPurchase(_ productID: String) throws {
+    func didPurchase(_ productID: String, date: Date) throws {
         logger?.debug("Recording purchase of iTunes product ID: \(productID)")
-        purchases[productID] = PurchaseStatus(productID: productID, isPurchased: true)
+        // Only update status if it is newer than the old status
+        if let existingPurchase = purchases[productID] {
+            guard existingPurchase.date < date else {
+                return
+            }
+        }
+        purchases[productID] = PurchaseStatus(productID: productID, isPurchased: true, date: date)
         notifyChange(productID: productID, isPurchased: true)
         try save()
     }
@@ -125,8 +132,7 @@ public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
 extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
 
     /// A naïve implementation that assumes all success and restores enable a purchase,
-    /// and all failures and deferred remove them - to cater for expiring subscriptionas in a
-    /// simple way.
+    /// and all failures and deferred remove them. This only works for one-time purchases
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             logger?.debug("Transaction updated, status: \(transaction.transactionState.rawValue) id: \(transaction.transactionIdentifier != nil ? transaction.transactionIdentifier! : "nil") for payment of product \(transaction.payment.productIdentifier) with quantity \(transaction.payment.quantity)")
@@ -136,6 +142,8 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
                 logger?.error("Transaction updated for product ID not registered as a Product, will not store the fact this is purchased: \(productID)")
                 continue
             }
+            
+            // Make sure we don't do this for products that can't be supported, but don't crash
             guard product is NonConsumableProduct else {
                 logger?.error("Transaction updated for product ID that is not a non-consumable, will not store the fact this is purchased: \(productID)")
                 continue
@@ -145,7 +153,11 @@ extension StoreKitPurchaseTracker: SKPaymentTransactionObserver {
             switch transaction.transactionState {
                 case .purchased, .restored:
                     do {
-                        try didPurchase(productID)
+                        guard let date = transaction.transactionDate else {
+                            logger?.error("Failed to save purchase confirmation for \(productID), there was no transactionDate")
+                            return
+                        }
+                        try didPurchase(productID, date: date)
                     } catch let error {
                         logger?.error("Failed to save purchase confirmation for \(productID): \(error)")
                     }
