@@ -11,7 +11,7 @@ import Foundation
 /// Use a `PurchaseRequirement` to express the rules about what purchased products enable your Feature(s).
 ///
 /// You can express complex rules about how your Features are enabled using a graph of requirements.
-/// Each Feature can only have one requirement when using the `.purchaseRequired` availability value,
+/// Each Feature can have multiple purchase requirements (combined with AND),
 /// but one requirement can match one or all of a list of product IDs, as well as having dependencies on other requirements.
 ///
 /// With this you can express the following kinds of rules:
