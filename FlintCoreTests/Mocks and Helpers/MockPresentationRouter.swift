@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 class MockPresentationRouter: PresentationRouter {
     
     var dummyViewController = MockViewController()

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 // Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
 #if canImport(Network) && os(iOS)

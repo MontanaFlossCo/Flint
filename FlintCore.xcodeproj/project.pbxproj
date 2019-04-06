@@ -583,6 +583,7 @@
 		498F97742077846000209633 /* FocusArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F97722077846000209633 /* FocusArea.swift */; };
 		498F97752077846000209633 /* FocusArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F97722077846000209633 /* FocusArea.swift */; };
 		498F97762077846000209633 /* FocusArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F97722077846000209633 /* FocusArea.swift */; };
+		49925A592258F37200842011 /* FlintCore_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49925A582258F37200842011 /* FlintCore_iOSTests.swift */; };
 		49935BCA206AA80A00CB2B5D /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BC9206AA80A00CB2B5D /* LogEvent.swift */; };
 		49935BCC206B901800CB2B5D /* VerifiedActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */; };
 		49935BCD206B901800CB2B5D /* VerifiedActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */; };
@@ -693,7 +694,7 @@
 		49CCC96A2195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */; };
 		49CCF0B41F8BB1B200F7020E /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */; };
 		49CCF0B91F8BB1B200F7020E /* FlintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0B81F8BB1B200F7020E /* FlintTests.swift */; };
-		49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		49CCF0BB1F8BB1B200F7020E /* FlintCore_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CCF0AD1F8BB1B200F7020E /* FlintCore_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49CCF0CB1F8BB23B00F7020E /* FeatureDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0C91F8BB23600F7020E /* FeatureDefinition.swift */; };
 		49CCF0CC1F8BB23E00F7020E /* ActionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0CA1F8BB23600F7020E /* ActionDispatcher.swift */; };
 		49CCF0CD1F8BB24000F7020E /* ActionSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CCF0C81F8BB23600F7020E /* ActionSession.swift */; };
@@ -1038,6 +1039,7 @@
 		498F97682077832F00209633 /* DefaultFocusSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFocusSelection.swift; sourceTree = "<group>"; };
 		498F976D207783C500209633 /* FocusLogging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusLogging.swift; sourceTree = "<group>"; };
 		498F97722077846000209633 /* FocusArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusArea.swift; sourceTree = "<group>"; };
+		49925A582258F37200842011 /* FlintCore_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintCore_iOSTests.swift; sourceTree = "<group>"; };
 		49935BC9206AA80A00CB2B5D /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
 		49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedActionBinding.swift; sourceTree = "<group>"; };
 		49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEventContext.swift; sourceTree = "<group>"; };
@@ -1085,7 +1087,7 @@
 		49CC662F212332810042489F /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VerifiedActionBinding+Shortcut+Extensions.swift"; sourceTree = "<group>"; };
 		49CCF0AA1F8BB1B200F7020E /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		49CCF0AD1F8BB1B200F7020E /* FlintCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore.h; sourceTree = "<group>"; };
+		49CCF0AD1F8BB1B200F7020E /* FlintCore_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlintCore_iOS.h; sourceTree = "<group>"; };
 		49CCF0AE1F8BB1B200F7020E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CCF0B31F8BB1B200F7020E /* FlintCore-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FlintCore-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CCF0B81F8BB1B200F7020E /* FlintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintTests.swift; sourceTree = "<group>"; };
@@ -1538,6 +1540,24 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		49925A562258F27500842011 /* FlintCore-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				49CCF0AD1F8BB1B200F7020E /* FlintCore_iOS.h */,
+				49CCF0AE1F8BB1B200F7020E /* Info.plist */,
+			);
+			path = "FlintCore-iOS";
+			sourceTree = "<group>";
+		};
+		49925A572258F32E00842011 /* FlintCore-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
+				49925A582258F37200842011 /* FlintCore_iOSTests.swift */,
+			);
+			path = "FlintCore-iOSTests";
+			sourceTree = "<group>";
+		};
 		49935BC6206AA65C00CB2B5D /* Focus */ = {
 			isa = PBXGroup;
 			children = (
@@ -1609,6 +1629,8 @@
 				496267B31F8BC14D002C83F2 /* README.md */,
 				49CCF0AC1F8BB1B200F7020E /* FlintCore */,
 				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,
+				49925A562258F27500842011 /* FlintCore-iOS */,
+				49925A572258F32E00842011 /* FlintCore-iOSTests */,
 				496F8F08203EE9EA003AB29B /* FlintCore-tvOS */,
 				496F8F13203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F24203EEA06003AB29B /* FlintCore-macOS */,
@@ -1654,8 +1676,6 @@
 				49769248201F3E5000F97BD5 /* Conditional Features */,
 				498A89492067D1D800457D66 /* Actions */,
 				49CCF0C71F8BB20F00F7020E /* Core */,
-				49CCF0AD1F8BB1B200F7020E /* FlintCore.h */,
-				49CCF0AE1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCore;
 			sourceTree = "<group>";
@@ -1676,7 +1696,6 @@
 				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
 				49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */,
 				5A07465B21FEF282002FCD62 /* URLMappingRouterTests.swift */,
-				49CCF0BA1F8BB1B200F7020E /* Info.plist */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -1789,7 +1808,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49CCF0BB1F8BB1B200F7020E /* FlintCore.h in Headers */,
+				49CCF0BB1F8BB1B200F7020E /* FlintCore_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2918,6 +2937,7 @@
 				49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA1EBF21E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
+				49925A592258F37200842011 /* FlintCore_iOSTests.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				49CCF0B91F8BB1B200F7020E /* FlintTests.swift in Sources */,
@@ -3428,7 +3448,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = FlintCore/Info.plist;
+				INFOPLIST_FILE = "FlintCore-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
@@ -3457,7 +3477,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = FlintCore/Info.plist;
+				INFOPLIST_FILE = "FlintCore-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
@@ -3479,10 +3499,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = FlintCoreTests/Info.plist;
+				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintCore_iOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -3501,10 +3521,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = FlintCoreTests/Info.plist;
+				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintCore_iOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

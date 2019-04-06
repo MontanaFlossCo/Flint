@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "FlintCore"
   s.version      = "1.0.7"
-  s.summary      = "The Flint framework for building apps on Apple platforms using Feature Driven Development."
+  s.summary      = "The Flint framework for building apps using Feature Driven Development."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?

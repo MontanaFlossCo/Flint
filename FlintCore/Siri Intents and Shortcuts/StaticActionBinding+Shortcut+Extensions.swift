@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 #if canImport(Network) && os(iOS)
 extension StaticActionBinding {

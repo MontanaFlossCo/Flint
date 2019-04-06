@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double FlintCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char FlintCoreVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <FlintCore/PublicHeader.h>
-
-
