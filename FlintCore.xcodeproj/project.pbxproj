@@ -1215,9 +1215,20 @@
 			path = "StoreKit-Specific";
 			sourceTree = "<group>";
 		};
+		49074A0B2258FE8C00E2A975 /* UIKit-Specific */ = {
+			isa = PBXGroup;
+			children = (
+				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
+				49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */,
+				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
+			);
+			path = "UIKit-Specific";
+			sourceTree = "<group>";
+		};
 		491211BB2158FC6D00B199C4 /* Siri Intents and Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
+				49074A0B2258FE8C00E2A975 /* UIKit-Specific */,
 				4973856122272CDC00C47A66 /* Intents-Specific */,
 				491A348821E7E75800E81D58 /* IntentTypes.swift */,
 				491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */,
@@ -1367,10 +1378,7 @@
 			isa = PBXGroup;
 			children = (
 				491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */,
-				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
-				49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */,
 				491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */,
-				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
 			);
 			path = "Intents-Specific";
 			sourceTree = "<group>";
