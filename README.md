@@ -1,11 +1,11 @@
 <a href="https://flint.tools"><img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo"></a>
 
-![carthage compatible](https://img.shields.io/badge/carthage-compatible-lightgrey.svg?style=flat)
-![cocoapods compatible](https://img.shields.io/badge/cocoapods-compatible-lightgrey.svg?style=flat)
-![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5-lightgrey.svg?style=flat)
-![xcode 9.3-10.2](https://img.shields.io/badge/Xcode-9.3_to_10.2-lightgrey.svg?style=flat)
+![carthage compatible](https://img.shields.io/badge/carthage-compatible-brighttgreen.svg?style=flat)
+![cocoapods compatible](https://img.shields.io/badge/cocoapods-compatible-brighttgreen.svg?style=flat)
+![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5-blue.svg?style=flat)
+![xcode 9.3-10.2](https://img.shields.io/badge/Xcode-9.3_to_10.2-blue.svg?style=flat)
 
-![platforms iOS, macOS, tvOS, watchOS](https://img.shields.io/badge/platforms-iOS%2C%20tvOS%2C%20macOS%2C%20watchOS-lightgrey.svg)
+![platforms iOS, macOS, tvOS, watchOS](https://img.shields.io/badge/platforms-iOS%2C%20tvOS%2C%20macOS%2C%20watchOS-brighttgreen.svg)
 
 [![build status](https://travis-ci.org/MontanaFlossCo/Flint.svg?branch=master)](https://travis-ci.org/MontanaFlossCo/Flint)
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
