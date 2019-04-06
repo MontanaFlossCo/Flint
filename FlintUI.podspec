@@ -63,7 +63,6 @@ Debug UI for UIKit platforms to browse and update Flint debugging information
   #
 
   s.ios.deployment_target = '10.0'
-  s.tvos.deployment_target = '10.0'
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
