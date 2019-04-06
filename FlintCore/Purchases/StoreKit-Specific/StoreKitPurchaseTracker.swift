@@ -33,7 +33,7 @@ import StoreKit
 /// Feature that requires a purchase will not be enabled on watchOS.
 @available(iOS 3, tvOS 9, macOS 10.7, *)
 @objc
-public class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
+open class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     private let purchaseStore: SimplePurchaseStore
     private var observers = ObserverSet<PurchaseTrackerObserver>()
     private var purchases: [String:PurchaseStatus]
