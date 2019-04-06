@@ -49,7 +49,7 @@
 		491A348521E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */; };
 		491A348721E7E63600E81D58 /* DonateShortcutIntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */; };
 		491A348921E7E75800E81D58 /* IntentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348821E7E75800E81D58 /* IntentTypes.swift */; };
-		491A348B21E7E77D00E81D58 /* IntentResultPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */; };
+		491A348B21E7E77D00E81D58 /* IntentResponsePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */; };
 		492037522124D609005DDA29 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492037512124D609005DDA29 /* Photos.framework */; };
 		4921705420D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
 		4921705520D13B31007D6883 /* ActivityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921705320D13B31007D6883 /* ActivityBuilder.swift */; };
@@ -584,6 +584,9 @@
 		498F97752077846000209633 /* FocusArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F97722077846000209633 /* FocusArea.swift */; };
 		498F97762077846000209633 /* FocusArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F97722077846000209633 /* FocusArea.swift */; };
 		49925A592258F37200842011 /* FlintCore_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49925A582258F37200842011 /* FlintCore_iOSTests.swift */; };
+		49925A5A2258F9FB00842011 /* IntentResponsePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */; };
+		49925A5B2258F9FB00842011 /* IntentResponsePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */; };
+		49925A5C2258F9FC00842011 /* IntentResponsePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */; };
 		49935BCA206AA80A00CB2B5D /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BC9206AA80A00CB2B5D /* LogEvent.swift */; };
 		49935BCC206B901800CB2B5D /* VerifiedActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */; };
 		49935BCD206B901800CB2B5D /* VerifiedActionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */; };
@@ -896,7 +899,7 @@
 		491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutDonatingActionDispatchObserver.swift; sourceTree = "<group>"; };
 		491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateShortcutIntentAction.swift; sourceTree = "<group>"; };
 		491A348821E7E75800E81D58 /* IntentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentTypes.swift; sourceTree = "<group>"; };
-		491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentResultPresenter.swift; sourceTree = "<group>"; };
+		491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentResponsePresenter.swift; sourceTree = "<group>"; };
 		492037512124D609005DDA29 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		4921705320D13B31007D6883 /* ActivityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuilder.swift; sourceTree = "<group>"; };
 		4921705A20D25625007D6883 /* ActivityCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCodable.swift; sourceTree = "<group>"; };
@@ -1220,11 +1223,7 @@
 				491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */,
 				491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */,
 				4930281D215138660042DA96 /* IntentAction.swift */,
-				491A348A21E7E77D00E81D58 /* IntentResultPresenter.swift */,
-				491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */,
-				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
-				49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */,
-				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
+				491A348A21E7E77D00E81D58 /* IntentResponsePresenter.swift */,
 			);
 			path = "Siri Intents and Shortcuts";
 			sourceTree = "<group>";
@@ -1368,6 +1367,10 @@
 			isa = PBXGroup;
 			children = (
 				491A348621E7E63600E81D58 /* DonateShortcutIntentAction.swift */,
+				49A65E5120E1026E00A9F951 /* StaticActionBinding+Shortcut+Extensions.swift */,
+				49CCC9692195BB2800ED4C50 /* VerifiedActionBinding+Shortcut+Extensions.swift */,
+				491A348421E7E60C00E81D58 /* SiriShortcutDonatingActionDispatchObserver.swift */,
+				4901C97521F0D6B900910BDD /* VoiceShortcuts.swift */,
 			);
 			path = "Intents-Specific";
 			sourceTree = "<group>";
@@ -2121,6 +2124,7 @@
 				49DFB7D020A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				497175FF20ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				496F8FC2203EEBDA003AB29B /* ActionDispatcher.swift in Sources */,
+				49925A5A2258F9FB00842011 /* IntentResponsePresenter.swift in Sources */,
 				49298242205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59432098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
 				49FC460420A4792600679F97 /* Formatters.swift in Sources */,
@@ -2408,6 +2412,7 @@
 				496F8F89203EEBBB003AB29B /* ConditionalFeatureDefinition.swift in Sources */,
 				496F8F4E203EEBA6003AB29B /* AnalyticsReporting.swift in Sources */,
 				49FC45FC20A46F0900679F97 /* MappedActionResult.swift in Sources */,
+				49925A5B2258F9FB00842011 /* IntentResponsePresenter.swift in Sources */,
 				493267542142FA0E00CC88CB /* Archive+Writing.swift in Sources */,
 				4905C5D122105CF400890C11 /* DebugPurchaseTracker.swift in Sources */,
 				496F8F4D203EEBA6003AB29B /* ObserverSet.swift in Sources */,
@@ -2573,6 +2578,7 @@
 				49F6824720D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				49FC460E20A488B000679F97 /* DebugReporting.swift in Sources */,
 				496F8F73203EEBB2003AB29B /* TimelineEntry.swift in Sources */,
+				49925A5C2258F9FC00842011 /* IntentResponsePresenter.swift in Sources */,
 				495EED8621FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
 				496F8FEF203EEBDB003AB29B /* FlintAppInfo.swift in Sources */,
 				496136B42099004A00291885 /* SystemPermissionConstraint.swift in Sources */,
@@ -2924,7 +2930,7 @@
 				49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				498A89582069695100457D66 /* FocusFeature.swift in Sources */,
 				491211BD2158FC8E00B199C4 /* SiriIntentsFeature.swift in Sources */,
-				491A348B21E7E77D00E81D58 /* IntentResultPresenter.swift in Sources */,
+				491A348B21E7E77D00E81D58 /* IntentResponsePresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
