@@ -37,8 +37,9 @@ extension StaticActionBinding where ActionType: IntentAction {
     }
     
     public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
-        /// !!! TODO: We probably need a Result<T> here as nil could be valid
-        guard let inputFromIntent = ActionType.input(for: intent) else {
+        let input: ActionType.InputType? = ActionType.input(for: intent)
+        FlintInternal.logger?.debug("Action returned input for Intent \(intent): \(input)")
+        guard let inputFromIntent = input else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
 
