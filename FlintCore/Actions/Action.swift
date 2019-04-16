@@ -121,7 +121,8 @@ public protocol Action {
     /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut or registering an `NSUserActivity` for
     /// this action.
     ///
-    /// - note: This value is only used if your `activityEligibility` include `.prediction`.
+    /// - note: This value is only used if your `activityEligibility` include `.prediction`, or you when your action creates
+    /// an `INIntent` to donate.
     static var suggestedInvocationPhrase: String? { get }
     
 #if canImport(Intents)
