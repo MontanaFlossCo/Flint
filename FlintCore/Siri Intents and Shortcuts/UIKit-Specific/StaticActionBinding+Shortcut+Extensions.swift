@@ -8,6 +8,11 @@
 
 import Foundation
 import UIKit
+#if os(iOS)
+#if canImport(Intents)
+import Intents
+#endif
+#endif
 
 #if canImport(Network) && os(iOS)
 extension StaticActionBinding {
@@ -79,6 +84,15 @@ extension StaticActionBinding where ActionType: IntentAction {
     @available(iOS 12, *)
     public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter)
+    }
+
+    /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
+    @available(iOS 12, *)
+    public static func shortcut(input: ActionType.InputType) -> INShortcut? {
+        guard let shortcutIntent = ActionType.intent(for: input) else {
+            return nil
+        }
+        return INShortcut(intent: shortcutIntent)
     }
 
     /// Donate an intent-based shortcut that will invoke this `Action` to Siri for the given input.

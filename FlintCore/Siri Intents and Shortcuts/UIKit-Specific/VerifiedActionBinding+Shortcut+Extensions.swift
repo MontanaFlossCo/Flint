@@ -8,6 +8,11 @@
 
 import Foundation
 import UIKit
+#if os(iOS)
+#if canImport(Intents)
+import Intents
+#endif
+#endif
 
 // Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
 #if canImport(Network) && os(iOS)
@@ -77,13 +82,22 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// - note: This variant exists for the specialisation that will call `intent(for:)` on the Action to create an
     /// an intent for the shortcut.
     @available(iOS 12, *)
-    public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
+    public func addVoiceShortcut(input: ActionType.InputType, presenter: UIViewController) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter)
     }
     
+    /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
+    @available(iOS 12, *)
+    public static func shortcut(input: ActionType.InputType) -> INShortcut? {
+        guard let shortcutIntent = ActionType.intent(for: input) else {
+            return nil
+        }
+        return INShortcut(intent: shortcutIntent)
+    }
+
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
     @available(iOS 12, *)
-    public func donateToSiri(for input: ActionType.InputType) {
+    public func donateToSiri(input: ActionType.InputType) {
         guard let intent = ActionType.intent(for: input) else {
             flintUsageError("Cannot donate intent to Siri, action type \(ActionType.self) did not return an intent for input: \(input).")
         }
