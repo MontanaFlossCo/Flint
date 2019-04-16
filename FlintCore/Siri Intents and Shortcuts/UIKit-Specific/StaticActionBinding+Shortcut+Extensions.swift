@@ -88,7 +88,7 @@ extension StaticActionBinding where ActionType: IntentAction {
 
     /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
     @available(iOS 12, *)
-    public static func shortcut(input: ActionType.InputType) -> INShortcut? {
+    public func shortcut(input: ActionType.InputType) -> INShortcut? {
         guard let shortcutIntent = ActionType.intent(for: input) else {
             return nil
         }
