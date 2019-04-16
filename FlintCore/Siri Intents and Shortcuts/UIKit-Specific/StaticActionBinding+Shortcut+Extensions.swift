@@ -26,8 +26,10 @@ extension StaticActionBinding {
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller
     @available(iOS 12, *)
-    public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter)
+    public func addVoiceShortcut(for input: ActionType.InputType,
+                                 presenter: UIViewController,
+                                 completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) {
+        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter, completion: completion)
     }
 }
 
@@ -82,8 +84,23 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// - note: This variant exists for the specialisation that will call `intent(for:)` on the Action to create an
     /// an intent for the shortcut.
     @available(iOS 12, *)
-    public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter)
+    public func addVoiceShortcut(input: ActionType.InputType,
+                                 presenter: UIViewController,
+                                 completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) {
+        VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
+                                        feature: FeatureType.self,
+                                        for: input,
+                                        presenter: presenter,
+                                        completion: completion)
+    }
+
+    @available(iOS 12, *)
+    public func editVoiceShortcut(_ shortcut: INVoiceShortcut,
+                                  presenter: UIViewController,
+                                  completion: @escaping (_ shortcut: INVoiceShortcut?, _ deleted: Bool, _ error: Error?) -> Void) {
+        VoiceShortcuts.editVoiceShortcut(shortcut,
+                                         presenter: presenter,
+                                         completion: completion)
     }
 
     /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`

@@ -30,16 +30,24 @@ import IntentsUI
 /// - param presenter: The `UIViewController` to use to present the view controller
 class VoiceShortcuts {
     @available(iOS 12, *)
-    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type, feature: FeatureType.Type, for input: ActionType.InputType, presenter: UIViewController) where ActionType: Action, FeatureType: FeatureDefinition {
+    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
+                                                          feature: FeatureType.Type,
+                                                          for input: ActionType.InputType,
+                                                          presenter: UIViewController,
+                                                          completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) where ActionType: Action, FeatureType: FeatureDefinition {
         guard let activity = ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
             flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
         }
         let shortcut = INShortcut(userActivity: activity)
-        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter, completion: completion)
     }
 
     @available(iOS 12, *)
-    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type, feature: FeatureType.Type, for input: ActionType.InputType, presenter: UIViewController) where ActionType: IntentAction, FeatureType: FeatureDefinition {
+    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
+                                                          feature: FeatureType.Type,
+                                                          for input: ActionType.InputType,
+                                                          presenter: UIViewController,
+                                                          completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) where ActionType: IntentAction, FeatureType: FeatureDefinition {
         let shortcut: INShortcut
         if let intent = ActionType.intent(for: input) {
             guard let intentShortcut = INShortcut(intent: intent) else {
@@ -52,7 +60,14 @@ class VoiceShortcuts {
             }
             shortcut = INShortcut(userActivity: activity)
         }
-        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter, completion: completion)
+    }
+
+    @available(iOS 12, *)
+    static func editVoiceShortcut(_ voiceShortcut: INVoiceShortcut,
+                                  presenter: UIViewController,
+                                  completion: @escaping (_ shortcut: INVoiceShortcut?, _ deleted: Bool, _ error: Error?) -> Void) {
+        EditVoiceShortcutCoordinator.shared.show(for: voiceShortcut, with: presenter, completion: completion)
     }
 }
 
@@ -62,22 +77,71 @@ class VoiceShortcuts {
     static let shared = AddVoiceShortcutCoordinator()
     
     var addVoiceShortcutViewController: INUIAddVoiceShortcutViewController?
+    var completion: ((_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void)?
     
-    func show(for shortcut: INShortcut, with presenter: UIViewController) {
+    func show(for shortcut: INShortcut, with presenter: UIViewController, completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) {
         let addVoiceShortcutViewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
         addVoiceShortcutViewController.delegate = self
+        self.completion = completion
         presenter.present(addVoiceShortcutViewController, animated: true)
         self.addVoiceShortcutViewController = addVoiceShortcutViewController
     }
 
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
-        controller.presentingViewController?.dismiss(animated: true, completion: nil)
+        controller.presentingViewController?.dismiss(animated: true) { [weak self] in
+            self?.completion?(voiceShortcut, error)
+            self?.completion = nil
+        }
         addVoiceShortcutViewController = nil
     }
     
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
-        controller.presentingViewController?.dismiss(animated: true, completion: nil)
+        controller.presentingViewController?.dismiss(animated: true) { [weak self] in
+            self?.completion?(nil, nil)
+            self?.completion = nil
+        }
         addVoiceShortcutViewController = nil
+    }
+    
+}
+
+/// Internal type to handle delegation of the Edit Voice Shortcut UI.
+@available(iOS 12, *)
+@objc internal class EditVoiceShortcutCoordinator: NSObject, INUIEditVoiceShortcutViewControllerDelegate {
+    static let shared = EditVoiceShortcutCoordinator()
+    
+    var editVoiceShortcutViewController: INUIEditVoiceShortcutViewController?
+    var completion: ((_ shortcut: INVoiceShortcut?,_ deleted: Bool,  _ error: Error?) -> Void)?
+    
+    func show(for voiceShortcut: INVoiceShortcut, with presenter: UIViewController, completion: @escaping (_ shortcut: INVoiceShortcut?,_ deleted: Bool,  _ error: Error?) -> Void) {
+        let editVoiceShortcutViewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
+        editVoiceShortcutViewController.delegate = self
+        presenter.present(editVoiceShortcutViewController, animated: true)
+        self.editVoiceShortcutViewController = editVoiceShortcutViewController
+    }
+
+    func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
+        controller.presentingViewController?.dismiss(animated: true)  { [weak self] in
+            self?.completion?(nil, true, nil)
+            self?.completion = nil
+        }
+        editVoiceShortcutViewController = nil
+    }
+    
+    func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didUpdate voiceShortcut: INVoiceShortcut?, error: Error?) {
+        controller.presentingViewController?.dismiss(animated: true) { [weak self] in
+            self?.completion?(nil, false, nil)
+            self?.completion = nil
+        }
+        editVoiceShortcutViewController = nil
+    }
+    
+    func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
+        controller.presentingViewController?.dismiss(animated: true)  { [weak self] in
+            self?.completion?(nil, false, nil)
+            self?.completion = nil
+        }
+        editVoiceShortcutViewController = nil
     }
     
 }
