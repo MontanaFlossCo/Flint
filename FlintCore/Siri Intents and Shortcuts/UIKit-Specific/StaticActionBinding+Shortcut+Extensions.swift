@@ -28,7 +28,7 @@ extension StaticActionBinding {
     @available(iOS 12, *)
     public func addVoiceShortcut(for input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) {
+                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter, completion: completion)
     }
 }
@@ -86,7 +86,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     @available(iOS 12, *)
     public func addVoiceShortcut(input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ shortcut: INVoiceShortcut?, _ error: Error?) -> Void) {
+                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
                                         feature: FeatureType.self,
                                         for: input,
@@ -97,7 +97,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     @available(iOS 12, *)
     public func editVoiceShortcut(_ shortcut: INVoiceShortcut,
                                   presenter: UIViewController,
-                                  completion: @escaping (_ shortcut: INVoiceShortcut?, _ deleted: Bool, _ error: Error?) -> Void) {
+                                  completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
         VoiceShortcuts.editVoiceShortcut(shortcut,
                                          presenter: presenter,
                                          completion: completion)
