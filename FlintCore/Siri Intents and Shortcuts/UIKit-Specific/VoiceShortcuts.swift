@@ -145,6 +145,7 @@ class VoiceShortcuts {
     func show(for voiceShortcut: INVoiceShortcut, with presenter: UIViewController, completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
         let editVoiceShortcutViewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
         editVoiceShortcutViewController.delegate = self
+        self.completion = completion
         presenter.present(editVoiceShortcutViewController, animated: true)
         self.editVoiceShortcutViewController = editVoiceShortcutViewController
     }
