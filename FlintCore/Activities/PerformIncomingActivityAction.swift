@@ -18,10 +18,10 @@ final public class PerformIncomingActivityAction: UIAction {
         case noActivityTypeMappingFound
     }
     
-    /// Attempt to resolve the URL against a URL mapping, and execute the action.
+    /// Attempt to perform the action associated with this activity.
     ///
-    /// The completion outcome will fail with error `noURLMappingFound` if the URL does not map to anything
-    /// that Flint knows about.
+    /// The completion outcome will fail with an error if the activity does not map to anything
+    /// that Flint knows about using the `activityType`
     public static func perform(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
         context.logs.development?.debug("Finding action executor for activity: \(context.input.activityType), userInfo \(String(describing: context.input.userInfo))")
         
