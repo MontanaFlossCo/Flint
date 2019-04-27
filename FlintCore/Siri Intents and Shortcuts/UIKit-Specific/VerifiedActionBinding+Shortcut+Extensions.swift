@@ -121,6 +121,10 @@ extension VerifiedActionBinding where ActionType: IntentAction {
             intent.suggestedInvocationPhrase = ActionType.suggestedInvocationPhrase
         }
 
+        if intent.suggestedInvocationPhrase == nil {
+            flintAdvisoryNotice("Donating intent for \(ActionType.self) but suggestedInvocationPhrase is nil")
+        }
+        
         if let request = IntentShortcutDonationFeature.donateShortcut.request() {
             let intentWrapper = FlintIntentWrapper(intent: intent)
             request.perform(input: intentWrapper)

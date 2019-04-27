@@ -283,5 +283,13 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             let missingKeys = foundRequiredKeys.filter { !infoKeys.contains($0) }
             flintUsagePrecondition(missingKeys.count == 0, "Action for activity type '\(activity.activityType)' supplies userInfo in prepareActivity() but does not define all the keys required by requiredUserInfoKeys, missing values for: \(missingKeys)")
         }
+
+#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
+        if #available(iOS 12, watchOS 5, *) {
+            if activity.isEligibleForPrediction && activity.suggestedInvocationPhrase == nil {
+                flintAdvisoryNotice("Registering an activity eligible for prediction with \(ActionType.self) but suggestedInvocationPhrase is nil")
+            }
+        }
+#endif
     }
 }
