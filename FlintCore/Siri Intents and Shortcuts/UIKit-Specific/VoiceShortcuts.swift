@@ -75,6 +75,7 @@ class VoiceShortcuts {
             }
             shortcut = INShortcut(userActivity: activity)
         }
+
         AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter, completion: completion)
     }
 
