@@ -106,27 +106,13 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
     @available(iOS 12, *)
     public func shortcut(input: ActionType.InputType) -> INShortcut? {
-        guard let shortcutIntent = ActionType.intent(for: input) else {
-            return nil
-        }
-        return INShortcut(intent: shortcutIntent)
+        return ActionType.shortcut(input: input)
     }
 
-    /// Donate an intent-based shortcut that will invoke this `Action` to Siri for the given input.
+    /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
     @available(iOS 12, *)
-    public func donateToSiri(for input: ActionType.InputType) {
-        guard let intent = ActionType.intent(for: input) else {
-            flintUsageError("Cannot donate intent to Siri, action type \(ActionType.self) did not return an intent for input: \(input).")
-        }
-        
-        if intent.suggestedInvocationPhrase == nil {
-            intent.suggestedInvocationPhrase = ActionType.suggestedInvocationPhrase
-        }
-        
-        if let request = IntentShortcutDonationFeature.donateShortcut.request() {
-            let intentWrapper = FlintIntentWrapper(intent: intent)
-            request.perform(input: intentWrapper)
-        }
+    public func donateToSiri(input: ActionType.InputType) {
+        ActionType.donateToSiri(input: input)
     }
 }
 
