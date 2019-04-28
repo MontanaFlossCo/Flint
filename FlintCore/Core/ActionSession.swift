@@ -188,11 +188,11 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil) {
         let staticBinding = StaticActionBinding<FeatureType, ActionType>()
-        let logContextCreator = { (sessionID, activitySequenceID) in
+        let logContextCreator = { (request: ActionRequest<FeatureType,ActionType>, sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: TopicPath(actionBinding: staticBinding),
-                                   arguments: input.loggingDescription,
+                                   arguments: request.inputLoggingDescription,
                                    presenter: String(describing: presenter))
         }
         let actionRequest = ActionRequest(uniqueID: nextRequestID(),
@@ -225,11 +225,11 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  source: ActionSource,
                                                  completionRequirement: Action.Completion) -> Action.Completion.Status {
         let staticBinding = StaticActionBinding<FeatureType, ActionType>()
-        let logContextCreator = { (sessionID, activitySequenceID) in
+        let logContextCreator = { (request: ActionRequest<FeatureType,ActionType>, sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: TopicPath(actionBinding: staticBinding),
-                                   arguments: input.loggingDescription,
+                                   arguments: request.inputLoggingDescription,
                                    presenter: String(describing: presenter))
         }
         let actionRequest = ActionRequest(uniqueID: nextRequestID(),
@@ -360,11 +360,11 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  source: ActionSource,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil) {
-        let logContextCreator = { (sessionID, activitySequenceID) in
+        let logContextCreator = { (request: ActionRequest<FeatureType,ActionType>, sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: actionBinding.logTopicPath,
-                                   arguments: input.loggingDescription,
+                                   arguments: request.inputLoggingDescription,
                                    presenter: String(describing: presenter))
         }
         let request: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),
@@ -397,11 +397,11 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  userInitiated: Bool,
                                                  source: ActionSource,
                                                  completionRequirement: Action.Completion) -> Action.Completion.Status {
-        let logContextCreator = { (sessionID, activitySequenceID) in
+        let logContextCreator = { (request: ActionRequest<FeatureType,ActionType>, sessionID, activitySequenceID) in
             return LogEventContext(session: sessionID,
                                    activity: activitySequenceID,
                                    topicPath: actionBinding.logTopicPath,
-                                   arguments: input.loggingDescription,
+                                   arguments: request.inputLoggingDescription,
                                    presenter: String(describing: presenter))
         }
         let request: ActionRequest<FeatureType, ActionType> = ActionRequest(uniqueID: nextRequestID(),
@@ -448,6 +448,7 @@ public class ActionSession: CustomDebugStringConvertible {
         }
         
         // Work out if we have a sequence for the request's feature, create a new one if not
+        /// !!! TODO: Only do this if action stack feature is enabled
         let actionStack = actionStackTracker.findOrCreateActionStack(for: FeatureType.self,
                                                                      in: self,
                                                                      userInitiated: request.userInitiated)
@@ -464,6 +465,7 @@ public class ActionSession: CustomDebugStringConvertible {
         }
         
         // Create the entry and add it to the sequence
+        /// !!! TODO: Only do this if action stack feature is enabled
         let entry = ActionStackEntry(request, sessionName: name)
         // Action stack is concurrency safe
         actionStack.add(entry: entry)

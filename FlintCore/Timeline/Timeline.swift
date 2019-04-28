@@ -50,8 +50,8 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
                                   sessionName: request.sessionName,
                                   feature: FeatureType.self,
                                   actionName: ActionType.name,
-                                  inputDescription: request.context.input.loggingDescription,
-                                  inputInfo: request.context.input.loggingInfo)
+                                  inputDescription: request.inputLoggingDescription,
+                                  inputInfo: request.inputLoggingInfo)
         entries.append(entry)
     }
     
@@ -69,8 +69,8 @@ public class Timeline: ActionDispatchObserver, DebugReportable {
                                   sessionName: request.sessionName,
                                   feature: FeatureType.self,
                                   actionName: ActionType.name,
-                                  inputDescription: request.context.input.loggingDescription,
-                                  inputInfo: request.context.input.loggingInfo,
+                                  inputDescription: request.inputLoggingDescription,
+                                  inputInfo: request.inputLoggingInfo,
                                   outcome: outcome.simplifiedOutcome)
         entries.append(entry)
     }
