@@ -128,8 +128,9 @@ public protocol Action {
 #if canImport(Intents)
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
+    /// - param input: The input to use when creating associated intents for this action.
     @available(iOS 12, *)
-    static func associatedIntents(for input: InputType) -> [FlintIntent]?
+    static func associatedIntents(input: InputType) -> [FlintIntent]?
 #endif
 
 }

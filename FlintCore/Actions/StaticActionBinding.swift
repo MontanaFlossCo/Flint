@@ -109,7 +109,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param url: If specified, will be assumed to be a URL from a URLMapped feature that maps to invoke the action.
     /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will
     /// publish activities automatically.
-    public func activity(for input: ActionType.InputType, withURL url: URL?) -> NSUserActivity? {
+    public func activity(input: ActionType.InputType, withURL url: URL?) -> NSUserActivity? {
         return ActionActivityMappings.createActivity(for: self, with: input, appLink: url)
     }
 }

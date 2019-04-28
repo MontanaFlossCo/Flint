@@ -51,7 +51,7 @@ public class DefaultLoggerFactory: ContextualLoggerFactory, DebugReportable {
         return DefaultContextSpecificLogger(owner: self, target: target, context: context)
     }
 
-    public func contextualLogger(with activity: String, topicPath: TopicPath) -> ContextSpecificLogger {
+    public func contextualLogger(activity: String, topicPath: TopicPath) -> ContextSpecificLogger {
         let context = LogEventContext(session: DefaultLoggerFactory.noSessionName, activity: activity, topicPath: topicPath, arguments: nil, presenter: nil)
         return DefaultContextSpecificLogger(owner: self, target: target, context: context)
     }

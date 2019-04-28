@@ -20,7 +20,7 @@ class SimplePurchaseStore {
     private let logger: ContextSpecificLogger?
 
     init(appGroupIdentifier: String?) throws {
-        logger = Logging.development?.contextualLogger(with: "SimplePurchaseStore", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
+        logger = Logging.development?.contextualLogger(activity: "SimplePurchaseStore", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
 
         // We store this list in the documents directory
         let baseURL = try FileHelpers.flintInternalFilesURL(appGroupIdentifier: appGroupIdentifier)

@@ -16,12 +16,12 @@ public final class FlintInternal {
 
     /// Provides the internal logger for core bootstrapping
     static var logger: ContextSpecificLogger? = {
-        return Logging.development?.contextualLogger(with: "Flint Bootstrapping", topicPath: coreLoggingTopic)
+        return Logging.development?.contextualLogger(activity: "Flint Bootstrapping", topicPath: coreLoggingTopic)
     }()
 
     /// Provides the internal logger for bootstrapping URL mappings
     static var urlMappingLogger: ContextSpecificLogger? = {
-        return Logging.development?.contextualLogger(with: "Flint Bootstrapping", topicPath: coreLoggingTopic.appending("URL Mapping"))
+        return Logging.development?.contextualLogger(activity: "Flint Bootstrapping", topicPath: coreLoggingTopic.appending("URL Mapping"))
     }()
 
 }

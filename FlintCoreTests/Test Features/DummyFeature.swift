@@ -57,11 +57,11 @@ final class DummyIntentAction: IntentAction {
     typealias PresenterType = IntentResponsePresenter<DummyIntentResponse>
     typealias IntentResponseType = DummyIntentResponse
     
-    static func intent(for input: DummyIntentAction.InputType) -> DummyIntent? {
+    static func intent(input: DummyIntentAction.InputType) -> DummyIntent? {
         return DummyIntent()
     }
     
-    static func input(for intent: DummyIntent) -> DummyIntentAction.InputType? {
+    static func input(from intent: DummyIntent) -> DummyIntentAction.InputType? {
         return NoInput.none
     }
     

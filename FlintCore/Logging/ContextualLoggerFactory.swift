@@ -32,7 +32,7 @@ public protocol ContextualLoggerFactory: AnyObject {
     /// Get a contextual logger for a non-Flint context where you still need to log things but the code is not
     /// aware of Action(s) and action dispatch. This at least allows non-Flint code
     /// to be passed loggers that have some contextual information
-    func contextualLogger(with activity: String, topicPath: TopicPath) -> ContextSpecificLogger
+    func contextualLogger(activity: String, topicPath: TopicPath) -> ContextSpecificLogger
     
     /// Internal function for adding outputs at runtime to facilitate Focus.
     func add(output: LoggerOutput)

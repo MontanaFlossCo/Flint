@@ -53,7 +53,7 @@ open class StoreKitPurchaseTracker: NSObject, PurchaseTracker {
     /// app extensions. So if you have extensions you must create an app group container all
     /// extensions use and specify its identifier here.
     public init(appGroupIdentifier: String?) throws {
-        logger = Logging.development?.contextualLogger(with: "StoreKit Purchases", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
+        logger = Logging.development?.contextualLogger(activity: "StoreKit Purchases", topicPath: FlintInternal.coreLoggingTopic.appending("Purchases"))
 
         purchaseStore = try SimplePurchaseStore(appGroupIdentifier: appGroupIdentifier)
         purchases = [:]
