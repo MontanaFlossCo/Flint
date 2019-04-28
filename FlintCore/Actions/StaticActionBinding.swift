@@ -133,26 +133,26 @@ extension StaticActionBinding where ActionType.PresenterType == NoPresenter {
 extension StaticActionBinding where ActionType.InputType == NoInput {
     public func perform(presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(self, input: NoInput.none, presenter: presenter, completion: completion)
+        session.perform(self, input: .noInput, presenter: presenter, completion: completion)
     }
 
     public func perform(presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(self, input: NoInput.none, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: .noInput, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 }
 
 /// Overloads for the case where there is neither a presenter nor an input
 extension StaticActionBinding where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
     public func perform(completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(self, input: .none, presenter: NoPresenter(), completion: completion)
+        session.perform(self, input: .noInput, presenter: NoPresenter(), completion: completion)
     }
 
     public func perform(userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
-        session.perform(self, input: NoInput.none, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
+        session.perform(self, input: .noInput, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)
     }
 }
