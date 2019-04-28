@@ -23,7 +23,7 @@ class ActionDispatchTests: XCTestCase {
             actionBinding: AsyncTestFeature.asyncTest,
             input: NoInput.none,
             presenter: presenter,
-            logContextCreator: { _, _ in
+            logContextCreator: { _, _, _ in
                 return LogEventContext.mockContext()
             }
         )

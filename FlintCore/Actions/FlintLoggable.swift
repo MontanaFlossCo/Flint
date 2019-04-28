@@ -23,6 +23,8 @@ public protocol FlintLoggable {
     /// !!! TODO: How should we handle this in terms of performance, memory and nesting?
     /// Just a flat chunk of data for now
     var loggingInfo: [String:String]? { get }
+    
+    static var isImmutableForLogging: Bool { get }
 }
 
 /// Add defaults that use `CustomStringConvertible` and `CustomDebugStringConvertible`, to ease adoption.
@@ -36,8 +38,13 @@ extension FlintLoggable {
             return String(reflecting: self)
         }
     }
+    
     public var loggingInfo: [String:String]? {
         return ["loggingDescription": loggingDescription]
+    }
+
+    public static var isImmutableForLogging: Bool {
+        return true
     }
 }
 
