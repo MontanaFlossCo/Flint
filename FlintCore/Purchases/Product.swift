@@ -25,7 +25,7 @@ import Foundation
 ///
 /// - note: We use class semantics here so that the app can subclass it to include additional properties as required
 /// for the purchasing mechanism they use.
-open class Product: Hashable, Equatable {
+open class Product: Hashable, Equatable, CustomDebugStringConvertible {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription".
     /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle,
@@ -47,7 +47,11 @@ open class Product: Hashable, Equatable {
         return allProducts.first { $0.productID == id }
     }
     
-    private static var allProducts = [Product]()
+    /// The set of all products referenced in purchase requirements declared on features
+    public private(set) static var referencedProducts = Set<Product>()
+
+    /// The set of all products instantiated in the app, some of which may not be referenced by purchase constraints.
+    public private(set) static var allProducts = Set<Product>()
     
     init(name: String, description: String? = nil, productID: String) {
         self.name = name
@@ -56,7 +60,11 @@ open class Product: Hashable, Equatable {
         guard Product.productByID(productID) == nil else {
             flintUsageError("Product ID '\(productID)' has been used in multiple products including: \(self)")
         }
-        Product.allProducts.append(self)
+        Product.allProducts.insert(self)
+    }
+    
+    public var debugDescription: String {
+        return "Product: \(name) — \(productID)"
     }
     
     public var hashValue: Int {
@@ -65,5 +73,9 @@ open class Product: Hashable, Equatable {
     
     public static func ==(lhs: Product, rhs: Product) -> Bool {
         return lhs.productID == rhs.productID
+    }
+    
+    static func productsReferenced(_ products: Set<Product>) {
+        referencedProducts.formUnion(products)
     }
 }

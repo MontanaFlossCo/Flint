@@ -80,10 +80,12 @@ public class ActionRequest<FeatureType: FeatureDefinition, ActionType: Action>: 
         self.logContextCreator = logContextCreator
         self.context = ActionContext<ActionType.InputType>(input: input, session: session, source: source)
         self.context.logSetup = prepareLogs
-        if !ActionType.InputType.isImmutableForLogging {
-            _inputLoggingDescription = context.input.loggingDescription
-            _inputLoggingInfo = context.input.loggingInfo
-            _inputLoggingInfoChecked = true
+        propertyAccessQueue.sync {
+            if !ActionType.InputType.isImmutableForLogging {
+                _inputLoggingDescription = context.input.loggingDescription
+                _inputLoggingInfo = context.input.loggingInfo
+                _inputLoggingInfoChecked = true
+            }
         }
     }
     
