@@ -23,7 +23,7 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     }
     
     func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) where FeatureType : FeatureDefinition, ActionType : Action {
-        guard let intents = ActionType.associatedIntents(for: request.context.input) else {
+        guard let intents = ActionType.associatedIntents(input: request.context.input) else {
             loggers.development?.debug("Action completed but did not return an intent to donate: \(request)")
             return
         }

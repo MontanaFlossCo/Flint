@@ -21,7 +21,7 @@ internal extension IntentAction {
     /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
     @available(iOS 12, *)
     static func shortcut(input: InputType) -> INShortcut? {
-        guard let shortcutIntent = intent(for: input) else {
+        guard let shortcutIntent = intent(input: input) else {
             return nil
         }
 
@@ -35,7 +35,7 @@ internal extension IntentAction {
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
     @available(iOS 12, *)
     static func donateToSiri(input: InputType) {
-        guard let intent = intent(for: input) else {
+        guard let intent = intent(input: input) else {
             flintUsageError("Cannot donate intent to Siri, action type \(self) did not return an intent for input: \(input).")
         }
 

@@ -27,8 +27,8 @@ extension VerifiedActionBinding {
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller
     @available(iOS 12, *)
-    public func addVoiceShortcut(for input: ActionType.InputType, presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, for: input, presenter: presenter, completion: completion)
+    public func addVoiceShortcut(input: ActionType.InputType, presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
+        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, input: input, presenter: presenter, completion: completion)
     }
 }
 
@@ -41,7 +41,7 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     
     public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
         /// !!! TODO: We probably need a Result<T> here as nil could be valid
-        guard let inputFromIntent = ActionType.input(for: intent) else {
+        guard let inputFromIntent = ActionType.input(from: intent) else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
 
@@ -72,14 +72,14 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// action represented by this action request. The action must support creating an `INIntent` for a custom intent extension
     /// to be invoked.
     ///
-    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(for:)` function.
+    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(input:)` function.
     /// If that function returns nil (or is not defined by your `Action`), it will attempt to create an `NSUserActivity`
     /// for the `Action` and instead use that. If the `Action` does not support `Activities`, this will fail.
     ///
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller
     ///
-    /// - note: This variant exists for the specialisation that will call `intent(for:)` on the Action to create an
+    /// - note: This variant exists for the specialisation that will call `intent(input:)` on the Action to create an
     /// an intent for the shortcut.
     @available(iOS 12, *)
     public func addVoiceShortcut(input: ActionType.InputType,
@@ -87,7 +87,7 @@ extension VerifiedActionBinding where ActionType: IntentAction {
                                  completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
         VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
                                         feature: FeatureType.self,
-                                        for: input,
+                                        input: input,
                                         presenter: presenter,
                                         completion: completion)
     }

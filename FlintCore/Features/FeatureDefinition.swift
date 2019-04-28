@@ -98,14 +98,14 @@ public extension FeatureDefinition {
     static func logs(for activity: String) -> ContextualLoggers {
         let development: ContextSpecificLogger?
         if let factory = Logging.development {
-            development = factory.contextualLogger(with: activity, topicPath: self.identifier)
+            development = factory.contextualLogger(activity: activity, topicPath: self.identifier)
         } else {
             development = nil
         }
 
         let production: ContextSpecificLogger?
         if let factory = Logging.development {
-            production = factory.contextualLogger(with: activity, topicPath: self.identifier)
+            production = factory.contextualLogger(activity: activity, topicPath: self.identifier)
         } else {
             production = nil
         }
