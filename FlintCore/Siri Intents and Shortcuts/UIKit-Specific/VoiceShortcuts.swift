@@ -54,7 +54,7 @@ class VoiceShortcuts {
             flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
         }
         let shortcut = INShortcut(userActivity: activity)
-        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter, completion: completion)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, presenter: presenter, completion: completion)
     }
 
     @available(iOS 12, *)
@@ -76,14 +76,14 @@ class VoiceShortcuts {
             shortcut = INShortcut(userActivity: activity)
         }
 
-        AddVoiceShortcutCoordinator.shared.show(for: shortcut, with: presenter, completion: completion)
+        AddVoiceShortcutCoordinator.shared.show(for: shortcut, presenter: presenter, completion: completion)
     }
 
     @available(iOS 12, *)
     static func editVoiceShortcut(_ voiceShortcut: INVoiceShortcut,
                                   presenter: UIViewController,
                                   completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
-        EditVoiceShortcutCoordinator.shared.show(for: voiceShortcut, with: presenter, completion: completion)
+        EditVoiceShortcutCoordinator.shared.show(for: voiceShortcut, presenter: presenter, completion: completion)
     }
 }
 
