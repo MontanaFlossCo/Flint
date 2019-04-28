@@ -51,6 +51,7 @@ public class DefaultFeatureConstraintsBuilder: FeatureConstraintsBuilder {
 
     public func purchase(_ requirement: PurchaseRequirement) {
         purchasePreconditions.insert(.purchase(requirement: requirement))
+        Product.productsReferenced(requirement.allReferencedProducts())
     }
 
     public func userToggled(defaultValue: Bool) {

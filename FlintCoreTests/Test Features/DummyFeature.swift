@@ -62,7 +62,7 @@ final class DummyIntentAction: IntentAction {
     }
     
     static func input(from intent: DummyIntent) -> DummyIntentAction.InputType? {
-        return .noInput
+        return NoInput.noInput
     }
     
     static func perform(context: ActionContext<NoInput>, presenter: PresenterType, completion: Action.Completion) -> Action.Completion.Status {

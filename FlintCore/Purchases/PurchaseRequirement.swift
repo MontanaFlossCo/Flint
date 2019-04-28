@@ -157,6 +157,19 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
         }
     }
     
+    /// Internal API to enumerate all products referenced by this requirement
+    func allReferencedProducts() -> Set<Product> {
+        var results = Set<Product>()
+        results.formUnion(products)
+        // !!! TODO: prevent dependency cycles 
+        if let dependencies = dependencies {
+            for dependency in dependencies {
+                results.formUnion(dependency.allReferencedProducts())
+            }
+        }
+        return results
+    }
+    
     // MARK: Hashable & Equatable Conformances
     
     public var hashValue: Int {
