@@ -95,7 +95,7 @@ class VoiceShortcuts {
     var addVoiceShortcutViewController: INUIAddVoiceShortcutViewController?
     var completion: ((_ result: AddVoiceShortcutResult) -> Void)?
     
-    func show(for shortcut: INShortcut, with presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
+    func show(for shortcut: INShortcut, presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
         let addVoiceShortcutViewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
         addVoiceShortcutViewController.delegate = self
         self.completion = completion
@@ -143,7 +143,7 @@ class VoiceShortcuts {
     var editVoiceShortcutViewController: INUIEditVoiceShortcutViewController?
     var completion: ((_ result: EditVoiceShortcutResult) -> Void)?
     
-    func show(for voiceShortcut: INVoiceShortcut, with presenter: UIViewController, completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
+    func show(for voiceShortcut: INVoiceShortcut, presenter: UIViewController, completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
         let editVoiceShortcutViewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
         editVoiceShortcutViewController.delegate = self
         self.completion = completion
