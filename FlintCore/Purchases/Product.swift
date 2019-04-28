@@ -47,11 +47,12 @@ open class Product: Hashable, Equatable, CustomDebugStringConvertible {
         return allProducts.first { $0.productID == id }
     }
     
-    private static var allProducts = Set<Product>()
-    
     /// The set of all products referenced in purchase requirements declared on features
     public private(set) static var referencedProducts = Set<Product>()
 
+    /// The set of all products instantiated in the app, some of which may not be referenced by purchase constraints.
+    public private(set) static var allProducts = Set<Product>()
+    
     init(name: String, description: String? = nil, productID: String) {
         self.name = name
         self.description = description
