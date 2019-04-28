@@ -67,13 +67,13 @@ open class Product: Hashable, CustomDebugStringConvertible {
         return "Product: \(name) — \(productID)"
     }
 
-#if swift(<4.2)
-    public var hashValue: Int {
-        return productID.hashValue
-    }
-#else
+#if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(productID.hashValue)
+    }
+#else
+    public var hashValue: Int {
+        return productID.hashValue
     }
 #endif
 

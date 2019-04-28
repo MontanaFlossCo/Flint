@@ -24,13 +24,13 @@ public struct FeatureConstraintResult<T>: Hashable where T: FeatureConstraint {
         self.status = status
     }
     
-#if swift(<4.2)
-    public var hashValue: Int {
-        return status.hashValue ^ constraint.hashValue
-    }
-#else
+#if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(status.hashValue ^ constraint.hashValue)
+    }
+#else
+    public var hashValue: Int {
+        return status.hashValue ^ constraint.hashValue
     }
 #endif
 

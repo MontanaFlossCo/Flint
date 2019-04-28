@@ -32,13 +32,13 @@ public struct FocusArea: FlintLoggable, CustomStringConvertible, CustomDebugStri
         return "FocusArea on \(String(reflecting: topicPath))"
     }
     
-#if swift(<4.2)
-    public var hashValue: Int {
-        return topicPath.hashValue
-    }
-#else
+#if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(topicPath.hashValue)
+    }
+#else
+    public var hashValue: Int {
+        return topicPath.hashValue
     }
 #endif
 

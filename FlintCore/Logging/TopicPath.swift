@@ -17,13 +17,13 @@ public struct TopicPath: Hashable, CustomStringConvertible, ExpressibleByArrayLi
     public let path: [String]
     public let description: String
 
-#if swift(<4.2)
-    public var hashValue: Int {
-        return _hashValue
-    }
-#else
+#if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(_hashValue)
+    }
+#else
+    public var hashValue: Int {
+        return _hashValue
     }
 #endif
     private let _hashValue: Int

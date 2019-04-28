@@ -43,16 +43,7 @@ public enum RouteScope: Hashable, CustomDebugStringConvertible {
         }
     }
     
-#if swift(<4.2)
-    public var hashValue: Int {
-        switch self {
-            case .appAny: return 0
-            case .universalAny: return 1
-            case .app(let scheme): return scheme.hashValue
-            case .universal(let domain): return domain.hashValue
-        }
-    }
-#else
+#if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         let value: Int
         switch self {
@@ -62,6 +53,15 @@ public enum RouteScope: Hashable, CustomDebugStringConvertible {
             case .universal(let domain): value = domain.hashValue
         }
         hasher.combine(value)
+    }
+#else
+    public var hashValue: Int {
+        switch self {
+            case .appAny: return 0
+            case .universalAny: return 1
+            case .app(let scheme): return scheme.hashValue
+            case .universal(let domain): return domain.hashValue
+        }
     }
 #endif
 
