@@ -24,9 +24,15 @@ public struct FeatureConstraintResult<T>: Hashable where T: FeatureConstraint {
         self.status = status
     }
     
+#if swift(>=4.2)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(status.hashValue ^ constraint.hashValue)
+    }
+#else
     public var hashValue: Int {
         return status.hashValue ^ constraint.hashValue
     }
+#endif
 
     public static func ==(lhs: FeatureConstraintResult<T>, rhs: FeatureConstraintResult<T>) -> Bool {
         return lhs.status == rhs.status  &&

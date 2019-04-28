@@ -31,8 +31,14 @@ extension OperatingSystemVersion: Hashable, Equatable {
             lhs.patchVersion == rhs.patchVersion
     }
     
+#if swift(>=4.2)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(majorVersion * minorVersion * patchVersion)
+    }
+#else
     public var hashValue: Int {
         return majorVersion * minorVersion * patchVersion
     }
+#endif
 }
 

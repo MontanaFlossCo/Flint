@@ -12,7 +12,7 @@ import Foundation
 ///
 /// URL scopes can be for application custom schemes e.g. x-hobson://something, or universal linking / associated domains,
 /// of the form https://hobsonapp.com/something. The scope is just the "context" part, e.g. "x-hobson" or "hobsonapp.com"
-public enum RouteScope: Hashable, Equatable, CustomDebugStringConvertible {
+public enum RouteScope: Hashable, CustomDebugStringConvertible {
     /// Indicates the route applies to any and all custom URL schemes the app has declared in Info.plist
     case appAny
 
@@ -43,6 +43,18 @@ public enum RouteScope: Hashable, Equatable, CustomDebugStringConvertible {
         }
     }
     
+#if swift(>=4.2)
+    public func hash(into hasher: inout Hasher) {
+        let value: Int
+        switch self {
+            case .appAny: value = 0
+            case .universalAny: value = 1
+            case .app(let scheme): value = scheme.hashValue
+            case .universal(let domain): value = domain.hashValue
+        }
+        hasher.combine(value)
+    }
+#else
     public var hashValue: Int {
         switch self {
             case .appAny: return 0
@@ -51,7 +63,8 @@ public enum RouteScope: Hashable, Equatable, CustomDebugStringConvertible {
             case .universal(let domain): return domain.hashValue
         }
     }
-    
+#endif
+
     public static func ==(lhs: RouteScope, rhs: RouteScope) -> Bool {
         switch (lhs, rhs) {
             case (.appAny, .appAny): return true

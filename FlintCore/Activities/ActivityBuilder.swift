@@ -251,7 +251,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             searchAttributes.thumbnailData = imageData
         } else if let image = thumbnail {
 #if !os(macOS)
-            searchAttributes.thumbnailData = UIImagePNGRepresentation(image)
+            searchAttributes.thumbnailData = image.pngData()
 #endif
         }
 

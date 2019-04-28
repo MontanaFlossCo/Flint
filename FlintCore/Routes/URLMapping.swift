@@ -62,10 +62,16 @@ public struct URLMapping: Hashable, Equatable, CustomStringConvertible, CustomDe
         return urlComponents.url!
     }
     
-    public var hashValue: Int {
-        return scope.hashValue /* ^ pattern.hashValue */
+#if swift(>=4.2)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(scope.hashValue ^ pattern.urlPattern.hashValue)
     }
-    
+#else
+    public var hashValue: Int {
+        return scope.hashValue ^ pattern.urlPattern.hashValue
+    }
+#endif
+
     public static func ==(lhs: URLMapping, rhs: URLMapping) -> Bool {
         return lhs.scope == rhs.scope &&
             lhs.pattern == rhs.pattern &&

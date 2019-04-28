@@ -12,16 +12,26 @@ import Foundation
 ///
 /// This is used to provide a simple hierarchical structure to log events to facilitate filtering and collapsing,
 /// mostly by Features but also arbitrary paths for non-Feature based subsystems.
-public struct TopicPath: Hashable, Equatable, CustomStringConvertible, ExpressibleByArrayLiteral {
+public struct TopicPath: Hashable, CustomStringConvertible, ExpressibleByArrayLiteral {
     
     public let path: [String]
     public let description: String
-    public let hashValue: Int
+
+#if swift(>=4.2)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(_hashValue)
+    }
+#else
+    public var hashValue: Int {
+        return _hashValue
+    }
+#endif
+    private let _hashValue: Int
     
     /// Initialise the path with an array of strings, e.g. `["UI", "Search"]` or `["Network", "JSON Cache"]`
     public init(_ path: [String]) {
         self.path = path
-        hashValue = path.joined().hashValue
+        _hashValue = path.joined().hashValue
         description = path.joined(separator: "/")
     }
     
