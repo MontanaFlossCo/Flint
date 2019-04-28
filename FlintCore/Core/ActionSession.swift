@@ -149,7 +149,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput {
-        perform(conditionalRequest, input: .none, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest, input: .noInput, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -165,7 +165,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-        perform(conditionalRequest, input: .none, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest, input: .noInput, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -309,7 +309,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput {
         perform(actionBinding,
-                input: .none,
+                input: .noInput,
                 presenter: presenter,
                 userInitiated: userInitiatedActions,
                 source: .application,
@@ -332,7 +332,7 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
         perform(actionBinding,
-                input: .none,
+                input: .noInput,
                 presenter: NoPresenter(),
                 userInitiated: userInitiatedActions,
                 source: .application,

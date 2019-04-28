@@ -19,9 +19,9 @@ class ActionDispatchTests: XCTestCase {
             uniqueID: 0,
             userInitiated: false,
             source: .application,
-            session: ActionSession.main,
+            session: .main,
             actionBinding: AsyncTestFeature.asyncTest,
-            input: NoInput.none,
+            input: .noInput,
             presenter: presenter,
             logContextCreator: { _, _, _ in
                 return LogEventContext.mockContext()

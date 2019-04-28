@@ -12,7 +12,7 @@ import Foundation
 public struct NoInput: RouteParametersCodable, ActivityCodable, FlintLoggable {
     /// Currently we're using this because we cannot typealias action's InputType to be an optional,
     /// as this breaks generic constraints on URL mapping code. Optional (enum) cannot be used as a generic constraint
-    public static let none = NoInput()
+    public static let noInput = NoInput()
 
     private init() { }
     
