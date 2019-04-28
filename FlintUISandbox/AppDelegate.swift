@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var testTimer: DispatchSourceTimer?
     var controller: AuthorisationController?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let fileOutput = try! FileLoggerOutput(name: "uisandbox")
         Logging.setLoggerOutputs(development: [fileOutput], level: .debug, production: nil, level: .none)
 

@@ -14,17 +14,28 @@ import Foundation
 ///
 /// The FlintUI `FeatureBrowserFeature` takes advantage of this to provide a hierarchical UI to look at the
 /// graph of features and actions defined in the app.
-public class FeatureMetadata: Hashable, Equatable {
-    public let hashValue: Int
+public class FeatureMetadata: Hashable {
     public let feature: FeatureDefinition.Type
 
     public private(set) var actions = [ActionMetadata]()
     public private(set) var publishedActions = [ActionMetadata]()
     public internal(set) var productsRequired = Set<Product>()
 
+    private let _hashValue: Int
+
+#if swift(<4.2)
+    public var hashValue: Int {
+        return _hashValue
+    }
+#else
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(_hashValue)
+    }
+#endif
+
     init(feature: FeatureDefinition.Type) {
         self.feature = feature
-        hashValue = String(describing: feature).hashValue
+        _hashValue = String(describing: feature).hashValue
     }
     
     public func actionMetadata<ActionType>(action: ActionType.Type) -> ActionMetadata? {

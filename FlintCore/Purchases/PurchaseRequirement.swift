@@ -172,10 +172,16 @@ public class PurchaseRequirement: Hashable, Equatable, CustomStringConvertible {
     
     // MARK: Hashable & Equatable Conformances
     
+#if swift(<4.2)
     public var hashValue: Int {
         return products.hashValue ^ matchingCriteria.hashValue
     }
-    
+#else
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(products.hashValue ^ matchingCriteria.hashValue)
+    }
+#endif
+
     public static func ==(lhs: PurchaseRequirement, rhs: PurchaseRequirement) -> Bool {
         return lhs.products == rhs.products &&
             lhs.matchingCriteria == rhs.matchingCriteria &&

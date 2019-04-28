@@ -25,7 +25,7 @@ import Foundation
 ///
 /// - note: We use class semantics here so that the app can subclass it to include additional properties as required
 /// for the purchasing mechanism they use.
-open class Product: Hashable, Equatable, CustomDebugStringConvertible {
+open class Product: Hashable, CustomDebugStringConvertible {
     
     /// The name of the product, for display to the user and debugging. e.g. "Premium Subscription".
     /// To localise, you'll want to use a value that is a key you can resolve against a strings bundle,
@@ -66,11 +66,17 @@ open class Product: Hashable, Equatable, CustomDebugStringConvertible {
     public var debugDescription: String {
         return "Product: \(name) — \(productID)"
     }
-    
+
+#if swift(<4.2)
     public var hashValue: Int {
         return productID.hashValue
     }
-    
+#else
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(productID.hashValue)
+    }
+#endif
+
     public static func ==(lhs: Product, rhs: Product) -> Bool {
         return lhs.productID == rhs.productID
     }
