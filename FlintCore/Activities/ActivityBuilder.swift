@@ -251,7 +251,11 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             searchAttributes.thumbnailData = imageData
         } else if let image = thumbnail {
 #if !os(macOS)
+#if swift(>=4.2)
             searchAttributes.thumbnailData = image.pngData()
+#else
+            searchAttributes.thumbnailData = UIImagePNGRepresentation(image)
+#endif
 #endif
         }
 
