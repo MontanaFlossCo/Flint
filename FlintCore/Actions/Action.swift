@@ -114,7 +114,7 @@ public protocol Action {
     /// Call `cancel` on the builder to veto publishing the activity at all.
     ///
     /// - see: `ActivityBuilder`
-    static func prepareActivity(_ activity: ActivityBuilder<Self>)
+    static func prepareActivity(_ activity: ActivityBuilder<Self>) throws
 
     // MARK: Siri and Intents
 
@@ -130,7 +130,7 @@ public protocol Action {
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
     /// - param input: The input to use when creating associated intents for this action.
     @available(iOS 12, *)
-    static func associatedIntents(input: InputType) -> [FlintIntent]?
+    static func associatedIntents(input: InputType) throws -> [FlintIntent]?
 #endif
 
 }

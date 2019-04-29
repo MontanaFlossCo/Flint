@@ -40,14 +40,14 @@ extension StaticActionBinding {
 @available(iOS 12, *)
 extension StaticActionBinding where ActionType: IntentAction {
 
-    public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) -> MappedActionResult {
+    public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
         let presenter = IntentResponsePresenter(completion: completion)
-        return perform(intent: intent, presenter: presenter)
+        return try perform(intent: intent, presenter: presenter)
     }
     
-    public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) -> MappedActionResult {
+    public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
         /// !!! TODO: We probably need a Result<T> here as nil could be valid
-        guard let inputFromIntent = ActionType.input(from: intent) else {
+        guard let inputFromIntent = try ActionType.input(from: intent) else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
 
@@ -90,8 +90,8 @@ extension StaticActionBinding where ActionType: IntentAction {
     @available(iOS 12, *)
     public func addVoiceShortcut(input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
+                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
+        try VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
                                         feature: FeatureType.self,
                                         input: input,
                                         presenter: presenter,
@@ -109,14 +109,14 @@ extension StaticActionBinding where ActionType: IntentAction {
 
     /// Create an `INShortcut` instance for the given input. Use when pre-registering shortcuts with `INVoiceShortcuteCenter`
     @available(iOS 12, *)
-    public func shortcut(input: ActionType.InputType) -> INShortcut? {
-        return ActionType.shortcut(input: input)
+    public func shortcut(input: ActionType.InputType) throws -> INShortcut? {
+        return try ActionType.shortcut(input: input)
     }
 
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
     @available(iOS 12, *)
-    public func donateToSiri(input: ActionType.InputType) {
-        ActionType.donateToSiri(input: input)
+    public func donateToSiri(input: ActionType.InputType) throws {
+        try ActionType.donateToSiri(input: input)
     }
 }
 
