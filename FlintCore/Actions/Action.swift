@@ -111,7 +111,9 @@ public protocol Action {
     /// You do not need to implement this if your feature and action support URL Routes, unless you have
     /// extra information not included in the URL that you wish to include.
     ///
-    /// Call `cancel` on the builder to veto publishing the activity at all.
+    /// The `input` property on the build contains the input to the action that should be encoded into the `NSUserActivity`.
+    /// Call `cancel` on the builder to veto publishing the activity at all. If the activity cannot be
+    /// used due to an error and your app needs to know this, you can throw an error.
     ///
     /// - see: `ActivityBuilder`
     static func prepareActivity(_ activity: ActivityBuilder<Self>) throws
@@ -121,13 +123,13 @@ public protocol Action {
     /// A suggested Siri Shortcut phrase to show in the Siri UI when adding a shortcut or registering an `NSUserActivity` for
     /// this action.
     ///
-    /// - note: This value is only used if your `activityEligibility` include `.prediction`, or you when your action creates
+    /// - note: This value is only used if your `activityEligibility` includes `.prediction`, or when your action creates
     /// an `INIntent` to donate.
     static var suggestedInvocationPhrase: String? { get }
     
 #if canImport(Intents)
-    /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
-    /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
+    /// Implement this function if the Action supports one or more Siri Intents for Shortcuts. This is used to automatically
+    /// donate shortcuts with Siri if you have the `IntentShortcutDonationFeature` enabled.
     /// - param input: The input to use when creating associated intents for this action.
     @available(iOS 12, *)
     static func associatedIntents(input: InputType) throws -> [FlintIntent]?

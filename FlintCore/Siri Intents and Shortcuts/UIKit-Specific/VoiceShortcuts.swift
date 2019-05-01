@@ -34,16 +34,17 @@ public enum EditVoiceShortcutResult {
     case cancelled
 }
 
-/// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the action represented.
-/// by this action and feature pair. This is an internal function for code reuse and consistency. It must not be public.
-///
-/// - note: Currently only actions that support NSUserActivity by opting in with `activityEligibility` are supported.
-///
-/// - param action: The type of the action to invoke with the shortcut
-/// - param feature: The type of the feature to which the action belongs
-/// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
-/// - param presenter: The `UIViewController` to use to present the view controller
 class VoiceShortcuts {
+    /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the action represented.
+    /// by this action and feature pair. This is an internal function for code reuse and consistency. It must not be public.
+    ///
+    /// This call will throw if the input fails to be converted to an intent or activity.
+    ///
+    /// - param action: The type of the action to invoke with the shortcut
+    /// - param feature: The type of the feature to which the action belongs
+    /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
+    /// - param presenter: The `UIViewController` to use to present the view controller
+    /// - param completion: The callback to indicate the outcome
     @available(iOS 12, *)
     static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
                                                           feature: FeatureType.Type,
@@ -57,6 +58,16 @@ class VoiceShortcuts {
         AddVoiceShortcutCoordinator.shared.show(for: shortcut, presenter: presenter, completion: completion)
     }
 
+    /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the action represented.
+    /// by this action and feature pair. This is an internal function for code reuse and consistency. It must not be public.
+    ///
+    /// This call will throw if the input fails to be converted to an intent or activity.
+    ///
+    /// - param action: The type of the action to invoke with the shortcut
+    /// - param feature: The type of the feature to which the action belongs
+    /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
+    /// - param presenter: The `UIViewController` to use to present the view controller
+    /// - param completion: The callback to indicate the outcome
     @available(iOS 12, *)
     static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
                                                           feature: FeatureType.Type,
@@ -79,6 +90,12 @@ class VoiceShortcuts {
         AddVoiceShortcutCoordinator.shared.show(for: shortcut, presenter: presenter, completion: completion)
     }
 
+    /// Call to invoke the system "Edit Voice Shortcut" view controller for the given voice shortcut.
+    /// This is an internal function for code reuse and consistency. It must not be public.
+    ///
+    /// - param voiceShortcut: The voice shortcut you obtained from the system APIs
+    /// - param presenter: The `UIViewController` to use to present the view controller
+    /// - param completion: The callback to indicate the outcome
     @available(iOS 12, *)
     static func editVoiceShortcut(_ voiceShortcut: INVoiceShortcut,
                                   presenter: UIViewController,

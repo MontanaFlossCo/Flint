@@ -106,7 +106,13 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     }
 
     /// Convenience function for creating an activity for this action with a given input.
+    ///
+    /// This function can throw if the `prepareActivity` function on the action cannot return an activity for the give
+    /// input.
+    ///
     /// - param url: If specified, will be assumed to be a URL from a URLMapped feature that maps to invoke the action, for continuity
+    /// - return: The activity that represents this action with the given input, or nil if there is no valid activity to represent it.
+    ///
     /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will
     /// publish activities automatically.
     public func activity(input: ActionType.InputType, withURL url: URL?) throws -> NSUserActivity? {

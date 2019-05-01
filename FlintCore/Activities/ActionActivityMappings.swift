@@ -46,9 +46,9 @@ class ActionActivityMappings {
     /// - param appLink: The optional app URL mapping for the action. Used for auto-continue of activities that are URL mapped,
     /// but only if their inputs are not `ActivityCodable`. Inputs that conform to this are always encoded as activities
     /// using `userInfo` and `activityType`.
-    public static func createActivity<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                                                               with input: ActionType.InputType,
-                                                               appLink: URL? = nil) throws -> NSUserActivity? {
+    static func createActivity<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                        with input: ActionType.InputType,
+                                                        appLink: URL? = nil) throws -> NSUserActivity? {
         return try createActivity(for: ActionType.self,
                                   of: FeatureType.self,
                                   with: input,
@@ -63,9 +63,9 @@ class ActionActivityMappings {
     /// - param appLink: The optional app URL mapping for the action. Used for auto-continue of activities that are URL mapped,
     /// but only if their inputs are not `ActivityCodable`. Inputs that conform to this are always encoded as activities
     /// using `userInfo` and `activityType`.
-    public static func createActivity<FeatureType, ActionType>(for actionBinding: ConditionalActionBinding<FeatureType, ActionType>,
-                                                               with input: ActionType.InputType,
-                                                               appLink: URL? = nil) throws -> NSUserActivity? {
+    static func createActivity<FeatureType, ActionType>(for actionBinding: ConditionalActionBinding<FeatureType, ActionType>,
+                                                        with input: ActionType.InputType,
+                                                        appLink: URL? = nil) throws -> NSUserActivity? {
         return try createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
     }
     

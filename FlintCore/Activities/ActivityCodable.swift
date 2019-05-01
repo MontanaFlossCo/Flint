@@ -19,7 +19,7 @@ enum ActivityCodableError {
 /// Action input types can conform to this protocol to automatically
 /// supply the `userInfo` for NSUserActivity with the Activities feature.
 public protocol ActivityCodable {
-    /// Confirming types must initialise themselves fully from the userInfo supplied, or throw an error.
+    /// Conforming types must initialise themselves fully from the userInfo supplied, or throw an error.
     init(activityUserInfo: [AnyHashable:Any]?) throws
     
     /// Implementations must encode all state required to reconstruct the type again from userInfo of an `NSUserActivity`
