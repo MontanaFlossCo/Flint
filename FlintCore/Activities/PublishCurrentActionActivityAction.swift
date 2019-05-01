@@ -34,18 +34,21 @@ final class PublishCurrentActionActivityAction: UIAction {
     }
 
     static func perform(context: ActionContext<InputType>, presenter: NoPresenter, completion: Action.Completion) -> Action.Completion.Status {
-        if let activity = context.input.activityCreator() {
-            var activityDebug: String = ""
-            if let _ = context.logs.development?.debug {
-                activityDebug = activity._detailedDebugDescription
-            }
+        do {
+            if let activity = try context.input.activityCreator() {
+                var activityDebug: String = ""
+                if let _ = context.logs.development?.debug {
+                    activityDebug = activity._detailedDebugDescription
+                }
 
-            context.logs.development?.debug("Setting user activity: \(activityDebug)")
-            
-            // Keep a reference to the activity
-            currentActivity = activity
+                context.logs.development?.debug("Setting user activity: \(activityDebug)")
+                
+                // Keep a reference to the activity
+                currentActivity = activity
+            }
+        } catch let error {
+            return completion.completedSync(.failureWithFeatureTermination(error: error))
         }
-        
         return completion.completedSync(.successWithFeatureTermination)
     }
 }

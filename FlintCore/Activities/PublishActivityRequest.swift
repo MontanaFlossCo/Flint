@@ -12,7 +12,7 @@ import Foundation
 struct PublishActivityRequest: FlintLoggable {
     let actionName: String
     let feature: FeatureDefinition.Type
-    let activityCreator: () -> NSUserActivity?
+    let activityCreator: () throws -> NSUserActivity? 
     let appLink: URL?
 
     var loggingDescription: String {

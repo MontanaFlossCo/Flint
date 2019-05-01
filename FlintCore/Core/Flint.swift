@@ -316,7 +316,7 @@ final public class Flint {
     }
     
     private static func checkRequiredActivityTypes(features: [FeatureDefinition.Type]) {
-        let declaredActivityTypes = Set(FlintAppInfo.activityEligibility)
+        let declaredActivityTypes = Set(FlintAppInfo.activityTypes)
         
         /// !!! TODO: Change this to use metadata stored in ActionActivityMappings.instance
         for feature in features {

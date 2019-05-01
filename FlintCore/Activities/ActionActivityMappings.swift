@@ -46,9 +46,13 @@ class ActionActivityMappings {
     /// - param appLink: The optional app URL mapping for the action. Used for auto-continue of activities that are URL mapped,
     /// but only if their inputs are not `ActivityCodable`. Inputs that conform to this are always encoded as activities
     /// using `userInfo` and `activityType`.
-    public static func createActivity<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
-                                                               with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? {
-        return createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
+    static func createActivity<FeatureType, ActionType>(for actionBinding: StaticActionBinding<FeatureType, ActionType>,
+                                                        with input: ActionType.InputType,
+                                                        appLink: URL? = nil) throws -> NSUserActivity? {
+        return try createActivity(for: ActionType.self,
+                                  of: FeatureType.self,
+                                  with: input,
+                                  appLink: appLink)
     }
     
     /// A helper function for creating an `NSUserActivity` that will invoke an action with a given input when received
@@ -59,14 +63,15 @@ class ActionActivityMappings {
     /// - param appLink: The optional app URL mapping for the action. Used for auto-continue of activities that are URL mapped,
     /// but only if their inputs are not `ActivityCodable`. Inputs that conform to this are always encoded as activities
     /// using `userInfo` and `activityType`.
-    public static func createActivity<FeatureType, ActionType>(for actionBinding: ConditionalActionBinding<FeatureType, ActionType>,
-                                                               with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? {
-        return createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
+    static func createActivity<FeatureType, ActionType>(for actionBinding: ConditionalActionBinding<FeatureType, ActionType>,
+                                                        with input: ActionType.InputType,
+                                                        appLink: URL? = nil) throws -> NSUserActivity? {
+        return try createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
     }
     
     /// Interfnal function to create the activity.
     static func createActivity<ActionType>(for action: ActionType.Type, of feature: FeatureDefinition.Type,
-                                           with input: ActionType.InputType, appLink: URL? = nil) -> NSUserActivity? where ActionType: Action {
+                                           with input: ActionType.InputType, appLink: URL? = nil) throws -> NSUserActivity? where ActionType: Action {
         let activityEligibility = action.activityEligibility
         guard activityEligibility.count > 0 else {
             return nil
@@ -76,14 +81,14 @@ class ActionActivityMappings {
         /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
 
-        flintAdvisoryPrecondition(FlintAppInfo.activityEligibility.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
+        flintAdvisoryPrecondition(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
             "The ID `\(activityID)` is not there.")
 
         // The action can populate or veto publishing this activity by cancelling the builder passed in.
         // Introduce a new scope to prevent accidentally use of the wrong activity instance
         let builder = ActivityBuilder(activityID: activityID, action: action, input: input, appLink: appLink)
         let function: (ActivityBuilder<ActionType>) -> Void = action.prepareActivity
-        let activity = builder.build(function)
+        let activity = try builder.build(function)
         return activity
     }
 

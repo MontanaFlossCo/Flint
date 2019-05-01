@@ -186,7 +186,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     }
     
     /// Called internally to execute a builder function on an action to create an NSUserActivity for a given input
-    func build(_ block: (_ builder: ActivityBuilder<ActionType>) -> Void) -> NSUserActivity? {
+    func build(_ block: (_ builder: ActivityBuilder<ActionType>) throws -> Void) throws -> NSUserActivity? {
         canAutoContinueActivity = true
         
         // Check for inputs that describe themselves by conforming to MetadataRepresentable
@@ -227,7 +227,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             canAutoContinueActivity = true
         }
     
-        block(self)
+        try block(self)
         
         flintAdvisoryPrecondition(canAutoContinueActivity, "Flint will not be able to perform the action for this activity. Activity has no URL mapping and the action input is not ActivityCodable. Add a URL mapping or make the input conform to ActivityCodable, or call bypassFlintContinueActivity() if you have custom handling of the incoming activity.")
         
@@ -251,7 +251,11 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
             searchAttributes.thumbnailData = imageData
         } else if let image = thumbnail {
 #if !os(macOS)
+#if swift(>=4.2)
             searchAttributes.thumbnailData = image.pngData()
+#else
+            searchAttributes.thumbnailData = UIImagePNGRepresentation(image)
+#endif
 #endif
         }
 

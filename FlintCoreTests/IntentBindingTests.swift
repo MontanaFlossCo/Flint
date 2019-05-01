@@ -37,7 +37,7 @@ class IntentBindingTests: XCTestCase {
             let presenter = IntentResponsePresenter(completion: { (DummyIntentResponse) in
                 
             })
-            let result = DummyFeature.intentAction.perform(intent: intent, presenter: presenter)
+            let result = try! DummyFeature.intentAction.perform(intent: intent, presenter: presenter)
             XCTAssert(result == .success)
         }
     }
