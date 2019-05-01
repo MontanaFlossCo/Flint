@@ -49,8 +49,8 @@ class VoiceShortcuts {
                                                           feature: FeatureType.Type,
                                                           input: ActionType.InputType,
                                                           presenter: UIViewController,
-                                                          completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) where ActionType: Action, FeatureType: FeatureDefinition {
-        guard let activity = ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
+                                                          completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws where ActionType: Action, FeatureType: FeatureDefinition {
+        guard let activity = try ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
             flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
         }
         let shortcut = INShortcut(userActivity: activity)
@@ -70,7 +70,7 @@ class VoiceShortcuts {
             }
             shortcut = intentShortcut
         } else {
-            guard let activity = ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
+            guard let activity = try ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
                 flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
             }
             shortcut = INShortcut(userActivity: activity)

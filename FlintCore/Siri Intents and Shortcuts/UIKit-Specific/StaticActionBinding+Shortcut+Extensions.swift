@@ -28,8 +28,8 @@ extension StaticActionBinding {
     @available(iOS 12, *)
     public func addVoiceShortcut(input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
+                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
+        try VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
                                         feature: FeatureType.self,
                                         input: input,
                                         presenter: presenter,
@@ -46,7 +46,6 @@ extension StaticActionBinding where ActionType: IntentAction {
     }
     
     public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
-        /// !!! TODO: We probably need a Result<T> here as nil could be valid
         guard let inputFromIntent = try ActionType.input(from: intent) else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
@@ -81,6 +80,8 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(input:)` function.
     /// If that function returns nil (or is not defined by your `Action`), it will attempt to create an `NSUserActivity`
     /// for the `Action` and instead use that. If the `Action` does not support `Activities`, this will fail.
+    ///
+    /// This call may throw if the input cannot be converted to and intent
     ///
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller

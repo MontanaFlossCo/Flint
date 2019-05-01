@@ -27,8 +27,14 @@ extension VerifiedActionBinding {
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller
     @available(iOS 12, *)
-    public func addVoiceShortcut(input: ActionType.InputType, presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
-        VoiceShortcuts.addVoiceShortcut(action: ActionType.self, feature: FeatureType.self, input: input, presenter: presenter, completion: completion)
+    public func addVoiceShortcut(input: ActionType.InputType,
+                                 presenter: UIViewController,
+                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
+        try VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
+                                            feature: FeatureType.self,
+                                            input: input,
+                                            presenter: presenter,
+                                            completion: completion)
     }
 }
 
