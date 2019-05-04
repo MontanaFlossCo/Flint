@@ -144,7 +144,7 @@ public protocol Action {
     ///
     /// - param input: The input to use when creating associated intents for this action.
     ///
-    /// - return: An array of intents to register donate to the system for this input, or nil if there are none.
+    /// - return: An array of intents to donate to the system for this input, or nil if there are none.
     @available(iOS 12, *)
     static func associatedIntents(forInput input: InputType) throws -> [FlintIntent]?
 #endif
