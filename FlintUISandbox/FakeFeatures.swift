@@ -58,10 +58,12 @@ extension String: RouteParametersCodable {
 final class DoSomethingFakeAction: UIAction {
     typealias InputType = String?
     typealias PresenterType = NoPresenter
+
+    static let analyticsID: String? = "do-something-fake"
     
     static var activityEligibility: Set<ActivityEligibility> = [.handoff, .prediction]
 
-    static func prepareActivity(_ activity: ActivityBuilder<DoSomethingFakeAction>) {
+    static func prepareActivity(_ activity: ActivityBuilder<DoSomethingFakeAction>) throws {
         activity.title = "Do a fake thing"
         activity.subtitle = "This will show up in Siri shortcuts on iOS 12"
         activity.requiredUserInfoKeys = ["fake"]

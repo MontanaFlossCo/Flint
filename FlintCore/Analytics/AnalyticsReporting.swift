@@ -14,11 +14,12 @@ import Foundation
 /// This allows internal or third party frameworks that use Flint to expose functionality that you also track with analytics,
 /// without them directly linking to the analytics package.
 ///
-/// To use Analytics reporting, create an instance of this at runtime and add it to the ActionDispatcher observers:
+/// To use Analytics reporting, you need to make sure AnalyticsFeature.isEnabled is set to true,
+/// and you need to set an implementation of `AnalyticsProvider` to the `AnalyticsFeature.provider` property before Flint
+/// `setup` is called. By default this includes just a default console analytics provider.
 ///
 /// ```
-/// let myAnalyticsProvider = ConsoleAnalyticsProvider()
-/// Flint.dispatcher.add(observer: AnalyticsReporting(provider: myAnalyticsProvider))
+/// AnalyticsFeature.provider = MyGoogleAnalyticsProvider()
 /// ```
 ///
 /// - see: `AnalyticsProvider` for the protocol to conform to, to wire up your actual analytics service such as Mixpanel,

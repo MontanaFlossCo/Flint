@@ -87,7 +87,7 @@ class ActionActivityMappings {
         // The action can populate or veto publishing this activity by cancelling the builder passed in.
         // Introduce a new scope to prevent accidentally use of the wrong activity instance
         let builder = ActivityBuilder(activityID: activityID, action: action, input: input, appLink: appLink)
-        let function: (ActivityBuilder<ActionType>) -> Void = action.prepareActivity
+        let function: (ActivityBuilder<ActionType>) throws -> Void = action.prepareActivity
         let activity = try builder.build(function)
         return activity
     }

@@ -24,18 +24,18 @@ public class DefaultContextSpecificLogger: ContextSpecificLogger {
     }
 
     public func info(_ content: @escaping @autoclosure () -> String) {
-        target.log(level: .info, context: context, content: content)
+        target.log(level: .info, context: context, content: content())
     }
     
     public func error(_ content: @escaping @autoclosure () -> String) {
-        target.log(level: .error, context: context, content: content)
+        target.log(level: .error, context: context, content: content())
     }
     
     public func warning(_ content: @escaping @autoclosure () -> String) {
-        target.log(level: .warning, context: context, content: content)
+        target.log(level: .warning, context: context, content: content())
     }
     
     public func debug(_ content: @escaping @autoclosure () -> String) {
-        target.log(level: .debug, context: context, content: content)
+        target.log(level: .debug, context: context, content: content())
     }
 }
