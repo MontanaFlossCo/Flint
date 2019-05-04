@@ -596,10 +596,10 @@
 		49935BD2206BA0DF00CB2B5D /* LogEventContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */; };
 		49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */; };
 		49935BD4206BA0DF00CB2B5D /* LogEventContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */; };
-		49935BEA206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */; };
-		49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */; };
-		49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */; };
-		49935BED206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */; };
+		49935BEA206D23E400CB2B5D /* FIFOArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* FIFOArray.swift */; };
+		49935BEB206D23E400CB2B5D /* FIFOArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* FIFOArray.swift */; };
+		49935BEC206D23E400CB2B5D /* FIFOArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* FIFOArray.swift */; };
+		49935BED206D23E400CB2B5D /* FIFOArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BE9206D23E400CB2B5D /* FIFOArray.swift */; };
 		49935BEF206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */; };
 		49935BF0206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */; };
 		49935BF1206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */; };
@@ -681,10 +681,10 @@
 		49B6F1C422426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
 		49B6F1C522426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
 		49B6F1C622426FFD0003C847 /* NoQuantityProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */; };
-		49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
-		49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
-		49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
-		49BC1C4820795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */; };
+		49BC1C4520795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */; };
+		49BC1C4620795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */; };
+		49BC1C4720795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */; };
+		49BC1C4820795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */; };
 		49BC1C4A20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */; };
 		49BC1C4B20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */; };
 		49BC1C4C20795EB800A7FC77 /* UniquelyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */; };
@@ -1050,7 +1050,7 @@
 		49935BC9206AA80A00CB2B5D /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
 		49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedActionBinding.swift; sourceTree = "<group>"; };
 		49935BD0206BA0DF00CB2B5D /* LogEventContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEventContext.swift; sourceTree = "<group>"; };
-		49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueue.swift; sourceTree = "<group>"; };
+		49935BE9206D23E400CB2B5D /* FIFOArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIFOArray.swift; sourceTree = "<group>"; };
 		49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOrderedResultsController.swift; sourceTree = "<group>"; };
 		49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityChecker.swift; sourceTree = "<group>"; };
 		49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeatureToggles.swift; sourceTree = "<group>"; };
@@ -1087,7 +1087,7 @@
 		49B06F1A20A4C5AC004564E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSUserActivity+FlintAdditions.swift"; sourceTree = "<group>"; };
 		49B6F1C222426FFD0003C847 /* NoQuantityProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoQuantityProduct.swift; sourceTree = "<group>"; };
-		49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LIFOArrayQueueDataSource.swift; sourceTree = "<group>"; };
+		49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIFOArrayDataSource.swift; sourceTree = "<group>"; };
 		49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniquelyIdentifiable.swift; sourceTree = "<group>"; };
 		49BC1C5620867C2400A7FC77 /* ActionStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionStack.swift; sourceTree = "<group>"; };
 		49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicPath+Extensions.swift"; sourceTree = "<group>"; };
@@ -1544,8 +1544,8 @@
 				497175FD20ECE00A00F88482 /* DynamicLibraryBinding.swift */,
 				498B80852001210300E44C91 /* String+Extensions.swift */,
 				495FD9FB20026A520007A427 /* ObserverSet.swift */,
-				49935BE9206D23E400CB2B5D /* LIFOArrayQueue.swift */,
-				49BC1C4420795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift */,
+				49935BE9206D23E400CB2B5D /* FIFOArray.swift */,
+				49BC1C4420795E9E00A7FC77 /* FIFOArrayDataSource.swift */,
 				49935BEE206D250400CB2B5D /* TimeOrderedResultsController.swift */,
 				49BC1C4920795EB800A7FC77 /* UniquelyIdentifiable.swift */,
 				49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */,
@@ -2155,7 +2155,7 @@
 				4978F0C82103BBF800C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC020F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				495EED8121FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
-				49935BEB206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
+				49935BEB206D23E400CB2B5D /* FIFOArray.swift in Sources */,
 				496F8FC5203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
 				49734F7B21F4A64D00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824520D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
@@ -2237,7 +2237,7 @@
 				4956D5DA209895C2002A2A35 /* UserFeatureTogglesObserver.swift in Sources */,
 				4921706620D27D14007D6883 /* FlintImage.swift in Sources */,
 				493267582142FA2B00CC88CB /* Archive.swift in Sources */,
-				49BC1C4620795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
+				49BC1C4620795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */,
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590C2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F53203EEBB1003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
@@ -2373,7 +2373,7 @@
 				4978F0C92103BBF900C3B259 /* ContextualLoggers.swift in Sources */,
 				49B4DCC120F512D5006A6241 /* NSUserActivity+FlintAdditions.swift in Sources */,
 				495EED8221FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,
-				49935BEC206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
+				49935BEC206D23E400CB2B5D /* FIFOArray.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
 				49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
 				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
@@ -2455,7 +2455,7 @@
 				4921706720D27D14007D6883 /* FlintImage.swift in Sources */,
 				493267592142FA2B00CC88CB /* Archive.swift in Sources */,
 				495CBD97223D6E2000233816 /* AutoRenewingSubscriptionProduct.swift in Sources */,
-				49BC1C4720795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
+				49BC1C4720795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */,
 				494F59122098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590D2098A9F70075E7EE /* Platform.swift in Sources */,
 				496F8F62203EEBB2003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
@@ -2574,7 +2574,7 @@
 				4929823A205ED11900267A49 /* FeatureMetadata.swift in Sources */,
 				4971760120ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
 				49DB92462073C67900F758DC /* PurchaseRequirement.swift in Sources */,
-				49935BED206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
+				49935BED206D23E400CB2B5D /* FIFOArray.swift in Sources */,
 				496F8FF6203EEBDB003AB29B /* FeatureGroup.swift in Sources */,
 				496136BE209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				496F8FEC203EEBDB003AB29B /* ActionDispatcher.swift in Sources */,
@@ -2681,7 +2681,7 @@
 				49F6824220D2C07100B02318 /* ActivityMetadataBuilder.swift in Sources */,
 				49CF4D3C20F5281C0009FFF4 /* FlintLoggable.swift in Sources */,
 				4905C5CD221053A600890C11 /* FileHelpers.swift in Sources */,
-				49BC1C4820795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
+				49BC1C4820795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */,
 				49298244205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				49DFB7D720A2E00500D3AE68 /* SystemPermissionRequestAction.swift in Sources */,
 				491211C62159074700B199C4 /* UIAction.swift in Sources */,
@@ -2812,7 +2812,7 @@
 				498F97732077846000209633 /* FocusArea.swift in Sources */,
 				49FF056D21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				49CCF0D01F8BB25800F7020E /* Logging.swift in Sources */,
-				49935BEA206D23E400CB2B5D /* LIFOArrayQueue.swift in Sources */,
+				49935BEA206D23E400CB2B5D /* FIFOArray.swift in Sources */,
 				499FE34220BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift in Sources */,
 				49DFB7DE20A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */,
 				494F59292098AB390075E7EE /* FeaturePreconditionEvaluator.swift in Sources */,
@@ -2942,7 +2942,7 @@
 				4932674D2142F87C00CC88CB /* Entry.swift in Sources */,
 				49A99A041FF906AA00A64E8C /* DefaultLoggerFactory.swift in Sources */,
 				49DFB7C520A2DF8500D3AE68 /* AuthorisationController.swift in Sources */,
-				49BC1C4520795E9E00A7FC77 /* LIFOArrayQueueDataSource.swift in Sources */,
+				49BC1C4520795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */,
 				49FF056821FA4DE700A7E325 /* LogFile.swift in Sources */,
 				4927FF00208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,

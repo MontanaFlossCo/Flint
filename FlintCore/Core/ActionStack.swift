@@ -32,26 +32,27 @@ public class ActionStack: CustomDebugStringConvertible {
     public let feature: FeatureDefinition.Type
     public let sessionName: String
     public var timeIntervalSinceStart: TimeInterval { return -startDate.timeIntervalSinceNow }
-    public var timeIntervalToLastEntry: TimeInterval { return entries.last?.startDate.timeIntervalSince(startDate) ?? 0 }
+    public var timeIntervalToLastEntry: TimeInterval { return entries.items.last?.startDate.timeIntervalSince(startDate) ?? 0 }
     public let userInitiated: Bool
     
     /// Threadsafe access to the first entry, if any
     public var first: ActionStackEntry? {
-        return propertyAccessQueue.sync { entries.first }
+        return propertyAccessQueue.sync { entries.items.first }
     }
 
     /// - note: Only safe to access from within a `withProperties` block
-    private var entries = [ActionStackEntry]()
+    private var entries: FIFOArray<ActionStackEntry>
     
     /// Queue used for threadsafe access to the properties, as the entries are mutable
     private let propertyAccessQueue = DispatchQueue(label: "flint.tools.action-stack")
     
-    public init(id: String, sessionName: String, feature: FeatureDefinition.Type, userInitiated: Bool, parent: ActionStack?) {
+    public init(id: String, sessionName: String, feature: FeatureDefinition.Type, userInitiated: Bool, parent: ActionStack?, maxEntries: Int) {
         self.id = id
         self.sessionName = sessionName
         self.parent = parent
         self.feature = feature
         self.userInitiated = userInitiated
+        self.entries = FIFOArray<ActionStackEntry>(maxCount: maxEntries)
     }
     
     /// Add a new entry to the end of the action stack
@@ -66,7 +67,7 @@ public class ActionStack: CustomDebugStringConvertible {
         let entries = propertyAccessQueue.sync {
             return self.entries
         }
-        return block(entries)
+        return block(entries.items)
     }
     
     public var debugDescription: String {
@@ -80,9 +81,9 @@ public class ActionStack: CustomDebugStringConvertible {
 extension ActionStack {
     func writeHumanReadableDescription(userInitiatedOnly: Bool, using printer: (String) -> Void) {
         let actions: [String] = propertyAccessQueue.sync {
-            var filteredEntries = entries
+            var filteredEntries = entries.items
             if userInitiatedOnly {
-                filteredEntries = entries.filter { $0.userInitiated }
+                filteredEntries = entries.items.filter { $0.userInitiated }
             }
             return filteredEntries.map( { "\($0.startDate): \($0.debugDescription)" } )
         }

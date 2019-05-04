@@ -13,7 +13,9 @@ import Foundation
 /// It is responsible for vending new stacks when required, or existing ones that are not closed.
 public class ActionStackTracker: DebugReportable {
     public static let instance = ActionStackTracker()
-
+    
+    private let maxEntriesPerStack = 100
+    
     private let propertyAccessQueue = DispatchQueue(label: "tools.flint.ActionStackTracker")
     private var currentSequenceID: UInt = 0
 
@@ -65,7 +67,8 @@ public class ActionStackTracker: DebugReportable {
                                                   sessionName: session.name,
                                                   feature: feature,
                                                   userInitiated: userInitiated,
-                                                  parent: parentStack)
+                                                  parent: parentStack,
+                                                  maxEntries: maxEntriesPerStack)
                 if let parent = parentStack {
                     parent.add(entry: ActionStackEntry(actionStack!, userInitiated: session.userInitiatedActions))
                 }

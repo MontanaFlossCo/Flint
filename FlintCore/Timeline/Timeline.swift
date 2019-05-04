@@ -26,10 +26,10 @@ import Foundation
 /// - see: `Flint.quickSetup` which will add this dispatcher for you automatically.
 public class Timeline: ActionDispatchObserver, DebugReportable {
     public static let instance: Timeline = Timeline()
-    public private(set) var entries: LIFOArrayQueueDataSource<TimelineEntry>
+    public private(set) var entries: FIFOArrayDataSource<TimelineEntry>
 
     public init(maxEntries: Int = 100) {
-        entries = LIFOArrayQueueDataSource<TimelineEntry>(maxCount: maxEntries)
+        entries = FIFOArrayDataSource<TimelineEntry>(maxCount: maxEntries)
 
         DebugReporting.add(self)
     }

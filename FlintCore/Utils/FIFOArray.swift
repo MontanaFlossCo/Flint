@@ -1,5 +1,5 @@
 //
-//  LIFOArrayQueue.swift
+//  FIFOArray.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 29/03/2018.
@@ -10,7 +10,7 @@ import Foundation
 
 /// A queue of items that allows appending new items and automatically culls old items to stay within
 /// `maxCount` items.
-struct LIFOArrayQueue<T>: Sequence {
+struct FIFOArray<T>: Sequence {
     public private(set) var items: [T] = []
     
     var maxCount: Int
@@ -40,7 +40,7 @@ struct LIFOArrayQueue<T>: Sequence {
     }
 }
 
-extension LIFOArrayQueue {
+extension FIFOArray {
     func makeIterator() -> Array<T>.Iterator {
         return items.makeIterator()
     }
