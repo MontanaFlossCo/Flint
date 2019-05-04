@@ -16,10 +16,10 @@ import Foundation
 ///
 /// - see: `FocusLogDataAccessFeature` which provides realtime access to the data within this logging buffer.
 public class FocusLogging: LoggerOutput {
-    public private(set) var history: LIFOArrayQueueDataSource<LogEvent>
+    public private(set) var history: FIFOArrayDataSource<LogEvent>
     
     public init(maxCount: Int) {
-        history = LIFOArrayQueueDataSource<LogEvent>(maxCount: maxCount)
+        history = FIFOArrayDataSource<LogEvent>(maxCount: maxCount)
     }
     
     public func log(event: LogEvent) {

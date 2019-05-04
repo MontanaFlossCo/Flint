@@ -1,5 +1,5 @@
 //
-//  LIFOArrayQueueDataSource.swift
+//  FIFOArrayDataSource.swift
 //  FlintCore
 //
 //  Created by Marc Palmer on 07/04/2018.
@@ -12,13 +12,13 @@ import Foundation
 /// which is threadsafe and calls observers when items loaded or added.
 ///
 /// - note: You can append items, modify observers and read the queue (using `snapshot()`) from any queue.
-public class LIFOArrayQueueDataSource<T>: TimeOrderedResultsControllerDataSource where T:UniquelyIdentifiable {
-    private var accessQueue = DispatchQueue(label: "tools.flint.LIFOArrayQueueDataSource")
+public class FIFOArrayDataSource<T>: TimeOrderedResultsControllerDataSource where T:UniquelyIdentifiable {
+    private var accessQueue = DispatchQueue(label: "tools.flint.FIFOArrayDataSource")
     var observers = ObserverSet<TimeOrderedResultsControllerDataSourceObserver>()
-    var lifoQueue: LIFOArrayQueue<T>
+    var lifoQueue: FIFOArray<T>
     
     public init(maxCount: Int) {
-        lifoQueue = LIFOArrayQueue<T>(maxCount: maxCount)
+        lifoQueue = FIFOArray<T>(maxCount: maxCount)
     }
     
     public func append(_ item: T) {
