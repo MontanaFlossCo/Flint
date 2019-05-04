@@ -766,6 +766,10 @@
 		49DFB7E120A3464800D3AE68 /* FeaturePermissionRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */; };
 		49E1A231203C31C900F7555C /* FlintInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1A230203C31C900F7555C /* FlintInternal.swift */; };
 		49E1A233203C35C800F7555C /* RouteScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1A232203C35C800F7555C /* RouteScope.swift */; };
+		49E49159227DEBDE0071ED74 /* AnalyticsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */; };
+		49E4915A227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */; };
+		49E4915B227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */; };
+		49E4915C227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */; };
 		49EA0BCE208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
 		49EA0BCF208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
 		49EA0BD0208B874900B9A32E /* SmartDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */; };
@@ -1124,6 +1128,7 @@
 		49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePermissionRequirements.swift; sourceTree = "<group>"; };
 		49E1A230203C31C900F7555C /* FlintInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintInternal.swift; sourceTree = "<group>"; };
 		49E1A232203C35C800F7555C /* RouteScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteScope.swift; sourceTree = "<group>"; };
+		49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsFeature.swift; sourceTree = "<group>"; };
 		49EA0BCD208B874900B9A32E /* SmartDispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartDispatchQueue.swift; sourceTree = "<group>"; };
 		49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionPermissionAdapter.swift; sourceTree = "<group>"; };
 		49F2CF211FF7B56B004F16EF /* NoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPresenter.swift; sourceTree = "<group>"; };
@@ -1625,6 +1630,7 @@
 				49A999F91FF7FA6700A64E8C /* AnalyticsReporting.swift */,
 				49A999FB1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift */,
 				49DB925F20757D9500F758DC /* AnalyticsProvider.swift */,
+				49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -2194,6 +2200,7 @@
 				496F8FD5203EEBDA003AB29B /* TopicPath+Extensions.swift in Sources */,
 				494C27A420C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				496136D02099013000291885 /* PhotosPermissionAdapter.swift in Sources */,
+				49E4915A227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */,
 				49DFB7CB20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				495CBD8F223D6E1F00233816 /* NonConsumableProduct.swift in Sources */,
 				4946FAC6208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
@@ -2421,6 +2428,7 @@
 				496136BD209900BC00291885 /* SystemPermissionChecker.swift in Sources */,
 				4921705D20D25625007D6883 /* ActivityCodable.swift in Sources */,
 				496F8FE9203EEBDA003AB29B /* StaticActionBinding.swift in Sources */,
+				49E4915B227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */,
 				496136DB2099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				496F8FB7203EEBD4003AB29B /* URLMappings.swift in Sources */,
 				4996D6FF22748D7500CDCAB0 /* IntentAction+Internal+Extensions.swift in Sources */,
@@ -2738,6 +2746,7 @@
 				4956D5D720986BDE002A2A35 /* FeatureConstraintsBuilder.swift in Sources */,
 				4927FEF1208A3B7C00163576 /* ActivityType.swift in Sources */,
 				496F8F7C203EEBB3003AB29B /* Logging.swift in Sources */,
+				49E4915C227DEBDF0071ED74 /* AnalyticsFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2947,6 +2956,7 @@
 				4927FF00208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				49DFB7CA20A2DFA600D3AE68 /* DefaultAuthorisationController.swift in Sources */,
 				498A89582069695100457D66 /* FocusFeature.swift in Sources */,
+				49E49159227DEBDE0071ED74 /* AnalyticsFeature.swift in Sources */,
 				491211BD2158FC8E00B199C4 /* SiriIntentsFeature.swift in Sources */,
 				491A348B21E7E77D00E81D58 /* IntentResponsePresenter.swift in Sources */,
 			);
