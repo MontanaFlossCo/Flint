@@ -156,7 +156,7 @@ extension StaticActionBinding where ActionType.InputType == NoInput, ActionType.
         session.perform(self, input: .noInput, presenter: NoPresenter(), completion: completion)
     }
 
-    public func perform(withUserInitiated userInitiated: Bool,
+    public func perform(userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)

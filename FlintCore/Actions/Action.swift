@@ -24,7 +24,7 @@ import Intents
 ///
 /// Note that actions have their own analytics ID defined statically.
 public protocol Action {
-    /// An alias for the completion type used with this action. This is a convience to make
+    /// An alias for the completion type used with this action. This is a convenience to make
     /// it less verbose to conform to this protocol.
     typealias Completion = CompletionRequirement<ActionPerformOutcome>
     

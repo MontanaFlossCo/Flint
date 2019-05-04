@@ -35,7 +35,7 @@ public class AnalyticsReporting: ActionDispatchObserver {
         guard ActionType.analyticsID != nil else {
             return
         }
-        let context =  ActionType.analyticsAttributes(forRequest: request)
+        let context = ActionType.analyticsAttributes(forRequest: request)
         provider.analyticsEventWillBegin(feature: FeatureType.self,
                                          action: ActionType.self,
                                          context: context)
