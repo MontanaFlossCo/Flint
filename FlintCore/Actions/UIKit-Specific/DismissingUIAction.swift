@@ -26,7 +26,7 @@ import UIKit
 ///
 /// // Then, in some app code:
 ///
-/// ShowProfileFeature.dismiss.perform(input: .animated(true))
+/// ShowProfileFeature.dismiss.perform(withInput: .animated(true))
 /// ```
 /// - see: `DismissUIInput`
 #if os(iOS) || os(tvOS)

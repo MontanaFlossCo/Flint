@@ -33,13 +33,13 @@ public struct VerifiedActionBinding<FeatureType, ActionType> where FeatureType: 
         self.actionBinding = actionBinding
     }
 
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: input, presenter: presenter, completion: completion)
     }
     
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource = .application,
@@ -47,7 +47,7 @@ public struct VerifiedActionBinding<FeatureType, ActionType> where FeatureType: 
         session.perform(self, input: input, presenter: presenter, userInitiated: userInitiated, source: source, completion: completion)
     }
 
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource = .application,
@@ -58,12 +58,12 @@ public struct VerifiedActionBinding<FeatureType, ActionType> where FeatureType: 
 
 /// Overloads for actions with no presenter
 extension VerifiedActionBinding where ActionType.PresenterType == NoPresenter {
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: input, presenter: NoPresenter(), completion: completion)
     }
 
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
@@ -73,12 +73,12 @@ extension VerifiedActionBinding where ActionType.PresenterType == NoPresenter {
 
 /// Overloads for actions with no input
 extension VerifiedActionBinding where ActionType.InputType == NoInput {
-    public func perform(presenter: ActionType.PresenterType,
+    public func perform(withPresenter presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: presenter, completion: completion)
     }
 
-    public func perform(presenter: ActionType.PresenterType,
+    public func perform(withPresenter presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
@@ -88,11 +88,11 @@ extension VerifiedActionBinding where ActionType.InputType == NoInput {
 
 /// Overloads for actions with neither input nor presenter
 extension VerifiedActionBinding where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-    public func perform(completion: ((ActionOutcome) -> ())? = nil) {
+    public func perform(withCompletion completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: NoPresenter(), completion: completion)
     }
 
-    public func perform(userInitiated: Bool,
+    public func perform(withUserInitiated userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: NoPresenter(), userInitiated: userInitiated, source: source, completion: completion)

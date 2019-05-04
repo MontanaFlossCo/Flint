@@ -46,7 +46,7 @@ class VoiceShortcuts {
     /// - param presenter: The `UIViewController` to use to present the view controller
     /// - param completion: The callback to indicate the outcome
     @available(iOS 12, *)
-    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
+    static func addVoiceShortcut<ActionType, FeatureType>(forAction action: ActionType.Type,
                                                           feature: FeatureType.Type,
                                                           input: ActionType.InputType,
                                                           presenter: UIViewController,
@@ -69,13 +69,13 @@ class VoiceShortcuts {
     /// - param presenter: The `UIViewController` to use to present the view controller
     /// - param completion: The callback to indicate the outcome
     @available(iOS 12, *)
-    static func addVoiceShortcut<ActionType, FeatureType>(action: ActionType.Type,
+    static func addVoiceShortcut<ActionType, FeatureType>(forAction action: ActionType.Type,
                                                           feature: FeatureType.Type,
                                                           input: ActionType.InputType,
                                                           presenter: UIViewController,
                                                           completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws where ActionType: IntentAction, FeatureType: FeatureDefinition {
         let shortcut: INShortcut
-        if let intent = try ActionType.intent(input: input) {
+        if let intent = try ActionType.intent(forInput: input) {
             guard let intentShortcut = INShortcut(intent: intent) else {
                 flintUsageError("The action \(action) on feature \(feature) returned an INIntent that is not valid for creating shortcuts: \(intent)")
             }

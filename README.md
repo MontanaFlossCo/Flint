@@ -116,7 +116,7 @@ the case where it is not:
 
 ```swift
 if let request = DocumentSharingFeature.share.request() {
-    request.perform(input: document, presenter: presenter)
+    request.perform(withInput: document, presenter: presenter)
 } else {
     showPremiumUpgradeOrPermissionAuthorisations()
 }
@@ -169,7 +169,7 @@ The action type `ConfirmAccountAction` is not shown here, for brevity. See the [
 Of course you can easily perform this same action from code in your app if required:
 
 ```swift
-UserAccountManagementFeature.confirmAccount.perform(input: confirmationToken, presenter: presenter)
+UserAccountManagementFeature.confirmAccount.perform(withInput: confirmationToken, presenter: presenter)
 ```
 
 If you need to, you can create URLs that link to these mapped actions using [`Flint.linkCreator`](https://github.com/MontanaFlossCo/Flint/blob/master/FlintCore/Core/Flint.swift). 

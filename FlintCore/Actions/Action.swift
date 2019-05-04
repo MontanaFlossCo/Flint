@@ -24,6 +24,8 @@ import Intents
 ///
 /// Note that actions have their own analytics ID defined statically.
 public protocol Action {
+    /// An alias for the completion type used with this action. This is a convience to make
+    /// it less verbose to conform to this protocol.
     typealias Completion = CompletionRequirement<ActionPerformOutcome>
     
     /// The InputType defines the type of value to expect as the input for the action.
@@ -77,7 +79,9 @@ public protocol Action {
     ///
     /// The `completion` closure must be called when the action has been performed.
     ///
-    /// - param context: The action's context, which includes the `input` and
+    /// - param context: The action's context, which includes the `input`, logging and source information
+    /// - param presenter: The presenter the action must use
+    /// - param completion: The completion requirement that the action must use to indicate success or failure
     static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status
 
     // The stuff that follows should be in a separate protocol but requires InputType so it is not possible to do this
@@ -92,7 +96,12 @@ public protocol Action {
 
     /// Implement this function to marshal the information about the action invocation into a dictionary for your analytics system.
     /// If you don't use analytics, you don't need to implement this.
-    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]?
+    ///
+    /// - param request: The action request that is being performed. You use the properties of this, including the
+    /// `input` property of it, to return any extra attributes you'd like to be logged by your analytics system.
+    ///
+    /// - return: A dictionary of keys and values to be send with the analytics event, or nil if there are none
+    static func analyticsAttributes<F>(forRequest request: ActionRequest<F, Self>) -> [String:Any?]?
 
     // MARK: User Activity - optional
     
@@ -116,6 +125,8 @@ public protocol Action {
     /// used due to an error and your app needs to know this, you can throw an error.
     ///
     /// - see: `ActivityBuilder`
+    ///
+    /// - param activity: An instance of the activity builder that you use to set up the `NSUserActivity` instance
     static func prepareActivity(_ activity: ActivityBuilder<Self>) throws
 
     // MARK: Siri and Intents
@@ -130,9 +141,12 @@ public protocol Action {
 #if canImport(Intents)
     /// Implement this function if the Action supports one or more Siri Intents for Shortcuts. This is used to automatically
     /// donate shortcuts with Siri if you have the `IntentShortcutDonationFeature` enabled.
+    ///
     /// - param input: The input to use when creating associated intents for this action.
+    ///
+    /// - return: An array of intents to register donate to the system for this input, or nil if there are none.
     @available(iOS 12, *)
-    static func associatedIntents(input: InputType) throws -> [FlintIntent]?
+    static func associatedIntents(forInput input: InputType) throws -> [FlintIntent]?
 #endif
 
 }

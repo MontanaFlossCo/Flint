@@ -73,7 +73,7 @@ class URLMappingRouterTests: XCTestCase {
         
         let presenter = MockPresentationRouter()
         
-        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: url,
                                                                          presenter: presenter,
                                                                          completion: { outcome in
                                                                             switch outcome {
@@ -92,7 +92,7 @@ class URLMappingRouterTests: XCTestCase {
         
         let presenter = MockPresentationRouter()
         
-        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: url,
                                                                          presenter: presenter,
                                                                          completion: { outcome in
                                                                             switch outcome {
@@ -112,7 +112,7 @@ class URLMappingRouterTests: XCTestCase {
 
         let presenter = MockPresentationRouter()
 
-        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(input: url,
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: url,
                                                                          presenter: presenter,
                                                                          completion: { outcome in
                                                                             switch outcome {

@@ -91,7 +91,7 @@ public class URLMappingsBuilder {
                         let actionCompletion = Action.Completion(queue: ActionType.queue) { (performOutcome, calledAsync) in
                             completion(performOutcome)
                         }
-                        let completionResult = actionBinding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
+                        let completionResult = actionBinding.perform(withInput: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
                         flintUsagePrecondition(!completionResult.isCompletingAsync, "Actions mapped to URLs must complete synchronously, but \(ActionType.self) did not")
                     case .unsupported:
                         FlintInternal.urlMappingLogger?.error("No presentation for mapping \(mapping) for \(actionBinding) - received .unsupported")
@@ -139,7 +139,7 @@ public class URLMappingsBuilder {
                             let actionCompletion = Action.Completion(queue: ActionType.queue) { (performOutcome, calledAsync) in
                                 completion(performOutcome)
                             }
-                            let completionResult = request.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
+                            let completionResult = request.perform(withInput: input, presenter: presenter, userInitiated: true, source: source, completion: actionCompletion)
                             flintUsagePrecondition(!completionResult.isCompletingAsync, "Actions mapped to URLs must complete synchronously, but \(ActionType.self) did not")
                         } else {
                             completion(.failureWithFeatureTermination(error: PerformIncomingURLAction.URLActionError.notAvailable))

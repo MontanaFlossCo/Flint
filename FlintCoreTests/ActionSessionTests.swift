@@ -22,7 +22,7 @@ class ActionSessionTests: XCTestCase {
         let presenter = MockTestPresenter()
         
         let completionExpectation = expectation(description: "Async completion called")
-        TestFeature.action1.perform(presenter: presenter) { outcome in
+        TestFeature.action1.perform(withPresenter: presenter) { outcome in
             completionExpectation.fulfill()
             
             XCTAssertTrue(presenter.action1Called, "Action 1 should have been called")
@@ -51,7 +51,7 @@ fileprivate final class TestAction1: UIAction {
         
         /// This is threadsafe if the ActionSessions' callerQueue is the same as this action's caller queue.
         /// It would be nice if we could protect against this not being the case
-        TestFeature.action2.perform(presenter: presenter) { outcome in
+        TestFeature.action2.perform(withPresenter: presenter) { outcome in
             presenter.action2WasCalled()
             syncOutcome = outcome
         }

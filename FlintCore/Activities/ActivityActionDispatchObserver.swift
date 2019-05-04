@@ -79,7 +79,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         
         // Create the lazy function that will create the activity on demand
         let prepareActivityWrapper: () throws -> NSUserActivity? = {
-            return try actionRequest.actionBinding.activity(input: input, withURL: appLink)
+            return try actionRequest.actionBinding.activity(forInput: input, withURL: appLink)
         }
 
         let publishState = PublishActivityRequest(actionName: ActionType.name,
@@ -87,7 +87,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
                                                 activityCreator: prepareActivityWrapper,
                                                 appLink: appLink)
         DispatchQueue.main.async {
-            publishRequest.perform(input: publishState, presenter: NoPresenter(), userInitiated: false, source: .application)
+            publishRequest.perform(withInput: publishState, presenter: NoPresenter(), userInitiated: false, source: .application)
         }
     }
 }

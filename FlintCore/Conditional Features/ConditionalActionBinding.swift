@@ -34,7 +34,7 @@ import Foundation
 ///
 /// if let request = TimelineFeature.loadData.request() {
 ///     // Perform it in the main session. Use `ActionSession.perform` to use other sessions.
-///     request.perform(input: input, presenter: presenter)
+///     request.perform(withInput: input, presenter: presenter)
 /// } else {
 ///     fatalError("Should not have been able to chose this action, feature is disabled!")
 /// }
