@@ -50,7 +50,7 @@ final class HandleActivityAction: UIAction {
             return resultWithForcedStackClose
         }
 
-        let completionStatus = request.perform(input: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
+        let completionStatus = request.perform(withInput: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
         flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
         return completionStatus
@@ -70,7 +70,7 @@ final class HandleActivityAction: UIAction {
             return resultWithForcedStackClose
         }
 
-        let completionStatus = request.perform(input: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
+        let completionStatus = request.perform(withInput: context.input, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
         flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
         return completionStatus

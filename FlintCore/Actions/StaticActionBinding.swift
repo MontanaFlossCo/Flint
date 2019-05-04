@@ -64,7 +64,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param presenter: The object presenting the outcome of the action
     /// - param input: The value to pass as the input of the action
     /// - param completion: The completion handler to call.
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: input, presenter: presenter, completion: completion)
@@ -79,7 +79,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion handler to call.
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
@@ -97,7 +97,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     /// - param userInitiated: Set to `true` if the user explicitly chose to perform this action, `false` if not
     /// - param source: Indicates where the request came from
     /// - param completion: The completion request to use.
-    func perform(input: ActionType.InputType,
+    func perform(withInput input: ActionType.InputType,
                  presenter: ActionType.PresenterType,
                  userInitiated: Bool,
                  source: ActionSource,
@@ -115,19 +115,19 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     ///
     /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will
     /// publish activities automatically.
-    public func activity(input: ActionType.InputType, withURL url: URL?) throws -> NSUserActivity? {
+    public func activity(forInput input: ActionType.InputType, withURL url: URL?) throws -> NSUserActivity? {
         return try ActionActivityMappings.createActivity(for: self, with: input, appLink: url)
     }
 }
 
 /// Overloads for the case where there is no presenter
 extension StaticActionBinding where ActionType.PresenterType == NoPresenter {
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: input, presenter: NoPresenter(), completion: completion)
     }
 
-    public func perform(input: ActionType.InputType,
+    public func perform(withInput input: ActionType.InputType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
@@ -137,12 +137,12 @@ extension StaticActionBinding where ActionType.PresenterType == NoPresenter {
 
 /// Overloads for the case where there is no input
 extension StaticActionBinding where ActionType.InputType == NoInput {
-    public func perform(presenter: ActionType.PresenterType,
+    public func perform(withPresenter presenter: ActionType.PresenterType,
                         completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: presenter, completion: completion)
     }
 
-    public func perform(presenter: ActionType.PresenterType,
+    public func perform(withPresenter presenter: ActionType.PresenterType,
                         userInitiated: Bool,
                         source: ActionSource,
                         completion: ((ActionOutcome) -> ())? = nil) {
@@ -152,7 +152,7 @@ extension StaticActionBinding where ActionType.InputType == NoInput {
 
 /// Overloads for the case where there is neither a presenter nor an input
 extension StaticActionBinding where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-    public func perform(completion: ((ActionOutcome) -> ())? = nil) {
+    public func perform(withCompletion completion: ((ActionOutcome) -> ())? = nil) {
         session.perform(self, input: .noInput, presenter: NoPresenter(), completion: completion)
     }
 

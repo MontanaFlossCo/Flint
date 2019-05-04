@@ -28,11 +28,12 @@ extension VerifiedActionBinding {
     ///
     /// - param input: The input to pass to the action when it is later invoked from the Siri Shortcut by the user.
     /// - param presenter: The `UIViewController` to use to present the view controller
+    /// - param completion: The closure to call with the result of the operation
     @available(iOS 12, *)
-    public func addVoiceShortcut(input: ActionType.InputType,
+    public func addVoiceShortcut(forInput input: ActionType.InputType,
                                  presenter: UIViewController,
                                  completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
-        try VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
+        try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
                                             feature: FeatureType.self,
                                             input: input,
                                             presenter: presenter,
@@ -51,10 +52,11 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// - param intent: The intent received from an Intent Extension handler. This must be of the same type as
     /// this actions's `IntentType`
     /// - param completion: The intent handler completion closure from an Intent Extension handler.
+    ///
     /// - return: The result of performing the action.
-    public func perform(intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
+    public func perform(withIntent intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
         let presenter = IntentResponsePresenter(completion: completion)
-        return try perform(intent: intent, presenter: presenter)
+        return try perform(withIntent: intent, presenter: presenter)
     }
     
     /// Perform an intent intended for this action. The action will be passed the input extracted from the intent,
@@ -65,10 +67,11 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// - param intent: The intent received from an Intent Extension handler. This must be of the same type as
     /// this actions's `IntentType`
     /// - param completion: The intent handler completion closure from an Intent Extension handler.
+    ///
     /// - return: The result of performing the action.
-    public func perform(intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
+    public func perform(withIntent intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
         /// !!! TODO: We probably need a Result<T> here as nil could be valid
-        guard let inputFromIntent = try ActionType.input(from: intent) else {
+        guard let inputFromIntent = try ActionType.input(fromIntent: intent) else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
 
@@ -78,7 +81,7 @@ extension VerifiedActionBinding where ActionType: IntentAction {
             syncOutcome = outcome
         }
 
-        let status: Action.Completion.Status = perform(input: inputFromIntent,
+        let status: Action.Completion.Status = perform(withInput: inputFromIntent,
                                                        presenter: presenter,
                                                        userInitiated: true,
                                                        source: .intent,
@@ -99,7 +102,7 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// action represented by this action request. The action must support creating an `INIntent` for a custom intent extension
     /// to be invoked.
     ///
-    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(input:)` function.
+    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(forInput:)` function.
     /// If that function returns nil (or is not defined by your `Action`), it will attempt to create an `NSUserActivity`
     /// for the `Action` and instead use that. If the `Action` does not support `Activities`, this will fail.
     ///
@@ -111,17 +114,17 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     ///
     /// - see: `AddVoiceShortcutResult`
     ///
-    /// - note: This variant exists for the specialisation that will call `intent(input:)` on the Action to create an
+    /// - note: This variant exists for the specialisation that will call `intent(forInput:)` on the Action to create an
     /// an intent for the shortcut.
     @available(iOS 12, *)
-    public func addVoiceShortcut(input: ActionType.InputType,
+    public func addVoiceShortcut(forInput input: ActionType.InputType,
                                  presenter: UIViewController,
                                  completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
-        try VoiceShortcuts.addVoiceShortcut(action: ActionType.self,
-                                        feature: FeatureType.self,
-                                        input: input,
-                                        presenter: presenter,
-                                        completion: completion)
+        try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
+                                            feature: FeatureType.self,
+                                            input: input,
+                                            presenter: presenter,
+                                            completion: completion)
     }
 
     /// Show the system's Voice Shortcut editing UI for the given shortcut.
@@ -149,11 +152,11 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     /// This call will throw if the input fails to be converted to an intent or activity.
     ///
     /// - param input: The input to the action, for which you wish to create a shortcut
-    /// - return: The shortcut, or nil if the action's `intent(input:)` function vetoed creation of the intent by
+    /// - return: The shortcut, or nil if the action's `intent(forInput:)` function vetoed creation of the intent by
     /// returning nil.
     @available(iOS 12, *)
-    public func shortcut(input: ActionType.InputType) throws -> INShortcut? {
-        return try ActionType.shortcut(input: input)
+    public func shortcut(forInput input: ActionType.InputType) throws -> INShortcut? {
+        return try ActionType.shortcut(forInput: input)
     }
 
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
@@ -162,8 +165,8 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     ///
     /// - param input: The input to the action, for which you wish to donate a shortcut
     @available(iOS 12, *)
-    public func donateToSiri(input: ActionType.InputType) throws {
-        try ActionType.donateToSiri(input: input)
+    public func donateToSiri(forInput input: ActionType.InputType) throws {
+        try ActionType.donateToSiri(forInput: input)
     }
 }
 

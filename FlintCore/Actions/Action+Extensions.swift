@@ -45,7 +45,7 @@ public extension Action {
     }
 
     /// Default behaviour is to not provide any attributes for analytics
-    static func analyticsAttributes<F>(for request: ActionRequest<F, Self>) -> [String:Any?]? {
+    static func analyticsAttributes<F>(forRequest request: ActionRequest<F, Self>) -> [String:Any?]? {
         return nil
     }
 }
@@ -74,7 +74,7 @@ public extension Action {
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
     @available(iOS 12, *)
-    static func associatedIntents(input: InputType) -> [FlintIntent]? {
+    static func associatedIntents(forInput input: InputType) -> [FlintIntent]? {
         return nil
     }
 #endif

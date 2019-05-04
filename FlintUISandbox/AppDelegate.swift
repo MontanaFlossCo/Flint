@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         testTimer?.setEventHandler(handler: {
             bgLogs.development?.debug("Performing a fake action, this will show even if not in Focus")
             if let request = FakeFeature.action1.request() {
-                request.perform(input: nil)
+                request.perform(withInput: nil)
             } else {
                 bgLogs.development?.debug("NOT Performing the fake action, permissions were not available")
             }

@@ -127,7 +127,7 @@ class ActionActivityMappings {
                     let completion = Action.Completion(queue: nil, completionHandler: { performOutcome, completedAsync in
                         outcome = performOutcome
                     })
-                    let result = binding.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
+                    let result = binding.perform(withInput: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
                     flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
                     flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
                     guard let performOutcome = outcome else {
@@ -176,7 +176,7 @@ class ActionActivityMappings {
                             outcome = performOutcome
                         })
     
-                        let result = request.perform(input: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
+                        let result = request.perform(withInput: input, presenter: presenter, userInitiated: true, source: source, completion: completion)
                         flintUsagePrecondition(completion.verify(result), "Completion returned a result from a different completion object")
                         flintUsagePrecondition(!result.isCompletingAsync, "Activities can only invoke actions that perform synchronous completion")
                         guard let performOutcome = outcome else {

@@ -42,7 +42,7 @@ public class FocusLogViewController: UITableViewController, FocusLogPresenter {
             present(alertController, animated: true)
             return
         }
-        request.perform(input: 20, presenter: self)
+        request.perform(withInput: 20, presenter: self)
     }
     
     // MARK: Table View
@@ -79,7 +79,7 @@ public class FocusLogViewController: UITableViewController, FocusLogPresenter {
             guard let request = FocusLogDataAccessFeature.request(FocusLogDataAccessFeature.loadMoreResults) else {
                 flintUsageError("This UI requires that FocusLogFeature is enabled. Set FocusLogFeature.isAvailable = true at startup.")
             }
-            request.perform(input: 20, presenter: self)
+            request.perform(withInput: 20, presenter: self)
             return nil
         }
         let entry = items[indexPath.item]

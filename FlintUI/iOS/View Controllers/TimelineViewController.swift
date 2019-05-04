@@ -40,7 +40,7 @@ public class TimelineViewController: UITableViewController, TimelinePresenter {
             present(alertController, animated: true)
             return
         }
-        request.perform(input: 20, presenter: self)
+        request.perform(withInput: 20, presenter: self)
     }
 
     override public func didReceiveMemoryWarning() {
@@ -106,7 +106,7 @@ public class TimelineViewController: UITableViewController, TimelinePresenter {
             guard let request = TimelineDataAccessFeature.request(TimelineDataAccessFeature.loadMoreResults) else {
                 flintUsageError("This UI requires that TimelineFeature is enabled. Set TimelineFeature.isAvailable = true at startup.")
             }
-            request.perform(input: 20, presenter: self)
+            request.perform(withInput: 20, presenter: self)
             return nil
         }
         let entry = items[indexPath.item]

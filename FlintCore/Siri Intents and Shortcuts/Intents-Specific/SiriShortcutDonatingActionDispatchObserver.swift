@@ -25,7 +25,7 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     func actionDidComplete<FeatureType, ActionType>(_ request: ActionRequest<FeatureType, ActionType>, outcome: ActionPerformOutcome) where FeatureType : FeatureDefinition, ActionType : Action {
         let associatedIntents: [FlintIntent]?
         do {
-            associatedIntents = try ActionType.associatedIntents(input: request.context.input)
+            associatedIntents = try ActionType.associatedIntents(forInput: request.context.input)
         } catch let error {
             loggers.development?.error("Unable to get associated intents for \(request.context.input): \(error)")
             loggers.production?.error("Unable to get associated intents for \(request.context.input): \(error)")
@@ -39,7 +39,7 @@ class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
         for intent in intents {
             if let actionRequest = IntentShortcutDonationFeature.donateShortcut.request() {
                 loggers.development?.debug("Action \(ActionType.self) completed and returned an Intent to donate: \(intent)")
-                actionRequest.perform(input: FlintIntentWrapper(intent: intent))
+                actionRequest.perform(withInput: FlintIntentWrapper(intent: intent))
             } else {
                 loggers.development?.debug("Action \(ActionType.self) completed and has an intent to donate but the donation feature is not enabled")
             }
