@@ -719,6 +719,14 @@
 		49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */; };
 		49D447F51FEC69F900DBB352 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F41FEC69F900DBB352 /* Feature.swift */; };
 		49D447F71FEC6AA800DBB352 /* ConditionalFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */; };
+		49DA893D227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
+		49DA893E227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
+		49DA893F227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
+		49DA8940227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
+		49DA8942227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */; };
+		49DA8943227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */; };
+		49DA8944227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */; };
+		49DA8945227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */; };
 		49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
 		49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */; };
@@ -1113,6 +1121,8 @@
 		49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingTests.swift; sourceTree = "<group>"; };
 		49D447F41FEC69F900DBB352 /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalFeature.swift; sourceTree = "<group>"; };
+		49DA893C227E177C00C44653 /* ActionStacksFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStacksFeature.swift; sourceTree = "<group>"; };
+		49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyCompletionRequirement.swift; sourceTree = "<group>"; };
 		49DB63F7205BD55700B9EE5D /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
 		49DB63F9205BD6DB00B9EE5D /* DebugReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReportingTests.swift; sourceTree = "<group>"; };
 		49DB923D2073B4F500F758DC /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -1558,6 +1568,7 @@
 				495576DA20D589A4008C1C34 /* ErrorFunctions.swift */,
 				492B2A4220FE9A1B00F4EAB0 /* CompletionRequirement.swift */,
 				4905C5C9221053A600890C11 /* FileHelpers.swift */,
+				49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1738,6 +1749,7 @@
 				49647D3C203873C7005F9825 /* FlintFeatures.swift */,
 				49C9C3791FFD317800E4D500 /* TopicPath+Extensions.swift */,
 				4946FABF208D16750097E10E /* ActionsBuilder.swift */,
+				49DA893C227E177C00C44653 /* ActionStacksFeature.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2223,6 +2235,7 @@
 				496F8F4A203EEBA5003AB29B /* ObserverSet.swift in Sources */,
 				49638B822222B57F0054C7AA /* DismissUIInput.swift in Sources */,
 				4996BF1D221E0B7B00355675 /* TerminatingAction.swift in Sources */,
+				49DA893E227E177C00C44653 /* ActionStacksFeature.swift in Sources */,
 				496F8F83203EEBBA003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F54203EEBB1003AB29B /* Timeline.swift in Sources */,
 				495576DC20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
@@ -2266,6 +2279,7 @@
 				49EA0BCF208B874900B9A32E /* SmartDispatchQueue.swift in Sources */,
 				4927FEF3208A3B8800163576 /* ActionSource.swift in Sources */,
 				4937001A21F4E9FA007F78BB /* SiriIntentsFeature.swift in Sources */,
+				49DA8943227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */,
 				49638B7F2222B2140054C7AA /* DismissingUIAction.swift in Sources */,
 				496F8F9C203EEBC4003AB29B /* PresentationRouter.swift in Sources */,
 				493267492142F7F200CC88CB /* FileManager+ZIP.swift in Sources */,
@@ -2367,6 +2381,7 @@
 				49298243205FCC6000267A49 /* ActionOutcome.swift in Sources */,
 				494F59442098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
 				49FC460520A4792700679F97 /* Formatters.swift in Sources */,
+				49DA893F227E177C00C44653 /* ActionStacksFeature.swift in Sources */,
 				496F8F70203EEBB2003AB29B /* TopicPath.swift in Sources */,
 				496F8F8D203EEBBB003AB29B /* UserFeatureToggles.swift in Sources */,
 				49137FF520CF29C500C696F4 /* Action+Extensions.swift in Sources */,
@@ -2444,6 +2459,7 @@
 				496F8F8C203EEBBB003AB29B /* AvailabilityChecker.swift in Sources */,
 				496F8F63203EEBB2003AB29B /* Timeline.swift in Sources */,
 				495576DD20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
+				49DA8944227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */,
 				49839CEF2046D1D500C0AED3 /* DebugReporting.swift in Sources */,
 				49DFB7DB20A3462600D3AE68 /* FeaturePurchaseRequirements.swift in Sources */,
 				49DDD70D2135605800FC8ECC /* ActionPerformError.swift in Sources */,
@@ -2633,6 +2649,7 @@
 				496F8F94203EEBBC003AB29B /* ConditionalActionBinding.swift in Sources */,
 				49FC460D20A4882400679F97 /* DebugReportable.swift in Sources */,
 				494C27A620C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
+				49DA8945227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */,
 				496136DC2099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				496136D72099015900291885 /* LocationPermissionAdapter.swift in Sources */,
 				496F8F9F203EEBC5003AB29B /* RoutesFeature.swift in Sources */,
@@ -2729,6 +2746,7 @@
 				49FC460920A4793800679F97 /* FocusFeature.swift in Sources */,
 				496F8FF9203EEBDB003AB29B /* FlintFeatures.swift in Sources */,
 				495CBD9B223D6E2100233816 /* SubscriptionProduct.swift in Sources */,
+				49DA8940227E177C00C44653 /* ActionStacksFeature.swift in Sources */,
 				49935BF2206D250400CB2B5D /* TimeOrderedResultsController.swift in Sources */,
 				49F6823D20D2BEF100B02318 /* ActivityMetadata.swift in Sources */,
 				4932675F2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
@@ -2831,6 +2849,7 @@
 				494F59422098ABC30075E7EE /* ConstraintsEvaluator.swift in Sources */,
 				494C27A320C01CE400053FF7 /* MotionPermissionAdapter.swift in Sources */,
 				49298237205ED11900267A49 /* FeatureMetadata.swift in Sources */,
+				49DA893D227E177C00C44653 /* ActionStacksFeature.swift in Sources */,
 				495EED7B21FA80DE001142A0 /* LogEventFormattingStrategy.swift in Sources */,
 				496136D92099017400291885 /* DefaultPermissionChecker.swift in Sources */,
 				49846EFA20F233860094060C /* EventKitPermissionAdapter.swift in Sources */,
@@ -2882,6 +2901,7 @@
 				495CBD8B223D6E1E00233816 /* ConsumableProduct.swift in Sources */,
 				4996D6FD22748D7500CDCAB0 /* IntentAction+Internal+Extensions.swift in Sources */,
 				498F97642077824200209633 /* FocusSelection.swift in Sources */,
+				49DA8942227EF1A300C44653 /* ProxyCompletionRequirement.swift in Sources */,
 				494F59102098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				49B6F1C322426FFD0003C847 /* NoQuantityProduct.swift in Sources */,
 				49E1A231203C31C900F7555C /* FlintInternal.swift in Sources */,

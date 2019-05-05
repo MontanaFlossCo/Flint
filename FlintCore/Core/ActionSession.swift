@@ -447,47 +447,69 @@ public class ActionSession: CustomDebugStringConvertible {
             flintUsageError("Action \(ActionType.self) has not been declared on \(FeatureType.self). Call 'declare' or 'publish' with it in your feature's prepare function")
         }
         
-        // Work out if we have a sequence for the request's feature, create a new one if not
-        /// !!! TODO: Only do this if action stack feature is enabled
-        let actionStack = actionStackTracker.findOrCreateActionStack(for: FeatureType.self,
+        // We need a function that will create the activity ID on demand if logging is going to need it,
+        // but where this info comes from depends on whether or not Action Stacks are enabled
+        let activitySequenceIDCreator: () -> String
+
+        // The action stack to push this action to, if enabled
+        let actionStack: ActionStack?
+
+        if ActionStacksFeature.isAvailable == true {
+            // Work out if we have a sequence for the request's feature, create a new one if not
+            actionStack = actionStackTracker.findOrCreateActionStack(for: FeatureType.self,
                                                                      in: self,
                                                                      userInitiated: request.userInitiated)
+        } else {
+            actionStack = nil
+        }
+        
+        if let foundActionStack = actionStack {
+            activitySequenceIDCreator = {
+                let firstEntry = foundActionStack.first?.debugDescription ?? ActionType.name
+                let aDescription = "\(foundActionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
+                let activitySequenceID = "Stack #\(foundActionStack.id) \(aDescription)"
+                return activitySequenceID
+            }
 
+            // Create the entry and add it to the sequence
+            let entry = ActionStackEntry(request, sessionName: name)
+            // Action stack is concurrency safe
+            foundActionStack.add(entry: entry)
+
+            withPropertyAccess {
+                // Each session can be used by only one thread, and as such we can remember the "most recent" action request
+                currentActionStackEntry = entry
+            }
+
+            // By the magic of closures we get to capture the Action Stack that the action request is part of here
+            // and can terminate the correct one
+            let proxyCompletionHandler: Action.Completion.ProxyHandler = { outcome, completesAsync in
+                // Terminate the current stack if required
+                switch outcome {
+                    case .successWithFeatureTermination,
+                         .failureWithFeatureTermination:
+                        // This is threadsafe so we don't care what we're calling on
+                        self.actionStackTracker.terminate(foundActionStack, actionRequest: request)
+                    default:
+                        break
+                }
+                return outcome
+            }
+            // If we have to do anything on completion, inject it here
+            completionRequirement.addProxyCompletionHandler(proxyCompletionHandler)
+        } else {
+            activitySequenceIDCreator = {
+                return "Dispatch"
+            }
+        }
+        
         // Set up the lazy creator for the log details, so no work is done unless the details are needed
         request.setLoggingSessionDetailsCreator { [weak self] in
             guard let strongSelf = self else {
                 return (sessionID: "_session gone away_", activitySequenceID: "_session gone away_")
             }
-            let firstEntry = actionStack.first?.debugDescription ?? ActionType.name
-            let aDescription = "\(actionStack.feature.name) - step #\(request.uniqueID): \(firstEntry)"
-            let activityID = "Stack #\(actionStack.id) \(aDescription)"
-            return (sessionID: strongSelf.name, activitySequenceID: activityID)
-        }
-        
-        // Create the entry and add it to the sequence
-        /// !!! TODO: Only do this if action stack feature is enabled
-        let entry = ActionStackEntry(request, sessionName: name)
-        // Action stack is concurrency safe
-        actionStack.add(entry: entry)
-        
-        withPropertyAccess {
-            // Each session can be used by only one thread, and as such we can remember the "most recent" action request
-            currentActionStackEntry = entry
-        }
-        
-        // By the magic of closures we get to capture the Action Stack that the action request is part of here
-        // and can terminate the correct one
-        completionRequirement.addProxyCompletionHandler { outcome, completesAsync in
-            // Terminate the current stack if required
-            switch outcome {
-                case .successWithFeatureTermination,
-                     .failureWithFeatureTermination:
-                    // This is threadsafe so we don't care what we're calling on
-                    self.actionStackTracker.terminate(actionStack, actionRequest: request)
-                default:
-                    break
-            }
-            return outcome
+            let activitySequenceID = activitySequenceIDCreator()
+            return (sessionID: strongSelf.name, activitySequenceID: activitySequenceID)
         }
 
         // As we are using the dispatcher, it will guarantee completion is only called on our expected queue, which should
