@@ -130,31 +130,34 @@ public class CompletionRequirement<T> {
     }
 
     /// The status of this completion. This can be set only once.
-    fileprivate var completionStatus: Status? {
+    var completionStatus: Status? {
         willSet {
             flintBugPrecondition(completionStatus == nil, "Completion status is being set more than once")
         }
     }
     
+    public typealias Handler = (T, _ completedAsync: Bool) -> Void
+    public typealias ProxyHandler = (T, _ completedAsync: Bool) -> T
+
     /// The completion handler to call
-    fileprivate var completionHandler: ((T, _ completedAsync: Bool) -> Void)?
+    var completionHandler: Handler?
     public let completionQueue: SmartDispatchQueue?
     
     /// Instantiate a new completion requirement that calls the supplied completion handler, either
     /// synchronously or asynchronously.
-    public init(smartQueue: SmartDispatchQueue?, completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
+    public init(smartQueue: SmartDispatchQueue?, completionHandler: @escaping Handler) {
         self.completionHandler = completionHandler
         self.completionQueue = smartQueue
     }
 
     /// Instantiate a new completion requirement that calls the supplied completion handler, either
     /// synchronously or asynchronously.
-    public convenience init(queue: DispatchQueue?, completionHandler: @escaping (T, _ completedAsync: Bool) -> Void) {
+    public convenience init(queue: DispatchQueue?, completionHandler: @escaping Handler) {
         self.init(smartQueue: queue.flatMap(SmartDispatchQueue.init), completionHandler: completionHandler)
     }
 
     /// Internal initialiser for proxy subclass, which will set the completion after
-    fileprivate init() {
+    init() {
         completionQueue = nil
     }
 
@@ -190,7 +193,7 @@ public class CompletionRequirement<T> {
         return completionStatus
     }
 
-    public func addProxyCompletionHandler(_ proxyCompletion: @escaping (_ result: T, _ callingAsync: Bool) -> T) {
+    public func addProxyCompletionHandler(_ proxyCompletion: @escaping ProxyHandler) {
         // This should go away - make completion non-optional if ProxyCR not needed
         guard let currentCompletionHandler = completionHandler else {
             flintBug("Cannot add a proxy completion handler when there is no completion handler set")
@@ -201,7 +204,7 @@ public class CompletionRequirement<T> {
         /// This is cleaner solution than having a ProxyCompletion subclass
         self.completionHandler = { (result: T, callingAsync: Bool) in
             let proxyResult = proxyCompletion(result, callingAsync)
-            currentCompletionHandler(proxyResult, callingAsync)
+            return currentCompletionHandler(proxyResult, callingAsync)
         }
     }
     
@@ -219,60 +222,5 @@ public class CompletionRequirement<T> {
         } else {
             actuallyCallCompletion()
         }
-    }
-}
-
-/// A `ProxyCompletionRequirement` allows you to provide a completion requirement that adds some custom completion logic
-/// to an existing completion instance, and then return a possibly modified result value to the original requirement.
-///
-/// This mechanism allows your code to "not care" whether the completion you are proxying is called synchronously or not.
-/// Normally you need to know if completion you are wrapping would be called async or not, as you would need to
-/// capture the async completion status before defining your completion block so it can call `completed` on the async result.
-///
-/// This is a bit nasty in the nuance of the implementation. We may remove this if `addProxyCompletionHandler`
-public class ProxyCompletionRequirement<T>: CompletionRequirement<T> {
-    var proxiedCompletion: CompletionRequirement<T>
-    
-    public init(proxying originalCompletion: CompletionRequirement<T>, proxyCompletionHandler: @escaping (T, _ completedAsync: Bool) -> T) {
-        self.proxiedCompletion = originalCompletion
-        
-        // Wrap the original completion handler, calling it with the result of possibly mutating it by our proxy completion handler
-        super.init()
-        
-        self.completionHandler = { [weak self] result, completedAsync in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            // Get the actual (perhaps modified) result we're going to pass to the proxied completion handler
-            let proxyResult = proxyCompletionHandler(result, completedAsync)
-    
-            if completedAsync {
-                guard let proxiedDeferredStatus = strongSelf.proxiedCompletion.completionStatus as? DeferredStatus else {
-                    flintBug("Proxy completion was completed async, but original completion did not have `willCompleteAsync` called")
-                }
-                proxiedDeferredStatus.completed(proxyResult)
-            } else {
-                let _ = strongSelf.proxiedCompletion.completedSync(proxyResult)
-            }
-        }
-    }
-
-    /// The proxy must indicate that the original completion will complete async, but we return our
-    /// own proxy async status object because we need to inject our own completion handling logic to possibly
-    /// mutate the value.
-    override public func willCompleteAsync() -> DeferredStatus {
-        let _ = proxiedCompletion.willCompleteAsync()
-        return super.willCompleteAsync()
-    }
-    
-    /// The proxy calls its own `completedAsync` in order to execute the custom value modification logic,
-    /// and that will in fact call the original completion's `completedSync`.
-    override public func completedSync(_ result: T) -> SyncCompletionStatus {
-        let result = super.completedSync(result)
-        guard let proxiedStatus = proxiedCompletion.completionStatus, !proxiedStatus.isCompletingAsync else {
-            flintBug("Sync completion on proxied completion requirement did not store the proxied status")
-        }
-        return result
     }
 }

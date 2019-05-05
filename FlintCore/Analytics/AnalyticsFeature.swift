@@ -14,7 +14,7 @@ final public class AnalyticsFeature: ConditionalFeature {
         requirements.runtimeEnabled()
     }
 
-    /// Set this to `false` at runtime to disable Timeline
+    /// Set this to `false` at runtime to disable Analytics
     public static var isEnabled: Bool? = true
     
     public static var description: String = "Sends analytic events for qualifying actions to your analytics provider"
