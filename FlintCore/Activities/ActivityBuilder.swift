@@ -33,19 +33,10 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     /// This provides access to the input value for this activity
     public let input: ActionType.InputType
     public private(set) var metadata: ActivityMetadata?
-
-    private var activity: NSUserActivity
     
     /// Set this to a title to use in the `NSUserActivity`, shown in
     /// search results and suggestions.
-    public var title: String? {
-        get {
-            return activity.title
-        }
-        set {
-            activity.title = newValue
-        }
-    }
+    public var title: String?
     
     /// Set this to a title to use in the `NSUserActivity`, shown in
     /// search results and suggestions.
@@ -86,7 +77,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     /// document they are opening.
     /// - note: If you are using Flint's automatic URLs you can use this to store extra values,
     /// but any data not included in the URL will not be placed into the Input when continuing your action.
-    public var requiredUserInfoKeys: [String] = []
+    public var requiredUserInfoKeys: Set<String> = []
     
     /// Set this to the keys and values that the action needs to reconstruct its Input when
     /// continuing later.
@@ -118,52 +109,39 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     @available(iOS 12, watchOS 5, *)
     public var suggestedInvocationPhrase: String? {
         get {
-            return activity.suggestedInvocationPhrase
+            return _suggestedInvocationPhrase
         }
         set {
-            activity.suggestedInvocationPhrase = newValue
+            _suggestedInvocationPhrase = newValue
         }
     }
+    private var _suggestedInvocationPhrase: String?
+#endif
 
     /// Set to an app-unique identifier to allow this activity to be deleted
     /// at a later point, to prevent further Siri suggestions.
     @available(iOS 12, watchOS 5, *)
     public var persistentIdentifier: String? {
         get {
-            return activity.persistentIdentifier
+            return _persistentIdentifier
         }
         set {
-            activity.persistentIdentifier = newValue
+            _persistentIdentifier = newValue
         }
     }
-#endif
+    private var _persistentIdentifier: String?
 
+    /// Set to override the default activity type set by Flint
+    public var activityType: String?
+    private var activityTypeGenerator: () -> String
+    
     private var cancelled: Bool = false
     private let appLink: URL?
     private var canAutoContinueActivity: Bool = true
     
-    init(activityID: String, action: ActionType.Type, input: ActionType.InputType, appLink: URL?) {
+    init(activityTypeGenerator: @escaping () -> String, input: ActionType.InputType, appLink: URL?) {
         self.input = input
-
-        activity = NSUserActivity(activityType: activityID)
-
-        activity.isEligibleForSearch = action.activityEligibility.contains(.search)
-        activity.isEligibleForHandoff = action.activityEligibility.contains(.handoff)
-        activity.isEligibleForPublicIndexing = action.activityEligibility.contains(.publicIndexing)
-
-        // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
-        // require raising the language level to Swift 4.2 in the target.
-#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
-        if #available(iOS 12, watchOS 5, *) {
-            activity.isEligibleForPrediction = action.activityEligibility.contains(.prediction)
-            // Force search eligibility as this is required for prediction too
-            if activity.isEligibleForPrediction {
-                activity.isEligibleForSearch = true
-            }
-
-            activity.suggestedInvocationPhrase = action.suggestedInvocationPhrase
-        }
-#endif
+        self.activityTypeGenerator = activityTypeGenerator
         self.appLink = appLink
     }
     
@@ -215,15 +193,15 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
         canAutoContinueActivity = false
         // Check for inputs that can be coded to and from userInfo by conforming to ActivityCodable
         if let codableInput = input as? ActivityCodable {
-            if let userInfo = codableInput.encodeForActivity() {
-                activity.addUserInfoEntries(from: userInfo)
+            if let activityUserInfo = codableInput.encodeForActivity() {
+                userInfo = activityUserInfo
             }
-            activity.requiredUserInfoKeys = codableInput.requiredUserInfoKeys
+            requiredUserInfoKeys = codableInput.requiredUserInfoKeys
             canAutoContinueActivity = true
         } else if let url = appLink {
             // Put in the auto link, if set and part of a URLMapped feature
-            activity.addUserInfoEntries(from: [ActivitiesFeature.autoURLUserInfoKey: url])
-            activity.requiredUserInfoKeys = [ActivitiesFeature.autoURLUserInfoKey]
+            userInfo = [ActivitiesFeature.autoURLUserInfoKey: url]
+            requiredUserInfoKeys = [ActivitiesFeature.autoURLUserInfoKey]
             canAutoContinueActivity = true
         }
     
@@ -234,11 +212,37 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
         guard !cancelled else {
             return nil
         }
-        
-        let builtActivity = activity
 
-        builtActivity.addUserInfoEntries(from: userInfo)
-        
+        let activity = NSUserActivity(activityType: activityType ?? activityTypeGenerator())
+
+        activity.isEligibleForSearch = ActionType.activityEligibility.contains(.search)
+        activity.isEligibleForHandoff = ActionType.activityEligibility.contains(.handoff)
+        activity.isEligibleForPublicIndexing = ActionType.activityEligibility.contains(.publicIndexing)
+
+        // This is the only compile-time check we have available to us right now for Xcode 10 SDKs, that doesn't
+        // require raising the language level to Swift 4.2 in the target.
+#if canImport(Intents) && canImport(Network) && (os(iOS) || os(watchOS))
+        if #available(iOS 12, watchOS 5, *) {
+            activity.isEligibleForPrediction = ActionType.activityEligibility.contains(.prediction)
+            // Force search eligibility as this is required for prediction too
+            if activity.isEligibleForPrediction {
+                activity.isEligibleForSearch = true
+            }
+
+            activity.suggestedInvocationPhrase = suggestedInvocationPhrase ?? ActionType.suggestedInvocationPhrase
+        }
+#endif
+
+#if os(iOS) || os(watchOS)
+        if #available(iOS 12, watchOS 5, *) {
+            activity.persistentIdentifier = persistentIdentifier
+        }
+#endif
+
+        activity.title = title
+        activity.addUserInfoEntries(from: userInfo)
+        activity.requiredUserInfoKeys = requiredUserInfoKeys
+
 #if canImport(CoreSpotlight)
 #if os(iOS) || os(macOS)
         if let subtitle = subtitle {
@@ -260,7 +264,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
         }
 
         // Don't assign search attributes if they were never needed, so use the non-self-populating property
-        builtActivity.contentAttributeSet = _searchAttributes
+        activity.contentAttributeSet = _searchAttributes
 #endif
 #endif
 
@@ -271,7 +275,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
         /// !!! TODO: Add #if DEBUG or similar around these, once we establish how we are doing that.
         applySanityChecks(to: activity)
 
-        return builtActivity
+        return activity
     }
     
     // Apply sanity checks to a generated activity

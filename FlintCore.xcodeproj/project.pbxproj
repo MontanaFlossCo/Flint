@@ -3556,7 +3556,7 @@
 				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintCore_iOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -3578,7 +3578,7 @@
 				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintCore_iOSTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
