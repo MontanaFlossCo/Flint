@@ -67,10 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         Flint.register(group: FlintUIFeatures.self)
         
-        print("All products: \(Product.referencedProducts)")
-        
         // Spit out a fake action every few seconds
-        
         let bgLogs = FakeFeature.logs(for: "BG Timer")
 
         testTimer = DispatchSource.makeTimerSource(flags: [], queue: .main)

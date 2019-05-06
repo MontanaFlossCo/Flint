@@ -49,9 +49,12 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
         } else {
             effectiveThreshold = topicLevel(for: context.topicPath) ?? level
         }
-        guard effectiveThreshold >= level else {
+        
+        // Always let errors through
+        guard level == .error || effectiveThreshold >= level else {
             return
         }
+        
         let entryText = content()
 
         queue.async { [weak self] in
