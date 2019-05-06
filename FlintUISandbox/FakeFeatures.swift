@@ -69,7 +69,7 @@ final class DoSomethingFakeAction: UIAction {
         activity.requiredUserInfoKeys = ["fake"]
         activity.userInfo["fake"] = true
     }
-
+    
     static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
         context.logs.development?.info("Testing logs from fake feature")
         return completion.completedSync(.successWithFeatureTermination)

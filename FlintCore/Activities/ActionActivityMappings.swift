@@ -69,26 +69,35 @@ class ActionActivityMappings {
         return try createActivity(for: ActionType.self, of: FeatureType.self, with: input, appLink: appLink)
     }
     
-    /// Interfnal function to create the activity.
+    /// Internal function to create the activity.
+    ///
+    /// - note: We need the action argument only to allow the generics system to infer the type of action that we're
+    /// using, and to ensure the input is the type expected by the action, and because the use of static calls here
+    /// means the type as a whole isn't generic over the ActionType.
     static func createActivity<ActionType>(for action: ActionType.Type, of feature: FeatureDefinition.Type,
                                            with input: ActionType.InputType, appLink: URL? = nil) throws -> NSUserActivity? where ActionType: Action {
-        let activityEligibility = action.activityEligibility
+        let activityEligibility = ActionType.activityEligibility
         guard activityEligibility.count > 0 else {
             return nil
         }
         
-        // These are the basic activity requirements
-        /// !!! TODO: This should use the identifier, not the name. The name may change or be non-unique
-        let activityID = ActionActivityMappings.makeActivityID(forActionNamed: action.name, of: feature)
-
-        flintAdvisoryPrecondition(FlintAppInfo.activityTypes.contains(activityID), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
-            "The ID `\(activityID)` is not there.")
-
+        let activityTypeGenerator = {
+            ActionActivityMappings.makeActivityID(forActionNamed: ActionType.name, of: feature)
+        }
+        
         // The action can populate or veto publishing this activity by cancelling the builder passed in.
         // Introduce a new scope to prevent accidentally use of the wrong activity instance
-        let builder = ActivityBuilder(activityID: activityID, action: action, input: input, appLink: appLink)
+        let builder = ActivityBuilder<ActionType>(activityTypeGenerator: activityTypeGenerator,
+                                                  input: input,
+                                                  appLink: appLink)
         let function: (ActivityBuilder<ActionType>) throws -> Void = action.prepareActivity
+
         let activity = try builder.build(function)
+
+        if let foundActivity = activity {
+            flintAdvisoryPrecondition(FlintAppInfo.activityTypes.contains(foundActivity.activityType), "The Info.plist property NSUserActivityTypes must include all activity type IDs you support. " +
+                "The ID `\(foundActivity.activityType)` is not there.")
+        }
         return activity
     }
 
