@@ -51,6 +51,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
             switch permission {
                 case .camera:
                     adapterType = CameraPermissionAdapter.self
+                case .microphone:
+                    adapterType = MicrophonePermissionAdapter.self
                 case .location:
                     adapterType = LocationPermissionAdapter.self
                 case .contacts:

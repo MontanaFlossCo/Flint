@@ -18,6 +18,7 @@ import Foundation
 public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case camera
     case photos
+    case microphone
     case location(usage: LocationUsage)
     case contacts(entity: ContactsEntity)
     case calendarEvents
@@ -36,6 +37,7 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     public var description: String {
         switch self {
             case .camera: return "Camera"
+            case .microphone: return "Microphone"
             case .photos: return "Photos"
             case .calendarEvents: return "Calendar Events"
             case .reminders: return "Reminders"
@@ -59,6 +61,7 @@ extension SystemPermissionConstraint: FeatureConstraint {
     public var parametersDescription: String {
         switch self {
             case .camera,
+                 .microphone,
                  .calendarEvents,
                  .reminders,
                  .contacts,
