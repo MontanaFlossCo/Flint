@@ -20,8 +20,8 @@ class FlintTests: XCTestCase {
     // MARK: Test artifacts
     
     func testFeatureMetadata() {
-        Flint.register(group: DummyFeatures.self)
-        XCTAssertEqual(Flint.allFeatures.count, 2, "Two features should be registered")
+        Flint.quickSetup(DummyFeatures.self)
+        XCTAssertEqual(Flint.allFeatures.count - FlintInternal.internalFeaturesCount, 2, "Two features should be registered")
         
         guard let dummyFeatureMetadata = Flint.metadata(for: DummyFeature.self) else {
             XCTFail("Missing metadata")

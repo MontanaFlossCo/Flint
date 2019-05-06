@@ -174,7 +174,6 @@ final public class Flint {
             }
             
             // Apply any smart defaults that quickSetup should provide
-
 #if !os(watchOS)
             if dependencies.purchaseTracker == nil {
                 dependencies.purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
@@ -538,9 +537,9 @@ extension Flint {
 
         setupLinkCreator()
         
-        register(group: FlintFeatures.self)
-        
         isSetup = true
+        
+        register(group: FlintFeatures.self)
         
         preflightCheck()
         
