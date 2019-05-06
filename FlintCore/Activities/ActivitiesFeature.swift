@@ -25,7 +25,9 @@ public final class ActivitiesFeature: ConditionalFeature {
     static var publishCurrentActionActivity = action(PublishCurrentActionActivityAction.self)
     static var handleActivity = action(HandleActivityAction.self)
     static var performIncomingActivity = action(PerformIncomingActivityAction.self)
-    static var resignCurrentActivity = action(ResignCurrentActivityAction.self)
+
+    /// Perform this action to resign the last activity made current by automatic activity publishing
+    public static var resignCurrentActivity = action(ResignCurrentActivityAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(handleActivity)
