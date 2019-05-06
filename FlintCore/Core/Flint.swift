@@ -565,6 +565,9 @@ extension Flint {
     
     /// Here we will sanity-check the setup of the Features and Actions
     static func preflightCheck() {
+        /// !!! TODO: Check for all declared permission, verify required usage keys with `usageDescriptionKey`
+        
+        /// !!! TODO: Verify all declared URL mappings with custom app URL schemes are for schemes declared (FlintAppInfo helper)
     }
     
     static func requiresSetup() {

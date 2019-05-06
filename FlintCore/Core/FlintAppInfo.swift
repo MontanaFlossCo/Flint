@@ -12,7 +12,7 @@ import Foundation
 ///
 /// Primarily this is used for access to information about the custom URL schemes and universal link domains your app supports.
 ///
-/// Note that Flint cannot currently extract your supported universal link domains as these are only stored in your
+/// - note: Flint cannot currently extract your supported universal link domains as these are only stored in your
 /// entitlements file. The custom URL schemes are listed in your `Info.plist` so for most cases Flint can extract these.
 final public class FlintAppInfo {
     /// Return the list of App URL schemes supported, as shown in the App's Info.plist, merging in
