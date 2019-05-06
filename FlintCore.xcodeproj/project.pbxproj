@@ -322,6 +322,10 @@
 		49647D3D203873C7005F9825 /* FlintFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3C203873C7005F9825 /* FlintFeatures.swift */; };
 		49647D3F203B117D005F9825 /* URLMapped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49647D3E203B117D005F9825 /* URLMapped.swift */; };
 		49653A3420F26DA400AFDDDB /* ContactsPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */; };
+		496775E32280656600F34103 /* ResignCurrentActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496775E22280656600F34103 /* ResignCurrentActivityAction.swift */; };
+		496775E42280656600F34103 /* ResignCurrentActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496775E22280656600F34103 /* ResignCurrentActivityAction.swift */; };
+		496775E52280656600F34103 /* ResignCurrentActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496775E22280656600F34103 /* ResignCurrentActivityAction.swift */; };
+		496775E62280656600F34103 /* ResignCurrentActivityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496775E22280656600F34103 /* ResignCurrentActivityAction.swift */; };
 		496E26ED203B7380008E4320 /* ContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */; };
 		496E26EF203B7506008E4320 /* FocusContextualLoggerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */; };
 		496F8F10203EE9EA003AB29B /* FlintCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496F8F07203EE9E9003AB29B /* FlintCore.framework */; };
@@ -1001,6 +1005,7 @@
 		49647D3A20384077005F9825 /* ActivitiesFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesFeature.swift; sourceTree = "<group>"; };
 		49647D3C203873C7005F9825 /* FlintFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlintFeatures.swift; sourceTree = "<group>"; };
 		49647D3E203B117D005F9825 /* URLMapped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMapped.swift; sourceTree = "<group>"; };
+		496775E22280656600F34103 /* ResignCurrentActivityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignCurrentActivityAction.swift; sourceTree = "<group>"; };
 		496E26EC203B7380008E4320 /* ContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualLoggerTarget.swift; sourceTree = "<group>"; };
 		496E26EE203B7506008E4320 /* FocusContextualLoggerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusContextualLoggerTarget.swift; sourceTree = "<group>"; };
 		496F8F07203EE9E9003AB29B /* FlintCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlintCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1422,6 +1427,7 @@
 				49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */,
 				49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */,
 				49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */,
+				496775E22280656600F34103 /* ResignCurrentActivityAction.swift */,
 			);
 			path = Activities;
 			sourceTree = "<group>";
@@ -2165,6 +2171,7 @@
 				49137FF420CF29C500C696F4 /* Action+Extensions.swift in Sources */,
 				496F8FC7203EEBDA003AB29B /* ActionStackEntry.swift in Sources */,
 				496F8F55203EEBB1003AB29B /* TimelineEntry.swift in Sources */,
+				496775E42280656600F34103 /* ResignCurrentActivityAction.swift in Sources */,
 				495CBD90223D6E1F00233816 /* ConsumableProduct.swift in Sources */,
 				4929823D205ED12C00267A49 /* ActionMetadata.swift in Sources */,
 				494F59162098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
@@ -2466,6 +2473,7 @@
 				496F8FB4203EEBD4003AB29B /* RouteParametersCodable.swift in Sources */,
 				4927FF02208A542700163576 /* PublishActivityRequest.swift in Sources */,
 				496F8F48203EEB0E003AB29B /* String+Extensions.swift in Sources */,
+				496775E52280656600F34103 /* ResignCurrentActivityAction.swift in Sources */,
 				49EFE2BE20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift in Sources */,
 				49FF056A21FA4DE700A7E325 /* LogFile.swift in Sources */,
 				496F8F67203EEBB2003AB29B /* ContextualLoggerFactory.swift in Sources */,
@@ -2578,6 +2586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4927FEFE208A53BB00163576 /* HandleActivityAction.swift in Sources */,
+				496775E62280656600F34103 /* ResignCurrentActivityAction.swift in Sources */,
 				49DFB7D220A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				496F8F93203EEBBC003AB29B /* ConditionalFeature.swift in Sources */,
 				494F59362098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
@@ -2928,6 +2937,7 @@
 				493267612142FA6B00CC88CB /* Data+Compression.swift in Sources */,
 				4932675C2142FA4D00CC88CB /* Data+Serialization.swift in Sources */,
 				494F59332098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
+				496775E32280656600F34103 /* ResignCurrentActivityAction.swift in Sources */,
 				4977DC73205ABF7400DAA0C8 /* InternalJSONFormatting.swift in Sources */,
 				49647D3B20384077005F9825 /* ActivitiesFeature.swift in Sources */,
 				495EED8021FA8103001142A0 /* VerboseLogEventFormatter.swift in Sources */,

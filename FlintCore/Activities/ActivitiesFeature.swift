@@ -25,12 +25,14 @@ public final class ActivitiesFeature: ConditionalFeature {
     static var publishCurrentActionActivity = action(PublishCurrentActionActivityAction.self)
     static var handleActivity = action(HandleActivityAction.self)
     static var performIncomingActivity = action(PerformIncomingActivityAction.self)
+    static var resignCurrentActivity = action(ResignCurrentActivityAction.self)
 
     public static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(handleActivity)
         actions.declare(publishCurrentActionActivity)
         actions.declare(performIncomingActivity)
-        
+        actions.declare(resignCurrentActivity)
+
         if isAvailable == true {
             // Implements Auto-Activities
             ActionSession.main.dispatcher.add(observer: ActivityActionDispatchObserver())

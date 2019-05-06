@@ -23,7 +23,7 @@ final class PublishCurrentActionActivityAction: UIAction {
     
     static let description: String = "Automatic publishing of NSUserActivity for actions with activityEligibility set"
     
-    static private var currentActivity: NSUserActivity? {
+    static var currentActivity: NSUserActivity? {
         didSet {
             if let previousActivity = oldValue {
                 previousActivity.resignCurrent()
