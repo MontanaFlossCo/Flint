@@ -55,7 +55,15 @@ class AVCaptureDevicePermissionAdapter: SystemPermissionAdapter {
 #if os(iOS) || os(macOS)
     lazy var captureDeviceClass: AnyObject = { NSClassFromString("AVCaptureDevice")! }()
     lazy var proxyCaptureDeviceClass: ProxyCaptureDevice = { unsafeBitCast(self.captureDeviceClass, to: ProxyCaptureDevice.self) }()
+
+    var avMediaType: AVMediaType {
+        switch mediaType {
+            case .audio: return .audio
+            case .video: return .video
+        }
+    }
 #endif
+
     var status: SystemPermissionStatus {
 #if os(iOS) || os(macOS)
         // Only macOS 10.14+ has camera permission APIs
@@ -76,12 +84,6 @@ class AVCaptureDevicePermissionAdapter: SystemPermissionAdapter {
     }
 
     let mediaType: MediaType
-    var avMediaType: AVMediaType {
-        switch mediaType {
-            case .audio: return .audio
-            case .video: return .video
-        }
-    }
     
     init(permission: SystemPermissionConstraint, mediaType: MediaType) {
         self.permission = permission
