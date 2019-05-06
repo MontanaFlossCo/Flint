@@ -24,4 +24,14 @@ public final class FlintInternal {
         return Logging.development?.contextualLogger(activity: "Flint Bootstrapping", topicPath: coreLoggingTopic.appending("URL Mapping"))
     }()
 
+    /// - return: The number of features (including nested) that are provided by Flint in `FlintFeatures`
+    static var internalFeaturesCount: Int {
+        func countSubfeatures(_ group: FeatureGroup.Type) -> Int {
+            var result: Int = group.subfeatures.count
+            let groupSubfeatures = group.subfeatures.compactMap({ $0 as? FeatureGroup.Type })
+            groupSubfeatures.forEach { result += countSubfeatures($0) }
+            return result
+        }
+        return countSubfeatures(FlintFeatures.self) + 1 // One for FlintFeatures itself
+    }
 }

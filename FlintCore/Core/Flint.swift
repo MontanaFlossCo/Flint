@@ -174,7 +174,6 @@ final public class Flint {
             }
             
             // Apply any smart defaults that quickSetup should provide
-
 #if !os(watchOS)
             if dependencies.purchaseTracker == nil {
                 dependencies.purchaseTracker = try? StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
@@ -223,6 +222,7 @@ final public class Flint {
     /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
     /// is a slow process as there are thousands of them.
     public static func register(_ feature: FeatureDefinition.Type) {
+        requiresSetup()
         flintUsagePrecondition(!(feature is FeatureGroup.Type), "You must call register(group:) with feature groups")
         FlintInternal.logger?.debug("Preparing feature: \(feature)")
         _register(feature)
@@ -282,6 +282,7 @@ final public class Flint {
     /// - note: Even with the Objective-C runtime, iterating (and hence forcing `+load`) on all Obj-C compatible classes
     /// is a slow process as there are thousands of them.
     public static func register(group: FeatureGroup.Type) {
+        requiresSetup()
         FlintInternal.logger?.debug("Preparing feature group: \(group)")
         _register(group)
 
@@ -536,9 +537,9 @@ extension Flint {
 
         setupLinkCreator()
         
-        register(group: FlintFeatures.self)
-        
         isSetup = true
+        
+        register(group: FlintFeatures.self)
         
         preflightCheck()
         
