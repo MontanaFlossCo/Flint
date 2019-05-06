@@ -231,9 +231,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
 
             activity.suggestedInvocationPhrase = suggestedInvocationPhrase ?? ActionType.suggestedInvocationPhrase
         }
-#endif
 
-#if os(iOS) || os(watchOS)
         if #available(iOS 12, watchOS 5, *) {
             activity.persistentIdentifier = persistentIdentifier
         }
