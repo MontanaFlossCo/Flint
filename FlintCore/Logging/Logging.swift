@@ -66,7 +66,7 @@ public struct Logging {
 
 extension Logging {
     /// Called internally to set up the outputs for the factories
-    public static func setLoggerOutputs(development developmentOutputs: [LoggerOutput]?, level developmentLevel: LoggerLevel, production productionOutputs: [LoggerOutput]?, level productionLevel: LoggerLevel) {
+    public static func setLoggerOutputs(development developmentOutputs: [LoggerOutput]?, developmentLevel: LoggerLevel, production productionOutputs: [LoggerOutput]?, productionLevel: LoggerLevel) {
         if let developmentOutputs = developmentOutputs {
             development = DefaultLoggerFactory(name: "development", level: developmentLevel, output: AggregatingLoggerOutput(outputs: developmentOutputs))
         }

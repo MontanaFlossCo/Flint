@@ -44,8 +44,8 @@ public class OSLogOutput: LoggerOutput {
             case .error:   type = .error
             case .info:    type = .info
             case .warning: type = .`default` // There is no warning level, docs say this is for something that might result in a failure
-            case .none:
-                flintBug("Should never see an event with level .none")
+            case .off:
+                flintBug("Should never see an event with level .off")
         }
         os_log("%@", log: log, type: type, text)
     }

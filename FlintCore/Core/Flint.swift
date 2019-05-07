@@ -153,7 +153,7 @@ final public class Flint {
     /// - param initialProductionLogLevel: The default log level for production logging. Default if not specified is `.info`
     /// - param briefLogging: Set to `true` for logging with less verbosity (primarily dates)
     public static func quickSetup(_ group: FeatureGroup.Type, domains: [String] = [], initialDebugLogLevel: LoggerLevel = .debug,
-                                  initialProductionLogLevel: LoggerLevel = .none, briefLogging: Bool = true, configuration: ((_ dependencies: DependenciesConfig) -> Void)? = nil) {
+                                  initialProductionLogLevel: LoggerLevel = .off, briefLogging: Bool = true, configuration: ((_ dependencies: DependenciesConfig) -> Void)? = nil) {
         flintUsagePrecondition(!isSetup, "Setup has already been called")
 
         DefaultLoggerFactory.setup(initialDevelopmentLogLevel: initialDebugLogLevel,
@@ -162,8 +162,8 @@ final public class Flint {
         FlintAppInfo.associatedDomains.append(contentsOf: domains)
 
         // Unless we're debugging Flint we don't want this stuff.
-        Logging.development?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
-        Logging.production?.setLevel(for: FlintInternal.coreLoggingTopic, to: .none)
+        Logging.development?.setLevel(for: FlintInternal.coreLoggingTopic, to: .off)
+        Logging.production?.setLevel(for: FlintInternal.coreLoggingTopic, to: .off)
 
         ActionSession.quickSetupMainSession()
 
@@ -558,8 +558,8 @@ extension Flint {
     }
 
     static func outputEnvironment() {
-        let devLevel = Logging.development?.level ?? .none
-        let prodLevel = Logging.production?.level ?? .none
+        let devLevel = Logging.development?.level ?? .off
+        let prodLevel = Logging.production?.level ?? .off
         FlintInternal.logger?.info("💥 Flint is set up. Logging: development=\(devLevel), production=\(prodLevel)")
     }
     

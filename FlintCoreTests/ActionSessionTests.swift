@@ -17,7 +17,7 @@ class ActionSessionTests: XCTestCase {
     }
     
     func testAsyncActionPerformingSyncActionWithSimplifiedAPI() {
-        Flint.quickSetup(TestFeature.self, domains: [], initialDebugLogLevel: .none, initialProductionLogLevel: .none)
+        Flint.quickSetup(TestFeature.self, domains: [], initialDebugLogLevel: .off, initialProductionLogLevel: .off)
         
         let presenter = MockTestPresenter()
         
