@@ -121,6 +121,6 @@ public extension FeatureDefinition {
 
     /// Convenience function to turn off logging for this feature and subfeatures
     static func disableLogging() {
-        setLoggingLevel(.none)
+        setLoggingLevel(.off)
     }
 }

@@ -58,8 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let fileOutput = try! FileLoggerOutput(name: "uisandbox")
-        Logging.setLoggerOutputs(development: [fileOutput], level: .debug, production: nil, level: .none)
-
+        Logging.setLoggerOutputs(development: [fileOutput], developmentLevel: .debug, production: nil, productionLevel: .off)
+        
         Flint.setup(FakeFeatures.self) { dependencies in
             let storeKitTracker = try! StoreKitPurchaseTracker(appGroupIdentifier: FlintAppInfo.appGroupIdentifier)
             dependencies.purchaseTracker = DebugPurchaseTracker(targetPurchaseTracker: storeKitTracker)

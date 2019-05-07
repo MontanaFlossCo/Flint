@@ -45,7 +45,7 @@ public class FocusContextualLoggerTarget: ContextualLoggerTarget {
         // We fake the threshold as "debug" if items are in the current focus, and anything not focused becomes threshold `.none`
         let effectiveThreshold: LoggerLevel
         if let focusSelection = FocusFeature.dependencies.focusSelection, focusSelection.isActive {
-            effectiveThreshold = focusSelection.isFocused(context.topicPath) ? .debug : .none
+            effectiveThreshold = focusSelection.isFocused(context.topicPath) ? .debug : .off
         } else {
             effectiveThreshold = topicLevel(for: context.topicPath) ?? level
         }
