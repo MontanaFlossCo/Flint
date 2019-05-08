@@ -25,18 +25,32 @@ final class HandleActivityAction: UIAction {
     
     static let description: String = "Automatic action dispatch for incoming NSUserActivity instances published by Flint"
     
-    static func perform(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
+    /// Take an NSUserActivity and attempt to perform the associated action.
+    ///
+    /// This will try the following:
+    /// - Look for a Flint "auto URL" in the userInfo if the action is mapped
+    /// - Look for a `webpageURL` in case it is a deep link
+    /// - Try to perform the activity by activityType mapping (includes non-URL activities and Intents)
+    static func perform(context: ActionContext<NSUserActivity>,
+                        presenter: PresentationRouter,
+                        completion: Action.Completion) -> Action.Completion.Status {
         // Do we need to check if activityType == CSSearchableItemActionType for spotlight invocations?
         
         // Check for Flint autoURL handling, and if so dispatch as a performIncomingURL action
-        guard let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL else {
+        if let autoURL = context.input.userInfo?[ActivitiesFeature.autoURLUserInfoKey] as? URL {
+            return performActionForURL(autoURL, context: context, presenter: presenter, completion: completion)
+        } else if let webpageURL = context.input.webpageURL {
+                return performActionForURL(webpageURL, context: context, presenter: presenter, completion: completion)
+        } else {
             return performActivity(context: context, presenter: presenter, completion: completion)
         }
-        return performAutoURL(autoURL, context: context, presenter: presenter, completion: completion)
     }
     
-    private static func performAutoURL(_ autoURL: URL, context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
-        context.logs.development?.debug("Auto URL found: \(autoURL)")
+    private static func performActionForURL(_ url: URL,
+                                            context: ActionContext<NSUserActivity>,
+                                            presenter: PresentationRouter,
+                                            completion: Action.Completion) -> Action.Completion.Status {
+        context.logs.development?.debug("Attempting to perform action for URL: \(url)")
         guard let request = RoutesFeature.request(RoutesFeature.performIncomingURL) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as RoutesFeature feature is disabled")
             return completion.completedSync(.failureWithFeatureTermination(error: ActionPerformError.requiredFeatureNotAvailable(feature: RoutesFeature.self)))
@@ -50,13 +64,15 @@ final class HandleActivityAction: UIAction {
             return resultWithForcedStackClose
         }
 
-        let completionStatus = request.perform(withInput: autoURL, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
+        let completionStatus = request.perform(withInput: url, presenter: presenter, userInitiated: true, source: context.source, completion: completion)
         flintUsagePrecondition(completion.verify(completionStatus), "Action returned an invalid completion status")
         
         return completionStatus
     }
 
-    private static func performActivity(context: ActionContext<NSUserActivity>, presenter: PresentationRouter, completion: Action.Completion) -> Action.Completion.Status {
+    private static func performActivity(context: ActionContext<NSUserActivity>,
+                                        presenter: PresentationRouter,
+                                        completion: Action.Completion) -> Action.Completion.Status {
         // Check for Flint Activities support and use performIncomingActivity instead
         guard let request = ActivitiesFeature.request(ActivitiesFeature.performIncomingActivity) else {
             context.logs.development?.error("Cannot perform automatic activity URL handling as ActivitiesFeature is disabled")
