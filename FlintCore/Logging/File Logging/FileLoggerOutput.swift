@@ -66,7 +66,9 @@ public class FileLoggerOutput: LoggerOutput {
         let urls = logFileURLs()
         for url in urls {
             do {
-                try FileManager.default.copyItem(at: url, to: path.appendingPathComponent(url.lastPathComponent))
+                let targetURL = path.appendingPathComponent(url.lastPathComponent)
+                try? FileManager.default.removeItem(at: targetURL)
+                try FileManager.default.copyItem(at: url, to: targetURL)
             } catch let e {
                 assertionFailure("Could not copy logs: \(e)")
             }
