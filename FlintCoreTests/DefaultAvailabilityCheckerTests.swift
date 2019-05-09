@@ -18,7 +18,7 @@ import AVFoundation
 /// and evaluate the constraints on our test features.
 class DefaultAvailabilityCheckerTests: XCTestCase {
  
-    var checker: AvailabilityChecker!
+    var checker: DefaultAvailabilityChecker!
     var evaluator: MockFeatureConstraintsEvaluator!
     
     override func setUp() {
