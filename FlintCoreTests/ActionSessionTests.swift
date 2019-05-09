@@ -16,6 +16,21 @@ class ActionSessionTests: XCTestCase {
         Flint.resetForTesting()
     }
     
+    func testSyncAction() {
+        Flint.quickSetup(TestFeature.self, domains: [], initialDebugLogLevel: .off, initialProductionLogLevel: .off)
+        
+        let presenter = MockTestPresenter()
+        
+        let completionExpectation = expectation(description: "Async completion called")
+        TestFeature.action2.perform(withPresenter: presenter) { outcome in
+            completionExpectation.fulfill()
+            
+            XCTAssertTrue(presenter.action2Called, "Action 2 should have been called")
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+
     func testAsyncActionPerformingSyncActionWithSimplifiedAPI() {
         Flint.quickSetup(TestFeature.self, domains: [], initialDebugLogLevel: .off, initialProductionLogLevel: .off)
         
@@ -51,8 +66,10 @@ fileprivate final class TestAction1: UIAction {
         
         /// This is threadsafe if the ActionSessions' callerQueue is the same as this action's caller queue.
         /// It would be nice if we could protect against this not being the case
-        TestFeature.action2.perform(withPresenter: presenter) { outcome in
-            presenter.action2WasCalled()
+        TestFeature.asyncAction.perform(withPresenter: presenter) { outcome in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, {
+                presenter.action2WasCalled()
+            }
             syncOutcome = outcome
         }
 
@@ -83,7 +100,7 @@ fileprivate final class TestFeature: Feature, FeatureGroup {
     static var description: String = "Testing"
     
     static let action1 = action(TestAction1.self)
-    static let action2 = action(TestAction2.self)
+    static let syncAction = action(TestAction2.self)
 
     static func prepare(actions: FeatureActionsBuilder) {
         actions.declare(action1)
