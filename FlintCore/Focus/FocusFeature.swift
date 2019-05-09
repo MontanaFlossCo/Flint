@@ -24,19 +24,16 @@ final public class FocusFeature: ConditionalFeature {
     public static var defaultMaxLogEvents: Int = 1000
     
     public struct Dependencies {
-        public let developmentFocusLogging: FocusLogging?
-        public let productionFocusLogging: FocusLogging?
+        public let focusLoggingHistory: FocusLogging?
         public let focusSelection: FocusSelection?
 
         fileprivate init() {
-            developmentFocusLogging = nil
-            productionFocusLogging = nil
+            focusLoggingHistory = nil
             focusSelection = nil
         }
         
-        fileprivate init(developmentFocusLogging: FocusLogging?, productionFocusLogging: FocusLogging?, focusSelection: FocusSelection?) {
-            self.developmentFocusLogging = developmentFocusLogging
-            self.productionFocusLogging = productionFocusLogging
+        fileprivate init(focusLoggingHistory: FocusLogging?, focusSelection: FocusSelection?) {
+            self.focusLoggingHistory = focusLoggingHistory
             self.focusSelection = focusSelection
         }
     }
@@ -61,21 +58,17 @@ final public class FocusFeature: ConditionalFeature {
         if isAvailable == true {
             var developmentLogging: FocusLogging?
             var productionLogging: FocusLogging?
+
+            let focusLoggingHistory = FocusLogging(maxCount: defaultMaxLogEvents)
             if let development = Logging.development {
-                let developmentFocusLogging = FocusLogging(maxCount: defaultMaxLogEvents)
-                development.add(output: developmentFocusLogging)
-                developmentLogging = developmentFocusLogging
+                development.add(output: focusLoggingHistory)
             }
             if let production = Logging.production {
-                let productionFocusLogging = FocusLogging(maxCount: defaultMaxLogEvents)
-                production.add(output: productionFocusLogging)
-                productionLogging = productionFocusLogging
+                production.add(output: focusLoggingHistory)
             }
             dependencies = Dependencies(
-                developmentFocusLogging: developmentLogging,
-                productionFocusLogging: productionLogging,
+                focusLoggingHistory: focusLoggingHistory,
                 focusSelection: DefaultFocusSelection())
-            
         }
     }
 }

@@ -127,7 +127,7 @@ public class TimelineViewController: UITableViewController, TimelinePresenter {
     // MARK: Outlets and actions
     
     @objc public func shareAudit() {
-        let url = DebugReporting.gatherReportZip(options: [.machineReadableFormat])
+        let url = DebugReporting.gatherReportZip(options: [])
         let shareViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         shareViewController.completionWithItemsHandler = { _, _, _, _ in
             try? FileManager.default.removeItem(at: url)

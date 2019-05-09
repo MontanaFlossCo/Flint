@@ -57,6 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var controller: AuthorisationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ActionStacksFeature.isEnabled = true
+        
         let fileOutput = try! FileLoggerOutput(name: "uisandbox")
         Logging.setLoggerOutputs(development: [fileOutput], developmentLevel: .debug, production: nil, productionLevel: .off)
         
@@ -66,7 +68,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     
         Flint.register(group: FlintUIFeatures.self)
-        
+
+        if let focus = FocusFeature.request(FocusFeature.focus) {
+            focus.perform(withInput: .init(feature: FakeFeature.self))
+        }
+
         // Spit out a fake action every few seconds
         let bgLogs = FakeFeature.logs(for: "BG Timer")
 

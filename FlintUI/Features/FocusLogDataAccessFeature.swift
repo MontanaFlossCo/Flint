@@ -40,7 +40,7 @@ final public class FocusLogDataAccessFeature: ConditionalFeature {
         public static var hideFromTimeline: Bool = true
         
         public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
-            guard let logs = FocusFeature.dependencies.developmentFocusLogging else {
+            guard let logs = FocusFeature.dependencies.focusLoggingHistory else {
                 return completion.completedSync(.successWithFeatureTermination)
             }
 
