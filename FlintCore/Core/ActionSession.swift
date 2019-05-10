@@ -113,7 +113,13 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  presenter: ActionType.PresenterType,
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil) {
-        perform(conditionalRequest, input: input, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest,
+                input: input,
+                presenter: presenter,
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
     
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -131,7 +137,13 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.PresenterType == NoPresenter {
-        perform(conditionalRequest, input: input, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest,
+                input: input,
+                presenter: NoPresenter(),
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -149,7 +161,13 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput {
-        perform(conditionalRequest, input: .noInput, presenter: presenter, userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest,
+                input: .noInput,
+                presenter: presenter,
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
@@ -165,7 +183,13 @@ public class ActionSession: CustomDebugStringConvertible {
                                                  completion: ((ActionOutcome) -> ())? = nil,
                                                  completionQueue: DispatchQueue? = nil)
                                                  where ActionType.InputType == NoInput, ActionType.PresenterType == NoPresenter {
-        perform(conditionalRequest, input: .noInput, presenter: NoPresenter(), userInitiated: userInitiatedActions, source: .application, completion: completion, completionQueue: completionQueue)
+        perform(conditionalRequest,
+                input: .noInput,
+                presenter: NoPresenter(),
+                userInitiated: userInitiatedActions,
+                source: .application,
+                completion: completion,
+                completionQueue: completionQueue)
     }
 
     /// Perform the action associated with a conditional request obtained from `ConditionalFeature.request`.
