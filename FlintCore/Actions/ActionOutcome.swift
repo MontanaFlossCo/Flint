@@ -9,7 +9,15 @@
 import Foundation
 
 /// The type that indicates the outcome of performing an action
-public enum ActionOutcome {
+public enum ActionOutcome: Equatable {
     case success
     case failure(error: Error)
+    
+    public static func ==(lhs: ActionOutcome, rhs: ActionOutcome) -> Bool {
+        switch (lhs, rhs) {
+            case (.success, .success): return true
+            default:
+                return false
+        }
+    }
 }

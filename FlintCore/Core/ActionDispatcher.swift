@@ -70,10 +70,10 @@ public class DefaultActionDispatcher: ActionDispatcher {
                                                  completion: Action.Completion) -> Action.Completion.Status {
         begin(request: request)
 
-        // The action does *not* have to complete synchronously. We watch out for the cases where it doesn't and
-        // log this for now. In future we will have a new outcome value indicating `completingAsynchronously`.
-        // !!! TODO: This has to execute on the queue it is trying to capture. Is this a catch-22?
+        // We must use the action's required queue to invoke it, even if it is the current queue.
         let smartActionQueue = SmartDispatchQueue(queue: ActionType.queue)
+        
+        // We'll capture the completion status to detect async completion
         var performStatus: Action.Completion.Status?
         
         // Here we synchronously call the action on the queue it has requested, and we pass a completion object in
@@ -87,7 +87,7 @@ public class DefaultActionDispatcher: ActionDispatcher {
                     return outcome
                 }
                 
-                // Track completion
+                // Tell observers that completion occurred
                 strongSelf.complete(request: request, outcome: outcome)
                 return outcome
             }
