@@ -140,6 +140,22 @@ class URLMappingRouterTests: XCTestCase {
                                                                                 XCTFail("Expected mapping to fail")
                                                                             }
         })
+
+        // Verify mapping failure on invalid domain
+        let badUrl2 = URL(string: "https://this.is.not.our.site.com/deeplink1")!
+        
+        let badPresenter2 = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: badUrl2,
+                                                                         presenter: badPresenter2,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .failure:
+                                                                                break
+                                                                            default:
+                                                                                XCTFail("Expected mapping to fail")
+                                                                            }
+        })
     }
     
     /// This will work if i register /cde first instead of /abc.
