@@ -9,6 +9,7 @@
 import XCTest
 @testable import FlintCore
 
+/// Low level dispatch mechanism tests
 class ActionDispatchTests: XCTestCase {
 
     func testSyncCompletingAction() {
@@ -44,6 +45,8 @@ class ActionDispatchTests: XCTestCase {
         XCTAssertTrue(!result.isCompletingAsync, "Expected to complete sync")
 
         waitForExpectations(timeout: 5, handler: nil)
+
+        XCTAssertTrue(presenter.called, "Action did not indicate it was called")
     }
 
     func testAsyncCompletingAction() {
@@ -79,6 +82,8 @@ class ActionDispatchTests: XCTestCase {
         XCTAssertTrue(result.isCompletingAsync, "Expected to complete async")
 
         waitForExpectations(timeout: 5, handler: nil)
+
+        XCTAssertTrue(presenter.called, "Action did not indicate it was called")
     }
 
 }
@@ -89,6 +94,7 @@ fileprivate final class AsyncTestAction: UIAction {
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
         let asyncStatus = completion.willCompleteAsync()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            presenter.actionWorkWasDone()
             asyncStatus.completed(.successWithFeatureTermination)
         })
         return asyncStatus
@@ -99,7 +105,7 @@ fileprivate final class SyncTestAction: UIAction {
     typealias PresenterType = MockPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
-        presenter.actionWasCalled()
+        presenter.actionWorkWasDone()
         return completion.completedSync(.success)
     }
 }

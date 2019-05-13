@@ -138,18 +138,6 @@ class ActionSessionTests: XCTestCase {
 
 // MARK: Helper Types
 
-fileprivate class MockPresenter {
-    var called = false
-    
-    func actionWorkWasDone() {
-        called = true
-    }
-}
-
-enum Sessions {
-    static let backgroundSession = ActionSession.init(named: "background", userInitiatedActions: true)
-}
-
 fileprivate final class AsyncCompletingMainThreadAction: UIAction {
     typealias PresenterType = MockPresenter
 
