@@ -24,6 +24,15 @@
 		490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
+		490F67972289744A00A6E47C /* MockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F67962289744A00A6E47C /* MockPresenter.swift */; };
+		490F67982289744A00A6E47C /* MockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F67962289744A00A6E47C /* MockPresenter.swift */; };
+		490F67992289744A00A6E47C /* MockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F67962289744A00A6E47C /* MockPresenter.swift */; };
+		490F679B2289745B00A6E47C /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679A2289745B00A6E47C /* Sessions.swift */; };
+		490F679C2289745B00A6E47C /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679A2289745B00A6E47C /* Sessions.swift */; };
+		490F679D2289745B00A6E47C /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679A2289745B00A6E47C /* Sessions.swift */; };
+		490F679F2289751F00A6E47C /* ActionPerformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679E2289751F00A6E47C /* ActionPerformTests.swift */; };
+		490F67A02289751F00A6E47C /* ActionPerformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679E2289751F00A6E47C /* ActionPerformTests.swift */; };
+		490F67A12289751F00A6E47C /* ActionPerformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F679E2289751F00A6E47C /* ActionPerformTests.swift */; };
 		491211BD2158FC8E00B199C4 /* SiriIntentsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */; };
 		491211BE2158FC8E00B199C4 /* SiriIntentsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */; };
 		491211C02158FEA300B199C4 /* IntentShortcutDonationFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */; };
@@ -916,6 +925,9 @@
 		4905C5C9221053A600890C11 /* FileHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPurchaseTracker.swift; sourceTree = "<group>"; };
 		490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirementTests.swift; sourceTree = "<group>"; };
+		490F67962289744A00A6E47C /* MockPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresenter.swift; sourceTree = "<group>"; };
+		490F679A2289745B00A6E47C /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
+		490F679E2289751F00A6E47C /* ActionPerformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPerformTests.swift; sourceTree = "<group>"; };
 		491211BC2158FC8E00B199C4 /* SiriIntentsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriIntentsFeature.swift; sourceTree = "<group>"; };
 		491211BF2158FEA300B199C4 /* IntentShortcutDonationFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentShortcutDonationFeature.swift; sourceTree = "<group>"; };
 		491211C22159074700B199C4 /* UIAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAction.swift; sourceTree = "<group>"; };
@@ -1284,6 +1296,8 @@
 				49AA5A622133469E00E65533 /* LogEventContext+Mocking.swift */,
 				49AA5A662133497B00E65533 /* ActionRequest+Mocking.swift */,
 				5A07465721FEDB89002FCD62 /* MockPresentationRouter.swift */,
+				490F67962289744A00A6E47C /* MockPresenter.swift */,
+				490F679A2289745B00A6E47C /* Sessions.swift */,
 			);
 			path = "Mocks and Helpers";
 			sourceTree = "<group>";
@@ -1748,6 +1762,7 @@
 				4999B6A82136AD1A00C06445 /* ActionSessionTests.swift */,
 				49AA1EBE21E129CB0079FE29 /* IntentBindingTests.swift */,
 				5A07465B21FEF282002FCD62 /* URLMappingRouterTests.swift */,
+				490F679E2289751F00A6E47C /* ActionPerformTests.swift */,
 			);
 			path = FlintCoreTests;
 			sourceTree = "<group>";
@@ -2356,11 +2371,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533672093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				490F67982289744A00A6E47C /* MockPresenter.swift in Sources */,
 				4999B6AA2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEED21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA1EC021E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A682133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FB205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
+				490F679C2289745B00A6E47C /* Sessions.swift in Sources */,
 				490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				496F8F15203EE9EA003AB29B /* FlintCore_tvOSTests.swift in Sources */,
 				49AA5A642133469E00E65533 /* LogEventContext+Mocking.swift in Sources */,
@@ -2370,6 +2387,7 @@
 				491533702093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B6020B308F600649BB4 /* URLMappingTests.swift in Sources */,
 				496136E420990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
+				490F67A02289751F00A6E47C /* ActionPerformTests.swift in Sources */,
 				49CC662C21232FFD0042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2579,11 +2597,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				491533682093B14100B1E4D2 /* DefaultAvailabilityCheckerTests.swift in Sources */,
+				490F67992289744A00A6E47C /* MockPresenter.swift in Sources */,
 				4999B6AB2136AD1A00C06445 /* ActionSessionTests.swift in Sources */,
 				49DFAEEE21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA1EC121E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A692133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
 				49DB63FC205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
+				490F679D2289745B00A6E47C /* Sessions.swift in Sources */,
 				490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				496F8F31203EEA06003AB29B /* FlintCore_macOSTests.swift in Sources */,
 				49AA5A652133469E00E65533 /* LogEventContext+Mocking.swift in Sources */,
@@ -2593,6 +2613,7 @@
 				491533712093B83300B1E4D2 /* MockPurchaseValidator.swift in Sources */,
 				49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */,
 				496136E520990F5C00291885 /* MockFeatureConstraintsEvaluator.swift in Sources */,
+				490F67A12289751F00A6E47C /* ActionPerformTests.swift in Sources */,
 				49CC662E212330000042489F /* PermissionAuthorisationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3021,11 +3042,14 @@
 				49DFAEEC21303B5100791680 /* ActionDispatchTests.swift in Sources */,
 				49AA1EBF21E129CB0079FE29 /* IntentBindingTests.swift in Sources */,
 				49AA5A672133497B00E65533 /* ActionRequest+Mocking.swift in Sources */,
+				490F679F2289751F00A6E47C /* ActionPerformTests.swift in Sources */,
+				490F679B2289745B00A6E47C /* Sessions.swift in Sources */,
 				49925A592258F37200842011 /* FlintCore_iOSTests.swift in Sources */,
 				49DB63FA205BD6DB00B9EE5D /* DebugReportingTests.swift in Sources */,
 				490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */,
 				49CCF0B91F8BB1B200F7020E /* FlintTests.swift in Sources */,
 				49AA5A632133469E00E65533 /* LogEventContext+Mocking.swift in Sources */,
+				490F67972289744A00A6E47C /* MockPresenter.swift in Sources */,
 				4915336B2093B7A800B1E4D2 /* MockUserToggles.swift in Sources */,
 				49298229205D67A100267A49 /* DummyFeature.swift in Sources */,
 				49F37A37209A177400B27671 /* FeatureConstraintsBuilderTests.swift in Sources */,

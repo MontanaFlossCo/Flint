@@ -9,18 +9,56 @@
 import XCTest
 @testable import FlintCore
 
+/// Low level dispatch mechanism tests
 class ActionDispatchTests: XCTestCase {
 
-    func testAsyncCompletingAction() {
+    func testSyncCompletingAction() {
         let dispatcher = DefaultActionDispatcher()
-        let presenter = MockAsyncTestPresenter()
+        let presenter = MockPresenter()
         
         let request = ActionRequest(
             uniqueID: 0,
             userInitiated: false,
             source: .application,
             session: .main,
-            actionBinding: AsyncTestFeature.asyncTest,
+            actionBinding: TestFeature.syncTest,
+            input: .noInput,
+            presenter: presenter,
+            logContextCreator: { _, _, _ in
+                return LogEventContext.mockContext()
+            }
+        )
+
+        request.setLoggingSessionDetailsCreator { () -> (sessionID: String, activitySequenceID: String) in
+            return ("test-session-id", "test-activity")
+        }
+        
+        let completionExpectation = expectation(description: "Sync completion called")
+        let queue = SmartDispatchQueue(queue: DispatchQueue.main)
+        let completion = Action.Completion(smartQueue: queue, completionHandler: { outcome, callAsync in
+            XCTAssertTrue(!callAsync, "Completion was not called sync")
+            XCTAssertTrue(queue.isCurrentQueue, "Completion not called on the expected queue")
+            completionExpectation.fulfill()
+        })
+        
+        let result = dispatcher.perform(request: request, completion: completion)
+        XCTAssertTrue(!result.isCompletingAsync, "Expected to complete sync")
+
+        waitForExpectations(timeout: 5, handler: nil)
+
+        XCTAssertTrue(presenter.called, "Action did not indicate it was called")
+    }
+
+    func testAsyncCompletingAction() {
+        let dispatcher = DefaultActionDispatcher()
+        let presenter = MockPresenter()
+        
+        let request = ActionRequest(
+            uniqueID: 0,
+            userInitiated: false,
+            source: .application,
+            session: .main,
+            actionBinding: TestFeature.asyncTest,
             input: .noInput,
             presenter: presenter,
             logContextCreator: { _, _, _ in
@@ -44,39 +82,40 @@ class ActionDispatchTests: XCTestCase {
         XCTAssertTrue(result.isCompletingAsync, "Expected to complete async")
 
         waitForExpectations(timeout: 5, handler: nil)
+
+        XCTAssertTrue(presenter.called, "Action did not indicate it was called")
     }
 
 }
 
-fileprivate protocol AsyncTestPresenter {
-    func asyncActionWasCalled()
-}
-
 fileprivate final class AsyncTestAction: UIAction {
-    typealias PresenterType = AsyncTestPresenter
+    typealias PresenterType = MockPresenter
 
-    static func perform(context: ActionContext<NoInput>, presenter: AsyncTestPresenter, completion: Completion) -> Completion.Status {
+    static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
         let asyncStatus = completion.willCompleteAsync()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            presenter.actionWorkWasDone()
             asyncStatus.completed(.successWithFeatureTermination)
         })
         return asyncStatus
     }
 }
 
-fileprivate final class AsyncTestFeature: Feature {
-    static var description: String = "Testing"
-    
-    static let asyncTest = action(AsyncTestAction.self)
-    
-    static func prepare(actions: FeatureActionsBuilder) {
+fileprivate final class SyncTestAction: UIAction {
+    typealias PresenterType = MockPresenter
+
+    static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
+        presenter.actionWorkWasDone()
+        return completion.completedSync(.success)
     }
 }
 
-fileprivate class MockAsyncTestPresenter: AsyncTestPresenter {
-    var called = false
+fileprivate final class TestFeature: Feature {
+    static var description: String = "Testing"
     
-    func asyncActionWasCalled() {
-        called = true
+    static let asyncTest = action(AsyncTestAction.self)
+    static let syncTest = action(SyncTestAction.self)
+
+    static func prepare(actions: FeatureActionsBuilder) {
     }
 }
