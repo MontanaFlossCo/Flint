@@ -22,7 +22,7 @@ class ActionSessionTests: XCTestCase {
     /// from the correct background queue.
     fileprivate func _testAction<ActionType>(_ actionBinding: StaticActionBinding<TestFeatures, ActionType>,
             session: ActionSession? = ActionType.defaultSession,
-            asyncOnQueue queue: DispatchQueue? = nil)
+            callAsync: Bool, callOnQueue queue: DispatchQueue? = nil)
             where ActionType: Action, ActionType.InputType == NoInput, ActionType.PresenterType == MockPresenter {
         // Use the presenter to detect if the body of the action was actually called, to guard against the session
         // giving us completion without invoking the action
@@ -40,8 +40,13 @@ class ActionSessionTests: XCTestCase {
         }
         
         if let queueToUse = queue {
-            queueToUse.async(execute: block)
+            if callAsync {
+                queueToUse.async(execute: block)
+            } else {
+                queueToUse.sync(execute: block)
+            }
         } else {
+            precondition(!callAsync, "Cannot perform action asynchronously unless you specify the queue on which to do it")
             block()
         }
         
@@ -55,14 +60,16 @@ class ActionSessionTests: XCTestCase {
     func testMainQueueSyncActionFromMainQueue() {
         _testAction(TestFeatures.syncMainThreadAction,
                     session: ActionSession.main,
-                    asyncOnQueue: .main)
+                    callAsync: false,
+                    callOnQueue: nil)
     }
 
     /// Test that calling a main-queue action asynchronously on another queue works.
     func testMainQueueSyncActionFromNonMainQueue() {
         _testAction(TestFeatures.syncMainThreadAction,
                     session: ActionSession.main,
-                    asyncOnQueue: DispatchQueue.global(qos: .background))
+                    callAsync: true,
+                    callOnQueue: DispatchQueue.global(qos: .background))
     }
 
     /// Verify that calling an action that must be called on a background queue, completes when called
@@ -70,7 +77,8 @@ class ActionSessionTests: XCTestCase {
     func testBackgroundQueueSyncActionFromMainQueue() {
         _testAction(TestFeatures.syncBackgroundThreadAction,
                     session: Sessions.backgroundSession,
-                    asyncOnQueue: nil)
+                    callAsync: false,
+                    callOnQueue: nil)
     }
 
     /// Verify that calling an action that must be called on a background queue, completes when called
@@ -78,7 +86,8 @@ class ActionSessionTests: XCTestCase {
     func testBackgroundQueueSyncActionFromBackgroundQueue() {
         _testAction(TestFeatures.syncBackgroundThreadAction,
                     session: Sessions.backgroundSession,
-                    asyncOnQueue: SyncBackgroundThreadAction.queue)
+                    callAsync: true,
+                    callOnQueue: SyncBackgroundThreadAction.queue)
     }
  
     /// Verify that calling an action that must be called on the main queue and completes asynchronously does so when called
@@ -86,7 +95,8 @@ class ActionSessionTests: XCTestCase {
     func testMainQueueAsyncCompletingActionFromMainQueue() {
         _testAction(TestFeatures.asyncCompletingMainThreadAction,
                     session: .main,
-                    asyncOnQueue: nil)
+                    callAsync: false,
+                    callOnQueue: nil)
     }
 
     /// Verify that calling an action that must be called on the main queue and completes asynchronously does so when called
@@ -94,7 +104,8 @@ class ActionSessionTests: XCTestCase {
     func testMainQueueAsyncCompletingActionFromBackgroundQueue() {
         _testAction(TestFeatures.asyncCompletingMainThreadAction,
                     session: .main,
-                    asyncOnQueue: .global(qos: .background))
+                    callAsync: true,
+                    callOnQueue: .global(qos: .background))
     }
 
     /// Verify that calling an action that must be called on a non-main queue and completes asynchronously does so when called
@@ -102,7 +113,8 @@ class ActionSessionTests: XCTestCase {
     func testBackgroundQueueAsyncCompletingActionFromMainQueue() {
         _testAction(TestFeatures.asyncCompletingBackgroundThreadAction,
                     session: Sessions.backgroundSession,
-                    asyncOnQueue: nil)
+                    callAsync: false,
+                    callOnQueue: nil)
     }
     
     /// Verify that calling an action that must be called on a non-main queue and completes asynchronously does so when called
@@ -110,8 +122,18 @@ class ActionSessionTests: XCTestCase {
     func testBackgroundQueueAsyncCompletingActionFromBackgroundQueue() {
         _testAction(TestFeatures.asyncCompletingBackgroundThreadAction,
                     session: Sessions.backgroundSession,
-                    asyncOnQueue: SyncBackgroundThreadAction.queue)
+                    callAsync: true,
+                    callOnQueue: SyncBackgroundThreadAction.queue)
     }
+    
+    func testMainQueueSyncActionFromMainQueueAsynchronously() {
+        _testAction(TestFeatures.syncMainThreadAction,
+                    session: ActionSession.main,
+                    callAsync: true,
+                    callOnQueue: .main)
+    }
+
+
 }
 
 // MARK: Helper Types
