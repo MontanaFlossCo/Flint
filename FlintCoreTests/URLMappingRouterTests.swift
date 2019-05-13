@@ -27,6 +27,7 @@ class URLMappingRouterTests: XCTestCase {
         static func urlMappings(routes: URLMappingsBuilder) {
             routes.send("cde", to: testAction2)
             routes.send("abc", to: testAction)
+            routes.send("/deeplink1", to: testAction, in: [.universal(domain: "flint.tools")])
         }
     }
     
@@ -100,6 +101,59 @@ class URLMappingRouterTests: XCTestCase {
                                                                                 XCTAssertTrue(true)
                                                                             default:
                                                                                 XCTFail()
+                                                                            }
+        })
+    }
+    
+    func testRouteActionWithDeepLinkingDomain() {
+        Flint.quickSetup(TestFeature.self)
+        FlintAppInfo.associatedDomains = ["flint.tools"]
+        
+        // Verify mapping success
+        let url = URL(string: "https://flint.tools/deeplink1")!
+        
+        let presenter = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: url,
+                                                                         presenter: presenter,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .success:
+                                                                                break
+                                                                            default:
+                                                                                XCTFail("Expected mapping to succeed")
+                                                                            }
+        })
+
+        // Verify mapping failure
+        let badUrl = URL(string: "https://flint.tools/deepTHISISBADlink1")!
+        
+        let badPresenter = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: badUrl,
+                                                                         presenter: badPresenter,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .failure:
+                                                                                break
+                                                                            default:
+                                                                                XCTFail("Expected mapping to fail")
+                                                                            }
+        })
+
+        // Verify mapping failure on invalid domain
+        let badUrl2 = URL(string: "https://this.is.not.our.site.com/deeplink1")!
+        
+        let badPresenter2 = MockPresentationRouter()
+        
+        RoutesFeature.request(RoutesFeature.performIncomingURL)!.perform(withInput: badUrl2,
+                                                                         presenter: badPresenter2,
+                                                                         completion: { outcome in
+                                                                            switch outcome {
+                                                                            case .failure:
+                                                                                break
+                                                                            default:
+                                                                                XCTFail("Expected mapping to fail")
                                                                             }
         })
     }
