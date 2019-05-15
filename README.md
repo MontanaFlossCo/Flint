@@ -9,13 +9,10 @@
 
 ## Status
 
-![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8.svg?label=Build%20for%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)
-
-![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34.svg?label=Build%20for%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)
-
-![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2.svg?label=Build%20for%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)
-
-![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f.svg?label=Build%20for%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)
+![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8/master.svg?label=Build%20for%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)
+![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34/master.svg?label=Build%20for%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)
+![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Build%20for%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)
+![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Build%20for%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)
 
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 
@@ -281,8 +278,7 @@ There is of course much left to do! Here is a high level roadmap  of planned wor
 * ✅ Implement Built-in persistent file logger
 * ✅ Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
 * ✅ Implement IAP / Subscription validation
-* 👨‍💻 Implement core unit tests
-* 👨‍💻 Examples of Mixpanel, Sentry and Firebase integrations
+* ✅ Implement core unit tests
 * 👨‍💻 1.0 Release
 
 ## Philosophy
