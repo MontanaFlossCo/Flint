@@ -1,5 +1,6 @@
 <a href="https://flint.tools"><img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo"></a>
 
+![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 ![carthage compatible](https://img.shields.io/badge/carthage-compatible-brighttgreen.svg?style=flat)
 ![cocoapods compatible](https://img.shields.io/badge/cocoapods-compatible-brighttgreen.svg?style=flat)
 ![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5-blue.svg?style=flat)
@@ -9,8 +10,6 @@
 [![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34/master.svg?label=Bitrise%3A%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)](https://app.bitrise.io/app/b97567c7372ecf34)
 [![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)](https://app.bitrise.io/app/c86c83980db3d3e2)
 [![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)](https://app.bitrise.io/app/0433151c78298a0f)
-
-![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 
 Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
  
