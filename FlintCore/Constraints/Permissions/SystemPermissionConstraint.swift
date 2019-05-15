@@ -25,6 +25,7 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
     case reminders
     case motion
     case speechRecognition
+    case siriKit
 
 // The rest of these are "coming soon"
 /*
@@ -43,6 +44,7 @@ public enum SystemPermissionConstraint: Hashable, CustomStringConvertible {
             case .reminders: return "Reminders"
             case .motion: return "Motion"
             case .speechRecognition: return "Speech Recognition"
+            case .siriKit: return "Siri Kit"
             case .location(let usage):
                 switch usage {
                     case .whenInUse: return "Location when in use"
@@ -64,12 +66,13 @@ extension SystemPermissionConstraint: FeatureConstraint {
                  .microphone,
                  .calendarEvents,
                  .reminders,
-                 .contacts,
                  .photos,
                  .speechRecognition,
-                 .motion:
+                 .motion,
+                 .siriKit:
                 return ""
             case .location(let usage): return "usage \(usage)"
+            case .contacts(let entity): return "entity \(entity)"
         }
     }
 }

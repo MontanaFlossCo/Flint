@@ -67,6 +67,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = MotionPermissionAdapter.self
                 case .speechRecognition:
                     adapterType = SpeechRecognitionPermissionAdapter.self
+                case .siriKit:
+                    adapterType = SiriKitPermissionAdapter.self
             }
 
             if let adapter = adapterType {
