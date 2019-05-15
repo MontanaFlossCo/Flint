@@ -25,6 +25,10 @@
 		490BDC51228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
 		490BDC52228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
 		490BDC53228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
+		490BDC55228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */; };
+		490BDC56228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */; };
+		490BDC57228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */; };
+		490BDC58228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */; };
 		490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
@@ -929,6 +933,7 @@
 		4905C5C9221053A600890C11 /* FileHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPurchaseTracker.swift; sourceTree = "<group>"; };
 		490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriKitPermissionAdapter.swift; sourceTree = "<group>"; };
+		490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothPeripheralPermissionAdapter.swift; sourceTree = "<group>"; };
 		490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirementTests.swift; sourceTree = "<group>"; };
 		490F67962289744A00A6E47C /* MockPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresenter.swift; sourceTree = "<group>"; };
 		490F679A2289745B00A6E47C /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
@@ -1374,6 +1379,7 @@
 				496775E7228081DD00F34103 /* AVCaptureDevicePermissionAdapter.swift */,
 				496775EC2280873400F34103 /* MicrophonePermissionAdapter.swift */,
 				490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */,
+				490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -2207,6 +2213,7 @@
 				496F8F55203EEBB1003AB29B /* TimelineEntry.swift in Sources */,
 				496775E42280656600F34103 /* ResignCurrentActivityAction.swift in Sources */,
 				495CBD90223D6E1F00233816 /* ConsumableProduct.swift in Sources */,
+				490BDC56228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */,
 				4929823D205ED12C00267A49 /* ActionMetadata.swift in Sources */,
 				494F59162098AA280075E7EE /* PlatformVersionConstraint.swift in Sources */,
 				498A894D2068FF5200457D66 /* TimelineFeature.swift in Sources */,
@@ -2420,6 +2427,7 @@
 				4937001D21F4EA12007F78BB /* IntentShortcutDonationFeature.swift in Sources */,
 				496136C2209900CE00291885 /* SystemPermissionAdapter.swift in Sources */,
 				496F8FE1203EEBDA003AB29B /* FeatureGroup.swift in Sources */,
+				490BDC57228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */,
 				49935BD3206BA0DF00CB2B5D /* LogEventContext.swift in Sources */,
 				49DFB7D120A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift in Sources */,
 				4971760020ECE00A00F88482 /* DynamicLibraryBinding.swift in Sources */,
@@ -2744,6 +2752,7 @@
 				499FE35B20BD8C3A00552CE9 /* FeatureConstraintStatus.swift in Sources */,
 				492B2A4620FE9A2600F4EAB0 /* CompletionRequirement.swift in Sources */,
 				494F593B2098AB940075E7EE /* RuntimePreconditionEvaluator.swift in Sources */,
+				490BDC58228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */,
 				49935BCF206B901800CB2B5D /* VerifiedActionBinding.swift in Sources */,
 				4921706820D27D14007D6883 /* FlintImage.swift in Sources */,
 				4932675A2142FA2B00CC88CB /* Archive.swift in Sources */,
@@ -2997,6 +3006,7 @@
 				498F976E207783C500209633 /* FocusLogging.swift in Sources */,
 				49F2CF261FF7EB78004F16EF /* NoInput.swift in Sources */,
 				49819EB81FC9C21A0013AF55 /* FeatureAvailability.swift in Sources */,
+				490BDC55228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift in Sources */,
 				499FE34C20BD89F800552CE9 /* FeatureConstraint.swift in Sources */,
 				4924C6FD20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift in Sources */,
 				49E1A233203C35C800F7555C /* RouteScope.swift in Sources */,
