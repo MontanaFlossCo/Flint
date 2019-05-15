@@ -5,10 +5,10 @@
 ![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5-blue.svg?style=flat)
 ![xcode 9.3-10.2](https://img.shields.io/badge/Xcode-9.3_to_10.2-blue.svg?style=flat)
 
-![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8/master.svg?label=Bitrise%3A%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)
-![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34/master.svg?label=Bitrise%3A%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)
-![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)
-![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)
+[![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8/master.svg?label=Bitrise%3A%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)](https://app.bitrise.io/app/5f6a9a733386ecc8)
+[![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34/master.svg?label=Bitrise%3A%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)](https://app.bitrise.io/app/b97567c7372ecf34)
+[![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)](https://app.bitrise.io/app/c86c83980db3d3e2)
+[![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)](https://app.bitrise.io/app/0433151c78298a0f)
 
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 
