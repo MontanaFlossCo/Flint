@@ -11,6 +11,12 @@
 
 ![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8.svg?label=Build%20for%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)
 
+![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34.svg?label=Build%20for%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)
+
+![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2.svg?label=Build%20for%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)
+
+![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f.svg?label=Build%20for%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)
+
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 
 Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
