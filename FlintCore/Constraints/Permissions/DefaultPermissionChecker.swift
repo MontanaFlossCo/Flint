@@ -69,6 +69,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = SpeechRecognitionPermissionAdapter.self
                 case .siriKit:
                     adapterType = SiriKitPermissionAdapter.self
+                case .bluetooth:
+                    adapterType = BluetoothPeripheralPermissionAdapter.self
             }
 
             if let adapter = adapterType {
