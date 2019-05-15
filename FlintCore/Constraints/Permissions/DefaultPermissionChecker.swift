@@ -71,6 +71,8 @@ public class DefaultPermissionChecker: SystemPermissionChecker, CustomDebugStrin
                     adapterType = SiriKitPermissionAdapter.self
                 case .bluetooth:
                     adapterType = BluetoothPeripheralPermissionAdapter.self
+                case .mediaLibrary:
+                    adapterType = MediaLibraryPermissionAdapter.self
             }
 
             if let adapter = adapterType {

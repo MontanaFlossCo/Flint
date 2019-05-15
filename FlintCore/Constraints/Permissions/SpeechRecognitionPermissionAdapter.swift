@@ -13,7 +13,7 @@ import Speech
 
 #if canImport(Speech) && os(iOS)
 @objc
-protocol ProxySpeechRecognizer {
+fileprivate protocol ProxySpeechRecognizer {
     // These are not static as we call them on the class
     @available(iOS 10, *)
     @objc
@@ -48,10 +48,10 @@ class SpeechRecognitionPermissionAdapter: SystemPermissionAdapter {
     
 #if canImport(Speech) && os(iOS)
     @available(iOS 10, *)
-    lazy var speechRecognizerClass: AnyObject = { NSClassFromString("SFSpeechRecognizer")! }()
+    fileprivate lazy var speechRecognizerClass: AnyObject = { NSClassFromString("SFSpeechRecognizer")! }()
     
     @available(iOS 10, *)
-    lazy var proxySpeechRecognizerClass: ProxySpeechRecognizer = { unsafeBitCast(self.speechRecognizerClass, to: ProxySpeechRecognizer.self) }()
+    fileprivate lazy var proxySpeechRecognizerClass: ProxySpeechRecognizer = { unsafeBitCast(self.speechRecognizerClass, to: ProxySpeechRecognizer.self) }()
 #endif
 
     var status: SystemPermissionStatus {

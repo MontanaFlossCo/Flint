@@ -13,7 +13,8 @@ import CoreMotion
 
 typealias CMProxyMotionActivityQueryHandler = ([NSObject]?, Error?) -> Void
 
-@objc protocol ProxyMotionActivityManager {
+@objc
+fileprivate protocol ProxyMotionActivityManager {
 #if canImport(CoreMotion)
     @available(iOS 11, watchOS 4, *)
     @objc static func authorizationStatus() -> CMAuthorizationStatus
@@ -65,8 +66,8 @@ class MotionPermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSMotionUsageDescription"
 
 #if canImport(CoreMotion)
-    private lazy var activityManager: AnyObject = { try! instantiate(classNamed: "CMMotionActivityManager") }()
-    lazy var proxyMotionActivityManager: ProxyMotionActivityManager = { return unsafeBitCast(self.activityManager, to: ProxyMotionActivityManager.self) }()
+    fileprivate lazy var activityManager: AnyObject = { try! instantiate(classNamed: "CMMotionActivityManager") }()
+    fileprivate lazy var proxyMotionActivityManager: ProxyMotionActivityManager = { return unsafeBitCast(self.activityManager, to: ProxyMotionActivityManager.self) }()
 #endif
 
     init(permission: SystemPermissionConstraint) {

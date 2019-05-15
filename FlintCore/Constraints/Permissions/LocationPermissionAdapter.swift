@@ -9,7 +9,8 @@
 import Foundation
 import CoreLocation
 
-@objc protocol ProxyLocationManager {
+@objc
+fileprivate protocol ProxyLocationManager {
     @objc static func authorizationStatus() -> CLAuthorizationStatus
 
     @objc var delegate: CLLocationManagerDelegate? { get set }
@@ -44,8 +45,8 @@ import CoreLocation
         return results
     }
 
-    lazy var locationManager: AnyObject = { try! instantiate(classNamed: "CLLocationManager") }()
-    lazy var proxyLocationManager: ProxyLocationManager = { unsafeBitCast(self.locationManager, to: ProxyLocationManager.self) }()
+    fileprivate lazy var locationManager: AnyObject = { try! instantiate(classNamed: "CLLocationManager") }()
+    fileprivate lazy var proxyLocationManager: ProxyLocationManager = { unsafeBitCast(self.locationManager, to: ProxyLocationManager.self) }()
 
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String

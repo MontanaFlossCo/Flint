@@ -8,11 +8,13 @@
 
 import Foundation
 
-@objc fileprivate enum ProxyEntityType: Int {
+@objc
+fileprivate enum ProxyEntityType: Int {
     case contacts
 }
 
-@objc fileprivate enum ProxyAuthorizationStatus: Int {
+@objc
+fileprivate enum ProxyAuthorizationStatus: Int {
     case notDetermined
     case restricted
     case denied

@@ -11,14 +11,16 @@ import Foundation
 import Photos
 #endif
 
- @objc enum ProxyPHAuthorizationStatus: Int {
+@objc
+enum ProxyPHAuthorizationStatus: Int {
     case notDetermined
     case restricted
     case denied
     case authorized
 }
 
-@objc protocol ProxyPhotoLibrary {
+@objc
+fileprivate protocol ProxyPhotoLibrary {
     // Don't declare these as static, we call them on the clasws
     func authorizationStatus() -> ProxyPHAuthorizationStatus
     
@@ -50,8 +52,8 @@ class PhotosPermissionAdapter: SystemPermissionAdapter {
     let permission: SystemPermissionConstraint
     let usageDescriptionKey: String = "NSPhotoLibraryUsageDescription"
 
-    lazy var photoLibrary: AnyObject = { NSClassFromString("PHPhotoLibrary")! }()
-    lazy var proxyPhotoLibrary: ProxyPhotoLibrary = { unsafeBitCast(self.photoLibrary, to: ProxyPhotoLibrary.self) }()
+    fileprivate lazy var photoLibrary: AnyObject = { NSClassFromString("PHPhotoLibrary")! }()
+    fileprivate lazy var proxyPhotoLibrary: ProxyPhotoLibrary = { unsafeBitCast(self.photoLibrary, to: ProxyPhotoLibrary.self) }()
     
     var status: SystemPermissionStatus {
 #if canImport(Photos)

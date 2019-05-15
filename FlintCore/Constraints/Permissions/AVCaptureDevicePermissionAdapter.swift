@@ -10,14 +10,16 @@ import Foundation
 import AVFoundation
 
 #if os(iOS) || os(macOS)
-@objc enum ProxyAVAuthorizationStatus: Int {
+@objc
+fileprivate enum ProxyAVAuthorizationStatus: Int {
     case notDetermined
     case restricted
     case denied
     case authorized
 }
 
-@objc protocol ProxyCaptureDevice {
+@objc
+fileprivate protocol ProxyCaptureDevice {
     // We don't mark these static as we call them on the class itself.
     @objc(authorizationStatusForMediaType:)
     func authorizationStatus(for mediaType: AVMediaType) -> ProxyAVAuthorizationStatus
@@ -53,8 +55,8 @@ class AVCaptureDevicePermissionAdapter: SystemPermissionAdapter {
     let usageDescriptionKey: String = "NSCameraUsageDescription"
     
 #if os(iOS) || os(macOS)
-    lazy var captureDeviceClass: AnyObject = { NSClassFromString("AVCaptureDevice")! }()
-    lazy var proxyCaptureDeviceClass: ProxyCaptureDevice = { unsafeBitCast(self.captureDeviceClass, to: ProxyCaptureDevice.self) }()
+    fileprivate lazy var captureDeviceClass: AnyObject = { NSClassFromString("AVCaptureDevice")! }()
+    fileprivate lazy var proxyCaptureDeviceClass: ProxyCaptureDevice = { unsafeBitCast(self.captureDeviceClass, to: ProxyCaptureDevice.self) }()
 
     var avMediaType: AVMediaType {
         switch mediaType {
