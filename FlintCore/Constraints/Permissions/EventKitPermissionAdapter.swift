@@ -8,19 +8,22 @@
 
 import Foundation
 
-@objc fileprivate enum ProxyEntityType: Int {
+@objc
+fileprivate enum ProxyEntityType: Int {
     case event
     case reminder
 }
 
-@objc fileprivate enum ProxyAuthorizationStatus: Int {
+@objc
+fileprivate enum ProxyAuthorizationStatus: Int {
     case notDetermined
     case restricted
     case denied
     case authorized
 }
 
-@objc fileprivate protocol ProxyEventStore {
+@objc
+fileprivate protocol ProxyEventStore {
     @objc(authorizationStatusForEntityType:)
     static func authorizationStatus(for entityType: ProxyEntityType) -> ProxyAuthorizationStatus
 

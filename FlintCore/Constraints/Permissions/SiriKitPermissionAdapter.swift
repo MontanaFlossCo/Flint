@@ -14,7 +14,7 @@ import Intents
 
 #if canImport(Intents) && (os(iOS) || os(watchOS))
 @objc
-protocol ProxyIntentPreferences {
+fileprivate protocol ProxyIntentPreferences {
     // These are not static as we call them on the class
     @available(iOS 10, watchOS 3.2, *)
     @objc
@@ -49,10 +49,10 @@ class SiriKitPermissionAdapter: SystemPermissionAdapter {
     
 #if canImport(Intents) && (os(iOS) || os(watchOS))
     @available(iOS 10, *)
-    lazy var preferencesClass: AnyObject = { NSClassFromString("INPreferences")! }()
+    fileprivate lazy var preferencesClass: AnyObject = { NSClassFromString("INPreferences")! }()
 
     @available(iOS 10, *)
-    lazy var proxyPreferencesClass: ProxyIntentPreferences = { unsafeBitCast(self.preferencesClass, to: ProxyIntentPreferences.self) }()
+    fileprivate lazy var proxyPreferencesClass: ProxyIntentPreferences = { unsafeBitCast(self.preferencesClass, to: ProxyIntentPreferences.self) }()
 #endif
 
     var status: SystemPermissionStatus {

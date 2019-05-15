@@ -748,6 +748,10 @@
 		49D24B6120B308F700649BB4 /* URLMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */; };
 		49D447F51FEC69F900DBB352 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F41FEC69F900DBB352 /* Feature.swift */; };
 		49D447F71FEC6AA800DBB352 /* ConditionalFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */; };
+		49D5305F228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */; };
+		49D53060228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */; };
+		49D53061228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */; };
+		49D53062228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */; };
 		49DA893D227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
 		49DA893E227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
 		49DA893F227E177C00C44653 /* ActionStacksFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA893C227E177C00C44653 /* ActionStacksFeature.swift */; };
@@ -1158,6 +1162,7 @@
 		49D24B5A20B3054C00649BB4 /* URLMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMappingTests.swift; sourceTree = "<group>"; };
 		49D447F41FEC69F900DBB352 /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalFeature.swift; sourceTree = "<group>"; };
+		49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryPermissionAdapter.swift; sourceTree = "<group>"; };
 		49DA893C227E177C00C44653 /* ActionStacksFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStacksFeature.swift; sourceTree = "<group>"; };
 		49DA8941227EF1A300C44653 /* ProxyCompletionRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyCompletionRequirement.swift; sourceTree = "<group>"; };
 		49DB63F7205BD55700B9EE5D /* ZIPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZIPFoundation.framework; path = Carthage/Build/iOS/ZIPFoundation.framework; sourceTree = "<group>"; };
@@ -1380,6 +1385,7 @@
 				496775EC2280873400F34103 /* MicrophonePermissionAdapter.swift */,
 				490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */,
 				490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */,
+				49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -2309,6 +2315,7 @@
 				49BC1C4620795E9E00A7FC77 /* FIFOArrayDataSource.swift in Sources */,
 				494F59112098AA140075E7EE /* OperatingSystemVersion+Utilities.swift in Sources */,
 				494F590C2098A9F70075E7EE /* Platform.swift in Sources */,
+				49D53060228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */,
 				496F8F53203EEBB1003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
 				495CBD93223D6E1F00233816 /* NonRenewingSubscriptionProduct.swift in Sources */,
 				494F59202098AA5D0075E7EE /* DeclaredFeatureConstraints.swift in Sources */,
@@ -2574,6 +2581,7 @@
 				498F97752077846000209633 /* FocusArea.swift in Sources */,
 				496F8FD8203EEBDA003AB29B /* ActionRequest.swift in Sources */,
 				498F976B2077832F00209633 /* DefaultFocusSelection.swift in Sources */,
+				49D53061228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */,
 				499FE33F20B9FE7A00552CE9 /* OSLogOutput.swift in Sources */,
 				496775EF2280873400F34103 /* MicrophonePermissionAdapter.swift in Sources */,
 				49298239205ED11900267A49 /* FeatureMetadata.swift in Sources */,
@@ -2783,6 +2791,7 @@
 				496F8F71203EEBB2003AB29B /* ActionLoggingDispatchObserver.swift in Sources */,
 				4932674B2142F7F200CC88CB /* FileManager+ZIP.swift in Sources */,
 				493267502142F87C00CC88CB /* Entry.swift in Sources */,
+				49D53062228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */,
 				49DB926320757D9500F758DC /* AnalyticsProvider.swift in Sources */,
 				4996BF1F221E0B7B00355675 /* TerminatingAction.swift in Sources */,
 				499FE35620BD8BAE00552CE9 /* FeatureConstraintResult.swift in Sources */,
@@ -2904,6 +2913,7 @@
 				496775E8228081DD00F34103 /* AVCaptureDevicePermissionAdapter.swift in Sources */,
 				498B80862001210300E44C91 /* String+Extensions.swift in Sources */,
 				498F97732077846000209633 /* FocusArea.swift in Sources */,
+				49D5305F228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift in Sources */,
 				49FF056D21FA500F00A7E325 /* FileLoggerOutput.swift in Sources */,
 				49CCF0D01F8BB25800F7020E /* Logging.swift in Sources */,
 				49935BEA206D23E400CB2B5D /* FIFOArray.swift in Sources */,
