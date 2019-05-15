@@ -21,6 +21,10 @@
 		4905C5D222105CF400890C11 /* DebugPurchaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */; };
 		49095409218078B6009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
 		4909540A218078BC009A88D9 /* IntentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4930281D215138660042DA96 /* IntentAction.swift */; };
+		490BDC50228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
+		490BDC51228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
+		490BDC52228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
+		490BDC53228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */; };
 		490E5B6F21298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7021298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
 		490E5B7121298D850073B7D7 /* CompletionRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */; };
@@ -924,6 +928,7 @@
 		4905C5C422104C4B00890C11 /* SimplePurchaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePurchaseStore.swift; sourceTree = "<group>"; };
 		4905C5C9221053A600890C11 /* FileHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		4905C5CE22105CF400890C11 /* DebugPurchaseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPurchaseTracker.swift; sourceTree = "<group>"; };
+		490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriKitPermissionAdapter.swift; sourceTree = "<group>"; };
 		490E5B6E21298D850073B7D7 /* CompletionRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRequirementTests.swift; sourceTree = "<group>"; };
 		490F67962289744A00A6E47C /* MockPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresenter.swift; sourceTree = "<group>"; };
 		490F679A2289745B00A6E47C /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
@@ -1368,6 +1373,7 @@
 				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
 				496775E7228081DD00F34103 /* AVCaptureDevicePermissionAdapter.swift */,
 				496775EC2280873400F34103 /* MicrophonePermissionAdapter.swift */,
+				490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -2326,6 +2332,7 @@
 				496F8F60203EEBB1003AB29B /* PrintLoggerOutput.swift in Sources */,
 				496F8FAD203EEBD3003AB29B /* URLMapped.swift in Sources */,
 				496F8FC4203EEBDA003AB29B /* ActionSession.swift in Sources */,
+				490BDC51228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */,
 				494F59342098AB720075E7EE /* PurchasePreconditionEvaluator.swift in Sources */,
 				496F8FCE203EEBDA003AB29B /* Flint.swift in Sources */,
 				499FE34D20BD89F800552CE9 /* FeatureConstraint.swift in Sources */,
@@ -2438,6 +2445,7 @@
 				49935BEC206D23E400CB2B5D /* FIFOArray.swift in Sources */,
 				496F8FDA203EEBDA003AB29B /* FlintAppInfo.swift in Sources */,
 				49734F7C21F4A64E00ACF5DF /* IntentTypes.swift in Sources */,
+				490BDC52228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */,
 				49F6824620D2C0B200B02318 /* ActivityMetadataRepresentable.swift in Sources */,
 				496F8F8E203EEBBB003AB29B /* PurchaseTracker.swift in Sources */,
 				495EED8521FB1EC9001142A0 /* LogFileNamingStrategy.swift in Sources */,
@@ -2720,6 +2728,7 @@
 				4946FAC8208E23740097E10E /* ActionPerformOutcome.swift in Sources */,
 				495576DE20D589A4008C1C34 /* ErrorFunctions.swift in Sources */,
 				496F8FFE203EEBDB003AB29B /* StaticActionBinding.swift in Sources */,
+				490BDC53228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */,
 				49FC45FD20A46F0A00679F97 /* MappedActionResult.swift in Sources */,
 				49DDD70E2135605900FC8ECC /* ActionPerformError.swift in Sources */,
 				491211C12158FEA300B199C4 /* IntentShortcutDonationFeature.swift in Sources */,
@@ -3009,6 +3018,7 @@
 				4914EFC72067C4D000FE0F41 /* Formatters.swift in Sources */,
 				496136DE2099028F00291885 /* LocationUsage.swift in Sources */,
 				49769247201F3DD700F97BD5 /* PresentationRouter.swift in Sources */,
+				490BDC50228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift in Sources */,
 				495EED7621FA80A9001142A0 /* TimestampLogFileNamingStrategy.swift in Sources */,
 				4927FF05208A556E00163576 /* ActivityEligibility.swift in Sources */,
 				496775ED2280873400F34103 /* MicrophonePermissionAdapter.swift in Sources */,
