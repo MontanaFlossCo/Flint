@@ -41,7 +41,7 @@ extension StaticActionBinding {
 }
 
 @available(iOS 12, *)
-extension StaticActionBinding where ActionType: IntentAction, ActionType.PresenterType == IntentResponsePresenter<ActionType.IntentResponseType> {
+extension StaticActionBinding where ActionType: IntentAction {
 
     /// Perform an intent intended for this action. The action will be passed the input extracted from the intent,
     /// and a presenter that automatically calls the completion handler passed as an argument.
