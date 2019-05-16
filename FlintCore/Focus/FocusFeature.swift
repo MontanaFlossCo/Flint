@@ -56,9 +56,6 @@ final public class FocusFeature: ConditionalFeature {
         
         /// Wire up the delegate to snoop on log entries
         if isAvailable == true {
-            var developmentLogging: FocusLogging?
-            var productionLogging: FocusLogging?
-
             let focusLoggingHistory = FocusLogging(maxCount: defaultMaxLogEvents)
             if let development = Logging.development {
                 development.add(output: focusLoggingHistory)
