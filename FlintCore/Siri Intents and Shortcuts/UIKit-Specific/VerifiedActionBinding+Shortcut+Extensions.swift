@@ -55,7 +55,7 @@ extension VerifiedActionBinding where ActionType: IntentAction {
     ///
     /// - return: The result of performing the action.
     public func perform(withIntent intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
-        let presenter = IntentResponsePresenter(completion: completion)
+        let presenter = ActionType.PresenterType(completion: completion)
         return try perform(withIntent: intent, presenter: presenter)
     }
     
