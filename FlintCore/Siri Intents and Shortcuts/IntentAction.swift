@@ -30,12 +30,13 @@ public protocol IntentAction: IntentBackgroundAction {
     /// The type of the `INIntent` thatt this action will implement. This is the Xcode-generated response type produced from your
     /// intent definition configuration.
     associatedtype IntentType: FlintIntent
+
     /// The type of the `INIntentResponse` for the `INIntent`. This is the Xcode-generated response type produced from your
     /// intent definition configuration.
     associatedtype IntentResponseType: FlintIntentResponse
 
     /// Automatic aliasing of the presenter to the appropriate type for Intents
-    typealias PresenterType = IntentResponsePresenter<IntentResponseType>
+    associatedtype PresenterType = IntentResponsePresenter<IntentResponseType>
 
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
