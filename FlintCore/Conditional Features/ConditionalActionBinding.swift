@@ -44,7 +44,7 @@ import Foundation
 /// - note: This is a completely discrete type from `StaticActionBinding` so that you cannot call `perform`
 /// with a conditional action, you must first request the conditional action using this binding, and then
 /// call perform with the `VerifiedActionBinding` received from that.
-public struct ConditionalActionBinding<FeatureType: ConditionalFeature, ActionType: Action>: CustomDebugStringConvertible {
+public struct ConditionalActionBinding<FeatureType, ActionType>: CustomDebugStringConvertible where FeatureType: ConditionalFeature, ActionType: Action {
 
     public var debugDescription: String {
         return "ConditionalActionBinding action \(ActionType.self) of \(FeatureType.self)"

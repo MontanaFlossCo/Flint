@@ -191,7 +191,8 @@ public class PurchaseBrowserViewController: UITableViewController {
     
     @objc public func dismissPurchases() {
         if let request = PurchaseBrowserFeature.hide.request() {
-            request.perform(withInput: .animated(true), presenter: self)
+            let r: VerifiedActionBinding<PurchaseBrowserFeature, HidePurchaseBrowserAction> = request
+            r.perform(withInput: .animated(true), presenter: self)
         }
     }
     
