@@ -30,7 +30,9 @@ import UIKit
 /// ```
 /// - see: `DismissUIInput`
 #if os(iOS) || os(tvOS)
-public protocol DismissingUIAction: UIAction where InputType == DismissUIInput, PresenterType == UIViewController {
+public protocol DismissingUIAction: UIAction {
+    typealias InputType = DismissUIInput
+    typealias PresenterType = UIViewController
 }
 
 extension DismissingUIAction {
