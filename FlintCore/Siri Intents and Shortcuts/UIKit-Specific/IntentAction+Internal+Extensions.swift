@@ -29,6 +29,10 @@ internal extension IntentAction {
         }
 
         if shortcutIntent.suggestedInvocationPhrase == nil {
+            shortcutIntent.suggestedInvocationPhrase = suggestedInvocationPhrase
+        }
+
+        if shortcutIntent.suggestedInvocationPhrase == nil {
             flintAdvisoryNotice("Creating intent shortcut for \(self) but suggestedInvocationPhrase is nil")
         }
 
