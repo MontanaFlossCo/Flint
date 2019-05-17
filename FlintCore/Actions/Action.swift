@@ -47,7 +47,7 @@ public protocol Action {
     /// protocols instead. This makes unit testing of features and actions possible.
     ///
     /// If your action requires no UI, you can set it to `NoPresenter` and omit the presenter when calling `perform()`
-    associatedtype PresenterType  = NoPresenter
+    associatedtype PresenterType = NoPresenter
 
     /// The name of the action, for logging and UIs
     /// There is a default implementation provided.

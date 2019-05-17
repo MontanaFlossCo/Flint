@@ -31,11 +31,11 @@ import UIKit
 /// - see: `DismissUIInput`
 #if os(iOS) || os(tvOS)
 public protocol DismissingUIAction: UIAction {
-    typealias InputType = DismissUIInput
-    typealias PresenterType = UIViewController
+    associatedtype InputType = DismissUIInput
+    associatedtype PresenterType = UIViewController
 }
 
-extension DismissingUIAction {
+extension DismissingUIAction where InputType == DismissUIInput, PresenterType == UIViewController {
     public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
         presenter.dismiss(animated: context.input.animated)
         return completion.completedSync(.successWithFeatureTermination)
