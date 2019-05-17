@@ -41,7 +41,7 @@ extension StaticActionBinding {
 }
 
 @available(iOS 12, *)
-extension StaticActionBinding where ActionType: IntentAction {
+public extension StaticActionBinding where ActionType: IntentAction, ActionType.PresenterType == IntentResponsePresenter<ActionType.IntentResponseType> {
 
     /// Perform an intent intended for this action. The action will be passed the input extracted from the intent,
     /// and a presenter that automatically calls the completion handler passed as an argument.
@@ -52,7 +52,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// this actions's `IntentType`
     /// - param completion: The intent handler completion closure from an Intent Extension handler.
     /// - return: The result of performing the action.
-    public func perform(withIntent intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
+    func perform(withIntent intent: ActionType.IntentType, completion: @escaping (ActionType.IntentResponseType) -> Void) throws -> MappedActionResult {
         let presenter = ActionType.PresenterType(completion: completion)
         return try perform(withIntent: intent, presenter: presenter)
     }
@@ -66,7 +66,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// this actions's `IntentType`
     /// - param completion: The intent handler completion closure from an Intent Extension handler.
     /// - return: The result of performing the action.
-    public func perform(withIntent intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
+    func perform(withIntent intent: ActionType.IntentType, presenter: ActionType.PresenterType) throws -> MappedActionResult {
         guard let inputFromIntent = try ActionType.input(fromIntent: intent) else {
             flintUsageError("Failed to create input from intent \(intent)")
         }
@@ -113,7 +113,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// - note: This variant exists for the specialisation that will call `intent(for:)` on the Action to create an
     /// an intent for the shortcut.
     @available(iOS 12, *)
-    public func addVoiceShortcut(withInput input: ActionType.InputType,
+    func addVoiceShortcut(withInput input: ActionType.InputType,
                                  presenter: UIViewController,
                                  completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
         try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
@@ -135,7 +135,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     ///
     /// - see: `EditVoiceShortcutResult`
     @available(iOS 12, *)
-    public func editVoiceShortcut(_ shortcut: INVoiceShortcut,
+    func editVoiceShortcut(_ shortcut: INVoiceShortcut,
                                   presenter: UIViewController,
                                   completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
         VoiceShortcuts.editVoiceShortcut(shortcut,
@@ -152,7 +152,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     /// - return: The shortcut, or nil if the action's `intent(forInput:)` function vetoed creation of the intent by
     /// returning nil.
     @available(iOS 12, *)
-    public func shortcut(forInput input: ActionType.InputType) throws -> INShortcut? {
+    func shortcut(forInput input: ActionType.InputType) throws -> INShortcut? {
         return try ActionType.shortcut(forInput: input)
     }
 
@@ -162,7 +162,7 @@ extension StaticActionBinding where ActionType: IntentAction {
     ///
     /// - param input: The input to the action, for which you wish to donate a shortcut
     @available(iOS 12, *)
-    public func donateToSiri(forInput input: ActionType.InputType) throws {
+    func donateToSiri(forInput input: ActionType.InputType) throws {
         try ActionType.donateToSiri(forInput: input)
     }
 }
