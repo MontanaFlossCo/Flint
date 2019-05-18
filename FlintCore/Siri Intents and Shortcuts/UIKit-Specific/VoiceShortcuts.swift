@@ -99,7 +99,7 @@ class VoiceShortcuts {
     @available(iOS 12, *)
     static func editVoiceShortcut(_ voiceShortcut: INVoiceShortcut,
                                   presenter: UIViewController,
-                                  completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
+                                  completion: ((_ result: EditVoiceShortcutResult) -> Void)?) {
         EditVoiceShortcutCoordinator.shared.show(for: voiceShortcut, presenter: presenter, completion: completion)
     }
 }

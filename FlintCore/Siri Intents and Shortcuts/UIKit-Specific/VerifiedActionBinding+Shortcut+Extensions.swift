@@ -32,7 +32,7 @@ extension VerifiedActionBinding {
     @available(iOS 12, *)
     public func addVoiceShortcut(forInput input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
+                                 completion: ((_ result: AddVoiceShortcutResult) -> Void)? = nil) throws {
         try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
                                             feature: FeatureType.self,
                                             input: input,
@@ -119,7 +119,7 @@ public extension VerifiedActionBinding where ActionType: IntentAction, ActionTyp
     @available(iOS 12, *)
     func addVoiceShortcut(forInput input: ActionType.InputType,
                                  presenter: UIViewController,
-                                 completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws {
+                                 completion: ((_ result: AddVoiceShortcutResult) -> Void)? = nil) throws {
         try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
                                             feature: FeatureType.self,
                                             input: input,
@@ -141,7 +141,7 @@ public extension VerifiedActionBinding where ActionType: IntentAction, ActionTyp
     @available(iOS 12, *)
     func editVoiceShortcut(_ shortcut: INVoiceShortcut,
                                   presenter: UIViewController,
-                                  completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
+                                  completion: ((_ result: EditVoiceShortcutResult) -> Void)? = nil) {
         VoiceShortcuts.editVoiceShortcut(shortcut,
                                          presenter: presenter,
                                          completion: completion)

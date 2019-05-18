@@ -35,8 +35,8 @@ public protocol DismissingUIAction: UIAction {
     associatedtype PresenterType = UIViewController
 }
 
-extension DismissingUIAction where InputType == DismissUIInput, PresenterType == UIViewController {
-    public static func perform(context: ActionContext<InputType>, presenter: PresenterType, completion: Completion) -> Completion.Status {
+public extension DismissingUIAction where InputType == DismissUIInput, PresenterType == UIViewController {
+    static func perform(context: ActionContext<DismissUIInput>, presenter: UIViewController, completion: Completion) -> Completion.Status {
         presenter.dismiss(animated: context.input.animated)
         return completion.completedSync(.successWithFeatureTermination)
     }

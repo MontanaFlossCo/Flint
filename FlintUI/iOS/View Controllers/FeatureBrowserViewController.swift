@@ -33,7 +33,7 @@ public class FeatureBrowserViewController: UITableViewController {
     // MARK: - Data
     
     func prepareData() {
-        rootFeatures = Flint.allFeatures.flatMap {
+        rootFeatures = Flint.allFeatures.compactMap {
             if let _ = $0.feature as? FeatureGroup.Type,
                     $0.feature.parent == nil {
                 return $0.feature
