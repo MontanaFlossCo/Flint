@@ -50,7 +50,7 @@ class VoiceShortcuts {
                                                           feature: FeatureType.Type,
                                                           input: ActionType.InputType,
                                                           presenter: UIViewController,
-                                                          completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws where ActionType: Action, FeatureType: FeatureDefinition {
+                                                          completion: ((_ result: AddVoiceShortcutResult) -> Void)?) throws where ActionType: Action, FeatureType: FeatureDefinition {
         guard let activity = try ActionActivityMappings.createActivity(for: action, of: feature, with: input, appLink: nil) else {
             flintUsageError("The action \(action) on feature \(feature) did not return an activity for the input \(input)")
         }
@@ -73,7 +73,7 @@ class VoiceShortcuts {
                                                           feature: FeatureType.Type,
                                                           input: ActionType.InputType,
                                                           presenter: UIViewController,
-                                                          completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) throws where ActionType: IntentAction, FeatureType: FeatureDefinition {
+                                                          completion: ((_ result: AddVoiceShortcutResult) -> Void)?) throws where ActionType: IntentAction, FeatureType: FeatureDefinition {
         let shortcut: INShortcut
         if let intent = try ActionType.intent(forInput: input) {
             guard let intentShortcut = INShortcut(intent: intent) else {
@@ -99,7 +99,7 @@ class VoiceShortcuts {
     @available(iOS 12, *)
     static func editVoiceShortcut(_ voiceShortcut: INVoiceShortcut,
                                   presenter: UIViewController,
-                                  completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
+                                  completion: ((_ result: EditVoiceShortcutResult) -> Void)?) {
         EditVoiceShortcutCoordinator.shared.show(for: voiceShortcut, presenter: presenter, completion: completion)
     }
 }
@@ -112,7 +112,7 @@ class VoiceShortcuts {
     var addVoiceShortcutViewController: INUIAddVoiceShortcutViewController?
     var completion: ((_ result: AddVoiceShortcutResult) -> Void)?
     
-    func show(for shortcut: INShortcut, presenter: UIViewController, completion: @escaping (_ result: AddVoiceShortcutResult) -> Void) {
+    func show(for shortcut: INShortcut, presenter: UIViewController, completion: ((_ result: AddVoiceShortcutResult) -> Void)?) {
         let addVoiceShortcutViewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
         addVoiceShortcutViewController.delegate = self
         self.completion = completion
@@ -160,7 +160,7 @@ class VoiceShortcuts {
     var editVoiceShortcutViewController: INUIEditVoiceShortcutViewController?
     var completion: ((_ result: EditVoiceShortcutResult) -> Void)?
     
-    func show(for voiceShortcut: INVoiceShortcut, presenter: UIViewController, completion: @escaping (_ result: EditVoiceShortcutResult) -> Void) {
+    func show(for voiceShortcut: INVoiceShortcut, presenter: UIViewController, completion: ((_ result: EditVoiceShortcutResult) -> Void)?) {
         let editVoiceShortcutViewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
         editVoiceShortcutViewController.delegate = self
         self.completion = completion
