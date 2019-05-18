@@ -1080,7 +1080,6 @@
 		49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalFeatureDefinition.swift; sourceTree = "<group>"; };
 		49839CE82046D1CA00C0AED3 /* DebugReportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReportable.swift; sourceTree = "<group>"; };
 		49839CEC2046D1D500C0AED3 /* DebugReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugReporting.swift; sourceTree = "<group>"; };
-		49846FF6212F15D8002160B8 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		49891EB12094BEB600B9BCBF /* PurchaseTrackerObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseTrackerObserver.swift; sourceTree = "<group>"; };
 		49891EBA2097118300B9BCBF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		49891EC0209714B600B9BCBF /* FlintTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlintTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1709,7 +1708,6 @@
 			children = (
 				490409F22223372900E5104D /* FlintCore.podspec */,
 				4977DC7D205AFFCD00DAA0C8 /* Cartfile */,
-				49846FF6212F15D8002160B8 /* .travis.yml */,
 				496267B31F8BC14D002C83F2 /* README.md */,
 				49CCF0AC1F8BB1B200F7020E /* FlintCore */,
 				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,

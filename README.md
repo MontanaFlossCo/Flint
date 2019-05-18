@@ -11,11 +11,18 @@
 [![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)](https://app.bitrise.io/app/c86c83980db3d3e2)
 [![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)](https://app.bitrise.io/app/0433151c78298a0f)
 
-Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, authorising **system permissions**, universal **links**, **Handoff** and **Siri** support, tracking **analytics** events, **feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
+Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, 
+authorising **system permissions**, universal **links**, **Handoff** and **Siri Shortcuts** support, tracking **analytics** events, 
+**feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
  
-Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
+Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product 
+special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you 
+split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions 
+with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually 
+doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
 
-We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
+We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. 
+We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
 
 🏠 [flint.tools](https://flint.tools) is the official web site, with guide & API docs and blog
 
@@ -197,7 +204,9 @@ final class DocumentOpenAction: Action {
     // 💥 Just tell Flint what activity types to use
     static var activityEligibility: Set<ActivityEligibility> = [.perform, .handoff]
     
-    static func perform(context: ActionContext<DocumentRef>, presenter: DocumentPresenter, completion: Complettion) -> Completion.Status {
+    static func perform(context: ActionContext<DocumentRef>,
+                        presenter: DocumentPresenter, 
+                        completion: Complettion) -> Completion.Status {
         // … do the work
     }
 }
@@ -232,7 +241,9 @@ final class DocumentOpenAction: Action {
     // 💥 Enable analytics with just one property.
     static let analyticsID = "user-open-document"
     
-    static func perform(context: ActionContext<DocumentRef>, presenter: DocumentPresenter, completion: Completion) -> Completion.Status {
+    static func perform(context: ActionContext<DocumentRef>, 
+                        presenter: DocumentPresenter, 
+                        completion: Completion) -> Completion.Status {
         // … do the work
     }
 }
@@ -274,12 +285,12 @@ There is of course much left to do! Here is a high level roadmap  of planned wor
 * ✅ Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
 * ✅ Implement IAP / Subscription validation
 * ✅ Implement core unit tests
-* 👨‍💻 1.0 Release
+* ✅ 1.0 Release
 
 ## Philosophy
 
 We are all-in on Swift but we don’t want to be smartypants who can’t read our own code weeks later. We take a few advanced Swift 
-eatures that make great things possible: Protocol Oriented Programming, some generics and a very small amount of associated types.
+geatures that make great things possible: Protocol Oriented Programming, some generics and a very small amount of associated types.
 
 We deliberately avoid the more oblique patterns because we want this framework to be very accessible and easy for everybody to reason
 about, irrespective of the paradigm they have chosen for their codebase.
