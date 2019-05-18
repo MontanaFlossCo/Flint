@@ -101,7 +101,7 @@ public protocol Action {
     /// `input` property of it, to return any extra attributes you'd like to be logged by your analytics system.
     ///
     /// - return: A dictionary of keys and values to be send with the analytics event, or nil if there are none
-    static func analyticsAttributes<F>(forRequest request: ActionRequest<F, Self>) -> [String:Any?]?
+    static func analyticsAttributes<FeatureType>(forRequest request: ActionRequest<FeatureType, Self>) -> [String:Any?]?
 
     // MARK: User Activity - optional
     

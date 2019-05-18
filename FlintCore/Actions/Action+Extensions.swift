@@ -45,7 +45,7 @@ public extension Action {
     }
 
     /// Default behaviour is to not provide any attributes for analytics
-    static func analyticsAttributes<F>(forRequest request: ActionRequest<F, Self>) -> [String:Any?]? {
+    static func analyticsAttributes<FeatureType>(forRequest request: ActionRequest<FeatureType, Self>) -> [String:Any?]? {
         return nil
     }
 }
