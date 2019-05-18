@@ -29,7 +29,7 @@ extension StaticActionBinding {
     /// - param presenter: The `UIViewController` to use to present the view controller
     /// - param completion: The closure to call with the result of the operation
     @available(iOS 12, *)
-    public func addVoiceShortcut(forInput input: ActionType.InputType,
+    public func addVoiceShortcut(withInput input: ActionType.InputType,
                                  presenter: UIViewController,
                                  completion: ((_ result: AddVoiceShortcutResult) -> Void)? = nil) throws {
         try VoiceShortcuts.addVoiceShortcut(forAction: ActionType.self,
@@ -98,7 +98,7 @@ public extension StaticActionBinding where ActionType: IntentAction, ActionType.
     /// action represented by this action request. The action must support creating an `INIntent` for a custom intent extension
     /// to be invoked.
     ///
-    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(forInput:)` function.
+    /// This will create a shortcut that invokes the `INIntent` returned by the `Action`'s `intent(withInput:)` function.
     /// If that function returns nil (or is not defined by your `Action`), it will attempt to create an `NSUserActivity`
     /// for the `Action` and instead use that. If the `Action` does not support `Activities`, this will fail.
     ///
@@ -149,11 +149,11 @@ public extension StaticActionBinding where ActionType: IntentAction, ActionType.
     ///
     /// - param input: The input to the action, for which you wish to create a shortcut
     ///
-    /// - return: The shortcut, or nil if the action's `intent(forInput:)` function vetoed creation of the intent by
+    /// - return: The shortcut, or nil if the action's `intent(withInput:)` function vetoed creation of the intent by
     /// returning nil.
     @available(iOS 12, *)
-    func shortcut(forInput input: ActionType.InputType) throws -> INShortcut? {
-        return try ActionType.shortcut(forInput: input)
+    func shortcut(withInput input: ActionType.InputType) throws -> INShortcut? {
+        return try ActionType.shortcut(withInput: input)
     }
 
     /// Donate an intent-based shortcut to this `Action` to Siri for the given input.
@@ -162,8 +162,8 @@ public extension StaticActionBinding where ActionType: IntentAction, ActionType.
     ///
     /// - param input: The input to the action, for which you wish to donate a shortcut
     @available(iOS 12, *)
-    func donateToSiri(forInput input: ActionType.InputType) throws {
-        try ActionType.donateToSiri(forInput: input)
+    func donateToSiri(withInput input: ActionType.InputType) throws {
+        try ActionType.donateToSiri(withInput: input)
     }
 }
 

@@ -146,7 +146,7 @@ public protocol Action {
     ///
     /// - return: An array of intents to donate to the system for this input, or nil if there are none.
     @available(iOS 12, *)
-    static func associatedIntents(forInput input: InputType) throws -> [FlintIntent]?
+    static func associatedIntents(withInput input: InputType) throws -> [FlintIntent]?
 #endif
 
 }
