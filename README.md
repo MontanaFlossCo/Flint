@@ -11,7 +11,9 @@
 [![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)](https://app.bitrise.io/app/c86c83980db3d3e2)
 [![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)](https://app.bitrise.io/app/0433151c78298a0f)
 
-Flint is a framework for building apps for Apple platforms out of Features and Actions with Swift. Your features are enabled based on runtime constraints; system permissions, OS version or in-app purchases. It takes your Actions and provides enhanced logging, automatic analytics events, NSUserActivity integration for Handoff, Search and Siri prediction, URL handling, Siri Shortcuts support, user activity timelines for debugging and much more. Your apps become more robust and more polished, with less boilerplate and cleaner decoupling.
+Flint is a framework for building apps for Apple platforms out of Features and Actions using the power of Swift.
+
+Your app's features are enabled based on runtime constraints; system permissions, OS version or in-app purchases. It takes your Actions and provides enhanced logging, automatic analytics events, NSUserActivity integration for Handoff, Search and Siri prediction, URL handling, Siri Shortcuts support, user activity timelines for debugging and much more. Your apps become more robust and more polished, with less boilerplate and cleaner decoupling.
  
 It uses coding conventions much like web application development frameworks like [Rails](https://rails.org). However it uses the static compilation and associated type features of Swift to provide enhanced safety and code completion. 
 
