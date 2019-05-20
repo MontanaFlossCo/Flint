@@ -115,7 +115,7 @@ public struct StaticActionBinding<FeatureType, ActionType>: CustomDebugStringCon
     ///
     /// - note: You do not need to use this normally if you use `ActivityActionDispatchObserver` which will
     /// publish activities automatically.
-    public func activity(forInput input: ActionType.InputType, withURL url: URL?) throws -> NSUserActivity? {
+    public func activity(withInput input: ActionType.InputType, withURL url: URL?) throws -> NSUserActivity? {
         return try ActionActivityMappings.createActivity(for: self, with: input, appLink: url)
     }
 }

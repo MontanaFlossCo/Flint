@@ -23,8 +23,8 @@ internal extension IntentAction {
     /// This call will throw if the input fails to be converted to an intent or activity.
     ///
     @available(iOS 12, *)
-    static func shortcut(forInput input: InputType) throws -> INShortcut? {
-        guard let shortcutIntent = try intent(forInput: input) else {
+    static func shortcut(withInput input: InputType) throws -> INShortcut? {
+        guard let shortcutIntent = try intent(withInput: input) else {
             return nil
         }
 
@@ -44,8 +44,8 @@ internal extension IntentAction {
     /// This call will throw if the input fails to be converted to an intent or activity.
     ///
     @available(iOS 12, *)
-    static func donateToSiri(forInput input: InputType) throws {
-        guard let intent = try intent(forInput: input) else {
+    static func donateToSiri(withInput input: InputType) throws {
+        guard let intent = try intent(withInput: input) else {
             flintUsageError("Cannot donate intent to Siri, action type \(self) did not return an intent for input: \(input).")
         }
 

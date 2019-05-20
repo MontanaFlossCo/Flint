@@ -79,7 +79,7 @@ public class ActivityActionDispatchObserver: ActionDispatchObserver {
         
         // Create the lazy function that will create the activity on demand
         let prepareActivityWrapper: () throws -> NSUserActivity? = {
-            return try actionRequest.actionBinding.activity(forInput: input, withURL: appLink)
+            return try actionRequest.actionBinding.activity(withInput: input, withURL: appLink)
         }
 
         let publishState = PublishActivityRequest(actionName: ActionType.name,

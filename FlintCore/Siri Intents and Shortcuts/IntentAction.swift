@@ -48,7 +48,7 @@ public protocol IntentAction: IntentBackgroundAction {
     /// - return: The intent that should trigger this action for the given input, or nil to indicate no intent is
     /// available
     @available(iOS 12, *)
-    static func intent(forInput input: InputType) throws -> IntentType?
+    static func intent(withInput input: InputType) throws -> IntentType?
 
     /// Implement this function to create a valid input for the action from and instance of the `IntentType`, used
     /// when performing the action for an intent.
