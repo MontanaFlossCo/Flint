@@ -15,7 +15,7 @@ Flint is a framework for building apps for Apple platforms out of Features and A
 
 Your app's Features are enabled based on runtime constraints; system permissions, OS version or in-app purchases. It takes your Actions and provides enhanced logging, automatic analytics events, NSUserActivity integration for Handoff, Search and Siri prediction, URL handling, Siri Shortcuts support, user activity timelines for debugging and much more.
 
-It uses coding conventions much like web application development frameworks like [Rails](https://rails.org). However it uses the static compilation and associated type features of Swift to provide enhanced safety and code completion. 
+It uses coding conventions much like web application development frameworks like [Rails](https://rubyonrails.org). However it uses the static compilation and associated type features of Swift to provide enhanced safety and code completion. 
 
 The result is apps that are more robust and more polished, with less boilerplate and better decoupling without requiring a massive architectural shift or specific UI/model approach. 
 
@@ -263,26 +263,6 @@ If you want to see a sample project that uses Flint, there is the  [FlintDemo-iO
 idea of how a real app might use Flint.
 
 [View all the documentation](https://flint.tools/manual/)
-
-## The roadmap to 1.0 final release
-
-There is of course much left to do! Here is a high level roadmap  of planned work prior to the full 1.0 release.
-
-* ✅ Feature and Action declaration, Action dispatch
-* ✅ Timeline feature
-* ✅ Deep Linking feature
-* ✅ Activities feature
-* ✅ Focus feature
-* ✅ Action Stacks feature
-* ✅ Exportable debug reports
-* ✅ Set up CI
-* ✅ Early-access public API review 
-* ✅ Siri Intents support
-* ✅ Implement Built-in persistent file logger
-* ✅ Implement Persistence of Action Stacks, Focus Logs and Timeline at runtime
-* ✅ Implement IAP / Subscription validation
-* ✅ Implement core unit tests
-* ✅ 1.0 Release
 
 ## Philosophy
 
