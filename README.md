@@ -11,18 +11,11 @@
 [![Bitrise](https://img.shields.io/bitrise/c86c83980db3d3e2/master.svg?label=Bitrise%3A%20tvOS%20Xcode%2010.2&token=_oUyYJHNFWKvLUsUcGLyfA)](https://app.bitrise.io/app/c86c83980db3d3e2)
 [![Bitrise](https://img.shields.io/bitrise/0433151c78298a0f/master.svg?label=Bitrise%3A%20watchOS%20Xcode%2010.2&token=O2jRB64hjFBROc-qfrLRig)](https://app.bitrise.io/app/0433151c78298a0f)
 
-Building great apps for Apple platforms involves a lot of work; **custom URL schemes**, in-app **purchases**, 
-authorising **system permissions**, universal **links**, **Handoff** and **Siri Shortcuts** support, tracking **analytics** events, 
-**feature flagging** and more. These things can be fiddly and time consuming, but you shouldn't be hand-cranking all that!
+Flint is a framework for building apps for Apple platforms out of Features and Actions with Swift. Your features are enabled based on runtime constraints; system permissions, OS version or in-app purchases. It takes your Actions and provides enhanced logging, automatic analytics events, NSUserActivity integration for Handoff, Search and Siri prediction, URL handling, Siri Shortcuts support, user activity timelines for debugging and much more. Your apps become more robust and more polished, with less boilerplate and cleaner decoupling.
  
-Flint is a framework that helps you deal with all this easily, leaving you and your team to focus on what makes your product 
-special. Using an approach called [feature driven development](https://www.montanafloss.co/blog/feature-driven-development) you 
-split your code into actions that make up the Features of your app and Flint takes care of the rest. These high level interactions 
-with your UI are simple to test and decouple your UI. The icing on the cake is that because Flint knows what your users are actually 
-doing in your app, you also get revolutionary debug capabilities for free! 🎂🎉 
+It uses coding conventions much like web application development frameworks like [Rails](https://rails.org). However it uses the static compilation and associated type features of Swift to provide enhanced safety and code completion. 
 
-We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities. 
-We want to remove barriers to that, which means making it as simple as possible to get things running in a modern way.
+We made Flint because we want people to build great apps for Apple platforms that make the most of native platform capabilities with less hassle. 
 
 🏠 [flint.tools](https://flint.tools) is the official web site, with guide & API docs and blog
 
@@ -38,11 +31,9 @@ We want to remove barriers to that, which means making it as simple as possible 
 
 🎧 [Listen to the iDeveloper podcast interview](http://ideveloper.co/podcast187/) where project lead [Marc Palmer](https://twitter.com/marcpalmerdev) explains the motivation and ideas behind Flint
 
-
-
 ## The basics
 
-**Features** in Flint conform to the `Feature` protocol:
+**Features** are what your app can do. Features in Flint conform to the `Feature` protocol:
 
 ```swift
 import FlintCore
@@ -58,7 +49,9 @@ class DocumentManagementFeature: Feature {
  }
 ```
 
-**Actions** are high level tasks the user can perform with your app, like "Open a document", "Close a document", "Share a document". Actions are types conforming to `Action` that are declared on features as in the above example, taking an `input` and a `presenter` that are types you define:
+They typically have one or more actions, and some have sub-features.
+
+**Actions** are what your users can do with your features, like "Open a document", "Close a document", "Share a document". Actions are types conforming to `Action` that are then declared on features as in the above example, taking an `input` and a `presenter` that are types you define:
 
 ```swift
 import FlintCore
@@ -78,11 +71,10 @@ final class DocumentOpenAction: Action {
 }
 ```
 
-Once you define actions, Flint can observe when your app performs any high level tasks. This unlocks many
+Once you define actions, Flint can observe when your app performs them. This unlocks many
 behaviours like automatic `NSUserActivity` and Siri integration, analytics tracking and improved debug logging.
 
-However, because Flint can also knowshow to **invoke your actions** for a given input, it can handle all the different app entry
-points for you too, including Siri Shortcuts, app or deep-linking URLs and continued activities including Handoff, Spotlight, Siri Suggestions.
+However, because Flint can also knows how to **invoke your actions** for a given input, it can handle all the different app entry points for you too, including app or deep-linking URLs and continued activities including Handoff, Spotlight, Siri Suggestions.
 [Read more in the Features & Actions guide](https://flint.tools/manual/guides/features_and_actions).
 
 What about features that require in-app purchases or certain system permissions? **Conditional Features** support constraints.
@@ -100,12 +92,16 @@ public class SelfieFeature: ConditionalFeature {
     public static var description: String = "Selfie Posting"
 
     public static func constraints(requirements: FeatureConstraintsBuilder) {
+      // Allow the user to turn this on/off themselves
       requirements.userToggled(defaultValue: true)
       
+      // Require isEnabled to return `true` at runtime
       requirements.runtimeEnabled()
       
+      // Require a purchase for this feature to be enabled
       requirements.purchase(premiumSubscription)
       
+      // Require these permissions before the feature's actions can be used
       requirements.permissions(.camera,
                                .photos,
                                .location(usage: .whenInUse))
@@ -115,12 +111,9 @@ public class SelfieFeature: ConditionalFeature {
 }
 ```
 
-Features that require multiple permissions or one of many purchase options are easily accommodated, and Flint will [help you build a
-first class permissions onboarding](https://flint.tools/manual/guides/conditional_features) UI to maximise the number of users that
-can use your feature.
+Features that require multiple permissions or one of many purchase options are easily accommodated, and Flint will [help you build a first class permissions onboarding](https://flint.tools/manual/guides/conditional_features) UI to maximise the number of users that can use your feature.
 
-When you need to perform an action from a conditional feature, you are forced to first check if the feature is available and handle
-the case where it is not:
+When you need to perform an action from a conditional feature, you are forced to first check if the feature is available and handle the case where it is not:
 
 ```swift
 if let request = DocumentSharingFeature.share.request() {
@@ -238,7 +231,7 @@ final class DocumentOpenAction: Action {
 
     static let description = "Open a document"
     
-    // 💥 Enable analytics with just one property.
+    // 💥 Enable analytics with just one property!
     static let analyticsID = "user-open-document"
     
     static func perform(context: ActionContext<DocumentRef>, 
