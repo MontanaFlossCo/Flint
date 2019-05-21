@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "FlintCore"
-  s.version      = "1.0.7"
+  s.version      = "1.0.8"
   s.summary      = "The Flint framework for building apps using Feature Driven Development."
 
   # This description is used to generate tags and improve search results.
@@ -75,7 +75,7 @@ A modern framework for deeply integrated Swift apps.
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => 'ea-1.0.7'}
+  s.source       = { :git => 'https://github.com/MontanaFlossCo/Flint.git', :tag => '1.0.8'}
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
