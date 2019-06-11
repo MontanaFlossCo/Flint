@@ -3,8 +3,8 @@
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 ![carthage compatible](https://img.shields.io/badge/carthage-compatible-brighttgreen.svg?style=flat)
 ![cocoapods compatible](https://img.shields.io/badge/cocoapods-compatible-brighttgreen.svg?style=flat)
-![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5-blue.svg?style=flat)
-![xcode 9.3-10.2](https://img.shields.io/badge/Xcode-9.3_to_10.2-blue.svg?style=flat)
+![swift 4.1-5](https://img.shields.io/badge/swift-4.1_to_5.1-blue.svg?style=flat)
+![xcode 9.3-10.2](https://img.shields.io/badge/Xcode-9.3_to_11-blue.svg?style=flat)
 
 [![Bitrise](https://img.shields.io/bitrise/5f6a9a733386ecc8/master.svg?label=Bitrise%3A%20iOS%20Xcode%2010.2&token=2aHeIvCuFPtM5FEs6fw9dg)](https://app.bitrise.io/app/5f6a9a733386ecc8)
 [![Bitrise](https://img.shields.io/bitrise/b97567c7372ecf34/master.svg?label=Bitrise%3A%20macOS%20Xcode%2010.2&token=4t1YoquY5eR5aLhUU8VIxQ)](https://app.bitrise.io/app/b97567c7372ecf34)
