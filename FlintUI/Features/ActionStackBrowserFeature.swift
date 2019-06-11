@@ -25,7 +25,7 @@ final public class ActionStackBrowserFeature: ConditionalFeature {
     }
 }
 
-final public class ShowActionStackBrowserAction: UIAction {
+final public class ShowActionStackBrowserAction: FlintUIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     

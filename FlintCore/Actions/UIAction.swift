@@ -11,7 +11,11 @@ import Foundation
 import Intents
 #endif
 
+/// Convenience alias to avoid UIKit naming clases
+public typealias FlintUIAction = UIAction
+
 /// Actions that are performed in the main session and on the main dispatch queue should conform to this 
+/// This is typealiased for Flint 1.0 source compatibility, as UIKit in iOS 13 shadows this.
 public protocol UIAction: Action {
 }
 

@@ -23,6 +23,10 @@ public let intentActionSession = ActionSession(named: "Intents", userInitiatedAc
 public protocol IntentBackgroundAction: Action {
 }
 
+/// Public typealias for consistency with FlintUIAction which is a convenience to avoid full namespacing
+/// of FlintCore.xxxAction on iOS 13
+public typealias FlintIntentAction = Action
+
 #if canImport(Intents) && os(iOS)
 /// Adopt this protocol when implementing an action that fulfills a Siri Intent via an Intent Extension
 @available(iOS 12, *)

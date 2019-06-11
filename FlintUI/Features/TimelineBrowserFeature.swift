@@ -32,7 +32,7 @@ final public class TimelineBrowserFeature: ConditionalFeature {
     }
 }
 
-final public class ShowTimelineBrowserAction: UIAction {
+final public class ShowTimelineBrowserAction: FlintUIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     
@@ -53,7 +53,7 @@ final public class ShowTimelineBrowserAction: UIAction {
     }
 }
 
-final public class HideTimelineBrowserAction: TerminatingAction, UIAction {
+final public class HideTimelineBrowserAction: TerminatingAction, FlintUIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = NoPresenter
 
