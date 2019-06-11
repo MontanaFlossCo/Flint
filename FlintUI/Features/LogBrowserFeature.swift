@@ -30,7 +30,7 @@ final public class LogBrowserFeature: ConditionalFeature {
     }
 }
 
-final public class ShowLogBrowserAction: UIAction {
+final public class ShowLogBrowserAction: FlintUIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     

@@ -11,6 +11,10 @@ import Foundation
 import Intents
 #endif
 
+/// Public typealias for consistency with FlintUIAction which is a convenience to avoid full namespacing
+/// of FlintCore.xxxAction on iOS 13
+public typealias FlintAction = Action
+
 /// Actions that can be performed conform to this protocol to define their inputs, presenter and logic.
 ///
 /// Actions are statically defined to avoid the mistake of storing state with them. Any state belongs in

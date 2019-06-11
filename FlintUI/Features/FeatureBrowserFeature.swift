@@ -29,7 +29,7 @@ final public class FeatureBrowserFeature: ConditionalFeature {
 
 /// Shows the featur browser UI, from either a `UIViewController` (modally) or from a
 /// `UINavigationController` non-modally.
-final public class ShowFeatureBrowserAction: UIAction {
+final public class ShowFeatureBrowserAction: FlintUIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     

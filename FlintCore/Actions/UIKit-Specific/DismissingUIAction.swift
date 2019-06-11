@@ -29,6 +29,12 @@ import UIKit
 /// ShowProfileFeature.dismiss.perform(withInput: .animated(true))
 /// ```
 /// - see: `DismissUIInput`
+/// 
+
+/// Public typealias for consistency with FlintUIAction which is a convenience to avoid full namespacing
+/// of FlintCore.xxxAction on iOS 13
+public typealias FlintDimissUIAction = DismissingUIAction
+
 #if os(iOS) || os(tvOS)
 public protocol DismissingUIAction: UIAction {
     associatedtype InputType = DismissUIInput

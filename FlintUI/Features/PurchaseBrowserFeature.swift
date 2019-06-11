@@ -35,7 +35,7 @@ final public class PurchaseBrowserFeature: ConditionalFeature {
     }
 }
 
-final public class ShowPurchaseBrowserAction: UIAction {
+final public class ShowPurchaseBrowserAction: FlintCore.UIAction {
     public typealias InputType = NoInput
     public typealias PresenterType = UIViewController
     
