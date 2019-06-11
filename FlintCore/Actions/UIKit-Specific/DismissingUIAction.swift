@@ -36,12 +36,15 @@ import UIKit
 public typealias FlintDimissUIAction = DismissingUIAction
 
 #if os(iOS) || os(tvOS)
-public protocol DismissingUIAction: UIAction {
+/// - note: See https://bugs.swift.org/browse/SR-10831 for why this is so ugly. The type inference should
+/// see the constraints fully satisfy the associated types but it doesn't, so we have to also specify the
+/// associatedtype so that conforming types can compile
+public protocol DismissingUIAction: UIAction where InputType == DismissUIInput, PresenterType == UIViewController {
     associatedtype InputType = DismissUIInput
     associatedtype PresenterType = UIViewController
 }
 
-public extension DismissingUIAction where InputType == DismissUIInput, PresenterType == UIViewController {
+public extension DismissingUIAction {
     static func perform(context: ActionContext<DismissUIInput>, presenter: UIViewController, completion: Completion) -> Completion.Status {
         presenter.dismiss(animated: context.input.animated)
         return completion.completedSync(.successWithFeatureTermination)
