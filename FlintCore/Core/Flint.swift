@@ -408,13 +408,13 @@ final public class Flint {
                 source = .continueActivity(type: .search)
 #endif
             default:
-#if os(iOS) || os(macOS)
+#if canImport(Intents) && (os(iOS) || os(watchOS))
                 // Check for a Siri Interaction
-#if canImport(Intents)
                 if let interaction = activity.interaction {
                     source = .continueActivity(type: .siri(interaction: interaction))
                 }
-#endif
+#else
+                break
 #endif
 
 #if canImport(ClassKit)
