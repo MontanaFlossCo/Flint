@@ -14,7 +14,7 @@ import Intents
 ///
 /// Types to avoid compile dependency on Intents framework when it is not available
 //
-#if canImport(Intents)
+#if canImport(Intents) && (os(iOS) || os(watchOS))
 public typealias FlintIntentResponse = INIntentResponse
 #else
 public class FakeIntentResponse {
@@ -27,12 +27,12 @@ public typealias FlintIntentResponse = FakeIntentResponse
 /// This is used to avoid having to expose hard dependencies on `INIntent` in our public facing APIs for
 /// platforms or apps that do not import Intents.
 struct FlintIntentWrapper: FlintLoggable {
-#if canImport(Intents)
+#if canImport(Intents) && (os(iOS) || os(watchOS))
     let intent: INIntent
 #endif
 }
 
-#if canImport(Intents) && (os(iOS) || os(watchOS) || os(macOS))
+#if canImport(Intents) && (os(iOS) || os(watchOS))
 public typealias FlintIntent = INIntent
 #else
 public class FalseIntent {

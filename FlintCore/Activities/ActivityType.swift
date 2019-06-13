@@ -28,7 +28,7 @@ public enum ActivityType {
     /// Examples include the intent indicating the user should continue in the app, the user tapped the Siri response
     /// panel, or the intent returned an alternative activity that should occur when the user interacts with the
     /// response.
-#if canImport(Intents)
+#if canImport(Intents) && (os(iOS) || os(watchOS))
     case siri(interaction: INInteraction)
 #endif
 
