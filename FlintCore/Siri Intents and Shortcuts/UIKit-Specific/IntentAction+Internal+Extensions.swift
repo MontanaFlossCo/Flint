@@ -13,7 +13,7 @@ import Intents
 #endif
 #endif
 
-#if canImport(Network) && os(iOS)
+#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
 /// Common code for action bindings
 @available(iOS 12, *)
 internal extension IntentAction {

@@ -15,7 +15,7 @@ import Intents
 #endif
 
 // Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
-#if canImport(Network) && os(iOS)
+#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
 extension VerifiedActionBinding {
 
     /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the conditionally-available
