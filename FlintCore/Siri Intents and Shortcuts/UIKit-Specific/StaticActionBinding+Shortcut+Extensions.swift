@@ -14,7 +14,7 @@ import Intents
 #endif
 #endif
 
-#if canImport(Network) && os(iOS)
+#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
 extension StaticActionBinding {
 
     /// Call to invoke the system "Add Voice Shortcut" view controller for the given input to the conditionally-available

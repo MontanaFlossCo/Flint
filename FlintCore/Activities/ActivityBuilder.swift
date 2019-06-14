@@ -58,7 +58,7 @@ public class ActivityBuilder<ActionType> where ActionType: Action {
     }
 
 #if canImport(CoreSpotlight)
-#if canImport(Cocoa)
+#if canImport(Cocoa) && !targetEnvironment(UIKitForMac)
     /// Set to a thumbnail to show when displaying this activity
     public var thumbnail: NSImage?
 #elseif canImport(UIKit)
