@@ -10,7 +10,7 @@ import Foundation
 
 /// This observes all action dispatch and detects actions performed that match
 /// shortcut donation conventions and donates them.
-#if canImport(Network) && os(iOS)
+#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
 @available(iOS 12, *) 
 class SiriShortcutDonatingActionDispatchObserver: ActionDispatchObserver {
     let loggers: ContextualLoggers
