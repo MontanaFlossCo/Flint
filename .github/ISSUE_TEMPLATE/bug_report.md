@@ -18,9 +18,8 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Platform (please complete the following information):**
- - Device(s): [e.g. iPhone X and all Apple WATCH]
  - OS(es): [e.g. iOS 11.4 and watchOS 4]
- - Version [e.g. ea-1..0.1]
+ - Version: [e.g. 1.0.8]
 
 **Additional context**
 Add any other context about the problem here.
