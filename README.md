@@ -1,4 +1,4 @@
-<a href="https://flint.tools"><img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo"></a>
+<a href="https://flint.tools"><img src="https://flint.tools/assets/img/logo-dark-on-white.svg" width="230" alt="Flint framework logo image"></a>
 
 ![latest commit](https://img.shields.io/github/last-commit/MontanaFlossCo/Flint.svg)
 ![carthage compatible](https://img.shields.io/badge/carthage-compatible-brighttgreen.svg?style=flat)
