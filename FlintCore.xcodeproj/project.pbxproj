@@ -1071,6 +1071,7 @@
 		4977DC7D205AFFCD00DAA0C8 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4978E07320408C3B001D125D /* ActionStackTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStackTracker.swift; sourceTree = "<group>"; };
 		4978F0C6210399BC00C3B259 /* ContextualLoggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualLoggers.swift; sourceTree = "<group>"; };
+		497AB82E23894E4700610851 /* DEVELOPERS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEVELOPERS.md; sourceTree = "<group>"; };
 		4980004B20B32CF100D68321 /* URLPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPattern.swift; sourceTree = "<group>"; };
 		4980005520B3621200D68321 /* URLExecutionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExecutionContext.swift; sourceTree = "<group>"; };
 		49819EAF1FC9C1500013AF55 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -1709,6 +1710,7 @@
 				490409F22223372900E5104D /* FlintCore.podspec */,
 				4977DC7D205AFFCD00DAA0C8 /* Cartfile */,
 				496267B31F8BC14D002C83F2 /* README.md */,
+				497AB82E23894E4700610851 /* DEVELOPERS.md */,
 				49CCF0AC1F8BB1B200F7020E /* FlintCore */,
 				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,
 				49925A562258F27500842011 /* FlintCore-iOS */,
