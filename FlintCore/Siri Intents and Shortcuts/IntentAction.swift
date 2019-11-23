@@ -43,8 +43,8 @@ public protocol IntentAction: IntentBackgroundAction where PresenterType == Inte
     /// intent definition configuration.
     associatedtype IntentResponseType: FlintIntentResponse
 
-//    /// Set the default presenter type, so our convenient extensions are available
-//    associatedtype PresenterType = IntentResponsePresenter<IntentResponseType>
+    /// Set the default presenter type, so our convenient extensions are available
+    associatedtype PresenterType = IntentResponsePresenter<IntentResponseType>
     
     /// Implement this function if the Action supports a Siri Intent for Shortcuts. This is used to register
     /// a shortcut intent with Siri if you have the `IntentShortcutDonationFeature` enabled.
