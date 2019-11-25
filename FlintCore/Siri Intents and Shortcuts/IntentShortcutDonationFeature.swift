@@ -25,19 +25,19 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
     }
     
     /// Set this to `false` to disable automatic intent donation
-#if canImport(Intents) && ((os(iOS) && !targetEnvironment(UIKitForMac)) || os(watchOS))
+#if canImport(Network) && ((os(iOS) && !targetEnvironment(macCatalyst)) || os(watchOS))
     public static var isEnabled: Bool? = true
 #else
     public static var isEnabled: Bool? = false
 #endif
 
-#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
+#if canImport(Network) && os(iOS) && !targetEnvironment(macCatalyst)
     @available(iOS 12, *)
     static var donateShortcut = action(DonateShortcutIntentAction.self)
 #endif
 
     public static func prepare(actions: FeatureActionsBuilder) {
-#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
+#if canImport(Network) && os(iOS) && !targetEnvironment(macCatalyst)
         if #available(iOS 12, *) {
             actions.declare(donateShortcut)
 

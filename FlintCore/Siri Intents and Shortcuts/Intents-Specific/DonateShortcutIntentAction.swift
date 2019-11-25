@@ -7,11 +7,11 @@
 //
 
 import Foundation
-#if canImport(Intents) && !targetEnvironment(UIKitForMac)
+#if canImport(Intents) && !targetEnvironment(macCatalyst)
 import Intents
 #endif
 
-#if canImport(Intents) && !targetEnvironment(UIKitForMac)
+#if canImport(Intents) && !targetEnvironment(macCatalyst)
 /// Action that donates the given input (a wrapped INIntent) as a possible shortcut.
 ///
 /// Called from tthe action dispatch observer for actions that indicate ethey should be donated.

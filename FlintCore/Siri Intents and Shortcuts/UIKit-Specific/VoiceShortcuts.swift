@@ -17,7 +17,7 @@ import IntentsUI
 #endif
 
 // Workaround for inability to compile against just iOS 12+, using the new "Network" framework as an indicator
-#if canImport(Network) && os(iOS) && !targetEnvironment(UIKitForMac)
+#if canImport(Network) && os(iOS) && !targetEnvironment(macCatalyst)
 
 @available(iOS 12, *)
 public enum AddVoiceShortcutResult {
