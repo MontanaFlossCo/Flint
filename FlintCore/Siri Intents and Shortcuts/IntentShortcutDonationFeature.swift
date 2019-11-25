@@ -25,7 +25,7 @@ public final class IntentShortcutDonationFeature: ConditionalFeature {
     }
     
     /// Set this to `false` to disable automatic intent donation
-#if canImport(Intents) && ((os(iOS) && !targetEnvironment(macCatalyst)) || os(watchOS))
+#if canImport(Network) && ((os(iOS) && !targetEnvironment(macCatalyst)) || os(watchOS))
     public static var isEnabled: Bool? = true
 #else
     public static var isEnabled: Bool? = false
