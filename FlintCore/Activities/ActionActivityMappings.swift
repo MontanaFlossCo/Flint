@@ -120,19 +120,19 @@ class ActionActivityMappings {
 
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: ActionType.name, of: FeatureType.self)
 
-        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
+        let executor: ActivityExecutor = { (activity: NSUserActivity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
                 flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")
             }
-      
+
             do {
                 let input = try ActionType.InputType.init(activityUserInfo: activity.userInfo)
 
                 let presentationRouterResult = presentationRouter.presentation(for: binding, input: input)
                 if case let .appReady(presenter) = presentationRouterResult {
                     var outcome: ActionPerformOutcome?
-                    
+
                     let completion = Action.Completion(queue: nil, completionHandler: { performOutcome, completedAsync in
                         outcome = performOutcome
                     })
@@ -167,7 +167,7 @@ class ActionActivityMappings {
         
         let activityID = ActionActivityMappings.makeActivityID(forActionNamed: ActionType.name, of: FeatureType.self)
 
-        let executor: ActivityExecutor = { (activity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
+        let executor: ActivityExecutor = { (activity: NSUserActivity, presentationRouter: PresentationRouter, source: ActionSource) -> ActionPerformOutcome in
             FlintInternal.logger?.debug("Executing activity \(activityID) with \(binding)")
             guard activityID == activity.activityType else {
                 flintBug("Activity executor for \(activityID) invoked with wrong activity type: \(activity.activityType)")

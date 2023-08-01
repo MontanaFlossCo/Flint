@@ -9,7 +9,7 @@
 import Foundation
 
 /// The error type for reporting userInfo related failures
-enum ActivityCodableError {
+enum ActivityCodableError: Error {
     /// Indicates that one or more required userInfo keys were missing
     case missingKeys(keys: Set<String>)
     /// Indicates that one or more required userInfo keys had an invalid value

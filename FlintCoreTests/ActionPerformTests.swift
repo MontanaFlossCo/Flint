@@ -131,13 +131,13 @@ class ActionPerformTests: XCTestCase {
         XCTAssert(presenter.result == "Result: Compassion is dead", "Presenter result was not set")
     }}
 
-fileprivate final class NoInputNoPresenterAction: UIAction {
+fileprivate final class NoInputNoPresenterAction: FlintUIAction {
     static func perform(context: ActionContext<NoInput>, presenter: NoPresenter, completion: Completion) -> Completion.Status {
         return completion.completedSync(.successWithFeatureTermination)
     }
 }
 
-fileprivate final class NoInputMockPresenterAction: UIAction {
+fileprivate final class NoInputMockPresenterAction: FlintUIAction {
     typealias PresenterType = MockPresenter
     
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
@@ -146,7 +146,7 @@ fileprivate final class NoInputMockPresenterAction: UIAction {
     }
 }
 
-fileprivate final class StringInputNoPresenterAction: UIAction {
+fileprivate final class StringInputNoPresenterAction: FlintUIAction {
     typealias InputType = String
     
     static func perform(context: ActionContext<String>, presenter: NoPresenter, completion: Completion) -> Completion.Status {
@@ -154,7 +154,7 @@ fileprivate final class StringInputNoPresenterAction: UIAction {
     }
 }
 
-fileprivate final class StringInputMockPresenterAction: UIAction {
+fileprivate final class StringInputMockPresenterAction: FlintUIAction {
     typealias InputType = String
     typealias PresenterType = MockReturnValuePresenter<String>
 

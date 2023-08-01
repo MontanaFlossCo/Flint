@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1341,21 +1341,21 @@
 		494F59092098A9A90075E7EE /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
+				494F59412098ABC30075E7EE /* ConstraintsEvaluator.swift */,
+				494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */,
+				499FE34120BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift */,
+				494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */,
+				494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */,
+				499FE34B20BD89F800552CE9 /* FeatureConstraint.swift */,
+				499FE34620BD89C400552CE9 /* FeatureConstraintEvaluationResults.swift */,
+				499FE35220BD8BAE00552CE9 /* FeatureConstraintResult.swift */,
+				4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */,
+				4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */,
+				49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */,
+				499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */,
+				496136AF2099002900291885 /* Permissions */,
 				499FE35120BD8AA400552CE9 /* Platforms */,
 				499FE35020BD8A9E00552CE9 /* Preconditions */,
-				496136AF2099002900291885 /* Permissions */,
-				4956D5D320986BDE002A2A35 /* FeatureConstraintsBuilder.swift */,
-				499FE34B20BD89F800552CE9 /* FeatureConstraint.swift */,
-				494F59232098AAD80075E7EE /* DefaultFeatureConstraintsBuilder.swift */,
-				494F591E2098AA5D0075E7EE /* DeclaredFeatureConstraints.swift */,
-				494F59412098ABC30075E7EE /* ConstraintsEvaluator.swift */,
-				494F59462098ABE90075E7EE /* DefaultFeatureConstraintsEvaluator.swift */,
-				49F37A42209B2C1900B27671 /* FeatureConstraintsEvaluation.swift */,
-				4924C6FC20A99B69005AD086 /* FeatureConstraintsBuilder+Extensions.swift */,
-				499FE34620BD89C400552CE9 /* FeatureConstraintEvaluationResults.swift */,
-				499FE34120BD892900552CE9 /* DefaultFeatureConstraintEvaluationResults.swift */,
-				499FE35220BD8BAE00552CE9 /* FeatureConstraintResult.swift */,
-				499FE35720BD8C3A00552CE9 /* FeatureConstraintStatus.swift */,
 			);
 			path = Constraints;
 			sourceTree = "<group>";
@@ -1363,29 +1363,29 @@
 		496136AF2099002900291885 /* Permissions */ = {
 			isa = PBXGroup;
 			children = (
-				496136B02099004A00291885 /* SystemPermissionConstraint.swift */,
-				496136B5209900A700291885 /* SystemPermissionStatus.swift */,
-				496136BA209900BC00291885 /* SystemPermissionChecker.swift */,
-				496136BF209900CE00291885 /* SystemPermissionAdapter.swift */,
-				496136C4209900E200291885 /* CameraPermissionAdapter.swift */,
-				496136CE2099013000291885 /* PhotosPermissionAdapter.swift */,
-				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
-				494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */,
-				494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */,
-				494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */,
-				49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift */,
-				496136D82099017400291885 /* DefaultPermissionChecker.swift */,
-				496136DD2099028F00291885 /* LocationUsage.swift */,
 				49DFB7C420A2DF8500D3AE68 /* AuthorisationController.swift */,
-				49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */,
-				49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */,
-				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
-				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
 				496775E7228081DD00F34103 /* AVCaptureDevicePermissionAdapter.swift */,
-				496775EC2280873400F34103 /* MicrophonePermissionAdapter.swift */,
-				490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */,
 				490BDC54228CB22A0063F4E2 /* BluetoothPeripheralPermissionAdapter.swift */,
+				496136C4209900E200291885 /* CameraPermissionAdapter.swift */,
+				494C278A20BEF11900053FF7 /* ContactsPermissionAdapter.swift */,
+				49DFB7C920A2DFA600D3AE68 /* DefaultAuthorisationController.swift */,
+				496136D82099017400291885 /* DefaultPermissionChecker.swift */,
+				494C278F20BF374F00053FF7 /* EventKitPermissionAdapter.swift */,
+				49DFB7DD20A3464800D3AE68 /* FeaturePermissionRequirements.swift */,
+				496136D32099015900291885 /* LocationPermissionAdapter.swift */,
+				496136DD2099028F00291885 /* LocationUsage.swift */,
 				49D5305E228CBDE500DE636A /* MediaLibraryPermissionAdapter.swift */,
+				496775EC2280873400F34103 /* MicrophonePermissionAdapter.swift */,
+				494C27A220C01CE400053FF7 /* MotionPermissionAdapter.swift */,
+				49DFB7CE20A2DFD500D3AE68 /* PermissionAuthorisationCoordinator.swift */,
+				496136CE2099013000291885 /* PhotosPermissionAdapter.swift */,
+				490BDC4F228CA6CB0063F4E2 /* SiriKitPermissionAdapter.swift */,
+				49EFE2BB20C3F4DA00063E5F /* SpeechRecognitionPermissionAdapter.swift */,
+				496136BF209900CE00291885 /* SystemPermissionAdapter.swift */,
+				496136BA209900BC00291885 /* SystemPermissionChecker.swift */,
+				496136B02099004A00291885 /* SystemPermissionConstraint.swift */,
+				49DFB7D320A2E00500D3AE68 /* SystemPermissionRequestAction.swift */,
+				496136B5209900A700291885 /* SystemPermissionStatus.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -1456,21 +1456,21 @@
 		49769240201F3D6900F97BD5 /* Activities */ = {
 			isa = PBXGroup;
 			children = (
+				49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */,
 				49647D3A20384077005F9825 /* ActivitiesFeature.swift */,
 				49769249201F41D900F97BD5 /* ActivityActionDispatchObserver.swift */,
-				4927FEED208A3B6F00163576 /* ActivityType.swift */,
-				4927FEF5208A533000163576 /* HandleActivityAction.swift */,
-				4927FEF7208A537100163576 /* PublishCurrentActionActivityAction.swift */,
-				4927FEFF208A542700163576 /* PublishActivityRequest.swift */,
-				4927FF04208A556E00163576 /* ActivityEligibility.swift */,
 				4921705320D13B31007D6883 /* ActivityBuilder.swift */,
 				4921705A20D25625007D6883 /* ActivityCodable.swift */,
+				4927FF04208A556E00163576 /* ActivityEligibility.swift */,
 				49F6823920D2BEF100B02318 /* ActivityMetadata.swift */,
 				49F6823E20D2C07100B02318 /* ActivityMetadataBuilder.swift */,
 				49F6824320D2C0B200B02318 /* ActivityMetadataRepresentable.swift */,
-				49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */,
-				49A62C8720D2FF3B00264606 /* ActionActivityMappings.swift */,
+				4927FEED208A3B6F00163576 /* ActivityType.swift */,
+				4927FEF5208A533000163576 /* HandleActivityAction.swift */,
 				49B4DCBE20F512D5006A6241 /* NSUserActivity+FlintAdditions.swift */,
+				49A62C8220D2FDF800264606 /* PerformIncomingActivityAction.swift */,
+				4927FEFF208A542700163576 /* PublishActivityRequest.swift */,
+				4927FEF7208A537100163576 /* PublishCurrentActionActivityAction.swift */,
 				496775E22280656600F34103 /* ResignCurrentActivityAction.swift */,
 			);
 			path = Activities;
@@ -1501,17 +1501,17 @@
 		49769248201F3E5000F97BD5 /* Conditional Features */ = {
 			isa = PBXGroup;
 			children = (
-				49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */,
-				49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */,
-				49819EB71FC9C21A0013AF55 /* FeatureAvailability.swift */,
-				49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */,
-				49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */,
-				49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */,
-				49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */,
-				49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */,
-				49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */,
-				4956D5D8209895C2002A2A35 /* UserFeatureTogglesObserver.swift */,
 				4998079E213419ED00DACFAA /* ActionPerformError.swift */,
+				49966D8E200A63D1004C4AA0 /* AvailabilityChecker.swift */,
+				49F2CF231FF7EB2C004F16EF /* ConditionalActionBinding.swift */,
+				49D447F61FEC6AA800DBB352 /* ConditionalFeature.swift */,
+				49819EBF1FC9C6D90013AF55 /* ConditionalFeatureDefinition.swift */,
+				49966D96200A648A004C4AA0 /* DefaultAvailabilityChecker.swift */,
+				49819EB71FC9C21A0013AF55 /* FeatureAvailability.swift */,
+				49966D94200A6472004C4AA0 /* UserDefaultsFeatureToggles.swift */,
+				49966D90200A63EB004C4AA0 /* UserFeatureToggles.swift */,
+				4956D5D8209895C2002A2A35 /* UserFeatureTogglesObserver.swift */,
+				49935BCB206B901800CB2B5D /* VerifiedActionBinding.swift */,
 			);
 			path = "Conditional Features";
 			sourceTree = "<group>";
@@ -1572,21 +1572,21 @@
 		498A89492067D1D800457D66 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				49638B7C2222B1E70054C7AA /* UIKit-Specific */,
 				49819EAF1FC9C1500013AF55 /* Action.swift */,
 				49137FF220CF29C500C696F4 /* Action+Extensions.swift */,
-				4927FEEB208A3B2900163576 /* ActionSource.swift */,
 				4948DBE5204D77A90030ED79 /* ActionContext.swift */,
-				49819EBB1FC9C3660013AF55 /* ActionRequest.swift */,
 				4929823B205ED12C00267A49 /* ActionMetadata.swift */,
 				49298240205FCC6000267A49 /* ActionOutcome.swift */,
 				4946FAC4208E23740097E10E /* ActionPerformOutcome.swift */,
+				49819EBB1FC9C3660013AF55 /* ActionRequest.swift */,
+				4927FEEB208A3B2900163576 /* ActionSource.swift */,
+				49CF4D3820F5281C0009FFF4 /* FlintLoggable.swift */,
 				49F2CF251FF7EB78004F16EF /* NoInput.swift */,
 				49F2CF211FF7B56B004F16EF /* NoPresenter.swift */,
 				49819EB91FC9C2310013AF55 /* StaticActionBinding.swift */,
-				49CF4D3820F5281C0009FFF4 /* FlintLoggable.swift */,
-				491211C22159074700B199C4 /* UIAction.swift */,
 				4996BF1B221E0B7B00355675 /* TerminatingAction.swift */,
+				491211C22159074700B199C4 /* UIAction.swift */,
+				49638B7C2222B1E70054C7AA /* UIKit-Specific */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -1688,10 +1688,10 @@
 		49C9C3781FFD1C0300E4D500 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */,
+				49DB925F20757D9500F758DC /* AnalyticsProvider.swift */,
 				49A999F91FF7FA6700A64E8C /* AnalyticsReporting.swift */,
 				49A999FB1FF7FC5200A64E8C /* ConsoleAnalyticsProvider.swift */,
-				49DB925F20757D9500F758DC /* AnalyticsProvider.swift */,
-				49E49158227DEBDE0071ED74 /* AnalyticsFeature.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1707,23 +1707,23 @@
 		49CCF0A01F8BB1B200F7020E = {
 			isa = PBXGroup;
 			children = (
-				490409F22223372900E5104D /* FlintCore.podspec */,
 				4977DC7D205AFFCD00DAA0C8 /* Cartfile */,
-				496267B31F8BC14D002C83F2 /* README.md */,
 				497AB82E23894E4700610851 /* DEVELOPERS.md */,
+				496267B31F8BC14D002C83F2 /* README.md */,
+				490409F22223372900E5104D /* FlintCore.podspec */,
 				49CCF0AC1F8BB1B200F7020E /* FlintCore */,
-				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,
 				49925A562258F27500842011 /* FlintCore-iOS */,
 				49925A572258F32E00842011 /* FlintCore-iOSTests */,
-				496F8F08203EE9EA003AB29B /* FlintCore-tvOS */,
-				496F8F13203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F24203EEA06003AB29B /* FlintCore-macOS */,
 				496F8F2F203EEA06003AB29B /* FlintCore-macOSTests */,
+				496F8F08203EE9EA003AB29B /* FlintCore-tvOS */,
+				496F8F13203EE9EA003AB29B /* FlintCore-tvOSTests */,
 				496F8F40203EEA23003AB29B /* FlintCore-watchOS */,
 				49B06F1720A4C5AC004564E1 /* FlintCore-watchOSTests */,
+				49CCF0B71F8BB1B200F7020E /* FlintCoreTests */,
 				49891EC1209714B600B9BCBF /* FlintTestHost */,
-				49CCF0AB1F8BB1B200F7020E /* Products */,
 				4977DC7A205AECB400DAA0C8 /* Frameworks */,
+				49CCF0AB1F8BB1B200F7020E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1745,21 +1745,21 @@
 		49CCF0AC1F8BB1B200F7020E /* FlintCore */ = {
 			isa = PBXGroup;
 			children = (
-				494F59092098A9A90075E7EE /* Constraints */,
-				49DB92362073AF3100F758DC /* Purchases */,
-				49935BC6206AA65C00CB2B5D /* Focus */,
-				49769245201F3DC700F97BD5 /* Routes */,
-				498A894A2068F9A700457D66 /* Timeline */,
-				491211BB2158FC6D00B199C4 /* Siri Intents and Shortcuts */,
+				498A89492067D1D800457D66 /* Actions */,
 				49769240201F3D6900F97BD5 /* Activities */,
 				49C9C3781FFD1C0300E4D500 /* Analytics */,
-				49CCF0CE1F8BB24500F7020E /* Logging */,
-				49839CE72046D1A900C0AED3 /* Debug Reporting */,
-				498B8084200120EB00E44C91 /* Utils */,
-				498A89482067D1CD00457D66 /* Features */,
 				49769248201F3E5000F97BD5 /* Conditional Features */,
-				498A89492067D1D800457D66 /* Actions */,
+				494F59092098A9A90075E7EE /* Constraints */,
 				49CCF0C71F8BB20F00F7020E /* Core */,
+				49839CE72046D1A900C0AED3 /* Debug Reporting */,
+				498A89482067D1CD00457D66 /* Features */,
+				49935BC6206AA65C00CB2B5D /* Focus */,
+				49CCF0CE1F8BB24500F7020E /* Logging */,
+				49DB92362073AF3100F758DC /* Purchases */,
+				49769245201F3DC700F97BD5 /* Routes */,
+				491211BB2158FC6D00B199C4 /* Siri Intents and Shortcuts */,
+				498A894A2068F9A700457D66 /* Timeline */,
+				498B8084200120EB00E44C91 /* Utils */,
 			);
 			path = FlintCore;
 			sourceTree = "<group>";
@@ -2053,9 +2053,10 @@
 		49CCF0A11F8BB1B200F7020E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Montana Floss Co. Ltd.";
 				TargetAttributes = {
 					496F8F06203EE9E9003AB29B = {
@@ -2080,15 +2081,17 @@
 					};
 					49891EBF209714B600B9BCBF = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 					};
 					49CCF0A91F8BB1B200F7020E = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Manual;
 					};
 					49CCF0B21F8BB1B200F7020E = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Manual;
 						TestTargetID = 49891EBF209714B600B9BCBF;
 					};
@@ -3152,13 +3155,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = "FlintCore-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3166,7 +3176,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -3181,13 +3191,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = "FlintCore-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3195,7 +3212,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -3210,14 +3227,19 @@
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -3232,14 +3254,19 @@
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = "FlintCore-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -3250,11 +3277,13 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -3262,8 +3291,14 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "FlintCore-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3280,11 +3315,13 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -3292,8 +3329,14 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "FlintCore-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3310,11 +3353,17 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3330,11 +3379,17 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				INFOPLIST_FILE = "FlintCore-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3354,13 +3409,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3383,13 +3446,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "FlintCore-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/watchOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-watchOS";
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3416,8 +3487,11 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = FlintTestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3441,8 +3515,11 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = FlintTestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.FlintTestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3477,6 +3554,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -3503,12 +3581,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -3540,6 +3619,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -3560,10 +3640,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -3582,13 +3664,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "FlintCore-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3612,13 +3701,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "FlintCore-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = co.montanafloss.Flint;
 				PRODUCT_NAME = FlintCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3640,7 +3736,12 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3662,7 +3763,12 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "FlintCore-iOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.montanafloss.FlintCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

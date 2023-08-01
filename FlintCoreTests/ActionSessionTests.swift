@@ -138,7 +138,7 @@ class ActionSessionTests: XCTestCase {
 
 // MARK: Helper Types
 
-fileprivate final class AsyncCompletingMainThreadAction: UIAction {
+fileprivate final class AsyncCompletingMainThreadAction: FlintUIAction {
     typealias PresenterType = MockPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
@@ -153,7 +153,7 @@ fileprivate final class AsyncCompletingMainThreadAction: UIAction {
     }
 }
 
-fileprivate final class AsyncCompletingBackgroundThreadAction: UIAction {
+fileprivate final class AsyncCompletingBackgroundThreadAction: FlintUIAction {
     static var queue: DispatchQueue = DispatchQueue(label: "SyncBackgroundThreadAction")
     static var defaultSession: ActionSession? = Sessions.backgroundSession
 
@@ -171,7 +171,7 @@ fileprivate final class AsyncCompletingBackgroundThreadAction: UIAction {
     }
 }
 
-fileprivate final class SyncMainThreadAction: UIAction {
+fileprivate final class SyncMainThreadAction: FlintUIAction {
     typealias PresenterType = MockPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {

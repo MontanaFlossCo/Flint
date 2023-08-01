@@ -31,7 +31,7 @@ class URLMappingRouterTests: XCTestCase {
         }
     }
     
-    fileprivate final class TestAction: UIAction {
+    fileprivate final class TestAction: FlintUIAction {
         typealias PresenterType = MockViewController
         
         static func perform(context: ActionContext<NoInput>, presenter: MockViewController, completion: Completion) -> Completion.Status {
@@ -51,7 +51,7 @@ class URLMappingRouterTests: XCTestCase {
         
     }
     
-    fileprivate final class TestAction2: UIAction {
+    fileprivate final class TestAction2: FlintUIAction {
         typealias PresenterType = UIView
         typealias InputType = TestInput
         

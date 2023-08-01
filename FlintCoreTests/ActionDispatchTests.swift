@@ -88,7 +88,7 @@ class ActionDispatchTests: XCTestCase {
 
 }
 
-fileprivate final class AsyncTestAction: UIAction {
+fileprivate final class AsyncTestAction: FlintUIAction {
     typealias PresenterType = MockPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {
@@ -101,7 +101,7 @@ fileprivate final class AsyncTestAction: UIAction {
     }
 }
 
-fileprivate final class SyncTestAction: UIAction {
+fileprivate final class SyncTestAction: FlintUIAction {
     typealias PresenterType = MockPresenter
 
     static func perform(context: ActionContext<NoInput>, presenter: MockPresenter, completion: Completion) -> Completion.Status {

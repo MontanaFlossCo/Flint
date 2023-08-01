@@ -16,22 +16,22 @@ public enum ActionPerformOutcome: CustomStringConvertible {
 
     /// The action completed successfully, but does not indicate that the feature is now "done".
     /// Usually this will be the outcome you use but when the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `successClosingActionStack`
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `successWithFeatureTermination`
     case success
 
     /// The action completed successfully, and indicates that the feature is now "done".
     /// Usually this will not be the outcome you use for success. Unless the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `successWithoutClosingActionStack`
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `success`
     case successWithFeatureTermination
     
     /// The action failed to complete, but does not indicate that the feature is now "done".
     /// Usually this will be the outcome you use but when the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `successClosingActionStack`
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you use `failureWithFeatureTermination`
     case failure(error: Error)
 
     /// The action failed to complete, and indicates that the feature is now "done".
     /// Usually this will not be the outcome you use for an error. Unless the action clearly indicates the user is no longer using
-    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `successWithoutClosingActionStack`
+    /// the feature, e.g. closing a document for a "Document Editing Feature", you should use `failure`
     case failureWithFeatureTermination(error: Error)
 
     /// Returns `true` if the value is any one of the possible success cases
